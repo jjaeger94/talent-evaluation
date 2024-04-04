@@ -51,6 +51,7 @@ class Talent_Evaluation_Admin {
 
 		$this->talent_evaluation = $talent_evaluation;
 		$this->version = $version;
+		$this->register_admin_settings();
 
 	}
 
@@ -99,5 +100,52 @@ class Talent_Evaluation_Admin {
 		wp_enqueue_script( $this->talent_evaluation, plugin_dir_url( __FILE__ ) . 'js/talent-evaluation-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+
+	private function register_admin_settings() {
+        add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('admin_init', array($this, 'register_settings'));
+    }
+
+    public function add_admin_menu() {
+        add_options_page('Talent Evaluation Settings', 'Talent Evaluation', 'manage_options', 'talent-evaluation-settings', array($this, 'admin_page'));
+    }
+
+    public function admin_page() {
+        ?>
+        <div class="wrap">
+            <h2>Talent Evaluation Settings</h2>
+            <form method="post" action="options.php">
+                <?php settings_fields('talent_evaluation_settings'); ?>
+                <?php do_settings_sections('talent_evaluation_settings'); ?>
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Database Host</th>
+                        <td><input type="text" name="te_db_host" value="<?php echo esc_attr(get_option('te_db_host')); ?>" /></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Database Name</th>
+                        <td><input type="text" name="te_db_name" value="<?php echo esc_attr(get_option('te_db_name')); ?>" /></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Database User</th>
+                        <td><input type="text" name="te_db_user" value="<?php echo esc_attr(get_option('te_db_user')); ?>" /></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Database Password</th>
+                        <td><input type="password" name="te_db_password" value="<?php echo esc_attr(get_option('te_db_password')); ?>" /></td>
+                    </tr>
+                </table>
+                <?php submit_button(); ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    public function register_settings() {
+        register_setting('talent_evaluation_settings', 'te_db_host');
+        register_setting('talent_evaluation_settings', 'te_db_name');
+        register_setting('talent_evaluation_settings', 'te_db_user');
+        register_setting('talent_evaluation_settings', 'te_db_password');
+    }
 
 }
