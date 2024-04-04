@@ -28,22 +28,24 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-	$('#check-db-connection').click(function(e) {
-		console.log('go');
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: ajaxurl,
-            data: {
-                action: 'check_db_connection',
-            },
-            success: function(response) {
-                $('#db-connection-result').text(response);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    });
+
+	$(function() {
+		$('#check-db-connection').click(function(e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: ajaxurl,
+				data: {
+					action: 'check_db_connection',
+				},
+				success: function(response) {
+					$('#db-connection-result').text(response);
+				},
+				error: function(xhr, status, error) {
+					console.error(error);
+				}
+			});
+		});
+	});
 
 })( jQuery );
