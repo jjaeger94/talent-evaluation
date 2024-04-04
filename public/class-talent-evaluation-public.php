@@ -76,7 +76,7 @@ class Talent_Evaluation_Public {
 			$table_name = $temp_db->prefix . 'jobs';
 	
 			// Neuen Eintrag in die Tabelle "Stellen" einfügen
-			$temp_db->insert( 
+			$result = $temp_db->insert( 
 				$table_name, 
 				array( 
 					'user_id' => $user_id,
@@ -87,9 +87,17 @@ class Talent_Evaluation_Public {
 					'%s' 
 				) 
 			);
-	
-			// Weiterleitung oder Erfolgsmeldung ausgeben
-			// Hier kannst du zum Beispiel eine Weiterleitung auf eine Erfolgsseite einrichten oder eine Erfolgsmeldung ausgeben
+
+			if ( $result === false ) {
+                // Fehlermeldung ausgeben
+                echo 'Error: Job could not be added to the database.';
+            } else {
+                // Erfolgsmeldung ausgeben oder Benutzer auf eine andere Seite umleiten
+                // Hier kannst du den Benutzer zum Beispiel auf eine Erfolgsseite umleiten
+                wp_redirect( home_url( '/stellen' ) );
+                exit;
+            }
+
 		}
 	}
 
