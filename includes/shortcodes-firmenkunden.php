@@ -25,18 +25,8 @@
      */
     function add_job_form_shortcode() {
         if ( current_user_can( 'firmenkunde' ) ) {
-            ob_start(); ?>
-            
-            <!-- Bootstrap-Formular für das Hinzufügen einer Stelle -->
-            <form id="add-job-form" class="bootstrap-form" method="post">
-                <div class="form-group">
-                    <label for="job-title">Stellenbezeichnung:</label>
-                    <input type="text" class="form-control" id="job-title" name="job_title" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Stelle hinzufügen</button>
-            </form>
-            
-            <?php
+            ob_start();
+            include( plugin_dir_path( __FILE__ ) . 'forms/job-form.php' );
             return ob_get_clean();
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
