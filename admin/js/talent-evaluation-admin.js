@@ -29,6 +29,7 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 	$('#check-db-connection').click(function(e) {
+		console.log('go');
         e.preventDefault();
         $.ajax({
             type: 'POST',
