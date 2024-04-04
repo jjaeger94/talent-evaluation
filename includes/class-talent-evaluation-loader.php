@@ -163,6 +163,7 @@ class Talent_Evaluation_Loader {
 	public function run() {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
+		$this->add_action( 'admin_bar_menu', $this, 'remove_logo_wp_admin' );
 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
@@ -192,5 +193,31 @@ class Talent_Evaluation_Loader {
         }
         return $redirect_to;
     }
+
+	/**
+	 * WP Logo ausblenden
+	 */
+	public function remove_logo_wp_admin() {
+		global $wp_admin_bar;
+		if (!is_user_logged_in()) {
+			return;
+		}
+
+		// Benutzerrolle des eingeloggten Benutzers abrufen
+		$user = wp_get_current_user();
+		$user_roles = $user->roles;
+
+		// Array mit den Benutzerrollen, für die das WordPress-Symbol ausgeblendet werden soll
+		$roles_to_hide = array('firmenkunde', 'dienstleister');
+
+		// Überprüfen, ob die Benutzerrolle des eingeloggten Benutzers in der Liste der Rollen zum Ausblenden enthalten ist
+		foreach ($roles_to_hide as $role) {
+			if (in_array($role, $user_roles)) {
+				// Wenn die Rolle des Benutzers zum Ausblenden des Symbols berechtigt ist, wird das Symbol ausgeblendet
+				$wp_admin_bar->remove_menu('wp-logo');
+				break; // Schleife beenden, wenn das Symbol ausgeblendet wurde
+			}
+		}
+	}
 
 }
