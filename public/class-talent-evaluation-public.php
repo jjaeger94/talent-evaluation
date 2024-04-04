@@ -56,10 +56,10 @@ class Talent_Evaluation_Public {
 	}
 
 	private function register_public_requests(){
-		add_action( 'init', 'process_job_form' );
+		add_action( 'init', array( $this, 'process_job_form' ) );
 	}
 
-	function process_job_form() {
+	public function process_job_form() {
 		if ( isset( $_POST['job_title'] ) ) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
