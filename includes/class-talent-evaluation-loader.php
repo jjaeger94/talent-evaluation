@@ -71,32 +71,8 @@ class Talent_Evaluation_Loader {
      * @since    1.0.0
      */
     public function add_shortcodes() {
-        add_shortcode('firmenkunden_page', array($this, 'firmenkunden_page_shortcode'));
-        add_shortcode('dienstleister_page', array($this, 'dienstleister_page_shortcode'));
-    }
-
-	/**
-     * Shortcode-Callback für die Firmenkunden-Seite
-     *
-     * @param array $atts Array von Attributen, die im Shortcode verwendet werden können.
-     * @param string $content Der Inhalt innerhalb des Shortcodes, wenn der Shortcode als Paar verwendet wird.
-     * @return string Der HTML-Inhalt der Firmenkunden-Seite.
-     */
-    public function firmenkunden_page_shortcode($atts, $content = null) {
-        // Hier den Inhalt der Firmenkunden-Seite einfügen
-        return "Hier können Firmenkunden Bewerber hinzufügen und Dokumente hochladen.";
-    }
-
-    /**
-     * Shortcode-Callback für die Dienstleister-Seite
-     *
-     * @param array $atts Array von Attributen, die im Shortcode verwendet werden können.
-     * @param string $content Der Inhalt innerhalb des Shortcodes, wenn der Shortcode als Paar verwendet wird.
-     * @return string Der HTML-Inhalt der Dienstleister-Seite.
-     */
-    public function dienstleister_page_shortcode($atts, $content = null) {
-        // Hier den Inhalt der Dienstleister-Seite einfügen
-        return "Hier können Dienstleister Bewerber auflisten und Scores vergeben.";
+        register_shortcodes_firmenkunden();
+		register_shortcodes_dienstleister();
     }
 
 	/**
