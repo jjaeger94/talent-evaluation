@@ -163,7 +163,7 @@ class Talent_Evaluation_Loader {
 	public function run() {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
-		$this->add_action( 'wp_before_admin_bar_render', $this, 'remove_logo_wp_admin' );
+		$this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
@@ -184,20 +184,13 @@ class Talent_Evaluation_Loader {
      * @return string|void
      */
     public function redirect_after_login( $redirect_to, $request, $user ) {
-        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            if ( in_array( 'firmenkunde', $user->roles ) ) {
-                return home_url( '/firmenkunden-seite' );
-            } elseif ( in_array( 'dienstleister', $user->roles ) ) {
-                return home_url( '/dienstleister-seite' );
-            }
-        }
-        return $redirect_to;
+        return $this->get_user_home_url($user);
     }
 
 	/**
 	 * WP Logo ausblenden
 	 */
-	public function remove_logo_wp_admin() {
+	public function customize_admin_bar() {
 		global $wp_admin_bar;
 		if (!is_user_logged_in()) {
 			return;
@@ -215,9 +208,34 @@ class Talent_Evaluation_Loader {
 			if (in_array($role, $user_roles)) {
 				// Wenn die Rolle des Benutzers zum Ausblenden des Symbols berechtigt ist, wird das Symbol ausgeblendet
 				$wp_admin_bar->remove_menu('wp-logo');
+				$wp_admin_bar->add_node(array(
+					'id' => 'custom_link_for_' . $role,
+					'title' => 'Meine Seite', // Titel des Links
+					'href' => $this->get_user_home_url($user), // Umleitungsseite basierend auf der Benutzerrolle
+					'parent' => 'top-secondary' // Position des Links in der Admin-Leiste (optional)
+				));
 				break; // Schleife beenden, wenn das Symbol ausgeblendet wurde
 			}
 		}
 	}
+
+	/**
+     * Home URL für Benutzer
+     *
+     * @param string $redirect_to
+     * @param string $request
+     * @param WP_User|WP_Error $user WP_User object if login was successful, WP_Error object otherwise.
+     * @return string|void
+     */
+    public function get_user_home_url( $user ) {
+        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+            if ( in_array( 'firmenkunde', $user->roles ) ) {
+                return home_url( '/firmenkunden-seite' );
+            } elseif ( in_array( 'dienstleister', $user->roles ) ) {
+                return home_url( '/dienstleister-seite' );
+            }
+        }
+        return home_url();
+    }
 
 }
