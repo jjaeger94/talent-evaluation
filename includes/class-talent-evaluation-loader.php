@@ -163,7 +163,7 @@ class Talent_Evaluation_Loader {
 	public function run() {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
-		$this->add_action( 'admin_bar_menu', $this, 'remove_logo_wp_admin' );
+		$this->add_action( 'wp_before_admin_bar_render', $this, 'remove_logo_wp_admin' );
 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
