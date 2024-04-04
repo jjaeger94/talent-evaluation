@@ -97,6 +97,10 @@ class Talent_Evaluation_Public {
 		 */
 
 		wp_enqueue_script( $this->talent_evaluation, plugin_dir_url( __FILE__ ) . 'js/talent-evaluation-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script('bootstrap-js', plugin_dir_url(__FILE__) . 'js/bootstrap.min.js', array('jquery'), '5.3.0', true);
+		
+		}
+		
 
 	}
 
