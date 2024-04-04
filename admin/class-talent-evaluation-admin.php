@@ -138,9 +138,11 @@ class Talent_Evaluation_Admin {
                 </table>
                 <?php submit_button(); ?>
             </form>
+        </div>
+		<div class="wrap">
 			<button id="check-db-connection" class="button">Check Database Connection</button>
             <span id="db-connection-result"></span>
-        </div>
+		</div>
         <?php
     }
 
