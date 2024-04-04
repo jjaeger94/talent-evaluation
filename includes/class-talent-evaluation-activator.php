@@ -52,7 +52,7 @@ class Talent_Evaluation_Activator {
 			),
 			array(
 				'title' => 'Stellen hinzufügen',
-				'content' => 'Stelle hinzufügen',
+				'content' => '[add_job_form]',
 				'slug' => 'stelle-hinzufuegen',
 				'template' => '', // optional: Vorlage für die Seite
 			),
