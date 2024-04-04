@@ -104,6 +104,7 @@ class Talent_Evaluation_Admin {
 	private function register_admin_settings() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+		add_action('wp_ajax_check_db_connection', array($this, 'check_db_connection'));		
     }
 
     public function add_admin_menu() {
@@ -137,6 +138,8 @@ class Talent_Evaluation_Admin {
                 </table>
                 <?php submit_button(); ?>
             </form>
+			<button id="check-db-connection" class="button">Check Database Connection</button>
+            <span id="db-connection-result"></span>
         </div>
         <?php
     }
@@ -147,5 +150,26 @@ class Talent_Evaluation_Admin {
         register_setting('talent_evaluation_settings', 'te_db_user');
         register_setting('talent_evaluation_settings', 'te_db_password');
     }
+
+	public function check_db_connection() {
+		// Erfassen Sie die in den Optionen gespeicherten Daten
+		$db_host = get_option('te_db_host');
+		$db_name = get_option('te_db_name');
+		$db_user = get_option('te_db_user');
+		$db_password = get_option('te_db_password');
+	
+		// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
+		$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+	
+		// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
+		if ($temp_db->ready) {
+			echo 'Connection successful';
+		} else {
+			echo 'Connection failed';
+		}
+	
+		// Beenden Sie die Ausführung des Skripts
+		wp_die();
+	}
 
 }
