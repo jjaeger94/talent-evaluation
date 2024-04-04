@@ -90,7 +90,7 @@ class Talent_Evaluation_Public {
 
 			if ( $result === false ) {
                 // Fehlermeldung ausgeben
-                echo 'Error: Job could not be added to the database.';
+                $_POST['job_title_error'] = 'Stelle bereits vorhanden.';
             } else {
                 // Erfolgsmeldung ausgeben oder Benutzer auf eine andere Seite umleiten
                 // Hier kannst du den Benutzer zum Beispiel auf eine Erfolgsseite umleiten
