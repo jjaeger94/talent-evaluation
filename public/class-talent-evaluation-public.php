@@ -56,14 +56,15 @@ class Talent_Evaluation_Public {
 	}
 
 	private function register_public_requests(){
-		add_action( 'init', array( $this, 'process_job_form' ) );
+		add_action('wp_ajax_add_job', 'process_job_form');
+		add_action('wp_ajax_nopriv_add_job', 'process_job_form');
 	}
 
-	public function process_job_form() {
+	function process_job_form() {
 		if ( isset( $_POST['job_title'] ) ) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
-
+	
 			// Erfassen Sie die in den Optionen gespeicherten Daten
 			$db_host = get_option('te_db_host');
 			$db_name = get_option('te_db_name');
@@ -72,7 +73,7 @@ class Talent_Evaluation_Public {
 		
 			// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
 			$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
-
+	
 			$table_name = $temp_db->prefix . 'jobs';
 	
 			// Neuen Eintrag in die Tabelle "Stellen" einfügen
@@ -87,18 +88,16 @@ class Talent_Evaluation_Public {
 					'%s' 
 				) 
 			);
-
+	
 			if ( $result === false ) {
-                // Fehlermeldung ausgeben
-                $_POST['job_title_error'] = 'Stelle bereits vorhanden.';
-            } else {
-                // Erfolgsmeldung ausgeben oder Benutzer auf eine andere Seite umleiten
-                // Hier kannst du den Benutzer zum Beispiel auf eine Erfolgsseite umleiten
-                wp_redirect( home_url( '/stellen' ) );
-                exit;
-            }
-
+				// Fehlermeldung zurückgeben
+				echo '<p>Error: Job could not be added to the database.</p>';
+			} else {
+				// Erfolgsmeldung zurückgeben
+				echo '<p>Job added successfully!</p>';
+			}
 		}
+		wp_die();
 	}
 
 	/**

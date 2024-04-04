@@ -29,4 +29,27 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	$(function() {
+		$('#add-job-form').submit(function(e) {
+			e.preventDefault();
+	
+			// Formulardaten serialisieren
+			var formData = $(this).serialize();
+	
+			// Ajax-Anfrage senden
+			$.ajax({
+				type: 'POST',
+				url: ajaxurl, // Verwende die global definierte ajaxurl
+				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
+				success: function(response) {
+					// Antwort verarbeiten
+					$('#form-message').html(response);
+				},
+				error: function(xhr, status, error) {
+					console.error(error);
+				}
+			});
+		});
+	})
+
 })( jQuery );
