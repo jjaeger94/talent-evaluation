@@ -122,9 +122,10 @@ class Talent_Evaluation {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-talent-evaluation-public.php';
 
-		require_once plugin_dir_path( __FILE__ ) . 'includes/shortcodes-firmenkunden.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-firmenkunden.php';
 
-		require_once plugin_dir_path( __FILE__ ) . 'includes/shortcodes-dienstleister.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-dienstleister.php';
+
 
 		$this->loader = new Talent_Evaluation_Loader();
 
