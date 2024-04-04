@@ -51,7 +51,39 @@ class Talent_Evaluation_Public {
 
 		$this->talent_evaluation = $talent_evaluation;
 		$this->version = $version;
+		$this->register_public_requests();
 
+	}
+
+	private function register_public_requests(){
+		add_action( 'init', 'process_job_form' );
+	}
+
+	function process_job_form() {
+		if ( isset( $_POST['job_title'] ) ) {
+			$job_title = sanitize_text_field( $_POST['job_title'] );
+			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
+	
+			// Datenbankverbindung herstellen
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'jobs';
+	
+			// Neuen Eintrag in die Tabelle "Stellen" einfügen
+			$wpdb->insert( 
+				$table_name, 
+				array( 
+					'user_id' => $user_id,
+					'job_title' => $job_title
+				), 
+				array( 
+					'%d', 
+					'%s' 
+				) 
+			);
+	
+			// Weiterleitung oder Erfolgsmeldung ausgeben
+			// Hier kannst du zum Beispiel eine Weiterleitung auf eine Erfolgsseite einrichten oder eine Erfolgsmeldung ausgeben
+		}
 	}
 
 	/**
