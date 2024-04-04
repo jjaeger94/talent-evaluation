@@ -56,6 +56,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'stelle-hinzufuegen',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Kandidaten',
+				'content' => 'Kandidaten',
+				'slug' => 'kandidaten',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {
