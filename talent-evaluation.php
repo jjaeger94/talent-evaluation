@@ -14,11 +14,11 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Talent Evaluation
- * Plugin URI:        http://example.com/talent-evaluation-uri/
+ * Plugin URI:        https://github.com/jjaeger94/talent-evaluation
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
- * Author:            Your Name or Your Company
- * Author URI:        http://example.com/
+ * Author:            Jan Jäger
+ * Author URI:        https://www.linkedin.com/in/jaegerjan/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       talent-evaluation
