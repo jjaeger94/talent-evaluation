@@ -10,7 +10,7 @@
  *
  * @link              http://example.com
  * @since             1.0.0
- * @package           Plugin_Name
+ * @package           Talent_Evaluation
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Plugin Boilerplate
@@ -35,28 +35,28 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'TALENT_EVALUATION_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-talent-evaluation-activator.php
  */
-function activate_plugin_name() {
+function activate_talent_evaluation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-talent-evaluation-activator.php';
-	Plugin_Name_Activator::activate();
+	Talent_Evaluation_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-talent-evaluation-deactivator.php
  */
-function deactivate_plugin_name() {
+function deactivate_talent_evaluation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-talent-evaluation-deactivator.php';
-	Plugin_Name_Deactivator::deactivate();
+	Talent_Evaluation_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_plugin_name' );
-register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
+register_activation_hook( __FILE__, 'activate_talent_evaluation' );
+register_deactivation_hook( __FILE__, 'deactivate_talent_evaluation' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -73,10 +73,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-talent-evaluation.php';
  *
  * @since    1.0.0
  */
-function run_plugin_name() {
+function run_talent_evaluation() {
 
-	$plugin = new Plugin_Name();
+	$plugin = new Talent_Evaluation();
 	$plugin->run();
 
 }
-run_plugin_name();
+run_talent_evaluation();
