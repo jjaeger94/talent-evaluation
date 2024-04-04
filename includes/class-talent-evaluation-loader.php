@@ -50,8 +50,54 @@ class Talent_Evaluation_Loader {
 
 		$this->actions = array();
 		$this->filters = array();
-
+		$this->add_roles();
+		$this->add_shortcodes();
 	}
+
+	/**
+     * Hinzufügen der Benutzerrollen
+     *
+     * @since    1.0.0
+     */
+    public function add_roles() {
+        // Fügen Sie die Benutzerrollen hinzu, wenn sie noch nicht existieren
+        add_role('firmenkunde', 'Firmenkunde');
+        add_role('dienstleister', 'Dienstleister');
+    }
+
+	/**
+     * Hinzufügen der Shortcodes
+     *
+     * @since    1.0.0
+     */
+    public function add_shortcodes() {
+        add_shortcode('firmenkunden_page', array($this, 'firmenkunden_page_shortcode'));
+        add_shortcode('dienstleister_page', array($this, 'dienstleister_page_shortcode'));
+    }
+
+	/**
+     * Shortcode-Callback für die Firmenkunden-Seite
+     *
+     * @param array $atts Array von Attributen, die im Shortcode verwendet werden können.
+     * @param string $content Der Inhalt innerhalb des Shortcodes, wenn der Shortcode als Paar verwendet wird.
+     * @return string Der HTML-Inhalt der Firmenkunden-Seite.
+     */
+    public function firmenkunden_page_shortcode($atts, $content = null) {
+        // Hier den Inhalt der Firmenkunden-Seite einfügen
+        return "Hier können Firmenkunden Bewerber hinzufügen und Dokumente hochladen.";
+    }
+
+    /**
+     * Shortcode-Callback für die Dienstleister-Seite
+     *
+     * @param array $atts Array von Attributen, die im Shortcode verwendet werden können.
+     * @param string $content Der Inhalt innerhalb des Shortcodes, wenn der Shortcode als Paar verwendet wird.
+     * @return string Der HTML-Inhalt der Dienstleister-Seite.
+     */
+    public function dienstleister_page_shortcode($atts, $content = null) {
+        // Hier den Inhalt der Dienstleister-Seite einfügen
+        return "Hier können Dienstleister Bewerber auflisten und Scores vergeben.";
+    }
 
 	/**
 	 * Add a new action to the collection to be registered with WordPress.
@@ -116,6 +162,8 @@ class Talent_Evaluation_Loader {
 	 */
 	public function run() {
 
+		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
+
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
@@ -125,5 +173,24 @@ class Talent_Evaluation_Loader {
 		}
 
 	}
+
+	/**
+     * Benutzer nach dem Login weiterleiten
+     *
+     * @param string $redirect_to
+     * @param string $request
+     * @param WP_User|WP_Error $user WP_User object if login was successful, WP_Error object otherwise.
+     * @return string|void
+     */
+    public function redirect_after_login( $redirect_to, $request, $user ) {
+        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+            if ( in_array( 'firmenkunde', $user->roles ) ) {
+                return home_url( '/firmenkunden-seite' );
+            } elseif ( in_array( 'dienstleister', $user->roles ) ) {
+                return home_url( '/dienstleister-seite' );
+            }
+        }
+        return $redirect_to;
+    }
 
 }
