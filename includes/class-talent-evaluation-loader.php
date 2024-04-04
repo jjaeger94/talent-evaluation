@@ -206,9 +206,9 @@ class Talent_Evaluation_Loader {
     public function get_user_home_url( $user ) {
         if ( isset( $user->roles ) && is_array( $user->roles ) ) {
             if ( in_array( 'firmenkunde', $user->roles ) ) {
-                return home_url( '/firmenkunden-seite' );
+                return home_url( '/firmenkunden' );
             } elseif ( in_array( 'dienstleister', $user->roles ) ) {
-                return home_url( '/dienstleister-seite' );
+                return home_url( '/dienstleister' );
             }
         }
         return home_url();

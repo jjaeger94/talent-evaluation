@@ -30,7 +30,52 @@ class Talent_Evaluation_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		// Seiten für Firmenkunden und Dienstleister erstellen
+		$pages = array(
+			array(
+				'title' => 'Firmenkunden',
+				'content' => 'Inhalt der Firmenkunden-Seite',
+				'slug' => 'firmenkunden',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Dienstleister',
+				'content' => 'Inhalt der Dienstleister-Seite',
+				'slug' => 'dienstleister',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Stellen',
+				'content' => 'Stellen',
+				'slug' => 'stellen',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Stellen hinzufügen',
+				'content' => 'Stelle hinzufügen',
+				'slug' => 'stelle-hinzufuegen',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+		);
+	
+		foreach ( $pages as $page ) {
+			$page_check = get_page_by_title( $page['title'] );
+	
+			// Wenn die Seite noch nicht vorhanden ist, füge sie hinzu
+			if ( ! $page_check ) {
+				$page_data = array(
+					'post_title'   => $page['title'],
+					'post_content' => $page['content'],
+					'post_status'  => 'publish',
+					'post_author'  => 1, // ID des Autors der Seite
+					'post_type'    => 'page',
+					'post_name'    => $page['slug'],
+					'page_template' => $page['template'] // optional: Vorlage für die Seite
+				);
+	
+				wp_insert_post( $page_data );
+			}
+		}
 	}
 
 }
