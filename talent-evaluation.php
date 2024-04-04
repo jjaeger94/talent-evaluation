@@ -13,7 +13,7 @@
  * @package           Talent_Evaluation
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Plugin Boilerplate
+ * Plugin Name:       Talent Evaluation
  * Plugin URI:        http://example.com/talent-evaluation-uri/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
