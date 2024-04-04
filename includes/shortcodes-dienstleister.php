@@ -2,7 +2,7 @@
     /**
      * Hier alle Shortcodes für Dienstleister eintragen!
      */
-    public function register_shortcodes_dienstleister() {
+    function register_shortcodes_dienstleister() {
         add_shortcode('dienstleister_page', 'dienstleister_page_shortcode');
     }
 
@@ -13,7 +13,7 @@
      * @param string $content Der Inhalt innerhalb des Shortcodes, wenn der Shortcode als Paar verwendet wird.
      * @return string Der HTML-Inhalt der Firmenkunden-Seite.
      */
-    public function dienstleister_page_shortcode($atts, $content = null) {
+    function dienstleister_page_shortcode($atts, $content = null) {
         // Hier den Inhalt der Firmenkunden-Seite einfügen
         return "Hier können Dienstleister Bewerber auflisten und Scores vergeben.";
 }

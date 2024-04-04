@@ -2,7 +2,7 @@
      /**
      * Hier alle Shortcodes für Firmenkunden eintragen!
      */
-    public function register_shortcodes_firmenkunden() {
+    function register_shortcodes_firmenkunden() {
         add_shortcode('firmenkunden_page', 'firmenkunden_page_shortcode');
     }
     
