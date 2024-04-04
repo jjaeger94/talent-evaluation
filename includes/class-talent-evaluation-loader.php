@@ -19,7 +19,7 @@
  *
  * @package    Talent_Evaluation
  * @subpackage Talent_Evaluation/includes
- * @author     Your Name <email@example.com>
+ * @author     Jan Jäger <janjaeger2020@gmail.com>
  */
 class Talent_Evaluation_Loader {
 
