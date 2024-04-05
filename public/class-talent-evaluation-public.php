@@ -76,7 +76,7 @@ class Talent_Evaluation_Public {
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
 			
 			// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-			$temp_db = $this->talent_evaluation->open_database_connection();
+			$temp_db = open_database_connection();
 	
 			$table_name = $temp_db->prefix . 'jobs';
 	

@@ -221,7 +221,7 @@ class Talent_Evaluation {
 	}
 
 	// Funktion zum Öffnen der Datenbankverbindung
-	public function open_database_connection() {
+	function open_database_connection() {
 		// Erfassen Sie die in den Optionen gespeicherten Daten
 		$db_host = get_option('te_db_host');
 		$db_name = get_option('te_db_name');

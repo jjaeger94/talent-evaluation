@@ -41,7 +41,7 @@
             $user_id = get_current_user_id();
 
             // Erfassen Sie die in den Optionen gespeicherten Daten
-	        $temp_db = $this->talent_evaluation->open_database_connection();
+	        $temp_db = open_database_connection();
     
             // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
