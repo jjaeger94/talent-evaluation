@@ -62,7 +62,7 @@ class Talent_Evaluation_Public {
 	
 
 	function process_job_form() {
-		if ( isset( $_POST['job_title'] ) ) {
+		if ( isset( $_POST['job_title'] ) && current_user_can( 'firmenkunde' )) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
 			$criteria1 = sanitize_text_field( $_POST['criteria1'] );
 			$criteria2 = sanitize_text_field( $_POST['criteria2'] );
