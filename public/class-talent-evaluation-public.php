@@ -91,17 +91,20 @@ class Talent_Evaluation_Public {
 			);
 	
 			if ( $result === false ) {
-				// Fehlermeldung zurückgeben
-				if ($temp_db->last_error) {
-					// Fehlermeldung ausgeben
-					echo '<p>Error: ' . $temp_db->last_error . '</p>';
+				// Fehler beim Einfügen des Datensatzes
+				if ($temp_db->last_error && strpos($temp_db->last_error, 'Duplicate entry') !== false) {
+					// Fehlermeldung für Duplikateintrag ausgeben
+					echo '<p>Fehler: Eine Stelle mit diesem Namen existiert schon.</p>';
+				// } elseif ($temp_db->last_error) {
+				// 	// Fehlermeldung ausgeben
+				// 	echo '<p>Error: ' . $temp_db->last_error . '</p>';
 				} else {
 					// Allgemeine Fehlermeldung ausgeben
-					echo '<p>Error: Stelle konnte nicht hinzugefügt werden.</p>';
+					echo '<p>Fehler: Die Stelle konnte nicht hinzugefügt werden.</p>';
 				}
 			} else {
 				// Erfolgsmeldung zurückgeben
-				echo '<p>Stelle erfolgreich hinzugefügt!</p>';
+				wp_redirect( home_url( '/stellen' ) );
 			}
 		}
 		wp_die();
