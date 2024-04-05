@@ -168,32 +168,6 @@ class Talent_Evaluation_Public {
 		}
 		wp_die();
 	}
-
-	// Funktion zum Abrufen aller aktiven Stellen aus der Datenbank
-	function get_active_jobs() {
-		if(current_user_can( 'firmenkunde' )){
-			$user_id = get_current_user_id();
-
-			$temp_db = open_database_connection();
-	
-			// SQL-Abfrage, um alle aktiven Stellen abzurufen
-			$query = $temp_db->prepare( "
-				SELECT ID, job_title
-				FROM {$temp_db->prefix}applications
-				WHERE user_id = %d
-				AND post_status = 'active'
-				ORDER BY added DESC
-			", $user_id );
-	
-			// Stellen abrufen
-			$jobs = $temp_db->get_results( $query );
-	
-			return $jobs;
-		}else{
-			return None;
-		}
-		
-}
 	
 
 	/**

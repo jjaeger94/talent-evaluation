@@ -37,6 +37,7 @@
 
     function render_create_candidate_form() {
         if ( current_user_can( 'firmenkunde' ) ) {
+            $jobs = get_active_jobs();
             ob_start();
             include plugin_dir_path( __FILE__ ) . 'templates/create_candidate_form.php';
             return ob_get_clean();

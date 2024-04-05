@@ -8,6 +8,14 @@
         </select>
     </div>
     <div class="form-group">
+        <label for="salutation">Anrede</label>
+        <select class="form-control" id="salutation" name="salutation" required>
+            <option value="0">Nicht angegeben</option>
+            <option value="1">Herr</option>
+            <option value="2">Frau</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label for="prename">Vorname</label>
         <input type="text" class="form-control" id="prename" name="prename" required>
     </div>
@@ -18,17 +26,6 @@
     <div class="form-group">
         <label for="email">E-Mail-Adresse</label>
         <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-        <label for="salutation">Anrede</label>
-        <select class="form-control" id="salutation" name="salutation" required>
-            <option value="1">Herr</option>
-            <option value="2">Frau</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="classification">Klassifizierung</label>
-        <input type="text" class="form-control" id="classification" name="classification" required>
     </div>
     <button type="submit" class="btn btn-primary">Kandidat erstellen</button>
 </form>
