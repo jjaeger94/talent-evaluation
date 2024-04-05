@@ -46,7 +46,7 @@ class Talent_Evaluation_Activator {
 			),
 			array(
 				'title' => 'Stellen',
-				'content' => 'Stellen',
+				'content' => '[show_jobs]',
 				'slug' => 'stellen',
 				'template' => '', // optional: Vorlage für die Seite
 			),
