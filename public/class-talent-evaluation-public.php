@@ -68,8 +68,9 @@ class Talent_Evaluation_Public {
 			$prename = sanitize_text_field( $_POST['prename'] );
 			$surname = sanitize_text_field( $_POST['surname'] );
 			$email = sanitize_email( $_POST['email'] );
+			$job_id = absint( $_POST['job_id'] );
 	
-			// Weitere Formulardaten entsprechend den Datenbankfeldern bereinigen
+			$user_id = get_current_user_id();
 	
 			// Versuchen, eine temporäre Datenbankverbindung herzustellen
 			$temp_db = open_database_connection();
@@ -80,7 +81,8 @@ class Talent_Evaluation_Public {
 			$result = $temp_db->insert(
 				$table_name,
 				array(
-					'job_id' => 1, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+					'job_id' => $job_id, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+					'user_id' => $user_id,
 					'prename' => $prename,
 					'surname' => $surname,
 					'email' => $email,
