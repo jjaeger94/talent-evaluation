@@ -1,7 +1,6 @@
 <form method="get">
     <div class="form-group row">
         <div class="col-md-6">
-            <label for="job_id" class="col-form-label">Stelle:</label>
             <select class="form-control" id="job_id" name="job_id">
                 <option value="">Alle Stellen</option>
                 <?php foreach ( $jobs as $job ) : ?>
