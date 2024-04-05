@@ -50,6 +50,23 @@
 				}
 			});
 		});
+
+		$('#candidate-form').submit(function (event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: your_script_vars.ajaxurl,
+                data: formData + '&action=add_candidate',
+                success: function (response) {
+                    $('#message').html(response); // Anzeigen der Antwortmeldung
+                    $('#candidate-form')[0].reset(); // Formular zurücksetzen
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
 	})
 
 })( jQuery );

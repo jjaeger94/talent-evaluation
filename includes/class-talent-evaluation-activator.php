@@ -62,6 +62,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'kandidaten',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Kandidat hinzufügen',
+				'content' => '[create_candidate_form]',
+				'slug' => 'kandidaten-hinzufuegen',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

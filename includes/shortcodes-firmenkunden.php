@@ -6,6 +6,7 @@
         add_shortcode('firmenkunden_page', 'firmenkunden_page_shortcode');
         add_shortcode( 'add_job_form', 'add_job_form_shortcode' );
         add_shortcode( 'show_jobs', 'show_jobs_table' );
+        add_shortcode( 'create_candidate_form', 'render_create_candidate_form' );
     }
     
 
@@ -28,6 +29,16 @@
         if ( current_user_can( 'firmenkunde' ) ) {
             ob_start();
             include( plugin_dir_path( __FILE__ ) . 'templates/job-form.php' );
+            return ob_get_clean();
+        }else{
+            return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
+        }
+    }
+
+    function render_create_candidate_form() {
+        if ( current_user_can( 'firmenkunde' ) ) {
+            ob_start();
+            include plugin_dir_path( __FILE__ ) . 'templates/create_candidate_form.php';
             return ob_get_clean();
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';

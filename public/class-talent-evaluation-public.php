@@ -58,6 +58,52 @@ class Talent_Evaluation_Public {
 	private function register_public_requests(){
 		add_action('wp_ajax_add_job', array($this, 'process_job_form'));
 		add_action('wp_ajax_nopriv_add_job', array($this, 'process_job_form'));
+		add_action('wp_ajax_add_candidate', array($this, 'process_candidate_form'));
+		add_action('wp_ajax_nopriv_add_candidate', array($this, 'process_candidate_form'));
+	}
+	
+	function process_candidate_form() {
+		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && current_user_can( 'firmenkunde' ) ) {
+			// Formulardaten bereinigen
+			$prename = sanitize_text_field( $_POST['prename'] );
+			$surname = sanitize_text_field( $_POST['surname'] );
+			$email = sanitize_email( $_POST['email'] );
+	
+			// Weitere Formulardaten entsprechend den Datenbankfeldern bereinigen
+	
+			// Versuchen, eine temporäre Datenbankverbindung herzustellen
+			$temp_db = open_database_connection();
+	
+			$table_name = $temp_db->prefix . 'applications';
+	
+			// Neuen Eintrag in die Tabelle "applications" einfügen
+			$result = $temp_db->insert(
+				$table_name,
+				array(
+					'job_id' => 1, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+					'prename' => $prename,
+					'surname' => $surname,
+					'email' => $email,
+					// Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
+				),
+				array(
+					'%d',
+					'%s',
+					'%s',
+					'%s',
+					// Fügen Sie hier weitere Formatierungen hinzu, falls erforderlich
+				)
+			);
+	
+			if ( $result === false ) {
+				// Fehler beim Einfügen des Datensatzes
+				echo '<p>Fehler: Die Bewerbung konnte nicht hinzugefügt werden.</p>';
+			} else {
+				// Erfolgsmeldung zurückgeben
+				echo '<p>Bewerbung erfolgreich hinzugefügt!</p>';
+			}
+		}
+		wp_die();
 	}
 	
 
@@ -122,6 +168,32 @@ class Talent_Evaluation_Public {
 		}
 		wp_die();
 	}
+
+	// Funktion zum Abrufen aller aktiven Stellen aus der Datenbank
+	function get_active_jobs() {
+		if(current_user_can( 'firmenkunde' )){
+			$user_id = get_current_user_id();
+
+			$temp_db = open_database_connection();
+	
+			// SQL-Abfrage, um alle aktiven Stellen abzurufen
+			$query = $temp_db->prepare( "
+				SELECT ID, job_title
+				FROM {$temp_db->prefix}applications
+				WHERE user_id = %d
+				AND post_status = 'active'
+				ORDER BY added DESC
+			", $user_id );
+	
+			// Stellen abrufen
+			$jobs = $temp_db->get_results( $query );
+	
+			return $jobs;
+		}else{
+			return None;
+		}
+		
+}
 	
 
 	/**
