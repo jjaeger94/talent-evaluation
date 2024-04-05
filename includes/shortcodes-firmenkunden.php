@@ -46,7 +46,7 @@
             // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
                 SELECT ID, post_title, post_date, post_status
-                FROM $wpdb->posts
+                FROM $temp_db->posts
                 WHERE post_type = 'job' 
                 AND post_author = %d
                 ORDER BY post_date DESC

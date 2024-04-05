@@ -82,17 +82,32 @@ function run_talent_evaluation() {
 
 // Funktion zum Öffnen der Datenbankverbindung
 function open_database_connection() {
-	// Erfassen Sie die in den Optionen gespeicherten Daten
-	$db_host = get_option('te_db_host');
-	$db_name = get_option('te_db_name');
-	$db_user = get_option('te_db_user');
-	$db_password = get_option('te_db_password');
+    global $connection;
 
-	// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-	$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+    // Überprüfen, ob bereits eine Verbindung besteht
+    if ( isset( $connection ) && is_object( $connection ) ) {
+        return $connection;
+    }
 
-	// Rückgabe der Datenbankverbindung
-	return $temp_db;
+    // Erfassen Sie die in den Optionen gespeicherten Daten
+    $db_host = get_option('te_db_host');
+    $db_name = get_option('te_db_name');
+    $db_user = get_option('te_db_user');
+    $db_password = get_option('te_db_password');
+
+    // Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
+    $temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+
+    // Überprüfen, ob die Verbindung erfolgreich war
+    if ( ! is_wp_error( $temp_db ) ) {
+        $connection = $temp_db;
+        return $connection;
+    } else {
+        // Behandeln Sie den Fehler, wenn die Verbindung fehlschlägt
+        // Zum Beispiel, eine Fehlermeldung anzeigen oder protokollieren
+        return $temp_db;
+    }
 }
+
 
 run_talent_evaluation();
