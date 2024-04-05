@@ -39,7 +39,7 @@
 			// Ajax-Anfrage senden
 			$.ajax({
 				type: 'POST',
-				url: ajaxurl, // Verwende die global definierte ajaxurl
+				url: your_script_vars.ajaxurl, // Verwende die global definierte ajaxurl
 				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
 				success: function(response) {
 					// Antwort verarbeiten
