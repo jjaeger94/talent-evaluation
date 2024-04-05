@@ -58,7 +58,7 @@
                 SELECT ID, job_title
                 FROM {$temp_db->prefix}jobs
                 WHERE user_id = %d
-                AND post_status = 'active'
+                AND state = 'active'
                 ORDER BY added DESC
             ", $user_id );
 
