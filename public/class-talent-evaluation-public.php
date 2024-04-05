@@ -92,10 +92,16 @@ class Talent_Evaluation_Public {
 	
 			if ( $result === false ) {
 				// Fehlermeldung zurückgeben
-				echo '<p>Error: Job could not be added to the database.</p>';
+				if ($temp_db->last_error) {
+					// Fehlermeldung ausgeben
+					echo '<p>Error: ' . $temp_db->last_error . '</p>';
+				} else {
+					// Allgemeine Fehlermeldung ausgeben
+					echo '<p>Error: Stelle konnte nicht hinzugefügt werden.</p>';
+				}
 			} else {
 				// Erfolgsmeldung zurückgeben
-				echo '<p>Job added successfully!</p>';
+				echo '<p>Stelle erfolgreich hinzugefügt!</p>';
 			}
 		}
 		wp_die();
