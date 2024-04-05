@@ -61,7 +61,7 @@
             // Erfassen Sie die in den Optionen gespeicherten Daten
             $temp_db = open_database_connection();
 
-            $filter = 'WHERE user_id = {$user_id}';
+            $filter = "WHERE user_id = {$user_id}";
             if ( $selected_job ) {
                 $filter .= " AND job_id = {$selected_job}";
             }
