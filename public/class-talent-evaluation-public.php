@@ -64,6 +64,15 @@ class Talent_Evaluation_Public {
 	function process_job_form() {
 		if ( isset( $_POST['job_title'] ) ) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
+			$criteria1 = sanitize_text_field( $_POST['criteria1'] );
+			$criteria2 = sanitize_text_field( $_POST['criteria2'] );
+			$criteria3 = sanitize_text_field( $_POST['criteria3'] );
+			$completeness1 = isset( $_POST['completeness1'] ) ? 1 : 0;
+			$completeness2 = isset( $_POST['completeness2'] ) ? 1 : 0;
+			$reference1 = isset( $_POST['reference1'] ) ? 1 : 0;
+			$reference2 = isset( $_POST['reference2'] ) ? 1 : 0;
+			$reference3 = isset( $_POST['reference3'] ) ? 1 : 0;
+			
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
 	
 			// Erfassen Sie die in den Optionen gespeicherten Daten
@@ -82,11 +91,21 @@ class Talent_Evaluation_Public {
 				$table_name, 
 				array( 
 					'user_id' => $user_id,
-					'job_title' => $job_title
+					'job_title' => $job_title,
+					'criteria1' => $criteria1,
+					'criteria2' => $criteria2,
+					'criteria3' => $criteria3,
+					'completeness' => $completeness1 + ($completeness2 << 1),
+					'reference' => $reference1 + ($reference2 << 1) + ($reference3 << 2),
 				), 
 				array( 
 					'%d', 
-					'%s' 
+					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%d',
+					'%d'
 				) 
 			);
 	
@@ -95,9 +114,9 @@ class Talent_Evaluation_Public {
 				if ($temp_db->last_error && strpos($temp_db->last_error, 'Duplicate entry') !== false) {
 					// Fehlermeldung für Duplikateintrag ausgeben
 					echo '<p>Fehler: Eine Stelle mit diesem Namen existiert schon.</p>';
-				// } elseif ($temp_db->last_error) {
-				// 	// Fehlermeldung ausgeben
-				// 	echo '<p>Error: ' . $temp_db->last_error . '</p>';
+				} elseif ($temp_db->last_error) {
+					// Fehlermeldung ausgeben
+					echo '<p>Error: ' . $temp_db->last_error . '</p>';
 				} else {
 					// Allgemeine Fehlermeldung ausgeben
 					echo '<p>Fehler: Die Stelle konnte nicht hinzugefügt werden.</p>';
@@ -109,6 +128,7 @@ class Talent_Evaluation_Public {
 		}
 		wp_die();
 	}
+	
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
