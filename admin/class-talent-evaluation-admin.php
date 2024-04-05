@@ -154,14 +154,8 @@ class Talent_Evaluation_Admin {
     }
 
 	public function check_db_connection() {
-		// Erfassen Sie die in den Optionen gespeicherten Daten
-		$db_host = get_option('te_db_host');
-		$db_name = get_option('te_db_name');
-		$db_user = get_option('te_db_user');
-		$db_password = get_option('te_db_password');
-	
 		// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-		$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+		$temp_db = open_database_connection();
 	
 		// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
 		if ($temp_db->ready) {

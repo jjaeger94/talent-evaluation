@@ -74,15 +74,9 @@ class Talent_Evaluation_Public {
 			$reference3 = isset( $_POST['reference3'] ) ? 1 : 0;
 			
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
-	
-			// Erfassen Sie die in den Optionen gespeicherten Daten
-			$db_host = get_option('te_db_host');
-			$db_name = get_option('te_db_name');
-			$db_user = get_option('te_db_user');
-			$db_password = get_option('te_db_password');
-		
+			
 			// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-			$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+			$temp_db = open_database_connection();
 	
 			$table_name = $temp_db->prefix . 'jobs';
 	

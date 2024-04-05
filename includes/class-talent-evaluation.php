@@ -220,4 +220,19 @@ class Talent_Evaluation {
 		return $this->version;
 	}
 
+	// Funktion zum Öffnen der Datenbankverbindung
+	public function open_database_connection() {
+		// Erfassen Sie die in den Optionen gespeicherten Daten
+		$db_host = get_option('te_db_host');
+		$db_name = get_option('te_db_name');
+		$db_user = get_option('te_db_user');
+		$db_password = get_option('te_db_password');
+
+		// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
+		$temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+
+		// Rückgabe der Datenbankverbindung
+		return $temp_db;
+	}
+
 }
