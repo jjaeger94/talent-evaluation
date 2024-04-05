@@ -155,7 +155,7 @@ class Talent_Evaluation_Admin {
 
 	public function check_db_connection() {
 		// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-		$temp_db = open_database_connection();
+		$temp_db = $this->talent_evaluation->open_database_connection();
 	
 		// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
 		if ($temp_db->ready) {
