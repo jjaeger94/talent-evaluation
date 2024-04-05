@@ -29,8 +29,8 @@
 }
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: darken(var(--primary), 10%); /* Farbe des Hovers/Fokus */
-    border-color: darken(var(--primary), 10%); /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
+    background-color: #2c141d; /* Farbe des Hovers/Fokus */
+    border-color: #2c141d; /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
 }
 
 /* Sekundärfarbe für Schaltflächen */
@@ -40,8 +40,8 @@
 }
 .btn-secondary:hover,
 .btn-secondary:focus {
-    background-color: darken(var(--secondary), 10%); /* Farbe des Hovers/Fokus */
-    border-color: darken(var(--secondary), 10%); /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
+    background-color: #4d2733; /* Farbe des Hovers/Fokus */
+    border-color: #4d2733; /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
 }
 
 /* Hintergrundfarbe für Schaltflächen */
@@ -52,7 +52,7 @@
 }
 .btn-custom:hover,
 .btn-custom:focus {
-    background-color: darken(var(--bg-color), 10%); /* Farbe des Hovers/Fokus */
-    border-color: darken(var(--bg-color), 10%); /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
+    background-color: #b8b8b8; /* Farbe des Hovers/Fokus */
+    border-color: #b8b8b8; /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
     color: var(--text-color); /* Textfarbe für die Schaltfläche beim Hovern/Fokus */
 }
