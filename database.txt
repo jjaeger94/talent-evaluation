@@ -2,4 +2,4 @@ hier können die befehle für die Tabellen abgelegt werden
 
 Tabelle jobs:
 
-CREATE TABLE `commitIQ`.`jobs` (`ID` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `job_title` TEXT NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria1` TEXT NOT NULL , `criteria2` TEXT NOT NULL , `criteria3` TEXT NOT NULL , `completeness` TINYINT NOT NULL , `reference` TINYINT NOT NULL , PRIMARY KEY (`ID`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
+CREATE TABLE `commitIQ`.`jobs` (`ID` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `job_title` VARCHAR(255) NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria1` VARCHAR(255) NOT NULL , `criteria2` VARCHAR(255) NOT NULL , `criteria3` VARCHAR(255) NOT NULL , `completeness` TINYINT NOT NULL , `reference` TINYINT NOT NULL , `state` VARCHAR(255) NOT NULL DEFAULT 'active', PRIMARY KEY (`ID`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
