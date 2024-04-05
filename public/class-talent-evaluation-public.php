@@ -56,9 +56,10 @@ class Talent_Evaluation_Public {
 	}
 
 	private function register_public_requests(){
-		add_action('wp_ajax_add_job', 'process_job_form');
-		add_action('wp_ajax_nopriv_add_job', 'process_job_form');
+		add_action('wp_ajax_add_job', array($this, 'process_job_form'));
+		add_action('wp_ajax_nopriv_add_job', array($this, 'process_job_form'));
 	}
+	
 
 	function process_job_form() {
 		if ( isset( $_POST['job_title'] ) ) {
