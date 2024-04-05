@@ -20,3 +20,24 @@
     --text-color: #221117; /* Ihre benutzerdefinierte Textfarbe */
   }
   
+/* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
+
+/* Primärfarbe für Schaltflächen */
+.btn-primary {
+    background-color: --primary; /* Ihre benutzerdefinierte Primärfarbe */
+    border-color: --primary; /* Farbe des Schaltflächenrahmens */
+  }
+  
+  /* Sekundärfarbe für Schaltflächen */
+  .btn-secondary {
+    background-color: --secondary; /* Ihre benutzerdefinierte Sekundärfarbe */
+    border-color: --secondary; /* Farbe des Schaltflächenrahmens */
+  }
+  
+  /* Hintergrundfarbe für Schaltflächen */
+  .btn-custom {
+    background-color: --text-color; /* Ihre benutzerdefinierte Hintergrundfarbe */
+    border-color: --text-color; /* Farbe des Schaltflächenrahmens */
+    color: --bg-color; /* Textfarbe für die Schaltfläche */
+  }
+  
