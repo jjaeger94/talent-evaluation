@@ -27,7 +27,7 @@
     function add_job_form_shortcode() {
         if ( current_user_can( 'firmenkunde' ) ) {
             ob_start();
-            include( plugin_dir_path( __FILE__ ) . 'forms/job-form.php' );
+            include( plugin_dir_path( __FILE__ ) . 'templates/job-form.php' );
             return ob_get_clean();
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
@@ -56,28 +56,13 @@
     
             // Überprüfen, ob Jobs vorhanden sind
             if ( $jobs ) {
-                // Tabelle erstellen
-                $output = '<table>';
-                $output .= '<tr><th>Stellenbezeichnung</th><th>Erstelldatum</th><th>Status</th></tr>';
-    
-                // Schleife durch alle Stellen des Benutzers
-                foreach ( $jobs as $job ) {
-                    $job_title = $job->job_title;
-                    $job_date = $job->added;
-                    $job_status = $job->state == 'active' ? 'aktiv' : 'inaktiv';
-    
-                    // Zeile für jede Stelle hinzufügen
-                    $output .= '<tr>';
-                    $output .= '<td>' . $job_title . '</td>';
-                    $output .= '<td>' . $job_date . '</td>';
-                    $output .= '<td>' . $job_status . '</td>';
-                    $output .= '</tr>';
-                }
-    
-                $output .= '</table>';
+                // Tabelle aus Vorlagendatei einfügen
+                ob_start();
+                include plugin_dir_path( __FILE__ ) . 'templates/jobs_table_template.php';
+                $output = ob_get_clean();
             } else {
                 // Keine Jobs gefunden, Nachricht ausgeben
-                $output = 'Es wurden keine Stellen gefunden.';
+                $output = '<div class="alert alert-info" role="alert">Es wurden keine Stellen gefunden.</div>';
             }
     
             return $output;
@@ -85,5 +70,6 @@
             return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
         }
     }
+    
     
 
