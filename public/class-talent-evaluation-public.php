@@ -104,7 +104,7 @@ class Talent_Evaluation_Public {
 				}
 			} else {
 				// Erfolgsmeldung zurückgeben
-				wp_redirect( home_url( '/stellen' ) );
+				echo '<p>Stelle erfolgreich hinzugefügt!</p>';
 			}
 		}
 		wp_die();
