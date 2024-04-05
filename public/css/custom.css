@@ -3,41 +3,40 @@
 /* Primärfarbe */
 :root {
     --primary: #44222d; /* Ihre benutzerdefinierte Primärfarbe */
-  }
+}
   
-  /* Sekundärfarbe */
-  :root {
+/* Sekundärfarbe */
+:root {
     --secondary: #663344; /* Ihre benutzerdefinierte Sekundärfarbe */
-  }
+}
   
-  /* Hintergrundfarbe */
-  :root {
+/* Hintergrundfarbe */
+:root {
     --bg-color: #d1d1d1; /* Ihre benutzerdefinierte Hintergrundfarbe */
-  }
+}
   
-  /* Textfarbe */
-  :root {
+/* Textfarbe */
+:root {
     --text-color: #221117; /* Ihre benutzerdefinierte Textfarbe */
-  }
-  
+}
+
 /* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
 
 /* Primärfarbe für Schaltflächen */
 .btn-primary {
-    background-color: --primary; /* Ihre benutzerdefinierte Primärfarbe */
-    border-color: --primary; /* Farbe des Schaltflächenrahmens */
-  }
+    background-color: var(--primary); /* Ihre benutzerdefinierte Primärfarbe */
+    border-color: var(--primary); /* Farbe des Schaltflächenrahmens */
+}
   
-  /* Sekundärfarbe für Schaltflächen */
-  .btn-secondary {
-    background-color: --secondary; /* Ihre benutzerdefinierte Sekundärfarbe */
-    border-color: --secondary; /* Farbe des Schaltflächenrahmens */
-  }
+/* Sekundärfarbe für Schaltflächen */
+.btn-secondary {
+    background-color: var(--secondary); /* Ihre benutzerdefinierte Sekundärfarbe */
+    border-color: var(--secondary); /* Farbe des Schaltflächenrahmens */
+}
   
-  /* Hintergrundfarbe für Schaltflächen */
-  .btn-custom {
-    background-color: --text-color; /* Ihre benutzerdefinierte Hintergrundfarbe */
-    border-color: --text-color; /* Farbe des Schaltflächenrahmens */
-    color: --bg-color; /* Textfarbe für die Schaltfläche */
-  }
-  
+/* Hintergrundfarbe für Schaltflächen */
+.btn-custom {
+    background-color: var(--bg-color); /* Ihre benutzerdefinierte Hintergrundfarbe */
+    border-color: var(--bg-color); /* Farbe des Schaltflächenrahmens */
+    color: var(--text-color); /* Textfarbe für die Schaltfläche */
+}
