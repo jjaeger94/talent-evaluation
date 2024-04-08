@@ -90,6 +90,7 @@ class Talent_Evaluation_Public {
 				),
 				array(
 					'%d',
+					'%d',
 					'%s',
 					'%s',
 					'%s',
