@@ -112,6 +112,7 @@ class Talent_Evaluation_Public {
 	function process_job_form() {
 		if ( isset( $_POST['job_title'] ) && current_user_can( 'firmenkunde' )) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
+			$location = sanitize_text_field( $_POST['location'] );
 			$criteria1 = sanitize_text_field( $_POST['criteria1'] );
 			$criteria2 = sanitize_text_field( $_POST['criteria2'] );
 			$criteria3 = sanitize_text_field( $_POST['criteria3'] );
@@ -139,6 +140,7 @@ class Talent_Evaluation_Public {
 					'criteria3' => $criteria3,
 					'completeness' => $completeness1 + ($completeness2 << 1),
 					'reference' => $reference1 + ($reference2 << 1) + ($reference3 << 2),
+					'location' => $location,
 				), 
 				array( 
 					'%d', 
@@ -147,7 +149,8 @@ class Talent_Evaluation_Public {
 					'%s',
 					'%s',
 					'%d',
-					'%d'
+					'%d',
+					'%s'
 				) 
 			);
 	

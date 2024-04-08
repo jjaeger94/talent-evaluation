@@ -4,7 +4,7 @@
             <tr>
                 <th>Stellenbezeichnung</th>
                 <th>Erstelldatum</th>
-                <th>Ort</th>
+                <th>Standort</th>
                 <th>Status</th>
             </tr>
         </thead>

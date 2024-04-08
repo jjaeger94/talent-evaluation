@@ -4,6 +4,10 @@
         <input type="text" class="form-control" id="job-title" name="job_title" required>
     </div>
     <div class="form-group mb-3">
+        <label for="job-title">Standort:</label>
+        <input type="text" class="form-control" id="location" name="location">
+    </div>
+    <div class="form-group mb-3">
         <label for="criteria1">Kriterien zur Vorauswahl:</label>
         <input type="text" class="form-control" id="criteria1" name="criteria1">
         <input type="text" class="form-control mt-2" id="criteria2" name="criteria2">
