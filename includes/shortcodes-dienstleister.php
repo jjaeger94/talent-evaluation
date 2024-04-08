@@ -27,7 +27,7 @@
             if ( $tasks ) {
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
-                include plugin_dir_path( __FILE__ ) . 'templates/tsks-table-template.php';
+                include plugin_dir_path( __FILE__ ) . 'templates/tasks-table-template.php';
                 $output = ob_get_clean();
             } else {
                 // Keine Jobs gefunden, Nachricht ausgeben
