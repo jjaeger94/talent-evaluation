@@ -48,25 +48,10 @@
             // Überprüfen, ob die ID-Parameter übergeben wurde
             if ( isset( $_GET['id'] ) ) {
                 // ID-Parameter aus der URL abrufen
-                $job_id = intval( $_GET['id'] );
+                $application_id = intval( $_GET['id'] );
 
-                // Datenbankverbindung öffnen
-                $temp_db = open_database_connection();
-
-                // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-                $query = $temp_db->prepare( "
-                    SELECT *
-                    FROM {$temp_db->prefix}applications
-                    WHERE ID = %d
-                    ORDER BY added DESC
-                ", $job_id );
-
-                // Bewerbungsdetails abrufen
-                $applications = $temp_db->get_results( $query );
-
-                // Überprüfen, ob Bewerbungsdetails vorhanden sind
-                if ( $applications ) {
-                    $application = $applications[0];
+                $application = get_application_by_id($application_id);
+                if ( $application ) {
                     // Tabelle aus Vorlagendatei einfügen
                     ob_start();
                     include plugin_dir_path( __FILE__ ) . 'templates/tasks-detail-template.php';
@@ -86,3 +71,48 @@
             return 'Sie haben keine Berechtigung, diese Seite anzuzeigen.';
         }
     }
+
+    function get_application_by_id( $application_id ) {
+        if ( current_user_can( 'dienstleister' ) ) {
+            // Datenbankverbindung öffnen
+            $temp_db = open_database_connection();
+    
+            // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+            $query = $temp_db->prepare( "
+                SELECT *
+                FROM {$temp_db->prefix}applications
+                WHERE ID = %d
+            ", $application_id );
+    
+            // Bewerbungsdetails abrufen
+            $application = $temp_db->get_results( $query );
+    
+            // Überprüfen, ob Bewerbungsdetails vorhanden sind
+            return ! empty( $application ) ? $application[0] : null;
+        } else {
+            return null;
+        }
+    }
+    
+    function get_job_by_id( $job_id ) {
+        if ( current_user_can( 'dienstleister' ) ) {
+            // Datenbankverbindung öffnen
+            $temp_db = open_database_connection();
+    
+            // SQL-Abfrage, um die Jobdetails abzurufen
+            $query = $temp_db->prepare( "
+                SELECT *
+                FROM {$temp_db->prefix}jobs
+                WHERE ID = %d
+            ", $job_id );
+    
+            // Jobdetails abrufen
+            $job = $temp_db->get_results( $query );
+    
+            // Überprüfen, ob Jobdetails vorhanden sind
+            return ! empty( $job ) ? $job[0] : null;
+        } else {
+            return null;
+        }
+    }
+    
