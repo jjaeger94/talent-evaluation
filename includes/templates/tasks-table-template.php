@@ -4,9 +4,9 @@
             <thead>
                 <tr>
                     <th>Status</th>
-                    <th>Stelle</th>
-                    <th>Status</th>
-                    <th>Ergebnis</th>
+                    <th>E-Mail</th>
+                    <th>Hinzugefügt</th>
+                    <th>Editiert</th>
                 </tr>
             </thead>
             <tbody>
