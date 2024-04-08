@@ -62,10 +62,11 @@
                 ", $job_id );
 
                 // Bewerbungsdetails abrufen
-                $application = $temp_db->get_results( $query );
+                $applications = $temp_db->get_results( $query );
 
                 // Überprüfen, ob Bewerbungsdetails vorhanden sind
-                if ( $application ) {
+                if ( $applications ) {
+                    $application = $applications[0];
                     // Tabelle aus Vorlagendatei einfügen
                     ob_start();
                     include plugin_dir_path( __FILE__ ) . 'templates/tasks-detail-template.php';
