@@ -109,4 +109,85 @@ function open_database_connection() {
     }
 }
 
+function get_application_by_id( $application_id ) {
+    if ( current_user_can( 'firmenkunde' ) ) {
+        $user_id = get_current_user_id();
+        // Datenbankverbindung öffnen
+        $temp_db = open_database_connection();
+
+        // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+        $query = $temp_db->prepare( "
+            SELECT *
+            FROM {$temp_db->prefix}applications
+            WHERE ID = {$application_id}
+            AND user_id = {$user_id}
+        ");
+
+        // Bewerbungsdetails abrufen
+        $application = $temp_db->get_results( $query );
+
+        // Überprüfen, ob Bewerbungsdetails vorhanden sind
+        return ! empty( $application ) ? $application[0] : null;
+    } else if ( current_user_can( 'dienstleister' ) ) {
+        // Datenbankverbindung öffnen
+        $temp_db = open_database_connection();
+
+        // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+        $query = $temp_db->prepare( "
+            SELECT *
+            FROM {$temp_db->prefix}applications
+            WHERE ID = %d
+        ", $application_id );
+
+        // Bewerbungsdetails abrufen
+        $application = $temp_db->get_results( $query );
+
+        // Überprüfen, ob Bewerbungsdetails vorhanden sind
+        return ! empty( $application ) ? $application[0] : null;
+    } else {
+        return null;
+    }
+}
+
+function get_job_by_id( $job_id ) {
+    if ( current_user_can( 'firmenkunde' ) ) {
+        $user_id = get_current_user_id();
+        // Datenbankverbindung öffnen
+        $temp_db = open_database_connection();
+
+        // SQL-Abfrage, um die Jobdetails abzurufen
+        $query = $temp_db->prepare( "
+            SELECT *
+            FROM {$temp_db->prefix}jobs
+            WHERE ID = {$job_id}
+            AND user_id = {$user_id}
+        ");
+
+        // Jobdetails abrufen
+        $job = $temp_db->get_results( $query );
+
+        // Überprüfen, ob Jobdetails vorhanden sind
+        return ! empty( $job ) ? $job[0] : null;
+    } else if ( current_user_can( 'dienstleister' ) ) {
+        // Datenbankverbindung öffnen
+        $temp_db = open_database_connection();
+
+        // SQL-Abfrage, um die Jobdetails abzurufen
+        $query = $temp_db->prepare( "
+            SELECT *
+            FROM {$temp_db->prefix}jobs
+            WHERE ID = %d
+        ", $job_id );
+
+        // Jobdetails abrufen
+        $job = $temp_db->get_results( $query );
+
+        // Überprüfen, ob Jobdetails vorhanden sind
+        return ! empty( $job ) ? $job[0] : null;
+    }else{
+        return null;
+    }
+}
+
+
 run_talent_evaluation();
