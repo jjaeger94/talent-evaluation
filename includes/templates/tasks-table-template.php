@@ -16,7 +16,7 @@
                         <td><?php echo esc_html( $task->email ); ?></td>
                         <td><?php echo esc_html( $task->added ); ?></td>
                         <td><?php echo esc_html( $task->edited ); ?></td>
-                        <td><a href="<?php echo esc_url( admin_url( 'admin.php?page=bewerbung-details&id=' . $task->ID ) ); ?>">Details anzeigen</a></td>
+                        <td><a href="<?php echo esc_url( home_url( '/bewerbung-details?id=' . $task->ID ) ); ?>">Details anzeigen</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

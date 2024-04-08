@@ -68,6 +68,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'kandidaten-hinzufuegen',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Bewerbungs Details',
+				'content' => '[application_details]',
+				'slug' => 'bewerbung-details',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {
