@@ -1,7 +1,7 @@
-<?php if ( $candidate ) : ?>
+<?php if ( $application ) : ?>
     <div class="candidate-details">
-        <h2><?php echo esc_html( $candidate->prename . ' ' . $candidate->surname ); ?></h2>
-        <p><strong>E-Mail:</strong> <?php echo esc_html( $candidate->email ); ?></p>
+        <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
+        <p><strong>E-Mail:</strong> <?php echo esc_html( $application->email ); ?></p>
         <hr>
         <div class="row">
             <div class="col-md-6">
