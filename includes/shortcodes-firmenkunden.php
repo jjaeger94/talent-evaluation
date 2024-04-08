@@ -129,7 +129,7 @@
     
             // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
-                SELECT ID, job_title, added, state
+                SELECT ID, job_title, added, state, location
                 FROM {$temp_db->prefix}jobs
                 WHERE user_id = %d
                 ORDER BY added DESC

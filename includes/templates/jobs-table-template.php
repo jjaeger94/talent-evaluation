@@ -4,6 +4,7 @@
             <tr>
                 <th>Stellenbezeichnung</th>
                 <th>Erstelldatum</th>
+                <th>Ort</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -12,6 +13,7 @@
                 <tr>
                     <td><?php echo $job->job_title; ?></td>
                     <td><?php echo $job->added; ?></td>
+                    <td><?php echo $job->location; ?></td>
                     <td><?php echo $job->state == 'active' ? 'aktiv' : 'inaktiv'; ?></td>
                 </tr>
             <?php endforeach; ?>
