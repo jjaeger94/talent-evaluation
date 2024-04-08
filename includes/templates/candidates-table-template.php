@@ -39,7 +39,7 @@
                                 Prüfung läuft...
                             <?php endif; ?>
                         </td>
-                        <td><a href="<?php echo esc_url( home_url( '/bewerbung-details?id=' . $candidate->ID ) ); ?>">Details anzeigen</a></td>
+                        <td><a href="<?php echo esc_url( home_url( '/kandidaten-details?id=' . $candidate->ID ) ); ?>">Details anzeigen</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
