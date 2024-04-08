@@ -1,4 +1,4 @@
-<form id="candidate-form" class="bootstrap-form" method="post">
+<form id="candidate-form" class="bootstrap-form" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="job_id">Stelle</label>
         <select class="form-control" id="job_id" name="job_id">
@@ -26,6 +26,10 @@
     <div class="form-group">
         <label for="email">E-Mail-Adresse</label>
         <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="resume">Dateien hochladen:</label>
+        <input type="file" name="resumes[]" id="resume" multiple>
     </div>
     <button type="submit" class="btn btn-primary">Kandidat erstellen</button>
 </form>

@@ -63,7 +63,26 @@ class Talent_Evaluation_Public {
 	}
 	
 	function process_candidate_form() {
-		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && current_user_can( 'firmenkunde' ) ) {
+		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
+			$applicationDir = '';
+			// Überprüfen, ob Dateien hochgeladen wurden
+			if (isset($_FILES['resumes']) && !empty($_FILES['resumes']['name'][0])) {
+				$uploadDir = wp_upload_dir()['basedir'] . '/applications/';
+
+				// Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
+				if (!file_exists($uploadDir)) {
+					mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
+				}
+				$applicationDir = $uploadDir . 'application_' . uniqid() . '/'; // Eindeutiger Ordnername für jede Bewerbung
+				mkdir($applicationDir, 0755, true); // Ordner für Bewerbung erstellen
+
+				// Durchlaufen Sie alle hochgeladenen Dateien
+				foreach ($_FILES['resumes']['tmp_name'] as $key => $tmpName) {
+					$uploadFile = $applicationDir . basename($_FILES['resumes']['name'][$key]); // Pfad zur hochgeladenen Datei im Bewerbungsordner
+					move_uploaded_file($tmpName, $uploadFile);
+				}
+			}
+			
 			// Formulardaten bereinigen
 			$prename = sanitize_text_field( $_POST['prename'] );
 			$surname = sanitize_text_field( $_POST['surname'] );
@@ -86,11 +105,13 @@ class Talent_Evaluation_Public {
 					'prename' => $prename,
 					'surname' => $surname,
 					'email' => $email,
+					'filepath' => $applicationDir,
 					// Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
 				),
 				array(
 					'%d',
 					'%d',
+					'%s',
 					'%s',
 					'%s',
 					'%s',

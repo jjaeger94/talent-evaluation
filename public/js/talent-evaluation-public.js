@@ -1,34 +1,6 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
-
 	$(function() {
 		$('#add-job-form').submit(function(e) {
 			e.preventDefault();
@@ -41,6 +13,26 @@
 				type: 'POST',
 				url: your_script_vars.ajaxurl, // Verwende die global definierte ajaxurl
 				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
+				xhr: function(){
+                    //upload Progress
+                    var xhr = $.ajaxSettings.xhr();
+                    if (xhr.upload) {
+                        xhr.upload.addEventListener('progress', function(event) {
+                            var percent = 0;
+                            var position = event.loaded || event.position;
+                            var total = event.total;
+                            if (event.lengthComputable) {
+                                percent = Math.ceil(position / total * 100);
+                            }
+                            if(percent === 100){
+                                console.log('Datei verarbeiten');
+                            }else{
+                                console.log('uploaded',percent);
+                            }
+                        }, true);
+                    }
+                    return xhr;
+                },
 				success: function(response) {
 					// Antwort verarbeiten
 					$('#form-message').html(response);
@@ -52,21 +44,25 @@
 		});
 
 		$('#candidate-form').submit(function (event) {
-            event.preventDefault();
-            var formData = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: your_script_vars.ajaxurl,
-                data: formData + '&action=add_candidate',
-                success: function (response) {
-                    $('#message').html(response); // Anzeigen der Antwortmeldung
-                    $('#candidate-form')[0].reset(); // Formular zurücksetzen
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
+			event.preventDefault();
+			var formData = new FormData(this); // FormData-Objekt erstellen und das Formular übergeben
+			formData.append('action', 'add_candidate');
+			$.ajax({
+				type: 'POST',
+				url: your_script_vars.ajaxurl,
+				data: formData,
+				processData: false, // Daten nicht verarbeiten (wichtig für FormData)
+				contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
+				success: function (response) {
+					$('#message').html(response); // Anzeigen der Antwortmeldung
+					$('#candidate-form')[0].reset(); // Formular zurücksetzen
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
+		
 	})
 
 })( jQuery );
