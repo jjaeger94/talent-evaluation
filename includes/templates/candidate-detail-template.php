@@ -18,6 +18,7 @@
             </div>
         </div>
         <hr>
+        <p><strong>Status der Prüfung:</strong></p>
         <div class="progress">
             <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Kriterien werden überprüft</div>
             <div class="progress-bar bg-info" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Vollständigkeit wird sichergestellt</div>
