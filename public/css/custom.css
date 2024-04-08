@@ -56,3 +56,7 @@
     border-color: #b8b8b8; /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
     color: var(--text-color); /* Textfarbe für die Schaltfläche beim Hovern/Fokus */
 }
+
+.progress-bar {
+    background-color: var(--secondary);
+}
