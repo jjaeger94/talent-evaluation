@@ -172,7 +172,7 @@
                         $job = get_job_by_id($application->job_id);
                         // Tabelle aus Vorlagendatei einfügen
                         ob_start();
-                        include plugin_dir_path( __FILE__ ) . 'templates/tasks-detail-template.php';
+                        include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';
                         $output = ob_get_clean();
                     } else {
                         // Keine Bewerbungsdetails gefunden, Nachricht ausgeben
