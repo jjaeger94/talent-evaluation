@@ -40,7 +40,7 @@ class Talent_Evaluation_Activator {
 			),
 			array(
 				'title' => 'Dienstleister',
-				'content' => 'Inhalt der Dienstleister-Seite',
+				'content' => '[show_tasks_table]',
 				'slug' => 'dienstleister',
 				'template' => '', // optional: Vorlage für die Seite
 			),
