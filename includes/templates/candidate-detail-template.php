@@ -1,14 +1,31 @@
 <?php if ( $candidate ) : ?>
     <div class="candidate-details">
-        <h2>Bewerbungsdetails</h2>
-        <ul>
-            <li><strong>ID:</strong> <?php echo esc_html( $candidate->ID ); ?></li>
-            <li><strong>Job ID:</strong> <?php echo esc_html( $candidate->job_id ); ?></li>
-            <li><strong>Vorname:</strong> <?php echo esc_html( $candidate->prename ); ?></li>
-            <li><strong>Nachname:</strong> <?php echo esc_html( $candidate->surname ); ?></li>
-            <li><strong>E-Mail:</strong> <?php echo esc_html( $candidate->email ); ?></li>
-            <!-- Weitere Details hier -->
-        </ul>
+        <h2><?php echo esc_html( $candidate->prename . ' ' . $candidate->surname ); ?></h2>
+        <p><strong>E-Mail:</strong> <?php echo esc_html( $candidate->email ); ?></p>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Beworben auf:</strong> <?php echo esc_html( $job->job_title ); ?></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Einordnung:</strong>
+                    <select class="form-control">
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Kriterien werden überprüft</div>
+            <div class="progress-bar bg-info" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Vollständigkeit wird sichergestellt</div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Referenzen werden überprüft</div>
+            <div class="progress-bar bg-secondary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Prüfung abgeschlossen</div>
+        </div>
+        <hr>
+        <p><strong>Ergebnis der Prüfung:</strong> <?php echo esc_html( $prüfungsergebnis ); ?></p>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
