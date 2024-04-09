@@ -97,6 +97,7 @@
 						contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
 						success: function (response) {
 							console.log(response); // Anzeigen der Antwortmeldung // Formular zurücksetzen
+							location.reload();
 						},
 						error: function (xhr, status, error) {
 							console.error(xhr.responseText);
