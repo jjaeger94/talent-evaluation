@@ -69,6 +69,7 @@
 				// Z.B. öffnen Sie einen Dateiauswahldialog
 				var fileInput = document.createElement('input');
 				fileInput.type = 'file';
+				fileInput.accept = 'application/pdf';
 				fileInput.multiple = true; // Erlaubt das Hochladen mehrerer Dateien
 				fileInput.click(); // Klicken Sie auf das Eingabefeld, um den Dateiauswahldialog zu öffnen
 	
