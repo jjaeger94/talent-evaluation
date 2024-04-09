@@ -116,82 +116,98 @@
             
 }
 
-    function show_jobs_table() {    
-        // Überprüfen, ob der Benutzer eingeloggt ist
-        if ( is_user_logged_in() ) {
-            // ID des aktuellen Benutzers abrufen
-            $user_id = get_current_user_id();
+function get_candidate_count_for_job($job_id) {
+    $temp_db = open_database_connection();
+
+    // Tabellenname für die Bewerbungen
+    $table_name = $temp_db->prefix . 'applications';
+
+    // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
+    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d", $job_id);
+
+    // Anzahl der Kandidaten abrufen
+    $candidate_count = $temp_db->get_var($query);
+
+return $candidate_count;
+}
+
+
+function show_jobs_table() {    
+    // Überprüfen, ob der Benutzer eingeloggt ist
+    if ( is_user_logged_in() ) {
+        // ID des aktuellen Benutzers abrufen
+        $user_id = get_current_user_id();
+
+        // Erfassen Sie die in den Optionen gespeicherten Daten
+        $temp_db = open_database_connection();
+
+        // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
+        $query = $temp_db->prepare( "
+            SELECT ID, job_title, added, state, location
+            FROM {$temp_db->prefix}jobs
+            WHERE user_id = %d
+            ORDER BY added DESC
+        ", $user_id );
+
+        // Stellen abrufen
+        $jobs = $temp_db->get_results( $query );
+
+        // Überprüfen, ob Jobs vorhanden sind
+        if ( $jobs ) {
+            // Tabelle aus Vorlagendatei einfügen
+            ob_start();
+            include plugin_dir_path( __FILE__ ) . 'templates/jobs-table-template.php';
+            $output = ob_get_clean();
+        } else {
+            // Keine Jobs gefunden, Nachricht ausgeben
+            $output = '<div class="alert alert-info" role="alert">Es wurden keine Stellen gefunden.</div>';
+        }
+
+        return $output;
+    } else {
+        return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
+    }
+}
     
-            // Erfassen Sie die in den Optionen gespeicherten Daten
-            $temp_db = open_database_connection();
-    
-            // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
-            $query = $temp_db->prepare( "
-                SELECT ID, job_title, added, state, location
-                FROM {$temp_db->prefix}jobs
-                WHERE user_id = %d
-                ORDER BY added DESC
-            ", $user_id );
-    
-            // Stellen abrufen
-            $jobs = $temp_db->get_results( $query );
-    
-            // Überprüfen, ob Jobs vorhanden sind
-            if ( $jobs ) {
+// Funktion zum Rendern des Bewerbungsdetail-Shortcodes
+function render_candidate_details_shortcode() {
+    $prüfungsergebnis = 'Prüfung läuft...';
+    // Überprüfen, ob der Benutzer eingeloggt ist und Berechtigung hat
+    if ( current_user_can( 'firmenkunde' ) ) {
+        // Überprüfen, ob die ID-Parameter übergeben wurde
+        if ( isset( $_GET['id'] ) ) {
+            // ID-Parameter aus der URL abrufen
+            $application_id = intval( $_GET['id'] );
+
+            $application = get_application_by_id($application_id);
+            if ( $application ) {
+
+                $job = get_job_by_id($application->job_id);
+                $active_status_index = 2;
+                $statuses = array(
+                    'Kriterien werden überprüft',
+                    'Test läuft',
+                    'Interview ausstehend',
+                    'Abgeschlossen'
+                );
+
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
-                include plugin_dir_path( __FILE__ ) . 'templates/jobs-table-template.php';
+                include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';
                 $output = ob_get_clean();
             } else {
-                // Keine Jobs gefunden, Nachricht ausgeben
-                $output = '<div class="alert alert-info" role="alert">Es wurden keine Stellen gefunden.</div>';
+                // Keine Bewerbungsdetails gefunden, Nachricht ausgeben
+                $output = '<div class="alert alert-info" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>';
             }
-    
+
             return $output;
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
+            // Keine ID-Parameter übergeben, Meldung ausgeben
+            return '<div class="alert alert-warning" role="alert">Es wurde keine Bewerbungs-ID angegeben.</div>';
         }
+    } else {
+        // Benutzer hat keine Berechtigung, Meldung ausgeben
+        return 'Sie haben keine Berechtigung, diese Seite anzuzeigen.';
     }
-    
-        // Funktion zum Rendern des Bewerbungsdetail-Shortcodes
-        function render_candidate_details_shortcode() {
-            $prüfungsergebnis = 'Prüfung läuft...';
-            // Überprüfen, ob der Benutzer eingeloggt ist und Berechtigung hat
-            if ( current_user_can( 'firmenkunde' ) ) {
-                // Überprüfen, ob die ID-Parameter übergeben wurde
-                if ( isset( $_GET['id'] ) ) {
-                    // ID-Parameter aus der URL abrufen
-                    $application_id = intval( $_GET['id'] );
-    
-                    $application = get_application_by_id($application_id);
-                    if ( $application ) {
-
-                        $job = get_job_by_id($application->job_id);
-                        $active_status_index = 2;
-                        $statuses = array(
-                            'Kriterien werden überprüft',
-                            'Test läuft',
-                            'Interview ausstehend',
-                            'Abgeschlossen'
-                        );
-
-                        // Tabelle aus Vorlagendatei einfügen
-                        ob_start();
-                        include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';
-                        $output = ob_get_clean();
-                    } else {
-                        // Keine Bewerbungsdetails gefunden, Nachricht ausgeben
-                        $output = '<div class="alert alert-info" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>';
-                    }
-    
-                    return $output;
-                } else {
-                    // Keine ID-Parameter übergeben, Meldung ausgeben
-                    return '<div class="alert alert-warning" role="alert">Es wurde keine Bewerbungs-ID angegeben.</div>';
-                }
-            } else {
-                // Benutzer hat keine Berechtigung, Meldung ausgeben
-                return 'Sie haben keine Berechtigung, diese Seite anzuzeigen.';
-            }
-        }
+}
 
