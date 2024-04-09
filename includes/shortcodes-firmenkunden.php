@@ -51,7 +51,7 @@
             }
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
-                SELECT ID, job_id, prename, surname, reference_id
+                SELECT *
                 FROM {$temp_db->prefix}applications
                 {$filter}
                 ORDER BY added DESC

@@ -29,17 +29,19 @@
             <tbody>
                 <?php foreach ( $candidates as $candidate ) : ?>
                     <tr>
-                        <td><?php echo esc_html( $candidate->prename . ' ' . $candidate->surname ); ?></td>
-                        <td><?php echo esc_html( $candidate->job_title ); ?></td>
-                        <td><?php echo $candidate->reference_id ? 'Erfolgreich bewertet' : 'Kriterien werden überprüft'; ?></td>
-                        <td>
+                        <td class="align-middle">
+                            <strong><?php echo esc_html( $candidate->prename . ' ' . $candidate->surname ); ?></strong><br>
+                            <?php echo date('d.m.Y', strtotime($candidate->added)); ?> <!-- Bewerbungsdatum anzeigen -->
+                        </td>
+                        <td class="align-middle"><?php echo esc_html( $candidate->job_title ); ?></td>
+                        <td class="align-middle"><?php echo $candidate->reference_id ? 'Erfolgreich bewertet' : 'Kriterien werden überprüft'; ?></td>
+                        <td class="align-middle">
                             <?php if ( $candidate->reference_id ) : ?>
                                 <img src="<?php echo esc_url( plugin_dir_url( __FILE__ ) . 'images/success.png' ); ?>" alt="Erfolgreich bewertet">
                             <?php else : ?>
-                                Prüfung läuft...
+                                <a href="<?php echo esc_url( home_url( '/kandidaten-details?id=' . $candidate->ID ) ); ?>">Prüfung läuft...</a>
                             <?php endif; ?>
                         </td>
-                        <td><a href="<?php echo esc_url( home_url( '/kandidaten-details?id=' . $candidate->ID ) ); ?>">Details anzeigen</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
