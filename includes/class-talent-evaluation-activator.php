@@ -79,7 +79,7 @@ class Talent_Evaluation_Activator {
 				'content' => '[candidate_details]',
 				'slug' => 'kandidaten-details',
 				'template' => '', // optional: Vorlage für die Seite
-			),
+			)
 		);
 	
 		foreach ( $pages as $page ) {
@@ -100,6 +100,8 @@ class Talent_Evaluation_Activator {
 				wp_insert_post( $page_data );
 			}
 		}
+
+		flush_rewrite_rules();
 	}
 
 }

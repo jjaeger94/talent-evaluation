@@ -9,10 +9,7 @@
         add_shortcode( 'show_candidates', 'show_candidates_table' );
         add_shortcode( 'candidate_details', 'render_candidate_details_shortcode' );
     }
-    
-    /**
-     * 
-     */
+
     function add_job_form_shortcode() {
         if ( current_user_can( 'firmenkunde' ) ) {
             ob_start();
@@ -177,6 +174,8 @@
                             'Interview ausstehend',
                             'Abgeschlossen'
                         );
+                        $token = md5(uniqid(rand(), true)); // Generieren Sie einen eindeutigen Token
+                        $_SESSION['file_token'] = $token;
                         // Tabelle aus Vorlagendatei einfügen
                         ob_start();
                         include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';

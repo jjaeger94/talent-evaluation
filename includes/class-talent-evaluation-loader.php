@@ -139,7 +139,10 @@ class Talent_Evaluation_Loader {
 	public function run() {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
+		$this->add_filter( 'query_vars', $this, 'register_query_vars');
 		$this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
+		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
+		$this->add_action( 'template_redirect', $this, 'pdf_viewer_template_redirect' );
 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
@@ -149,6 +152,22 @@ class Talent_Evaluation_Loader {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
+	}
+
+	public function register_pdf_viewer_rewrite_rule() {
+		add_rewrite_rule('^pdf-viewer-page/?$', 'index.php?pdf_viewer_page=1', 'top');
+	}
+
+	public function register_query_vars($vars) {
+		$vars[] = 'pdf_viewer_page';
+		return $vars;
+	}
+
+	public function pdf_viewer_template_redirect() {
+		if (get_query_var('pdf_viewer_page')) {
+			include(plugin_dir_path( dirname( __FILE__ ) ) . 'pdf-viewer.php');
+			exit;
+		}
 	}
 
 	/**
