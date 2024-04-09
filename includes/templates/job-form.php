@@ -25,18 +25,18 @@
         </div>
     </div>
     <div class="form-group mb-3">
-        <label>Referenz Check</label>
+        <label>Screening</label>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="reference1" name="reference1" value="0">
-            <label class="form-check-label" for="reference1">LinkedIn checken</label>
+            <input type="checkbox" class="form-check-input" id="screening1" name="screening1" value="0">
+            <label class="form-check-label" for="screening1">LinkedIn checken</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="reference2" name="reference2" value="0">
-            <label class="form-check-label" for="reference2">Höchstes Bildungszeugnis prüfen</label>
+            <input type="checkbox" class="form-check-input" id="screening2" name="screening2" value="0">
+            <label class="form-check-label" for="screening2">Höchstes Bildungszeugnis prüfen</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="reference3" name="reference3" value="0">
-            <label class="form-check-label" for="reference3">Arbeitszeugnis prüfen</label>
+            <input type="checkbox" class="form-check-input" id="screening3" name="screening3" value="0">
+            <label class="form-check-label" for="screening3">Arbeitszeugnis prüfen</label>
         </div>
     </div>
     <input type="submit" value="Stelle hinzufügen" class="btn btn-primary">

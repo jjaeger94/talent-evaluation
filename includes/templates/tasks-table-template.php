@@ -1,27 +1,33 @@
-<?php if ( ! empty( $tasks ) ) : ?>
+<?php if ( ! empty( $candidates ) ) : ?>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Status</th>
-                    <th>E-Mail</th>
-                    <th>Hinzugefügt</th>
-                    <th>Editiert</th>
+                    <th>Kandidat</th>
+                    <th>Kriterien</th>
+                    <th>Vollständigkeit</th>
+                    <th>Background Screening</th>
+                    <th>Commitment Test</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ( $tasks as $task ) : ?>
+                <?php foreach ( $candidates as $candidate ) : ?>
                     <tr>
-                        <td><?php echo esc_html( $task->state ); ?></td>
-                        <td><?php echo esc_html( $task->email ); ?></td>
-                        <td><?php echo esc_html( $task->added ); ?></td>
-                        <td><?php echo esc_html( $task->edited ); ?></td>
-                        <td><a href="<?php echo esc_url( home_url( '/bewerbung-details?id=' . $task->ID ) ); ?>">Details anzeigen</a></td>
+                        <td class="align-middle"><?php echo $candidate->state; ?></td>
+                        <td class="align-middle">
+                            <strong><a href="<?php echo esc_url( home_url( '/bewerbung-details?id=' . $candidate->ID ) ); ?>"><?php echo esc_html( $candidate->prename . ' ' . $candidate->surname ); ?></a></strong><br>
+                            <?php echo date('d.m.Y', strtotime($candidate->added)); ?> <!-- Bewerbungsdatum anzeigen -->
+                        </td>
+                        <td class="align-middle"></td> <!-- Kriterien-Spalte -->
+                        <td class="align-middle"></td> <!-- Vollständigkeit-Spalte -->
+                        <td class="align-middle"></td> <!-- Background Screening-Spalte -->
+                        <td class="align-middle"></td> <!-- Commitment Test-Spalte -->
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 <?php else : ?>
-    <p>Keine Aufgaben gefunden.</p>
+    <p>Keine Kandidaten gefunden.</p>
 <?php endif; ?>

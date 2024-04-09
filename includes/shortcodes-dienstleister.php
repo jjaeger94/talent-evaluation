@@ -16,16 +16,16 @@
 
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
-                SELECT ID, email, state, added, edited
+                SELECT *
                 FROM {$temp_db->prefix}applications
                 ORDER BY added DESC
             " );
     
             // Stellen abrufen
-            $tasks = $temp_db->get_results( $query );
+            $candidates = $temp_db->get_results( $query );
     
             // Überprüfen, ob Jobs vorhanden sind
-            if ( $tasks ) {
+            if ( $candidates ) {
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/tasks-table-template.php';

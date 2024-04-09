@@ -62,6 +62,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_add_candidate', array($this, 'process_candidate_form'));
 		add_action('wp_ajax_add_files',  array($this, 'handle_file_upload'));
 		add_action('wp_ajax_nopriv_add_files',  array($this, 'handle_file_upload'));
+		add_action('wp_ajax_change_state',  array($this, 'handle_change_state'));
+		add_action('wp_ajax_nopriv_change_state',  array($this, 'handle_change_state'));
 	}
 	
 	function process_candidate_form() {
@@ -129,6 +131,52 @@ class Talent_Evaluation_Public {
 				echo '<p>Bewerbung erfolgreich hinzugefügt!</p>';
 			}
 		}
+		wp_die();
+	}
+
+	function handle_change_state() {
+		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
+		}
+	
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_POST['state'])) {
+			wp_send_json_error('Es wurden kein State übergeben.');
+		}
+	
+		// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+		if (!isset($_POST['application_id'])) {
+			wp_send_json_error('Die Anwendungs-ID fehlt.');
+		}
+	
+		$application_id = $_POST['application_id'];
+
+		$state = $_POST['state'];
+		
+		$temp_db = open_database_connection();
+		// Tabellenname für Bewerbungen
+		$table_name = $temp_db->prefix . 'applications';
+	
+		// Daten zum Aktualisieren
+		$data = array('state' => $state);
+	
+		// Bedingung für die Aktualisierung
+		$where = array('ID' => $application_id);
+	
+		// Aktualisieren der Daten in der Datenbank
+		$temp_db->update($table_name, $data, $where);
+	
+		// Überprüfen, ob ein Fehler aufgetreten ist
+		if ($temp_db->last_error !== '') {
+			wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+		}
+		
+		$log = 'Status zu "'.$state.'" geändert';
+
+		create_backlog_entry($application_id, $log);
+
+		wp_send_json_success('Status erfolgreich geändert.');
 		wp_die();
 	}
 	
@@ -211,9 +259,9 @@ class Talent_Evaluation_Public {
 			$criteria3 = sanitize_text_field( $_POST['criteria3'] );
 			$completeness1 = isset( $_POST['completeness1'] ) ? 1 : 0;
 			$completeness2 = isset( $_POST['completeness2'] ) ? 1 : 0;
-			$reference1 = isset( $_POST['reference1'] ) ? 1 : 0;
-			$reference2 = isset( $_POST['reference2'] ) ? 1 : 0;
-			$reference3 = isset( $_POST['reference3'] ) ? 1 : 0;
+			$screening1 = isset( $_POST['screening1'] ) ? 1 : 0;
+			$screening2 = isset( $_POST['screening2'] ) ? 1 : 0;
+			$screening3 = isset( $_POST['screening3'] ) ? 1 : 0;
 			
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
 			
@@ -232,7 +280,7 @@ class Talent_Evaluation_Public {
 					'criteria2' => $criteria2,
 					'criteria3' => $criteria3,
 					'completeness' => $completeness1 + ($completeness2 << 1),
-					'reference' => $reference1 + ($reference2 << 1) + ($reference3 << 2),
+					'screening' => $screening1 + ($screening2 << 1) + ($screening3 << 2),
 					'location' => $location,
 				), 
 				array( 

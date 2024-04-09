@@ -209,5 +209,48 @@ function update_application_filepath($application_id, $file_directory){
 	}
 }
 
+function get_backlogs_by_application( $application ) {
+    if ( current_user_can( 'firmenkunde' ) ) {
+        $user_id = get_current_user_id();
+        if ($application->user_id != $user_id){
+            return null;
+        }
+    } else if ( !current_user_can( 'dienstleister' ) ) {
+        return null;
+    }
+    //Datenbankverbindung öffnen
+    $temp_db = open_database_connection();
+
+    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+    $query = $temp_db->prepare( "
+        SELECT *
+        FROM {$temp_db->prefix}backlogs
+        WHERE application_id = %d
+    ", $application->ID );
+
+    // Bewerbungsdetails abrufen
+    return $temp_db->get_results( $query );
+
+}
+
+function create_backlog_entry($application_id, $log){
+    $temp_db = open_database_connection();
+
+    $table_name = $temp_db->prefix . 'backlogs';
+
+    $result = $temp_db->insert(
+        $table_name,
+        array(
+            'application_id' => $application_id, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+            'log' => $log,
+            // Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
+        ),
+        array(
+            '%d',
+            '%s',
+            // Fügen Sie hier weitere Formatierungen hinzu, falls erforderlich
+        )
+    );
+}
 
 run_talent_evaluation();

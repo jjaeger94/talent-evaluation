@@ -1,48 +1,26 @@
 <?php if ( $application ) : ?>
     <div class="candidate-details">
-        <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
-        <p><?php echo esc_html( $application->email ); ?></p>
-        <hr>
         <div class="row">
             <div class="col-md-6">
-                <p><strong>Beworben auf:</strong><br><?php echo esc_html( $job->job_title ); ?></p>
+                <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
+                <p><?php echo esc_html( $application->email ); ?></p>
             </div>
-            <div class="col-md-6">
-                <p><strong>Einordnung:</strong>
-                    <select class="form-control" id="classification" name="classification">
-                        <option value="0">Automatische Einordnung</option>
-                        <option value="1">Manuell positiv</option>
-                        <option value="2">Manuell negativ</option>
-                    </select>
-                </p>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <?php if ($application->state == 'new') : ?>
+                    <button id="review-btn" class="btn btn-success" value="in_progress">Prüfung starten</button>
+                <?php endif; ?>
+                <!-- Weitere Aktionen je nach Status hier einfügen -->
             </div>
         </div>
         <hr>
-        <br>
-        <p><strong>Ergebnis der Prüfung:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
-        <hr>
-        <p><strong>Ergebnis Commitment Test:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
+        <?php include 'job-info-template.php'; ?>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
-        <?php
-        $file_path = $application->filepath;
-        if (!empty($file_path)) {
-            $files = glob($file_path . '*.pdf'); // Nur PDF-Dateien anzeigen
-            if ($files !== false) {
-                echo '<ul>';
-                foreach ($files as $file) {
-                    echo '<li><a href="' . esc_url( add_query_arg( array(
-                        'file' => basename($file),
-                        'application_id' => $application->ID
-                    ), home_url('/pdf-viewer-page') ) ) . '" target="_blank">' . basename($file) . '</a></li>';
-                }                              
-                echo '</ul>';
-            }                        
-        } else {
-            echo '<p>Keine Dateien hochgeladen.</p>';
-        }
-        ?>
+        <?php include 'file-template.php'; ?>
         <button id="add-files-button" class="btn btn-primary">Dateien hinzufügen</button>
+        <hr>
+        <p><strong>Backlog:</strong></p>
+        <?php include 'backlog-template.php'; ?>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
