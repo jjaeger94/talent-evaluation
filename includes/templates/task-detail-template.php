@@ -18,10 +18,6 @@
             </div>
         </div>
         <hr>
-        <p><strong>Status der Prüfung:</strong></p>
-        <div class="progress">
-            <div class="progress-bar overflow-visible" role="progressbar" style="width: <?php echo esc_attr( ($active_status_index + 1) * 25 ); ?>%;" aria-valuenow="<?php echo esc_attr( $active_status_index + 1 ); ?>" aria-valuemin="1" aria-valuemax="4"><?php echo esc_html( $statuses[$active_status_index] ); ?></div>
-        </div>
         <br>
         <p><strong>Ergebnis der Prüfung:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
         <hr>

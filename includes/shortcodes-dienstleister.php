@@ -55,13 +55,6 @@
                 if ( $application ) {
 
                     $job = get_job_by_id($application->job_id);
-                        $active_status_index = 0;
-                        $statuses = array(
-                            'Kriterien werden überprüft',
-                            'Test läuft',
-                            'Interview ausstehend',
-                            'Abgeschlossen'
-                        );
                     // Tabelle aus Vorlagendatei einfügen
                     ob_start();
                     include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';

@@ -183,14 +183,6 @@ function render_candidate_details_shortcode() {
             if ( $application ) {
 
                 $job = get_job_by_id($application->job_id);
-                $active_status_index = 2;
-                $statuses = array(
-                    'Kriterien werden überprüft',
-                    'Test läuft',
-                    'Interview ausstehend',
-                    'Abgeschlossen'
-                );
-
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';

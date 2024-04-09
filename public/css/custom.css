@@ -60,3 +60,7 @@
 .progress-bar {
     background-color: var(--secondary);
 }
+
+a{
+    color: var(--secondary);
+}
