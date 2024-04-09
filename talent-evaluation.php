@@ -189,5 +189,25 @@ function get_job_by_id( $job_id ) {
     }
 }
 
+function update_application_filepath($application_id, $file_directory){
+	$temp_db = open_database_connection();
+	// Tabellenname für Bewerbungen
+	$table_name = $temp_db->prefix . 'applications';
+
+	// Daten zum Aktualisieren
+	$data = array('filepath' => $file_directory);
+
+	// Bedingung für die Aktualisierung
+	$where = array('ID' => $application_id);
+
+	// Aktualisieren der Daten in der Datenbank
+	$temp_db->update($table_name, $data, $where);
+
+	// Überprüfen, ob ein Fehler aufgetreten ist
+	if ($temp_db->last_error !== '') {
+		wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+	}
+}
+
 
 run_talent_evaluation();

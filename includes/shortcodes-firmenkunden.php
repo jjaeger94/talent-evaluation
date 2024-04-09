@@ -174,8 +174,7 @@
                             'Interview ausstehend',
                             'Abgeschlossen'
                         );
-                        $token = md5(uniqid(rand(), true)); // Generieren Sie einen eindeutigen Token
-                        $_SESSION['file_token'] = $token;
+
                         // Tabelle aus Vorlagendatei einfügen
                         ob_start();
                         include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';

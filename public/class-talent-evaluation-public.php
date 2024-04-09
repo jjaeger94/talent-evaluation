@@ -60,6 +60,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_add_job', array($this, 'process_job_form'));
 		add_action('wp_ajax_add_candidate', array($this, 'process_candidate_form'));
 		add_action('wp_ajax_nopriv_add_candidate', array($this, 'process_candidate_form'));
+		add_action('wp_ajax_add_files',  array($this, 'handle_file_upload'));
+		add_action('wp_ajax_nopriv_add_files',  array($this, 'handle_file_upload'));
 	}
 	
 	function process_candidate_form() {
@@ -130,6 +132,75 @@ class Talent_Evaluation_Public {
 		wp_die();
 	}
 	
+	function handle_file_upload() {
+		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
+		}
+	
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_FILES['files'])) {
+			wp_send_json_error('Es wurden keine Dateien hochgeladen.');
+		}
+	
+		// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+		if (!isset($_POST['application_id'])) {
+			wp_send_json_error('Die Anwendungs-ID fehlt.');
+		}
+	
+		$application_id = $_POST['application_id'];
+
+		$application = get_application_by_id($application_id);
+
+		if(!$application){
+			wp_send_json_error('Keine Berechtigung');
+		}
+
+		$file_directory = $application->filepath;
+	
+		// Überprüfen, ob bereits Dateien vorhanden sind
+		if (!empty($file_directory)) {
+			// Dateien vorhanden
+			// Prüfen, ob es sich um ein Verzeichnis handelt und ob es beschreibbar ist
+			if (is_dir($file_directory) && is_writable($file_directory)) {
+				// Dateien werden im vorhandenen Verzeichnis gespeichert
+				$upload_path = $file_directory;
+			} else {
+				// Fehler: Das Verzeichnis existiert nicht oder ist nicht beschreibbar
+				echo 'Fehler: Das Verzeichnis für Dateien ist nicht verfügbar oder nicht beschreibbar.';
+				exit;
+			}
+		} else {
+			// Keine Dateien vorhanden
+			// Neuen Ordner erstellen
+			$uploadDir = wp_upload_dir()['basedir'] . '/applications/'; // Standard-WordPress-Upload-Verzeichnis
+			// Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
+			if (!file_exists($uploadDir)) {
+				mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
+			}
+			$applicationDir = $uploadDir . 'application_' . uniqid() . '/'; // Eindeutiger Ordnername für jede Bewerbung
+			mkdir($applicationDir, 0755, true);
+
+			// Upload-Pfad setzen
+			$upload_path = $applicationDir;
+			update_application_filepath($application_id, $applicationDir);
+		}
+	
+		// Dateien verschieben und speichern
+		foreach ($_FILES['files']['tmp_name'] as $key => $tmp_name) {
+			$file_name = basename($_FILES['files']['name'][$key]);
+			$target_file = $upload_path . $file_name;
+	
+			if (move_uploaded_file($_FILES['files']['tmp_name'][$key], $target_file)) {
+				// Erfolgreich hochgeladen
+			} else {
+				wp_send_json_error('Fehler beim Hochladen der Datei ' . $file_name);
+			}
+		}
+	
+		wp_send_json_success('Dateien erfolgreich hochgeladen.');
+		wp_die();
+	}
 
 	function process_job_form() {
 		if ( isset( $_POST['job_title'] ) && current_user_can( 'firmenkunde' )) {
@@ -194,8 +265,7 @@ class Talent_Evaluation_Public {
 			}
 		}
 		wp_die();
-	}
-	
+	}	
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.

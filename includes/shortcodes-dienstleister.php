@@ -43,6 +43,7 @@
 
     // Funktion zum Rendern des Bewerbungsdetail-Shortcodes
     function render_application_details_shortcode() {
+        $prüfungsergebnis = 'Prüfung läuft...';
         // Überprüfen, ob der Benutzer eingeloggt ist und Berechtigung hat
         if ( current_user_can( 'dienstleister' ) ) {
             // Überprüfen, ob die ID-Parameter übergeben wurde
@@ -52,9 +53,18 @@
 
                 $application = get_application_by_id($application_id);
                 if ( $application ) {
+
+                    $job = get_job_by_id($application->job_id);
+                        $active_status_index = 0;
+                        $statuses = array(
+                            'Kriterien werden überprüft',
+                            'Test läuft',
+                            'Interview ausstehend',
+                            'Abgeschlossen'
+                        );
                     // Tabelle aus Vorlagendatei einfügen
                     ob_start();
-                    include plugin_dir_path( __FILE__ ) . 'templates/tasks-detail-template.php';
+                    include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';
                     $output = ob_get_clean();
                 } else {
                     // Keine Bewerbungsdetails gefunden, Nachricht ausgeben

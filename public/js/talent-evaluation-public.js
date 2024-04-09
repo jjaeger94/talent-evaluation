@@ -62,6 +62,48 @@
 				}
 			});
 		});
+
+			
+		$('#add-files-button').click(function() {
+				// Hier können Sie den gewünschten Code einfügen, um weitere Dateien hinzuzufügen
+				// Z.B. öffnen Sie einen Dateiauswahldialog
+				var fileInput = document.createElement('input');
+				fileInput.type = 'file';
+				fileInput.multiple = true; // Erlaubt das Hochladen mehrerer Dateien
+				fileInput.click(); // Klicken Sie auf das Eingabefeld, um den Dateiauswahldialog zu öffnen
+	
+				// Event-Listener für den Dateiauswahldialog
+				fileInput.addEventListener('change', function() {
+					var files = fileInput.files;
+					var formData = new FormData();
+	
+					// Fügen Sie die ausgewählten Dateien dem FormData-Objekt hinzu
+					for (var i = 0; i < files.length; i++) {
+						formData.append('files[]', files[i]);
+					}
+
+					// Extrahieren Sie die application_id aus dem URL-Parameter
+					var urlParams = new URLSearchParams(window.location.search);
+					var applicationId = urlParams.get('id');
+			
+					// Fügen Sie die application_id dem FormData-Objekt hinzu
+					formData.append('application_id', applicationId);
+					formData.append('action', 'add_files');
+					$.ajax({
+						type: 'POST',
+						url: your_script_vars.ajaxurl,
+						data: formData,
+						processData: false, // Daten nicht verarbeiten (wichtig für FormData)
+						contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
+						success: function (response) {
+							console.log(response); // Anzeigen der Antwortmeldung // Formular zurücksetzen
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});
+				});
+		});
 		
 	})
 
