@@ -59,30 +59,23 @@
     
             // Stellen abrufen
             $candidates = $temp_db->get_results( $query );
-    
-            // Überprüfen, ob Jobs vorhanden sind
-            if ( $candidates ) {
 
-                foreach ( $candidates as $candidate ) {
-                    $job_id = $candidate->job_id;
+            foreach ( $candidates as $candidate ) {
+                $job_id = $candidate->job_id;
 
-                    foreach ( $jobs as $job ) {
-                        if ( $job->ID == $job_id ) {
-                            $job_title = $job->job_title;
-                            break;
-                        }
+                foreach ( $jobs as $job ) {
+                    if ( $job->ID == $job_id ) {
+                        $job_title = $job->job_title;
+                        break;
                     }
-
-                    $candidate->job_title = $job_title;
                 }
-                // Tabelle aus Vorlagendatei einfügen
-                ob_start();
-                include plugin_dir_path( __FILE__ ) . 'templates/candidates-table-template.php';
-                $output = ob_get_clean();
-            } else {
-                // Keine Jobs gefunden, Nachricht ausgeben
-                $output = '<div class="alert alert-info" role="alert">Es wurden keine Stellen gefunden.</div>';
+
+                $candidate->job_title = $job_title;
             }
+            // Tabelle aus Vorlagendatei einfügen
+            ob_start();
+            include plugin_dir_path( __FILE__ ) . 'templates/candidates-table-template.php';
+            $output = ob_get_clean();
     
             return $output;
         } else {

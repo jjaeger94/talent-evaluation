@@ -11,29 +11,33 @@
     function show_tasks_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
         if ( current_user_can( 'dienstleister' ) ) {
+
+            $selected_tasks = isset( $_GET['filter_tasks'] ) ? sanitize_text_field( $_GET['filter_tasks'] ) : null;
             // Erfassen Sie die in den Optionen gespeicherten Daten
             $temp_db = open_database_connection();
+
+            $filter = '';
+
+            if ( $selected_tasks ) {
+                $filter = "WHERE state = '{$selected_tasks}'";
+            }
 
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
                 SELECT *
                 FROM {$temp_db->prefix}applications
+                {$filter}
                 ORDER BY added DESC
             " );
     
             // Stellen abrufen
             $candidates = $temp_db->get_results( $query );
     
-            // Überprüfen, ob Jobs vorhanden sind
-            if ( $candidates ) {
-                // Tabelle aus Vorlagendatei einfügen
-                ob_start();
-                include plugin_dir_path( __FILE__ ) . 'templates/tasks-table-template.php';
-                $output = ob_get_clean();
-            } else {
-                // Keine Jobs gefunden, Nachricht ausgeben
-                $output = '<div class="alert alert-info" role="alert">Es wurden keine Aufgaben gefunden.</div>';
-            }
+            // Tabelle aus Vorlagendatei einfügen
+            ob_start();
+            include plugin_dir_path( __FILE__ ) . 'templates/tasks-table-template.php';
+            $output = ob_get_clean();
+
     
             return $output;
         } else {
@@ -52,17 +56,13 @@
                 $application_id = intval( $_GET['id'] );
 
                 $application = get_application_by_id($application_id);
-                if ( $application ) {
 
-                    $job = get_job_by_id($application->job_id);
-                    // Tabelle aus Vorlagendatei einfügen
-                    ob_start();
-                    include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';
-                    $output = ob_get_clean();
-                } else {
-                    // Keine Bewerbungsdetails gefunden, Nachricht ausgeben
-                    $output = '<div class="alert alert-info" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>';
-                }
+                $job = get_job_by_id($application->job_id);
+                // Tabelle aus Vorlagendatei einfügen
+                ob_start();
+                include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';
+                $output = ob_get_clean();
+
 
                 return $output;
             } else {
