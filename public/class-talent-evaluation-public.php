@@ -64,6 +64,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_add_files',  array($this, 'handle_file_upload'));
 		add_action('wp_ajax_change_state',  array($this, 'handle_change_state'));
 		add_action('wp_ajax_nopriv_change_state',  array($this, 'handle_change_state'));
+		add_action('wp_ajax_start_review',  array($this, 'handle_start_review'));
+		add_action('wp_ajax_nopriv_start_review',  array($this, 'handle_start_review'));
 	}
 	
 	function process_candidate_form() {
@@ -134,6 +136,34 @@ class Talent_Evaluation_Public {
 		wp_die();
 	}
 
+	function handle_start_review(){
+		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
+		}
+	
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_POST['state'])) {
+			wp_send_json_error('Es wurden kein State übergeben.');
+		}
+	
+		// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+		if (!isset($_POST['application_id'])) {
+			wp_send_json_error('Die Anwendungs-ID fehlt.');
+		}
+	
+		$application_id = $_POST['application_id'];
+
+		$state = $_POST['state'];
+
+		add_review_to_application($application_id);
+		
+		update_application_state($application_id, $state );
+
+		wp_send_json_success('Status erfolgreich geändert.');
+		wp_die();
+	}
+
 	function handle_change_state() {
 		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
 		if (!current_user_can('dienstleister')) {
@@ -154,27 +184,7 @@ class Talent_Evaluation_Public {
 
 		$state = $_POST['state'];
 		
-		$temp_db = open_database_connection();
-		// Tabellenname für Bewerbungen
-		$table_name = $temp_db->prefix . 'applications';
-	
-		// Daten zum Aktualisieren
-		$data = array('state' => $state);
-	
-		// Bedingung für die Aktualisierung
-		$where = array('ID' => $application_id);
-	
-		// Aktualisieren der Daten in der Datenbank
-		$temp_db->update($table_name, $data, $where);
-	
-		// Überprüfen, ob ein Fehler aufgetreten ist
-		if ($temp_db->last_error !== '') {
-			wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
-		}
-		
-		$log = 'Status zu "'.$state.'" geändert';
-
-		create_backlog_entry($application_id, $log);
+		update_application_state($application_id, $state );
 
 		wp_send_json_success('Status erfolgreich geändert.');
 		wp_die();
@@ -240,7 +250,8 @@ class Talent_Evaluation_Public {
 			$target_file = $upload_path . $file_name;
 	
 			if (move_uploaded_file($_FILES['files']['tmp_name'][$key], $target_file)) {
-				// Erfolgreich hochgeladen
+				$log = 'Datei '.$file_name.' hinzugefügt';
+				create_backlog_entry($application_id, $log);
 			} else {
 				wp_send_json_error('Fehler beim Hochladen der Datei ' . $file_name);
 			}

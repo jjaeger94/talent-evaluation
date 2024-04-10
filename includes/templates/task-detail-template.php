@@ -7,7 +7,17 @@
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <?php if ($application->state == 'new') : ?>
-                    <button id="review-btn" class="btn btn-success" value="in_progress">Prüfung starten</button>
+                    <button id="review-btn-start" class="btn btn-success" value="in_progress">Prüfung starten</button>
+                <?php endif; ?>
+                <?php if ($application->state == 'in_progress') : ?>
+                    <button id="review-btn" class="btn btn-success" value="waiting">Prüfung pausieren</button>
+                    <button id="review-btn" class="btn btn-success" value="finished">Prüfung beenden</button>
+                <?php endif; ?>
+                <?php if ($application->state == 'waiting') : ?>
+                    <button id="review-btn" class="btn btn-success" value="in_progress">Prüfung fortsetzen</button>
+                <?php endif; ?>
+                <?php if ($application->state == 'finished') : ?>
+                    <button id="review-btn" class="btn btn-success" value="waiting">Prüfung erneut starten</button>
                 <?php endif; ?>
                 <!-- Weitere Aktionen je nach Status hier einfügen -->
             </div>

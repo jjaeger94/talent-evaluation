@@ -226,6 +226,7 @@ function get_backlogs_by_application( $application ) {
         SELECT *
         FROM {$temp_db->prefix}backlogs
         WHERE application_id = %d
+        ORDER BY added DESC
     ", $application->ID );
 
     // Bewerbungsdetails abrufen
@@ -234,6 +235,7 @@ function get_backlogs_by_application( $application ) {
 }
 
 function create_backlog_entry($application_id, $log){
+    $user_id = get_current_user_id();
     $temp_db = open_database_connection();
 
     $table_name = $temp_db->prefix . 'backlogs';
@@ -241,16 +243,78 @@ function create_backlog_entry($application_id, $log){
     $result = $temp_db->insert(
         $table_name,
         array(
-            'application_id' => $application_id, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+            'application_id' => $application_id, 
+            'user_id' => $user_id,
             'log' => $log,
-            // Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
         ),
         array(
             '%d',
+            '%d',
             '%s',
-            // Fügen Sie hier weitere Formatierungen hinzu, falls erforderlich
         )
     );
+}
+
+function update_application_state($application_id, $state){
+    $temp_db = open_database_connection();
+    // Tabellenname für Bewerbungen
+    $table_name = $temp_db->prefix . 'applications';
+
+    // Daten zum Aktualisieren
+    $data = array('state' => $state);
+
+    // Bedingung für die Aktualisierung
+    $where = array('ID' => $application_id);
+
+    // Aktualisieren der Daten in der Datenbank
+    $temp_db->update($table_name, $data, $where);
+    
+    $log = 'Status zu "'.$state.'" geändert';
+
+    create_backlog_entry($application_id, $log);
+}
+
+function add_review_to_application($application_id){
+    $application = get_application_by_id($application_id);
+
+    if(!$application){
+        return null;
+    }else if($application->review_id){
+        return $application->review_id;
+    }else{
+        $temp_db = open_database_connection();
+        // Tabellenname für Bewerbungen
+        $table_name = $temp_db->prefix . 'reviews';
+
+        $result = $temp_db->insert(
+            $table_name,
+            array(
+                'application_id' => $application_id
+            ),
+            array(
+                '%d'
+            )
+        );
+        if($result){
+            // Tabellenname für Bewerbungen
+            $table_name = $temp_db->prefix . 'applications';
+
+            // Daten zum Aktualisieren
+            $data = array('review_id' => $result);
+
+            // Bedingung für die Aktualisierung
+            $where = array('ID' => $application_id);
+
+            // Aktualisieren der Daten in der Datenbank
+            $temp_db->update($table_name, $data, $where);
+
+            $log = 'Prüfung begonnen';
+
+            create_backlog_entry($application_id, $log);
+        }else{
+            return null;
+        }
+    }
 }
 
 run_talent_evaluation();
