@@ -217,6 +217,24 @@ class Talent_Evaluation_Public {
 				$log = 'Background Screening '.$text;
 			
 				create_backlog_entry($application_id, $log);
+			}else if($type == 'commitment'){
+				// Daten zum Aktualisieren
+				$data = array('commitment' => $value);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $application->review_id);
+			
+				// Aktualisieren der Daten in der Datenbank
+				$temp_db->update($table_name, $data, $where);
+				$log = '';
+				if($value > 0){
+					$log = 'Commitment gesetzt auf '.$text;
+				}else{
+					$log = 'Commitment '.$text;
+				}
+				
+			
+				create_backlog_entry($application_id, $log);
 			}
 
 			wp_send_json_success('Status erfolgreich geändert.');

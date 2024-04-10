@@ -210,7 +210,12 @@ function update_application_filepath($application_id, $file_directory){
 }
 
 function get_review_by_application($application){
-    if ( !current_user_can( 'dienstleister' ) ) {
+    if ( current_user_can( 'firmenkunde' ) ) {
+        $user_id = get_current_user_id();
+        if ($application->user_id != $user_id){
+            return null;
+        }
+    } else if ( !current_user_can( 'dienstleister' ) ) {
         return null;
     }
     //Datenbankverbindung öffnen
@@ -316,11 +321,13 @@ function add_review_to_application($application_id){
             )
         );
         if($result){
+            //get id 
+            $lastid = $temp_db->insert_id;
             // Tabellenname für Bewerbungen
             $table_name = $temp_db->prefix . 'applications';
 
             // Daten zum Aktualisieren
-            $data = array('review_id' => $result);
+            $data = array('review_id' => $lastid);
 
             // Bedingung für die Aktualisierung
             $where = array('ID' => $application_id);
@@ -331,6 +338,7 @@ function add_review_to_application($application_id){
             $log = 'Prüfung begonnen';
 
             create_backlog_entry($application_id, $log);
+            return $lastid;
         }else{
             return null;
         }

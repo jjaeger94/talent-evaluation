@@ -268,6 +268,39 @@
 			});
 		});	
 
+		$('.commitment-btn').click(function() {
+			// Extrahieren Sie die application_id aus dem URL-Parameter
+			var urlParams = new URLSearchParams(window.location.search);
+			var applicationId = urlParams.get('id');
+			var requestData = {
+				action: 'set_review',
+				application_id: applicationId,
+				value: $(this).val(),
+				text: $(this).text(),
+				type: 'commitment'
+			};
+		
+			$.ajax({
+				type: 'POST',
+				url: your_script_vars.ajaxurl,
+				data: requestData,
+				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
+				success: function(response) {
+					if (response.success) {
+						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
+						location.reload();
+					} else {
+						// Fehler bei der Aktualisierung
+						alert('Fehler beim Starten der Bearbeitung');
+					}
+				},
+				error: function(xhr, status, error) {
+					// AJAX-Fehler
+					console.error('AJAX-Fehler:', error);
+				}
+			});
+		});	
+
 	})
 
 })( jQuery );

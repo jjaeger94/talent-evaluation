@@ -29,6 +29,8 @@
             <hr>
             <?php include 'screening-template.php'; ?>
             <hr>
+            <?php include 'commitment-template.php'; ?>
+            <hr>
         <?php endif; ?>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php include 'file-template.php'; ?>
