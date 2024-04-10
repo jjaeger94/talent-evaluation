@@ -212,6 +212,36 @@
 			});
 		});	
 
+		$('#classification').change(function() {
+			var urlParams = new URLSearchParams(window.location.search);
+			var applicationId = urlParams.get('id'); // Hier sollten Sie die Anwendungs-ID dynamisch erhalten
+			var option = $('option:selected', this);
+			var comment;
+			if(option.data('comment')){
+				comment = prompt("Bitte geben Sie einen Kommentar ein:");
+			}
+			$.ajax({
+				type: 'POST',
+				url: your_script_vars.ajaxurl, // Die URL Ihrer PHP-Datei zum Speichern der Einordnung
+				data: {
+					action: 'set_classification', 
+					value: option.val(), 
+					application_id: applicationId,
+					text: option.text(),
+					comment: comment
+				},
+				success: function(response) {
+					// Erfolgreich gespeichert
+					console.log('Einordnung erfolgreich gespeichert');
+					location.reload();
+				},
+				error: function(xhr, status, error) {
+					// Fehler beim Speichern
+					console.error('Fehler beim Speichern der Einordnung:', error);
+				}
+			});
+		});
+		
 	})
 
 })( jQuery );

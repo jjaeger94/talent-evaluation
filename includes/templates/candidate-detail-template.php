@@ -10,9 +10,9 @@
             <div class="col-md-6">
                 <p><strong>Einordnung:</strong>
                     <select class="form-control" id="classification" name="classification">
-                        <option value="0">Automatische Einordnung</option>
-                        <option value="1">Manuell positiv</option>
-                        <option value="2">Manuell negativ</option>
+                        <option value="0" <?php echo ($application->classification == 0) ? 'selected' : ''; ?>>Automatische Einordnung</option>
+                        <option data-comment="true" value="1" <?php echo ($application->classification == 1) ? 'selected' : ''; ?>>Manuell positiv</option>
+                        <option data-comment="true" value="2" <?php echo ($application->classification == 2) ? 'selected' : ''; ?>>Manuell negativ</option>
                     </select>
                 </p>
             </div>
@@ -21,7 +21,8 @@
         <br>
         <p><strong>Ergebnis der Prüfung:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
         <hr>
-        <p><strong>Ergebnis Commitment Test:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
+        <p><strong>Ergebnis Commitment Test:</strong><br>
+            <?php echo esc_html( $prüfungsergebnis ); ?></p>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php

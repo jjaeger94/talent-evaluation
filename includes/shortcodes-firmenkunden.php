@@ -129,6 +129,35 @@ function get_candidate_count_for_job($job_id) {
 return $candidate_count;
 }
 
+function get_ongoing_application_count_for_job($job_id) {
+    $temp_db = open_database_connection();
+
+    // Tabellenname für die Bewerbungen
+    $table_name = $temp_db->prefix . 'applications';
+
+    // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
+    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state != 'finished'", $job_id);
+
+    // Anzahl der Kandidaten abrufen
+    $candidate_count = $temp_db->get_var($query);
+
+return $candidate_count;
+}
+
+function get_finished_application_count_for_job($job_id) {
+    $temp_db = open_database_connection();
+
+    // Tabellenname für die Bewerbungen
+    $table_name = $temp_db->prefix . 'applications';
+
+    // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
+    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'finished'", $job_id);
+
+    // Anzahl der Kandidaten abrufen
+    $candidate_count = $temp_db->get_var($query);
+
+return $candidate_count;
+}
 
 function show_jobs_table() {    
     // Überprüfen, ob der Benutzer eingeloggt ist
@@ -181,6 +210,10 @@ function render_candidate_details_shortcode() {
             if ( $application ) {
 
                 $job = get_job_by_id($application->job_id);
+
+                if ($application->review_id) {
+                    $review = get_review_by_application($application);
+                }
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/candidate-detail-template.php';

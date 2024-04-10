@@ -68,6 +68,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_start_review',  array($this, 'handle_start_review'));
 		add_action('wp_ajax_set_review',  array($this, 'handle_set_review'));
 		add_action('wp_ajax_nopriv_set_review',  array($this, 'handle_set_review'));
+		add_action('wp_ajax_set_classification',  array($this, 'handle_set_classification'));
+		add_action('wp_ajax_nopriv_set_classification',  array($this, 'handle_set_classification'));
 	}
 	
 	function process_candidate_form() {
@@ -138,6 +140,54 @@ class Talent_Evaluation_Public {
 		wp_die();
 	}
 
+	function handle_set_classification(){
+		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+		if (!current_user_can('firmenkunde')) {
+			wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
+		}
+	
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_POST['value'])) {
+			wp_send_json_error('Es wurden kein Value übergeben.');
+		}
+
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_POST['text'])) {
+			wp_send_json_error('Es wurden kein Text übergeben.');
+		}
+
+		// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+		if (!isset($_POST['application_id'])) {
+			wp_send_json_error('Die Anwendungs-ID fehlt.');
+		}
+
+		$user_id = get_current_user_id();
+
+		$application_id = $_POST['application_id'];
+		
+		$value = $_POST['value'];
+
+		$text = $_POST['text'];
+
+		$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
+
+		$table_name = $temp_db->prefix . 'applications';
+
+		$temp_db = open_database_connection();
+
+		$data = array('classification' => $value);
+			
+		// Bedingung für die Aktualisierung
+		$where = array('ID' => $application_id, 'user_id' => $user_id);
+	
+		// Aktualisieren der Daten in der Datenbank
+		$temp_db->update($table_name, $data, $where);
+		
+		$log = 'Einordnung gesetzt auf: '.$text;
+	
+		create_backlog_entry($application_id, $log, $comment);
+	}
+
 	function handle_set_review(){
 			// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
 			if (!current_user_can('dienstleister')) {
@@ -175,6 +225,10 @@ class Talent_Evaluation_Public {
 			$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
 
 			$application = get_application_by_id($application_id);
+
+			if(!$application){
+				wp_send_json_error('Keine Berechtigung');
+			}
 
 			$temp_db = open_database_connection();
 			// Tabellenname für Bewerbungen

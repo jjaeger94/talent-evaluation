@@ -1,4 +1,4 @@
-hier können die befehle für die Tabellen abgelegt werden
+hier können die befehle für die Tabellen abgelegt werden commitIQ muss durch den Namen der Datenbank ausgetauscht werden
 
 Tabelle jobs:
 
