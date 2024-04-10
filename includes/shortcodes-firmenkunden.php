@@ -13,7 +13,7 @@
     function add_job_form_shortcode() {
         if ( current_user_can( 'firmenkunde' ) ) {
             ob_start();
-            include( plugin_dir_path( __FILE__ ) . 'templates/job-form.php' );
+            include( plugin_dir_path( __FILE__ ) . 'templates/forms/job-form.php' );
             return ob_get_clean();
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
@@ -24,7 +24,7 @@
         if ( current_user_can( 'firmenkunde' ) ) {
             $jobs = get_active_jobs();
             ob_start();
-            include plugin_dir_path( __FILE__ ) . 'templates/create-application-form.php';
+            include plugin_dir_path( __FILE__ ) . 'templates/forms/create-application-form.php';
             return ob_get_clean();
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';

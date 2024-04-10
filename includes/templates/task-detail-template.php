@@ -20,24 +20,24 @@
             </div>
         </div>
         <hr>
-        <?php include 'job-info-template.php'; ?>
+        <?php include 'blocks/job-info-template.php'; ?>
         <hr>
         <?php if ($application->review_id) : ?>
-            <?php include 'criteria-template.php'; ?>
+            <?php include 'blocks/criteria-template.php'; ?>
             <hr>
-            <?php include 'completeness-template.php'; ?>
+            <?php include 'blocks/completeness-template.php'; ?>
             <hr>
-            <?php include 'screening-template.php'; ?>
+            <?php include 'blocks/screening-template.php'; ?>
             <hr>
-            <?php include 'commitment-template.php'; ?>
+            <?php include 'blocks/commitment-template.php'; ?>
             <hr>
         <?php endif; ?>
         <p><strong>Hochgeladene Dateien:</strong></p>
-        <?php include 'file-template.php'; ?>
+        <?php include 'blocks/file-template.php'; ?>
         <button id="add-files-button" class="btn btn-primary">Dateien hinzufügen</button>
         <hr>
         <p><strong>Backlog:</strong></p>
-        <?php include 'backlog-template.php'; ?>
+        <?php include 'blocks/backlog-template.php'; ?>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
