@@ -20,17 +20,20 @@
         <hr>
         <br>
         <p><strong>Ergebnis der Prüfung:</strong><br>
-        <tr>
-        <td class="align-middle">
-            <?php include 'columns/criteria.php'; ?>
-        </td>
-        <td class="align-middle">
-            <?php include 'columns/completeness.php'; ?>
-        </td>
-        <td class="align-middle">
-            <?php include 'columns/screening.php'; ?>
-        </td>
-        </tr>
+        <div class="row">
+            <div class="col-md-4">
+                Kriterien:
+                <?php include 'columns/criteria.php'; ?>
+            </div>
+            <div class="col-md-4">
+                Vollständigkeit:
+                <?php include 'columns/completeness.php'; ?>
+            </div>
+            <div class="col-md-4">
+                Screening:
+                <?php include 'columns/screening.php'; ?>
+            </div>
+        </div>
         </p>
         <hr>
         <p><strong>Ergebnis Commitment Test:</strong><br>
