@@ -42,6 +42,9 @@
             echo '<p>Keine Dateien hochgeladen.</p>';
         }
         ?>
+        <hr>
+        <p><strong>Backlog:</strong></p>
+        <?php include 'backlog-template.php'; ?>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>

@@ -172,6 +172,8 @@ class Talent_Evaluation_Public {
 
 			$value = $_POST['value'];
 
+			$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
+
 			$application = get_application_by_id($application_id);
 
 			$temp_db = open_database_connection();
@@ -190,7 +192,7 @@ class Talent_Evaluation_Public {
 				
 				$log = 'Kriterien '.$text;
 			
-				create_backlog_entry($application_id, $log);
+				create_backlog_entry($application_id, $log, $comment);
 			}else if($type == 'completeness'){
 				// Daten zum Aktualisieren
 				$data = array('completeness' => $value);
@@ -203,7 +205,7 @@ class Talent_Evaluation_Public {
 				
 				$log = 'Vollständigkeit '.$text;
 			
-				create_backlog_entry($application_id, $log);
+				create_backlog_entry($application_id, $log, $comment);
 			}else if($type == 'screening'){
 				// Daten zum Aktualisieren
 				$data = array('screening' => $value);
@@ -216,7 +218,7 @@ class Talent_Evaluation_Public {
 				
 				$log = 'Background Screening '.$text;
 			
-				create_backlog_entry($application_id, $log);
+				create_backlog_entry($application_id, $log, $comment);
 			}else if($type == 'commitment'){
 				// Daten zum Aktualisieren
 				$data = array('commitment' => $value);
@@ -228,13 +230,13 @@ class Talent_Evaluation_Public {
 				$temp_db->update($table_name, $data, $where);
 				$log = '';
 				if($value > 0){
-					$log = 'Commitment gesetzt auf '.$text;
+					$log = 'Commitment Test Ergebnis '.$text;
 				}else{
 					$log = 'Commitment '.$text;
 				}
 				
 			
-				create_backlog_entry($application_id, $log);
+				create_backlog_entry($application_id, $log, $comment);
 			}
 
 			wp_send_json_success('Status erfolgreich geändert.');
@@ -288,8 +290,10 @@ class Talent_Evaluation_Public {
 		$application_id = $_POST['application_id'];
 
 		$state = $_POST['state'];
+
+		$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
 		
-		update_application_state($application_id, $state );
+		update_application_state($application_id, $state, $comment);
 
 		wp_send_json_success('Status erfolgreich geändert.');
 		wp_die();

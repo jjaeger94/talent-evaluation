@@ -32,6 +32,12 @@
     
             // Stellen abrufen
             $candidates = $temp_db->get_results( $query );
+
+            foreach ( $candidates as $candidate ) {
+                if ($candidate->review_id) {
+                    $candidate->review = get_review_by_application($candidate);
+                }
+            }
     
             // Tabelle aus Vorlagendatei einfügen
             ob_start();

@@ -12,15 +12,15 @@
     <div class="col-md-8 d-flex justify-content-center align-items-center">
         <?php if ($review->commitment == -1) : ?>
             <!-- Wenn die Prüfung noch nicht gestartet wurde -->
-            <button class="btn btn-success commitment-btn" value="0">Prüfung starten</button>
+            <button class="btn btn-success set-review-btn" data-type="commitment" value="0">Prüfung starten</button>
         <?php elseif ($review->commitment == 0) : ?>
             <!-- Wenn die Prüfung gestartet, aber noch nicht bewertet wurde -->
             <?php for ($i = 1; $i <= 10; $i++) : ?>
-                <button class="btn btn-primary commitment-btn" value="<?php echo $i; ?>"><?php echo $i; ?></button>
+                <button class="btn btn-primary set-review-btn" data-type="commitment" value="<?php echo $i; ?>"><?php echo $i; ?></button>
             <?php endfor; ?>
         <?php elseif ($review->commitment > 0) : ?>
             <!-- Wenn die Prüfung bewertet wurde -->
-            <button class="btn btn-success commitment-btn" value="0">Zurücksetzen</button>
+            <button class="btn btn-success set-review-btn" data-comment="true" data-type="commitment" value="0">Zurücksetzen</button>
         <?php endif; ?>
     </div>
 </div>

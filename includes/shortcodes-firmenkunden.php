@@ -72,17 +72,10 @@
 
                 $candidate->job_title = $job_title;
 
-                // Initialisieren Sie $review innerhalb der Schleife, um sicherzustellen, dass es für jeden Kandidaten neu gesetzt wird
-                $review = null;
-
                 if ($candidate->review_id) {
-                    $review = get_review_by_application($candidate);
+                    $candidate->review = get_review_by_application($candidate);
                 }
 
-                // Überprüfen Sie, ob ein Review gefunden wurde, bevor Sie es zuweisen
-                if ($review) {
-                    $candidate->review = $review;
-                }
             }
             // Tabelle aus Vorlagendatei einfügen
             ob_start();

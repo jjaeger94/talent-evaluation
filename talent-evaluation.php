@@ -259,7 +259,7 @@ function get_backlogs_by_application( $application ) {
 
 }
 
-function create_backlog_entry($application_id, $log){
+function create_backlog_entry($application_id, $log, $comment = ''){
     $user_id = get_current_user_id();
     $temp_db = open_database_connection();
 
@@ -271,16 +271,18 @@ function create_backlog_entry($application_id, $log){
             'application_id' => $application_id, 
             'user_id' => $user_id,
             'log' => $log,
+            'comment' => $comment,
         ),
         array(
             '%d',
             '%d',
             '%s',
+            '%s',
         )
     );
 }
 
-function update_application_state($application_id, $state){
+function update_application_state($application_id, $state, $comment = ''){
     $temp_db = open_database_connection();
     // Tabellenname für Bewerbungen
     $table_name = $temp_db->prefix . 'applications';
@@ -296,7 +298,7 @@ function update_application_state($application_id, $state){
     
     $log = 'Status zu "'.$state.'" geändert';
 
-    create_backlog_entry($application_id, $log);
+    create_backlog_entry($application_id, $log, $comment);
 }
 
 function add_review_to_application($application_id){

@@ -29,7 +29,7 @@
     </div>
     <div class="form-group mb-3">
         <label for="resume">Bewerberdokumente:</label>
-        <input class="form-control" type="file" name="resumes[]" id="resume" multiple accept="application/pdf">
+        <input class="form-control" type="file" name="resumes[]" id="resume" multiple accept="application/pdf" required>
     </div>
     <button type="submit" class="btn btn-primary">Kandidat erstellen</button>
 </form>

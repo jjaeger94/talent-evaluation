@@ -1,9 +1,10 @@
 <div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
-                <th>Datum und Uhrzeit</th>
-                <th>Log Eintrag</th>
+                <th scope="col">Datum und Uhrzeit</th>
+                <th scope="col">Ereignis</th>
+                <th scope="col">Kommentar</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                     echo '<tr>';
                     echo '<td>' . $entry->added . '</td>';
                     echo '<td>' . $entry->log . '</td>';
+                    echo '<td>' . $entry->comment . '</td>';
                     echo '</tr>';
                 }
             }
@@ -26,6 +28,7 @@
             echo '<tr>';
             echo '<td>' . $application->added . '</td>';
             echo '<td>Bewerbung angelegt</td>';
+            echo '<td></td>';
             echo '</tr>';
             ?>
         </tbody>
