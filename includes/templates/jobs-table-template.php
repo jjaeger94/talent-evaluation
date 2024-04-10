@@ -17,7 +17,7 @@
                         <?php echo $job->location; ?><br>
                         Erstellt am: <?php echo date('d.m.Y', strtotime($job->added)); ?> <!-- Nur das Datum anzeigen -->
                     </td>
-                    <td class="align-middle"><?php echo get_candidate_count_for_job($job->ID); ?></td>
+                    <td class="align-middle"><?php echo get_application_count_for_job($job->ID); ?></td>
                     <td class="align-middle"><?php echo get_ongoing_application_count_for_job($job->ID); ?></td>
                     <td class="align-middle"><?php echo get_finished_application_count_for_job($job->ID); ?></td>
                     <td class="align-middle"><?php echo $job->state == 'active' ? 'aktiv' : 'inaktiv'; ?></td>

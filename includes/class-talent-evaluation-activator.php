@@ -57,27 +57,27 @@ class Talent_Evaluation_Activator {
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
-				'title' => 'Kandidaten',
-				'content' => 'Kandidaten',
-				'slug' => 'kandidaten',
+				'title' => 'Bewerber',
+				'content' => '[show_applications]',
+				'slug' => 'bewerber',
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
 				'title' => 'Kandidat hinzufügen',
-				'content' => '[create_candidate_form]',
+				'content' => '[create_application_form]',
 				'slug' => 'kandidaten-hinzufuegen',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Aufgaben Details',
+				'content' => '[task_details]',
+				'slug' => 'task-details',
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
 				'title' => 'Bewerbungs Details',
 				'content' => '[application_details]',
 				'slug' => 'bewerbung-details',
-				'template' => '', // optional: Vorlage für die Seite
-			),
-			array(
-				'title' => 'Kandidaten Details',
-				'content' => '[candidate_details]',
-				'slug' => 'kandidaten-details',
 				'template' => '', // optional: Vorlage für die Seite
 			)
 		);

@@ -43,10 +43,10 @@
 			});
 		});
 
-		$('#candidate-form').submit(function (event) {
+		$('#application-form').submit(function (event) {
 			event.preventDefault();
 			var formData = new FormData(this); // FormData-Objekt erstellen und das Formular übergeben
-			formData.append('action', 'add_candidate');
+			formData.append('action', 'add_application');
 			$.ajax({
 				type: 'POST',
 				url: your_script_vars.ajaxurl,
@@ -55,7 +55,7 @@
 				contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
 				success: function (response) {
 					$('#message').html(response); // Anzeigen der Antwortmeldung
-					$('#candidate-form')[0].reset(); // Formular zurücksetzen
+					$('#application-form')[0].reset(); // Formular zurücksetzen
 				},
 				error: function (xhr, status, error) {
 					console.error(xhr.responseText);

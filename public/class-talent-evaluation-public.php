@@ -58,8 +58,8 @@ class Talent_Evaluation_Public {
 	private function register_public_requests(){
 		add_action('wp_ajax_add_job', array($this, 'process_job_form'));
 		add_action('wp_ajax_nopriv_add_job', array($this, 'process_job_form'));
-		add_action('wp_ajax_add_candidate', array($this, 'process_candidate_form'));
-		add_action('wp_ajax_nopriv_add_candidate', array($this, 'process_candidate_form'));
+		add_action('wp_ajax_add_application', array($this, 'process_application_form'));
+		add_action('wp_ajax_nopriv_add_application', array($this, 'process_application_form'));
 		add_action('wp_ajax_add_files',  array($this, 'handle_file_upload'));
 		add_action('wp_ajax_nopriv_add_files',  array($this, 'handle_file_upload'));
 		add_action('wp_ajax_change_state',  array($this, 'handle_change_state'));
@@ -72,7 +72,7 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_set_classification',  array($this, 'handle_set_classification'));
 	}
 	
-	function process_candidate_form() {
+	function process_application_form() {
 		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
 			$applicationDir = '';
 			// Überprüfen, ob Dateien hochgeladen wurden

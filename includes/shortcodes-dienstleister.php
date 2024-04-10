@@ -4,7 +4,7 @@
      */
     function register_shortcodes_dienstleister() {
         add_shortcode( 'show_tasks', 'show_tasks_table' );
-        add_shortcode( 'application_details', 'render_application_details_shortcode' );
+        add_shortcode( 'task_details', 'render_task_details_shortcode' );
     }
 
     // Kurzer Shortcode zum Anzeigen der Kandidatentabelle
@@ -31,11 +31,11 @@
             " );
     
             // Stellen abrufen
-            $candidates = $temp_db->get_results( $query );
+            $applications = $temp_db->get_results( $query );
 
-            foreach ( $candidates as $candidate ) {
-                if ($candidate->review_id) {
-                    $candidate->review = get_review_by_application($candidate);
+            foreach ( $applications as $application ) {
+                if ($application->review_id) {
+                    $application->review = get_review_by_application($application);
                 }
             }
     
@@ -52,8 +52,7 @@
     }
 
     // Funktion zum Rendern des Bewerbungsdetail-Shortcodes
-    function render_application_details_shortcode() {
-        $prüfungsergebnis = 'Prüfung läuft...';
+    function render_task_details_shortcode() {
         // Überprüfen, ob der Benutzer eingeloggt ist und Berechtigung hat
         if ( current_user_can( 'dienstleister' ) ) {
             // Überprüfen, ob die ID-Parameter übergeben wurde

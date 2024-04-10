@@ -1,6 +1,6 @@
 <?php include 'filters/job-filter.php'; ?>
 <br>
-<?php if ( ! empty( $candidates ) ) : ?>
+<?php if ( ! empty( $applications ) ) : ?>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -14,13 +14,13 @@
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($candidates as $candidate) : ?>
+            <?php foreach ($applications as $application) : ?>
                 <tr>
                     <td class="align-middle">
-                        <strong><a href="<?php echo esc_url(home_url('/kandidaten-details?id=' . $candidate->ID)); ?>"><?php echo esc_html($candidate->prename . ' ' . $candidate->surname); ?></a></strong><br>
-                        <?php echo date('d.m.Y', strtotime($candidate->added)); ?> <!-- Bewerbungsdatum anzeigen -->
+                        <strong><a href="<?php echo esc_url(home_url('/bewerbung-details?id=' . $application->ID)); ?>"><?php echo esc_html($application->prename . ' ' . $application->surname); ?></a></strong><br>
+                        <?php echo date('d.m.Y', strtotime($application->added)); ?> <!-- Bewerbungsdatum anzeigen -->
                     </td>
-                    <td class="align-middle"><?php echo esc_html($candidate->job_title); ?></td>
+                    <td class="align-middle"><?php echo esc_html($application->job_title); ?></td>
                     <td class="align-middle">
                         <?php include 'columns/criteria.php'; ?>
                     </td>

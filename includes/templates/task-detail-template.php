@@ -1,5 +1,5 @@
 <?php if ( $application ) : ?>
-    <div class="candidate-details">
+    <div class="application-details">
         <div class="row">
             <div class="col-md-6">
                 <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>

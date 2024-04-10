@@ -1,6 +1,6 @@
-<?php if (!$candidate->review_id) : ?>
-<?php elseif ($candidate->review->commitment == -1) : ?>
+<?php if (!$application->review_id) : ?>
+<?php elseif ($application->review->commitment == -1) : ?>
 In Prüfung
 <?php else : ?>
-<?php echo esc_html($candidate->review->commitment) . ' / 10'; ?>
+<?php echo esc_html($application->review->commitment) . ' / 10'; ?>
 <?php endif; ?>

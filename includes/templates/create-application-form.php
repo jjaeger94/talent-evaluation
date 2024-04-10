@@ -1,4 +1,4 @@
-<form id="candidate-form" class="bootstrap-form" method="post" enctype="multipart/form-data">
+<form id="application-form" class="bootstrap-form" method="post" enctype="multipart/form-data">
     <div class="form-group mb-3">
         <label for="job_id">Stelle</label>
         <select class="form-control" id="job_id" name="job_id">

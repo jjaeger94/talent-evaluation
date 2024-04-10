@@ -1,5 +1,5 @@
 <?php if ( $application ) : ?>
-    <div class="candidate-details">
+    <div class="application-details">
         <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
         <p><?php echo esc_html( $application->email ); ?></p>
         <hr>
@@ -19,10 +19,23 @@
         </div>
         <hr>
         <br>
-        <p><strong>Ergebnis der Prüfung:</strong><br><?php echo esc_html( $prüfungsergebnis ); ?></p>
+        <p><strong>Ergebnis der Prüfung:</strong><br>
+        <tr>
+        <td class="align-middle">
+            <?php include 'columns/criteria.php'; ?>
+        </td>
+        <td class="align-middle">
+            <?php include 'columns/completeness.php'; ?>
+        </td>
+        <td class="align-middle">
+            <?php include 'columns/screening.php'; ?>
+        </td>
+        </tr>
+        </p>
         <hr>
         <p><strong>Ergebnis Commitment Test:</strong><br>
-            <?php echo esc_html( $prüfungsergebnis ); ?></p>
+            <?php include 'columns/commitment.php'; ?>
+        </p>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php
