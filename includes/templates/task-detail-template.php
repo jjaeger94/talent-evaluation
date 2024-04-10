@@ -8,16 +8,13 @@
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <?php if ($application->state == 'new') : ?>
                     <button id="review-btn-start" class="btn btn-success" value="in_progress">Prüfung starten</button>
-                <?php endif; ?>
-                <?php if ($application->state == 'in_progress') : ?>
-                    <button id="review-btn" class="btn btn-success" value="waiting">Prüfung pausieren</button>
-                    <button id="review-btn" class="btn btn-success" value="finished">Prüfung beenden</button>
-                <?php endif; ?>
-                <?php if ($application->state == 'waiting') : ?>
-                    <button id="review-btn" class="btn btn-success" value="in_progress">Prüfung fortsetzen</button>
-                <?php endif; ?>
-                <?php if ($application->state == 'finished') : ?>
-                    <button id="review-btn" class="btn btn-success" value="waiting">Prüfung erneut starten</button>
+                <?php elseif ($application->state == 'in_progress') : ?>
+                    <button class="btn btn-success review-btn" value="waiting">Prüfung pausieren</button>
+                    <button class="btn btn-success review-btn" value="finished">Prüfung beenden</button>
+                <?php elseif ($application->state == 'waiting') : ?>
+                    <button class="btn btn-success review-btn" value="in_progress">Prüfung fortsetzen</button>
+                <?php elseif ($application->state == 'finished') : ?>
+                    <button class="btn btn-success review-btn" value="waiting">Prüfung erneut starten</button>
                 <?php endif; ?>
                 <!-- Weitere Aktionen je nach Status hier einfügen -->
             </div>
@@ -25,6 +22,14 @@
         <hr>
         <?php include 'job-info-template.php'; ?>
         <hr>
+        <?php if ($application->review_id) : ?>
+            <?php include 'criteria-template.php'; ?>
+            <hr>
+            <?php include 'completeness-template.php'; ?>
+            <hr>
+            <?php include 'screening-template.php'; ?>
+            <hr>
+        <?php endif; ?>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php include 'file-template.php'; ?>
         <button id="add-files-button" class="btn btn-primary">Dateien hinzufügen</button>

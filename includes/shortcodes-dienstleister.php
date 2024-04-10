@@ -58,6 +58,11 @@
                 $application = get_application_by_id($application_id);
 
                 $job = get_job_by_id($application->job_id);
+                
+                if($application->review_id){
+                    $review = get_review_by_application($application);
+                }
+                
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';

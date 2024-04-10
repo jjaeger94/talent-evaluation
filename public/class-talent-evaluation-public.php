@@ -66,6 +66,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_change_state',  array($this, 'handle_change_state'));
 		add_action('wp_ajax_start_review',  array($this, 'handle_start_review'));
 		add_action('wp_ajax_nopriv_start_review',  array($this, 'handle_start_review'));
+		add_action('wp_ajax_set_review',  array($this, 'handle_set_review'));
+		add_action('wp_ajax_nopriv_set_review',  array($this, 'handle_set_review'));
 	}
 	
 	function process_candidate_form() {
@@ -134,6 +136,91 @@ class Talent_Evaluation_Public {
 			}
 		}
 		wp_die();
+	}
+
+	function handle_set_review(){
+			// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+			if (!current_user_can('dienstleister')) {
+				wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
+			}
+		
+			// Überprüfen Sie, ob Dateien gesendet wurden
+			if (!isset($_POST['value'])) {
+				wp_send_json_error('Es wurden kein Value übergeben.');
+			}
+
+			// Überprüfen Sie, ob Dateien gesendet wurden
+			if (!isset($_POST['text'])) {
+				wp_send_json_error('Es wurden kein Text übergeben.');
+			}
+
+			// Überprüfen Sie, ob Dateien gesendet wurden
+			if (!isset($_POST['type'])) {
+				wp_send_json_error('Es wurden kein Type übergeben.');
+			}
+		
+			// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+			if (!isset($_POST['application_id'])) {
+				wp_send_json_error('Die Anwendungs-ID fehlt.');
+			}
+		
+			$application_id = $_POST['application_id'];
+	
+			$text = $_POST['text'];
+
+			$type = $_POST['type'];
+
+			$value = $_POST['value'];
+
+			$application = get_application_by_id($application_id);
+
+			$temp_db = open_database_connection();
+			// Tabellenname für Bewerbungen
+			$table_name = $temp_db->prefix . 'reviews';
+		
+			if($type == 'criteria'){
+				// Daten zum Aktualisieren
+				$data = array('criteria' => $value);
+			
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $application->review_id);
+			
+				// Aktualisieren der Daten in der Datenbank
+				$temp_db->update($table_name, $data, $where);
+				
+				$log = 'Kriterien '.$text;
+			
+				create_backlog_entry($application_id, $log);
+			}else if($type == 'completeness'){
+				// Daten zum Aktualisieren
+				$data = array('completeness' => $value);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $application->review_id);
+			
+				// Aktualisieren der Daten in der Datenbank
+				$temp_db->update($table_name, $data, $where);
+				
+				$log = 'Vollständigkeit '.$text;
+			
+				create_backlog_entry($application_id, $log);
+			}else if($type == 'screening'){
+				// Daten zum Aktualisieren
+				$data = array('screening' => $value);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $application->review_id);
+			
+				// Aktualisieren der Daten in der Datenbank
+				$temp_db->update($table_name, $data, $where);
+				
+				$log = 'Background Screening '.$text;
+			
+				create_backlog_entry($application_id, $log);
+			}
+
+			wp_send_json_success('Status erfolgreich geändert.');
+			wp_die();
 	}
 
 	function handle_start_review(){

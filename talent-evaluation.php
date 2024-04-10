@@ -209,6 +209,26 @@ function update_application_filepath($application_id, $file_directory){
 	}
 }
 
+function get_review_by_application($application){
+    if ( !current_user_can( 'dienstleister' ) ) {
+        return null;
+    }
+    //Datenbankverbindung öffnen
+    $temp_db = open_database_connection();
+
+    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+    $query = $temp_db->prepare( "
+        SELECT *
+        FROM {$temp_db->prefix}reviews
+        WHERE ID = %d
+    ", $application->review_id );
+
+    // Bewerbungsdetails abrufen
+    $review = $temp_db->get_results( $query );
+
+    return ! empty( $review ) ? $review[0] : null;
+}
+
 function get_backlogs_by_application( $application ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();
