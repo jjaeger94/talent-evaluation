@@ -24,6 +24,9 @@
     function render_create_application_form() {
         if ( current_user_can( 'firmenkunde' ) ) {
             $jobs = get_active_jobs();
+            if (empty( $jobs )){
+                return '<div class="alert alert-info" role="alert">Bitte legen Sie zuerst eine Stelle an um einen Kandidaten hinzuzufügen.</div>';
+            }
             ob_start();
             include plugin_dir_path( __FILE__ ) . 'templates/forms/create-application-form.php';
             return ob_get_clean();
