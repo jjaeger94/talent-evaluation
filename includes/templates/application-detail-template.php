@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-6">
                 <p><strong>Einordnung:</strong>
-                    <select class="form-control" id="classification" name="classification">
+                    <select class="form-select" id="classification" name="classification">
                         <option value="0" <?php echo ($application->classification == 0) ? 'selected' : ''; ?>>Automatische Einordnung</option>
                         <option data-comment="true" value="1" <?php echo ($application->classification == 1) ? 'selected' : ''; ?>>Manuell positiv</option>
                         <option data-comment="true" value="2" <?php echo ($application->classification == 2) ? 'selected' : ''; ?>>Manuell negativ</option>

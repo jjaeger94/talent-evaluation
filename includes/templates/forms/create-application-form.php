@@ -1,7 +1,7 @@
 <form id="application-form" class="bootstrap-form" method="post" enctype="multipart/form-data">
     <div class="form-group mb-3">
         <label for="salutation"><strong>Anrede</strong></label>
-        <select class="form-control" id="salutation" name="salutation" required>
+        <select class="form-select" id="salutation" name="salutation" required>
             <option value="0">Nicht angegeben</option>
             <option value="1">Herr</option>
             <option value="2">Frau</option>
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group mb-3">
         <label for="job_id"><strong class="mr-2">Stelle</strong></label><?php echo info_button('application_form_job'); ?>
-        <select class="form-control" id="job_id" name="job_id">
+        <select class="form-select" id="job_id" name="job_id">
             <?php foreach ($jobs as $job) : ?>
                 <option value="<?php echo esc_attr($job->ID); ?>"><?php echo esc_html($job->job_title); ?></option>
             <?php endforeach; ?>

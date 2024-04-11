@@ -2,7 +2,7 @@
     <div class="form-group row">
         <div class="col-md-6">
             <label for="filter_tasks" class="col-form-label">Stelle:</label>
-            <select class="form-control" id="filter_tasks" name="filter_tasks">
+            <select class="form-select" id="filter_tasks" name="filter_tasks">
                 <option value="" <?php echo ($selected_tasks == '') ? 'selected' : ''; ?>>Alle anzeigen</option>
                 <option value="new" <?php echo ($selected_tasks == 'new') ? 'selected' : ''; ?>>Neu</option>
                 <option value="waiting" <?php echo ($selected_tasks == 'waiting') ? 'selected' : ''; ?>>In Wartestellung</option>
