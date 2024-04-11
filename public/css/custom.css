@@ -91,3 +91,21 @@ a{
 .green {
     background-color: green;
 }
+
+.info-button {
+display: inline-block;
+cursor: pointer;
+color: var(--secondary); /* Ändern Sie die Farbe nach Bedarf */
+font-size: 25px;
+margin: 10px;
+}
+
+/* Passen Sie die Größe des Popovers an */
+.popover {
+max-width: 300px;
+}
+
+.form-check-input:checked{
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}

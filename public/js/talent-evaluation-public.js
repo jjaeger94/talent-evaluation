@@ -293,6 +293,18 @@
 				}
 			});
 		});
+
+		$('[data-toggle="popover"]').popover();
+
+		// Event-Listener hinzufügen, um das Popover zu schließen, wenn außerhalb geklickt wird
+		$(document).on('click', function (e) {
+			// Überprüfen, ob das geklickte Element ein Popover ist oder innerhalb des Popovers liegt
+			if (!$(e.target).closest('.popover').length && !$(e.target).closest('[data-toggle="popover"]').length) {
+				// Schließen Sie alle geöffneten Popovers
+				$('[data-toggle="popover"]').popover('hide');
+			}
+		});
+
 		
 	})
 

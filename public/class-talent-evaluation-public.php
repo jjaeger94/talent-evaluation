@@ -575,7 +575,8 @@ class Talent_Evaluation_Public {
 		wp_localize_script( $this->talent_evaluation, 'your_script_vars', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' )
 		));
-		wp_enqueue_script('bootstrap-js', plugin_dir_url(__FILE__) . 'js/bootstrap.min.js', array('jquery'), '5.3.3', true);		
+		wp_enqueue_script('bootstrap-js', plugin_dir_url(__FILE__) . 'js/bootstrap.bundle.min.js', array('jquery'), '5.3.3', true);	
+		wp_enqueue_script('fontawesome', plugin_dir_url(__FILE__) . 'js/all.min.js', array('jquery'), '6.5.2', true);	
 
 	}
 

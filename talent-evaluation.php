@@ -362,4 +362,12 @@ function add_review_to_application($application_id){
     }
 }
 
+function info_button($text) {
+    
+    // HTML für den Info-Button mit Popover zurückgeben
+    return '<div class="info-button" data-toggle="popover" title="'.$text.'"">
+                <i class="fa-regular fa-circle-question"></i>
+            </div>';
+}
+
 run_talent_evaluation();
