@@ -1,6 +1,6 @@
 <form id="application-form" class="bootstrap-form" method="post" enctype="multipart/form-data">
     <div class="form-group mb-3">
-        <label for="salutation">Anrede</label>
+        <label for="salutation"><strong>Anrede</strong></label>
         <select class="form-control" id="salutation" name="salutation" required>
             <option value="0">Nicht angegeben</option>
             <option value="1">Herr</option>
@@ -8,15 +8,15 @@
         </select>
     </div>
     <div class="form-group mb-3">
-        <label for="prename">Vorname</label>
+        <label for="prename"><strong>Vorname</strong></label>
         <input type="text" class="form-control" id="prename" name="prename" required>
     </div>
     <div class="form-group mb-3">
-        <label for="surname">Nachname</label>
+        <label for="surname"><strong>Nachname</strong></label>
         <input type="text" class="form-control" id="surname" name="surname" required>
     </div>
     <div class="form-group mb-3">
-        <label for="email">E-Mail-Adresse</label>
+        <label for="email"><strong>E-Mail-Adresse</strong></label>
         <input type="email" class="form-control" id="email" name="email" required>
     </div>
     <div class="form-group mb-3">
