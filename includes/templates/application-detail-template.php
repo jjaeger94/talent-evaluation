@@ -26,7 +26,9 @@
             </div>
         </div>
         <hr>
-        <br>
+        <?php if ($application->state == 'new') : ?>
+            Prüfung wurde noch nicht gestartet
+        <?php else : ?>
         <div><strong>Ergebnis der Prüfung:</strong>
         <div class="row">
             <div class="col-md-4 d-flex align-items-center">
@@ -47,6 +49,7 @@
         <p><strong>Ergebnis Commitment Test:</strong><br>
             <?php include 'columns/commitment-with-text.php'; ?>
         </p>
+        <?php endif; ?>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php
