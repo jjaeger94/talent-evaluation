@@ -1,7 +1,15 @@
 <?php if ( $application ) : ?>
     <div class="application-details">
-        <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
-        <p><?php echo esc_html( $application->email ); ?></p>
+        <h2><?php
+            $salutation = '';
+            if ($application->salutation == 1) {
+                $salutation = 'Herr ';
+            } elseif ($application->salutation == 2) {
+                $salutation = 'Frau ';
+            }
+            echo esc_html($salutation . $application->prename . ' ' . $application->surname);
+        ?></h2>
+        <p><?php echo esc_html($application->email); ?></p>
         <hr>
         <div class="row">
             <div class="col-md-6">

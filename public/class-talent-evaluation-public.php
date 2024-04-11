@@ -100,6 +100,7 @@ class Talent_Evaluation_Public {
 			$surname = sanitize_text_field( $_POST['surname'] );
 			$email = sanitize_email( $_POST['email'] );
 			$job_id = absint( $_POST['job_id'] );
+			$salutation = absint( $_POST['salutation'] );
 	
 			$user_id = get_current_user_id();
 	
@@ -117,6 +118,7 @@ class Talent_Evaluation_Public {
 					'prename' => $prename,
 					'surname' => $surname,
 					'email' => $email,
+					'salutation' => $salutation,
 					'filepath' => $applicationDir,
 					// Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
 				),
@@ -126,6 +128,7 @@ class Talent_Evaluation_Public {
 					'%s',
 					'%s',
 					'%s',
+					'%d',
 					'%s',
 					// Fügen Sie hier weitere Formatierungen hinzu, falls erforderlich
 				)

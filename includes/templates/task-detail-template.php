@@ -2,8 +2,16 @@
     <div class="application-details">
         <div class="row">
             <div class="col-md-6">
-                <h2><?php echo esc_html( $application->prename . ' ' . $application->surname ); ?></h2>
-                <p><?php echo esc_html( $application->email ); ?></p>
+                <h2><?php
+                    $salutation = '';
+                    if ($application->salutation == 1) {
+                        $salutation = 'Herr ';
+                    } elseif ($application->salutation == 2) {
+                        $salutation = 'Frau ';
+                    }
+                    echo esc_html($salutation . $application->prename . ' ' . $application->surname);
+                ?></h2>
+                <p><?php echo esc_html($application->email); ?></p>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <?php if ($application->state == 'new') : ?>
