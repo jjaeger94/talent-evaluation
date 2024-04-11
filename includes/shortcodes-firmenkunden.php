@@ -8,6 +8,7 @@
         add_shortcode( 'create_application_form', 'render_create_application_form' );
         add_shortcode( 'show_applications', 'show_applications_table' );
         add_shortcode( 'application_details', 'render_application_details_shortcode' );
+        add_shortcode( 'job_details', 'render_job_details_shortcode' );
     }
 
     function add_job_form_shortcode() {
@@ -226,6 +227,35 @@ function render_application_details_shortcode() {
         } else {
             // Keine ID-Parameter übergeben, Meldung ausgeben
             return '<div class="alert alert-warning" role="alert">Es wurde keine Bewerbungs-ID angegeben.</div>';
+        }
+    } else {
+        // Benutzer hat keine Berechtigung, Meldung ausgeben
+        return 'Sie haben keine Berechtigung, diese Seite anzuzeigen.';
+    }
+}
+
+function render_job_details_shortcode() {
+    if ( current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' ) ) {
+        // Überprüfen, ob die ID-Parameter übergeben wurde
+        if ( isset( $_GET['id'] ) ) {
+            // ID-Parameter aus der URL abrufen
+            $job_id = intval( $_GET['id'] );
+
+            $job = get_job_by_id($job_id);
+            if ( $job ) {
+                // Tabelle aus Vorlagendatei einfügen
+                ob_start();
+                include plugin_dir_path( __FILE__ ) . 'templates/job-detail-template.php';
+                $output = ob_get_clean();
+            } else {
+                // Keine Bewerbungsdetails gefunden, Nachricht ausgeben
+                $output = '<div class="alert alert-info" role="alert">Es wurde keine Stelle gefunden.</div>';
+            }
+
+            return $output;
+        } else {
+            // Keine ID-Parameter übergeben, Meldung ausgeben
+            return '<div class="alert alert-warning" role="alert">Es wurde keine Stellen-ID angegeben.</div>';
         }
     } else {
         // Benutzer hat keine Berechtigung, Meldung ausgeben

@@ -79,7 +79,13 @@ class Talent_Evaluation_Activator {
 				'content' => '[application_details]',
 				'slug' => 'bewerbung-details',
 				'template' => '', // optional: Vorlage für die Seite
-			)
+			),
+			array(
+				'title' => 'Job Details',
+				'content' => '[job_details]',
+				'slug' => 'job-details',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

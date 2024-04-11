@@ -20,17 +20,19 @@
                         <strong><a href="<?php echo esc_url(home_url('/bewerbung-details?id=' . $application->ID)); ?>"><?php echo esc_html($application->prename . ' ' . $application->surname); ?></a></strong><br>
                         <?php echo date('d.m.Y', strtotime($application->added)); ?> <!-- Bewerbungsdatum anzeigen -->
                     </td>
-                    <td class="align-middle"><?php echo esc_html($application->job_title); ?></td>
                     <td class="align-middle">
+                        <a href="<?php echo esc_url(home_url('/job-details?id=' . $application->job_id)); ?>"><?php echo esc_html($application->job_title); ?></a>
+                    </td>
+                    <td class="align-middle text-center">
                         <?php include 'columns/criteria.php'; ?>
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle text-center">
                         <?php include 'columns/completeness.php'; ?>
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle text-center">
                         <?php include 'columns/screening.php'; ?>
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle text-center">
                         <?php include 'columns/commitment.php'; ?>
                     </td>
                 </tr>

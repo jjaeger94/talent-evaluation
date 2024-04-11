@@ -37,7 +37,10 @@
         <button id="add-files-button" class="btn btn-primary">Dateien hinzufügen</button>
         <hr>
         <p><strong>Backlog:</strong></p>
-        <?php include 'blocks/backlog-template.php'; ?>
+        <!-- Container für den Backlog-Inhalt -->
+        <div id="backlog-container"></div>
+        <!-- Button, der den Inhalt laden soll -->
+        <button id="load-backlog-button" class="btn btn-primary">Backlog laden</button>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>

@@ -5,7 +5,7 @@
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <p><strong>Beworben auf:</strong><br><?php echo esc_html( $job->job_title ); ?></p>
+                <p><strong>Beworben auf:</strong><br><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html( $job->job_title ); ?></a></p>
             </div>
             <div class="col-md-6">
                 <p><strong>Einordnung:</strong>
@@ -19,25 +19,25 @@
         </div>
         <hr>
         <br>
-        <p><strong>Ergebnis der Prüfung:</strong><br>
+        <div><strong>Ergebnis der Prüfung:</strong>
         <div class="row">
-            <div class="col-md-4">
-                Kriterien:
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="p-2">Kriterien:</div>
                 <?php include 'columns/criteria.php'; ?>
             </div>
-            <div class="col-md-4">
-                Vollständigkeit:
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="p-2">Vollständigkeit:</div>
                 <?php include 'columns/completeness.php'; ?>
             </div>
-            <div class="col-md-4">
-                Screening:
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="p-2">Screening:</div>
                 <?php include 'columns/screening.php'; ?>
             </div>
         </div>
-        </p>
+        </div>
         <hr>
         <p><strong>Ergebnis Commitment Test:</strong><br>
-            <?php include 'columns/commitment.php'; ?>
+            <?php include 'columns/commitment-with-text.php'; ?>
         </p>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
@@ -61,7 +61,10 @@
         ?>
         <hr>
         <p><strong>Backlog:</strong></p>
-        <?php include 'blocks/backlog-template.php'; ?>
+        <!-- Container für den Backlog-Inhalt -->
+        <div id="backlog-container"></div>
+        <!-- Button, der den Inhalt laden soll -->
+        <button id="load-backlog-button" class="btn btn-primary">Backlog laden</button>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>

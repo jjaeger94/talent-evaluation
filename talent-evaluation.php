@@ -282,6 +282,21 @@ function create_backlog_entry($application_id, $log, $comment = ''){
     );
 }
 
+function update_job_state($job_id, $state){
+    $temp_db = open_database_connection();
+    // Tabellenname für Bewerbungen
+    $table_name = $temp_db->prefix . 'jobs';
+
+    // Daten zum Aktualisieren
+    $data = array('state' => $state);
+
+    // Bedingung für die Aktualisierung
+    $where = array('ID' => $job_id);
+
+    // Aktualisieren der Daten in der Datenbank
+    $temp_db->update($table_name, $data, $where);
+}
+
 function update_application_state($application_id, $state, $comment = ''){
     $temp_db = open_database_connection();
     // Tabellenname für Bewerbungen

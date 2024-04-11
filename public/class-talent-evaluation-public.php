@@ -70,6 +70,8 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_set_review',  array($this, 'handle_set_review'));
 		add_action('wp_ajax_set_classification',  array($this, 'handle_set_classification'));
 		add_action('wp_ajax_nopriv_set_classification',  array($this, 'handle_set_classification'));
+		add_action('wp_ajax_get_backlog',  array($this, 'handle_get_backlog'));
+		add_action('wp_ajax_nopriv_get_backlog',  array($this, 'handle_get_backlog'));
 	}
 	
 	function process_application_form() {
@@ -325,15 +327,10 @@ class Talent_Evaluation_Public {
 		wp_die();
 	}
 
-	function handle_change_state() {
+	function handle_get_backlog(){
 		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
-		if (!current_user_can('dienstleister')) {
-			wp_send_json_error('Sie haben keine Berechtigung, Dateien hochzuladen.');
-		}
-	
-		// Überprüfen Sie, ob Dateien gesendet wurden
-		if (!isset($_POST['state'])) {
-			wp_send_json_error('Es wurden kein State übergeben.');
+		if (!current_user_can('dienstleister') && !current_user_can('firmenkunde')) {
+			wp_send_json_error('Sie haben keine Berechtigung diese Funktion aufzurufen');
 		}
 	
 		// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
@@ -342,12 +339,54 @@ class Talent_Evaluation_Public {
 		}
 	
 		$application_id = $_POST['application_id'];
+	
+		$application = get_application_by_id($application_id);
+		if($application){
+			ob_start(); // Starten des Output-Puffers
+			include 'partials/backlog-template.php'; // Einbinden der Template-Datei
+			$backlog_content = ob_get_clean(); // Abrufen des Inhalts des Output-Puffers und Löschen des Puffers
+			echo $backlog_content; // Senden des Inhalts als JSON-Antwort
+		}else{
+			wp_send_json_error('Sie haben keine Berechtigung die Application zu sehen');
+		}
+		wp_die();
+	}
+	
 
-		$state = $_POST['state'];
+	function handle_change_state() {
+		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
+		// Überprüfen Sie, ob Dateien gesendet wurden
+		if (!isset($_POST['state'])) {
+			wp_send_json_error('Es wurden kein State übergeben.');
+		}
 
-		$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
+		if (current_user_can('dienstleister')) {
+			// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+			if (!isset($_POST['application_id'])) {
+				wp_send_json_error('Die Anwendungs-ID fehlt.');
+			}
 		
-		update_application_state($application_id, $state, $comment);
+			$application_id = $_POST['application_id'];
+
+			$state = $_POST['state'];
+
+			$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
+			
+			update_application_state($application_id, $state, $comment);
+		}else if(current_user_can('firmenkunde')){
+			// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
+			if (!isset($_POST['job_id'])) {
+				wp_send_json_error('Die Job-ID fehlt.');
+			}
+		
+			$job_id = $_POST['job_id'];
+
+			$state = $_POST['state'];
+			
+			update_job_state($job_id, $state);
+		}else{
+			wp_send_json_error('Sie haben keine Berechtigung');
+		}
 
 		wp_send_json_success('Status erfolgreich geändert.');
 		wp_die();

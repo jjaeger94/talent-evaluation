@@ -13,7 +13,7 @@
             <?php foreach ( $jobs as $job ) : ?>
                 <tr>
                     <td class="align-middle"> <!-- "align-middle" für vertikale Zentrierung und "text-center" für horizontale Zentrierung -->
-                        <strong><?php echo $job->job_title; ?></strong><br>
+                        <strong><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html($job->job_title); ?></a></strong><br>
                         <?php echo $job->location; ?><br>
                         Erstellt am: <?php echo date('d.m.Y', strtotime($job->added)); ?> <!-- Nur das Datum anzeigen -->
                     </td>

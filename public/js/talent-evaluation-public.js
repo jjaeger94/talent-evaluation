@@ -143,6 +143,37 @@
 			});
 		});
 
+		$('.job-state-btn').click(function() {
+			// Extrahieren Sie die application_id aus dem URL-Parameter
+			var urlParams = new URLSearchParams(window.location.search);
+			var jobId = urlParams.get('id');
+			var requestData = {
+				action: 'change_state',
+				job_id: jobId,
+				state: $(this).val()
+			};
+		
+			$.ajax({
+				type: 'POST',
+				url: your_script_vars.ajaxurl,
+				data: requestData,
+				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
+				success: function(response) {
+					if (response.success) {
+						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
+						location.reload();
+					} else {
+						// Fehler bei der Aktualisierung
+						alert('Fehler beim Starten der Bearbeitung');
+					}
+				},
+				error: function(xhr, status, error) {
+					// AJAX-Fehler
+					console.error('AJAX-Fehler:', error);
+				}
+			});
+		});
+
 		$('#review-btn-start').click(function() {
 			// Extrahieren Sie die application_id aus dem URL-Parameter
 			var urlParams = new URLSearchParams(window.location.search);
@@ -238,6 +269,27 @@
 				error: function(xhr, status, error) {
 					// Fehler beim Speichern
 					console.error('Fehler beim Speichern der Einordnung:', error);
+				}
+			});
+		});
+		
+		$('#load-backlog-button').click(function() {
+			var urlParams = new URLSearchParams(window.location.search);
+			var applicationId = urlParams.get('id'); // Hier sollten Sie die Anwendungs-ID dynamisch erhalten
+			$.ajax({
+				url: your_script_vars.ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'get_backlog',  
+					application_id: applicationId
+				},
+				success: function(response) {
+					// Fügen Sie den geladenen Inhalt dem Container hinzu
+					$('#backlog-container').html(response);
+				},
+				error: function(xhr, status, error) {
+					// Behandeln Sie Fehler hier
+					console.error('Fehler beim Laden des Backlogs:', error);
 				}
 			});
 		});
