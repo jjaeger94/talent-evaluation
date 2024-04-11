@@ -33,12 +33,6 @@ class Talent_Evaluation_Activator {
 		// Seiten für Firmenkunden und Dienstleister erstellen
 		$pages = array(
 			array(
-				'title' => 'Firmenkunden',
-				'content' => 'Inhalt der Firmenkunden-Seite',
-				'slug' => 'firmenkunden',
-				'template' => '', // optional: Vorlage für die Seite
-			),
-			array(
 				'title' => 'Dienstleister',
 				'content' => '[show_tasks]',
 				'slug' => 'dienstleister',
@@ -57,9 +51,9 @@ class Talent_Evaluation_Activator {
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
-				'title' => 'Bewerber',
+				'title' => 'Kandidaten',
 				'content' => '[show_applications]',
-				'slug' => 'bewerber',
+				'slug' => 'kandidaten',
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
