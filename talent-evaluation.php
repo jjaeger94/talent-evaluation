@@ -365,9 +365,35 @@ function add_review_to_application($application_id){
 function info_button($text) {
     
     // HTML für den Info-Button mit Popover zurückgeben
-    return '<div class="info-button" data-toggle="popover" title="'.$text.'"">
+    return '<div class="info-button" data-toggle="popover" title="'.get_text_by_key($text).'"">
                 <i class="fa-regular fa-circle-question"></i>
             </div>';
+}
+
+function get_text_by_key($key) {
+    // Pfad zur JSON-Datei
+    $json_file_path = plugin_dir_path( __FILE__ ) . './translations.json'; // Beispiel: Dateiname der JSON-Datei
+
+    // Überprüfen, ob die Datei existiert und lesbar ist
+    if (file_exists($json_file_path) && is_readable($json_file_path)) {
+        // Laden des Inhalts der JSON-Datei
+        $json_content = file_get_contents($json_file_path);
+
+        // JSON-Dekodierung des Inhalts
+        $translations = json_decode($json_content, true);
+
+        // Überprüfen, ob der Schlüssel im Array vorhanden ist
+        if (isset($translations[$key])) {
+            // Rückgabe des Textes für den Schlüssel
+            return $translations[$key];
+        } else {
+            // Wenn der Schlüssel nicht vorhanden ist, Rückgabe des Schlüssels selbst
+            return $key;
+        }
+    } else {
+        // Wenn die Datei nicht existiert oder nicht lesbar ist, Rückgabe des Schlüssels
+        return $key;
+    }
 }
 
 run_talent_evaluation();
