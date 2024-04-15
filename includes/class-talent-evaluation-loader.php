@@ -143,6 +143,11 @@ class Talent_Evaluation_Loader {
 		$this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
 		$this->add_action( 'template_redirect', $this, 'pdf_viewer_template_redirect' );
+		$this->add_action('show_user_profile', $this, 'custom_user_fields');
+        $this->add_action('edit_user_profile', $this, 'custom_user_fields');
+		$this->add_action( 'personal_options_update', $this, 'save_custom_user_fields' );
+		$this->add_action( 'edit_user_profile_update', $this, 'save_custom_user_fields' );
+
 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
@@ -152,6 +157,30 @@ class Talent_Evaluation_Loader {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
+	}
+
+	// Funktion zum Anzeigen benutzerdefinierter Felder auf der Benutzerbearbeitungsseite
+	public function custom_user_fields($user) {
+		?>
+		<h3>Talent Evaluation</h3>
+		<table class="form-table">
+			<tr>
+				<th><label for="company">Firma</label></th>
+				<td>
+					<input type="text" name="company" id="company" value="<?php echo esc_attr(get_user_meta($user->ID, 'company', true)); ?>" class="regular-text">
+				</td>
+			</tr>
+		</table>
+		<?php
+	}
+
+	// Funktion zum Speichern benutzerdefinierter Felder
+	public function save_custom_user_fields($user_id) {
+		if (!current_user_can('edit_user', $user_id)) {
+			return false;
+		}
+
+		update_user_meta($user_id, 'company', $_POST['company']);
 	}
 
 	public function register_pdf_viewer_rewrite_rule() {
