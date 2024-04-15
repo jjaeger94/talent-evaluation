@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-6">
         <p><strong>Stelle:</strong><br><?php echo esc_html( $job->job_title ); ?></p>
+        <p><strong>Firma:</strong><br><?php echo esc_attr(get_user_meta($job->user_id,'company', true)); ?></p>
     </div>
     <div class="col-md-6">
         <p><strong>Kriterien:</strong><br>
