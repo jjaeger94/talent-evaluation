@@ -140,7 +140,8 @@ class Talent_Evaluation_Loader {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
 		$this->add_filter( 'query_vars', $this, 'register_query_vars');
-		$this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
+		$this->add_filter( 'show_admin_bar', $this, 'hide_wordpress_admin_bar');
+		// $this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
 		$this->add_action( 'template_redirect', $this, 'pdf_viewer_template_redirect' );
 		$this->add_action('show_user_profile', $this, 'custom_user_fields');
@@ -211,6 +212,12 @@ class Talent_Evaluation_Loader {
         return $this->get_user_home_url($user);
     }
 
+	function hide_wordpress_admin_bar($hide){
+		if (!current_user_can('administrator')) {
+		return false;
+		}
+		return $hide;
+		}
 	/**
 	 * WP Logo ausblenden
 	 */
@@ -230,7 +237,7 @@ class Talent_Evaluation_Loader {
 		// Überprüfen, ob die Benutzerrolle des eingeloggten Benutzers in der Liste der Rollen zum Ausblenden enthalten ist
 		foreach ($roles_to_hide as $role) {
 			if (in_array($role, $user_roles)) {
-				// Wenn die Rolle des Benutzers zum Ausblenden des Symbols berechtigt ist, wird das Symbol ausgeblendet
+				//Wenn die Rolle des Benutzers zum Ausblenden des Symbols berechtigt ist, wird das Symbol ausgeblendet
 				$wp_admin_bar->remove_menu('wp-logo');
 				$wp_admin_bar->add_node(array(
 					'id' => 'custom_link_for_' . $role,
