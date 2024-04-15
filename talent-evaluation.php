@@ -396,4 +396,9 @@ function get_text_by_key($key) {
     }
 }
 
+function render_logout_button() {
+    $logout_url = wp_logout_url();
+    echo '<a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a>';
+}
+
 run_talent_evaluation();

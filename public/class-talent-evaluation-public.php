@@ -72,8 +72,24 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_set_classification',  array($this, 'handle_set_classification'));
 		add_action('wp_ajax_get_backlog',  array($this, 'handle_get_backlog'));
 		add_action('wp_ajax_nopriv_get_backlog',  array($this, 'handle_get_backlog'));
+		add_action('wp_ajax_save_user_data',  array($this, 'save_user_data'));
+		add_action('wp_ajax_nopriv_save_user_data',  array($this, 'save_user_data'));
 	}
 	
+	// AJAX-Funktion zum Speichern der Benutzerdaten
+	function save_user_data() {
+		if (isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company'])) {
+			$user_id = get_current_user_id();
+			update_user_meta($user_id, 'first_name', sanitize_text_field($_POST['first_name']));
+			update_user_meta($user_id, 'last_name', sanitize_text_field($_POST['last_name']));
+			update_user_meta($user_id, 'company', sanitize_text_field($_POST['company']));
+			echo 'Benutzerdaten erfolgreich aktualisiert';
+		} else {
+			wp_send_json_error('Fehlende Daten');
+		}
+		wp_die();
+	}
+
 	function process_application_form() {
 		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
 			$applicationDir = '';

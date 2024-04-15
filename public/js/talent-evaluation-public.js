@@ -294,6 +294,27 @@
 			});
 		});
 
+		$('#edit-user-data-form').submit(function(e) {
+            e.preventDefault(); // Verhindert das Standard-Formular-Verhalten
+            
+            var formData = $(this).serialize(); // Serialisiert die Formulardaten
+            
+            $.ajax({
+                url: your_script_vars.ajaxurl,
+                type: 'POST',
+                data: formData + '&action=save_user_data', // Fügt die Aktion hinzu
+                success: function(response) {
+                    // Erfolgsfall: Weiterleitung oder Anzeige einer Erfolgsmeldung
+                    console.log(response);
+					$('#message').html(response);
+                },
+                error: function(xhr, status, error) {
+                    // Fehlerfall: Anzeige einer Fehlermeldung
+                    console.error('Fehler beim Speichern der Benutzerdaten:', error);
+                }
+            });
+        });
+
 		$('[data-toggle="popover"]').popover();
 
 		// Event-Listener hinzufügen, um das Popover zu schließen, wenn außerhalb geklickt wird

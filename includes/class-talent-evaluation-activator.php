@@ -80,6 +80,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'job-details',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Account',
+				'content' => '[edit_user_data_form]',
+				'slug' => 'account',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {
