@@ -24,7 +24,7 @@
             $logout_button = ob_get_clean();
     
             // Formularinhalt mit Logout-Button zurückgeben
-            return $form_content . '<div class="logout-button">' . $logout_button . '</div>';
+            return $form_content . '<br><div class="logout-button">' . $logout_button . '</div>';
         } else {
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
         }
