@@ -209,7 +209,7 @@ class Talent_Evaluation_Loader {
      * @return string|void
      */
     public function redirect_after_login( $redirect_to, $request, $user ) {
-        return $this->get_user_home_url($user);
+        return get_user_home_url($user);
     }
 
 	function hide_wordpress_admin_bar($hide){
@@ -242,31 +242,12 @@ class Talent_Evaluation_Loader {
 				$wp_admin_bar->add_node(array(
 					'id' => 'custom_link_for_' . $role,
 					'title' => 'Meine Seite', // Titel des Links
-					'href' => $this->get_user_home_url($user), // Umleitungsseite basierend auf der Benutzerrolle
+					'href' => get_user_home_url($user), // Umleitungsseite basierend auf der Benutzerrolle
 					'parent' => 'top-secondary' // Position des Links in der Admin-Leiste (optional)
 				));
 				break; // Schleife beenden, wenn das Symbol ausgeblendet wurde
 			}
 		}
 	}
-
-	/**
-     * Home URL für Benutzer
-     *
-     * @param string $redirect_to
-     * @param string $request
-     * @param WP_User|WP_Error $user WP_User object if login was successful, WP_Error object otherwise.
-     * @return string|void
-     */
-    public function get_user_home_url( $user ) {
-        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            if ( in_array( 'firmenkunde', $user->roles ) ) {
-                return home_url( '/kandidaten' );
-            } elseif ( in_array( 'dienstleister', $user->roles ) ) {
-                return home_url( '/dienstleister' );
-            }
-        }
-        return home_url();
-    }
 
 }

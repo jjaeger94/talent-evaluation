@@ -396,6 +396,17 @@ function get_text_by_key($key) {
     }
 }
 
+function get_user_home_url( $user ) {
+    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+        if ( in_array( 'firmenkunde', $user->roles ) ) {
+            return home_url( '/kandidaten' );
+        } elseif ( in_array( 'dienstleister', $user->roles ) ) {
+            return home_url( '/dienstleister' );
+        }
+    }
+    return home_url();
+}
+
 function render_logout_button() {
     $logout_url = wp_logout_url();
     echo '<a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a>';

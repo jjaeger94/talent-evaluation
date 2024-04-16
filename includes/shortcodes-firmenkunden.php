@@ -10,7 +10,22 @@
         add_shortcode( 'application_details', 'render_application_details_shortcode' );
         add_shortcode( 'job_details', 'render_job_details_shortcode' );
         add_shortcode('edit_user_data_form', 'render_edit_user_data_form');
+        add_shortcode( 'application_button', 'render_application_button' );
     }
+
+    function render_application_button() {
+        if ( is_user_logged_in() ) {
+            $user = wp_get_current_user();
+            $button_text = 'Zur Kandidatenverwaltung';
+            $button_url = get_user_home_url($user); // Anpassen Sie die URL entsprechend Ihrer Seitenstruktur    
+            $output = '<a class="btn btn-primary" href="' . esc_url( $button_url ) . '">' . esc_html( $button_text ) . '</a>';
+        } else {
+            $login_url = wp_login_url( home_url() ); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
+            $output = '<a class="btn btn-primary" href="' . esc_url( $login_url ) . '">Jetzt einloggen</a>';
+        }
+    
+        return $output;
+    }    
 
     function render_edit_user_data_form() {
         if ( current_user_can( 'firmenkunde' ) ) {
