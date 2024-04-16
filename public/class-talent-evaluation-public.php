@@ -305,7 +305,7 @@ class Talent_Evaluation_Public {
 				$temp_db->update($table_name, $data, $where);
 				$log = '';
 				if($value > 0){
-					$log = 'Commitment Test Ergebnis '.$text;
+					$log = 'Commitment Test Ergebnis: '.$text. '/10';
 				}else{
 					$log = 'Commitment '.$text;
 				}
