@@ -120,7 +120,7 @@ class Talent_Evaluation_Admin {
                 <?php do_settings_sections('talent_evaluation_settings'); ?>
                 <table class="form-table">
 				<tr valign="top">
-                        <th scope="row">Logo URL</th>
+                        <th scope="row">Logo Url Titel</th>
                         <td><input type="text" name="te_login_title" value="<?php echo esc_attr(get_option('te_login_title')); ?>" /></td>
                     </tr>
 					<tr valign="top">
