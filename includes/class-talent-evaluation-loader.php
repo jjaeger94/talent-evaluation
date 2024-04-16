@@ -141,7 +141,10 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
 		$this->add_filter( 'query_vars', $this, 'register_query_vars');
 		$this->add_filter( 'show_admin_bar', $this, 'hide_wordpress_admin_bar');
+		$this->add_filter( 'login_headertitle', $this, 'my_login_logo_url_title');
+		$this->add_filter( 'login_headerurl', $this, 'my_login_logo_url');
 		// $this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
+		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
 		$this->add_action( 'template_redirect', $this, 'pdf_viewer_template_redirect' );
 		$this->add_action('show_user_profile', $this, 'custom_user_fields');
@@ -158,6 +161,31 @@ class Talent_Evaluation_Loader {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
+	}
+
+	public function my_login_logo() { 
+		$logo_url = get_option('te_login_logo');
+		if($logo_url){
+			?>
+			<style type="text/css">#login h1 a, .login h1 a {
+				background-image: url("<?php echo $logo_url; ?>");
+				height: 150px;
+				width: 235px;
+				background-size: 235px 150px;
+				background-repeat: no-repeat;
+				padding-bottom: 30px;
+			}</style>
+			<?php 
+		}
+	}
+		
+
+	public function my_login_logo_url() {
+		return home_url();
+	}
+
+	public function my_login_logo_url_title() {
+		return 'Commit IQ';
 	}
 
 	// Funktion zum Anzeigen benutzerdefinierter Felder auf der Benutzerbearbeitungsseite

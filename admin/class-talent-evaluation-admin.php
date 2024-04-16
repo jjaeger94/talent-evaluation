@@ -119,6 +119,10 @@ class Talent_Evaluation_Admin {
                 <?php settings_fields('talent_evaluation_settings'); ?>
                 <?php do_settings_sections('talent_evaluation_settings'); ?>
                 <table class="form-table">
+					<tr valign="top">
+                        <th scope="row">Logo URL</th>
+                        <td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
+                    </tr>
                     <tr valign="top">
                         <th scope="row">Database Host</th>
                         <td><input type="text" name="te_db_host" value="<?php echo esc_attr(get_option('te_db_host')); ?>" /></td>
@@ -147,6 +151,7 @@ class Talent_Evaluation_Admin {
     }
 
     public function register_settings() {
+		register_setting('talent_evaluation_settings', 'te_login_logo');
         register_setting('talent_evaluation_settings', 'te_db_host');
         register_setting('talent_evaluation_settings', 'te_db_name');
         register_setting('talent_evaluation_settings', 'te_db_user');
