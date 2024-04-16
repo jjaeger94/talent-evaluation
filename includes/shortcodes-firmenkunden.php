@@ -82,12 +82,18 @@
 
             $selected_job = isset( $_GET['job_id'] ) ? intval( $_GET['job_id'] ) : 0;
 
+            $selected_tasks = isset( $_GET['filter_tasks'] ) ? sanitize_text_field( $_GET['filter_tasks'] ) : null;
+
             // Erfassen Sie die in den Optionen gespeicherten Daten
             $temp_db = open_database_connection();
 
             $filter = "WHERE user_id = {$user_id}";
             if ( $selected_job ) {
                 $filter .= " AND job_id = {$selected_job}";
+            }
+
+            if ( $selected_tasks ) {
+                $filter .= " AND state = '{$selected_tasks}'";
             }
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "

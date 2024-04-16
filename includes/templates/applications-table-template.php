@@ -1,4 +1,4 @@
-<?php include 'filters/job-filter.php'; ?>
+<?php include 'filters/job-state-filter.php'; ?>
 <br>
 <?php if ( ! empty( $applications ) ) : ?>
     <div class="table-responsive">
