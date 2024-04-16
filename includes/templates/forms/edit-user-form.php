@@ -11,7 +11,6 @@
         <label for="company"><strong>Firma</strong></label>
         <input type="text" class="form-control" id="company" name="company" value="<?php echo esc_attr(get_user_meta($user_id,'company', true)); ?>" required>
     </div>
-    <br>
     <button type="submit" class="btn btn-primary">Änderungen speichern</button>
 </form>
 <div id="message"></div>
