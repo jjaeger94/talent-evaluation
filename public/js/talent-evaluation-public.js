@@ -36,6 +36,7 @@
 				success: function(response) {
 					// Antwort verarbeiten
 					$('#form-message').html(response);
+					$('#add-job-form')[0].reset();
 				},
 				error: function(xhr, status, error) {
 					console.error(error);

@@ -3,5 +3,7 @@
  * included in this file.
  */
  @import url("bootstrap.min.css");
+ @import url("variables.css");
+ @import url("buttons.css");
  @import url("custom.css");
  @import url("all.min.css");

@@ -1,0 +1,23 @@
+/* Überschreiben der Standardfarben von Bootstrap */
+
+/* Primärfarbe */
+:root {
+    --primary: #44222d; /* Ihre benutzerdefinierte Primärfarbe */
+}
+  
+/* Sekundärfarbe */
+:root {
+    --secondary: #663344; /* Ihre benutzerdefinierte Sekundärfarbe */
+}
+  
+/* Hintergrundfarbe */
+:root {
+    --bg-color: #d1d1d1; /* Ihre benutzerdefinierte Hintergrundfarbe */
+}
+  
+/* Textfarbe */
+:root {
+    --text-color: #221117; /* Ihre benutzerdefinierte Textfarbe */
+}
+
+/* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
