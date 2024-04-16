@@ -143,6 +143,8 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'show_admin_bar', $this, 'hide_wordpress_admin_bar');
 		$this->add_filter( 'login_headertitle', $this, 'my_login_logo_url_title');
 		$this->add_filter( 'login_headerurl', $this, 'my_login_logo_url');
+		$this->add_filter( 'admin_title', $this, 'custom_title', 99);
+		$this->add_filter( 'login_title', $this, 'custom_title', 99);
 		// $this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
 		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
@@ -161,6 +163,15 @@ class Talent_Evaluation_Loader {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
+	}
+
+	public function custom_title($origtitle) {
+		// Entferne das Wort "WordPress" aus dem Seitentitel
+		if ( $origtitle) {
+			$origtitle = str_replace( 'WordPress', 'App', $origtitle );
+		}
+	
+		return $origtitle;
 	}
 
 	public function my_login_logo() { 
