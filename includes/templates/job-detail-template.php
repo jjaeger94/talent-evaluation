@@ -5,6 +5,7 @@
                 <h2><?php echo esc_html( $job->job_title ); ?></h2>
                 <p><?php echo $job->location; ?><br>
                 Erstellt am: <?php echo date('d.m.Y', strtotime($job->added)); ?></p>
+                <p><a href="<?php echo esc_url(home_url('/kandidaten/?job_id=' . $job->ID)); ?>">Kandidaten anzeigen</a></p>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <?php if ($job->state == 'active') : ?>
