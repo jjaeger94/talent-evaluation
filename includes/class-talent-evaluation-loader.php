@@ -185,7 +185,13 @@ class Talent_Evaluation_Loader {
 	}
 
 	public function my_login_logo_url_title() {
-		return 'Commit IQ';
+		$logo_title = get_option('te_login_title');
+		if($logo_title){
+			return $logo_title;
+		}else{
+			return 'Commit IQ';
+		}
+		
 	}
 
 	// Funktion zum Anzeigen benutzerdefinierter Felder auf der Benutzerbearbeitungsseite
