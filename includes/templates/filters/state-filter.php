@@ -7,7 +7,8 @@
                 <option value="new" <?php echo ($selected_tasks == 'new') ? 'selected' : ''; ?>>Neu</option>
                 <option value="waiting" <?php echo ($selected_tasks == 'waiting') ? 'selected' : ''; ?>>In Wartestellung</option>
                 <option value="in_progress" <?php echo ($selected_tasks == 'in_progress') ? 'selected' : ''; ?>>In Bearbeitung</option>
-                <option value="finished" <?php echo ($selected_tasks == 'finished') ? 'selected' : ''; ?>>Fertig</option>
+                <option value="passed" <?php echo ($selected_tasks == 'passed') ? 'selected' : ''; ?>>Fertig</option>
+                <option value="failed" <?php echo ($selected_tasks == 'failed') ? 'selected' : ''; ?>>Fertig</option>
             </select>
         </div>
         <div class="col-md-2 align-self-end">

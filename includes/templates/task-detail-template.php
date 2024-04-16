@@ -17,11 +17,12 @@
                 <?php if ($application->state == 'new') : ?>
                     <button id="review-btn-start" class="btn btn-success" value="in_progress">Prüfung starten</button>
                 <?php elseif ($application->state == 'in_progress') : ?>
-                    <button class="btn btn-success review-btn" data-comment="true" value="waiting">Prüfung pausieren</button>
-                    <button class="btn btn-success review-btn" value="finished">Prüfung beenden</button>
+                    <button class="btn btn-warning review-btn" data-comment="true" value="waiting">Prüfung pausieren</button>
+                    <button class="btn btn-danger review-btn" data-comment="true" value="failed">Durchgefallen</button>
+                    <button class="btn btn-success review-btn" value="passed">Bestanden</button>
                 <?php elseif ($application->state == 'waiting') : ?>
                     <button class="btn btn-success review-btn" value="in_progress">Prüfung fortsetzen</button>
-                <?php elseif ($application->state == 'finished') : ?>
+                <?php elseif ($application->state == 'passed' || $application->state == 'failed') : ?>
                     <button class="btn btn-success review-btn" data-comment="true" value="waiting">Prüfung erneut starten</button>
                 <?php endif; ?>
                 <!-- Weitere Aktionen je nach Status hier einfügen -->
