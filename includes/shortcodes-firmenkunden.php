@@ -28,19 +28,20 @@
     }    
 
     function render_edit_user_data_form() {
+        // Logout-Button rendern
+        ob_start();
+        render_logout_button();
+        $logout_button = ob_get_clean();
         if ( current_user_can( 'firmenkunde' ) ) {
             $user_id = get_current_user_id();
             ob_start();
             include plugin_dir_path( __FILE__ ) . 'templates/forms/edit-user-form.php';
-            $form_content = ob_get_clean();
-            // Logout-Button rendern
-            ob_start();
-            render_logout_button();
-            $logout_button = ob_get_clean();
-    
+            $form_content = ob_get_clean();    
             // Formularinhalt mit Logout-Button zurückgeben
             return $form_content . '<br><div class="logout-button">' . $logout_button . '</div>';
-        } else {
+        } else if(is_user_logged_in()){
+            return '<div class="logout-button">' . $logout_button . '</div>';
+        }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
         }
     }
