@@ -11,6 +11,7 @@
                     <th>Vollständigkeit</th>
                     <th>Background Screening</th>
                     <th>Commitment Test</th>
+                    <th>Ergebnis</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,9 @@
                     </td>
                     <td class="align-middle text-center">
                         <?php include 'columns/commitment.php'; ?>
+                    </td>
+                    <td class="align-middle text-center">
+                        <?php include 'columns/status.php'; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
