@@ -1,5 +1,7 @@
-<?php if ( $application ) : ?>
+<?php if ($application): ?>
     <div class="application-details">
+    <div class="row">
+    <div class="col-md-6">
         <h2><?php
             $salutation = '';
             if ($application->salutation == 1) {
@@ -10,10 +12,25 @@
             echo esc_html($salutation . $application->prename . ' ' . $application->surname);
         ?></h2>
         <p><?php echo esc_html($application->email); ?></p>
+    </div>
+    <div class="col-md-6 d-flex align-items-center text-end">
+        <?php
+            if ($application->state == 'failed') {
+                echo '<span class="w-100" style="font-size: 24px; color: red;"><i class="fas fa-times-circle"></i></span>';
+            } elseif ($application->state == 'passed') {
+                echo '<span class="w-100" style="font-size: 24px; color: green;"><i class="fas fa-check-circle"></i></span>';
+            } elseif ($application->state == 'waiting') {
+                echo '<span>In Wartestellung</span>';
+            } elseif ($application->state == 'in_progress') {
+                echo '<span>In Bearbeitung</span>';
+            }
+        ?>
+    </div>
+</div>
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <p><strong>Beworben auf:</strong><br><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html( $job->job_title ); ?></a></p>
+                <p><strong>Beworben auf:</strong><br><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html($job->job_title); ?></a></p>
             </div>
             <div class="col-md-6">
                 <p><strong>Einordnung:</strong>
@@ -26,50 +43,50 @@
             </div>
         </div>
         <hr>
-        <?php if ($application->state == 'new') : ?>
+        <?php if ($application->state == 'new'): ?>
             Prüfung wurde noch nicht gestartet
-        <?php else : ?>
+        <?php else: ?>
         <div><strong>Ergebnis der Prüfung:</strong>
         <div class="row">
             <div class="col-md-4 d-flex align-items-center">
                 <div class="p-2">Kriterien:</div>
-                <?php include 'columns/criteria.php'; ?>
+                <?php include 'columns/criteria.php';?>
             </div>
             <div class="col-md-4 d-flex align-items-center">
                 <div class="p-2">Vollständigkeit:</div>
-                <?php include 'columns/completeness.php'; ?>
+                <?php include 'columns/completeness.php';?>
             </div>
             <div class="col-md-4 d-flex align-items-center">
                 <div class="p-2">Screening:</div>
-                <?php include 'columns/screening.php'; ?>
+                <?php include 'columns/screening.php';?>
             </div>
         </div>
         </div>
         <hr>
         <p><strong>Ergebnis Commitment Test:</strong><br>
-            <?php include 'columns/commitment-with-text.php'; ?>
+            <?php include 'columns/commitment-with-text.php';?>
         </p>
-        <?php endif; ?>
+        <?php endif;?>
         <hr>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php
-        $file_path = $application->filepath;
-        if (!empty($file_path)) {
-            $files = glob($file_path . '*.pdf'); // Nur PDF-Dateien anzeigen
-            if ($files !== false) {
-                echo '<ul>';
-                foreach ($files as $file) {
-                    echo '<li><a href="' . esc_url( add_query_arg( array(
-                        'file' => basename($file),
-                        'application_id' => $application->ID
-                    ), home_url('/pdf-viewer-page') ) ) . '" target="_blank">' . basename($file) . '</a></li>';
-                }                              
-                echo '</ul>';
-            }                        
-        } else {
-            echo '<p>Keine Dateien hochgeladen.</p>';
+$file_path = $application->filepath;
+if (!empty($file_path)) {
+    $files = glob($file_path . '*.pdf'); // Nur PDF-Dateien anzeigen
+    if ($files !== false) {
+        echo '<ul>';
+        foreach ($files as $file) {
+            echo '<li><a href="' . esc_url(add_query_arg(array(
+                'file' => basename($file),
+                'application_id' => $application->ID,
+            ), home_url('/pdf-viewer-page'))) . '" target="_blank">' . basename($file) . '</a></li>';
         }
-        ?>
+        echo '</ul>';
+    }
+} else {
+    echo '<p>Keine Dateien hochgeladen.</p>';
+}
+?>
         <hr>
         <p><strong>Backlog:</strong></p>
         <!-- Container für den Backlog-Inhalt -->
@@ -77,6 +94,6 @@
         <!-- Button, der den Inhalt laden soll -->
         <button id="load-backlog-button" class="btn btn-primary">Backlog laden</button>
     </div>
-<?php else : ?>
+<?php else: ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
-<?php endif; ?>
+<?php endif;?>
