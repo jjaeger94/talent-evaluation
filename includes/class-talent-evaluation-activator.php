@@ -112,8 +112,6 @@ class Talent_Evaluation_Activator {
 				wp_insert_post( $page_data );
 			}
 		}
-
-		flush_rewrite_rules();
 	}
 
 }
