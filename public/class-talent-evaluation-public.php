@@ -75,13 +75,14 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_save_user_data',  array($this, 'save_user_data'));
 		add_action('wp_ajax_nopriv_save_user_data',  array($this, 'save_user_data'));
 	}
-	
+
 	// AJAX-Funktion zum Speichern der Benutzerdaten
 	function save_user_data() {
 		// Überprüfen, ob der Benutzer angemeldet ist und die erforderlichen Felder gesendet wurden
 		if (is_user_logged_in() && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company']) && isset($_POST['email'])) {
 			$current_user = wp_get_current_user();
 			$user_id = $current_user->ID;
+			
 			// Daten validieren und aktualisieren
 			$first_name = sanitize_text_field($_POST['first_name']);
 			$last_name = sanitize_text_field($_POST['last_name']);
@@ -92,6 +93,9 @@ class Talent_Evaluation_Public {
 			if (email_exists($email) && email_exists($email) != $user_id) {
 				wp_send_json_error('Die angegebene E-Mail-Adresse wird bereits verwendet.');
 			}
+
+			// Überprüfen, ob die Checkbox "Mail-Benachrichtigungen erhalten" aktiviert ist
+			$subscribe_notifications = isset($_POST['subscribe_notifications']) ? '1' : '0';
 
 			// Benutzerdaten aktualisieren
 			$userdata = array(
@@ -105,6 +109,7 @@ class Talent_Evaluation_Public {
 			// Benutzermetadaten aktualisieren
 			if (!is_wp_error($updated)) {
 				update_user_meta($user_id, 'company', $company);
+				update_user_meta($user_id, 'subscribe_notifications', $subscribe_notifications); // Hinzufügen der Checkbox-Daten
 				wp_send_json_success('Benutzerdaten erfolgreich aktualisiert.');
 			} else {
 				wp_send_json_error('Fehler beim Aktualisieren der Benutzerdaten.');
@@ -113,8 +118,7 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Fehlende oder ungültige Daten.');
 		}
 		wp_die();
-	}
-	
+	}	
 
 	function process_application_form() {
 		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {

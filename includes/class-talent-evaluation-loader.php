@@ -207,6 +207,8 @@ class Talent_Evaluation_Loader {
 
 	// Funktion zum Anzeigen benutzerdefinierter Felder auf der Benutzerbearbeitungsseite
 	public function custom_user_fields($user) {
+		$subscription = get_user_meta($user->ID, 'subscription', true);
+		$subscribe_notifications = get_user_meta($user->ID, 'subscribe_notifications', true); // Hinzufügen der Checkbox-Daten
 		?>
 		<h3>Talent Evaluation</h3>
 		<table class="form-table">
@@ -214,6 +216,23 @@ class Talent_Evaluation_Loader {
 				<th><label for="company">Firma</label></th>
 				<td>
 					<input type="text" name="company" id="company" value="<?php echo esc_attr(get_user_meta($user->ID, 'company', true)); ?>" class="regular-text">
+				</td>
+			</tr>
+			<tr>
+				<th><label for="subscription">Abonnement</label></th>
+				<td>
+					<select name="subscription" id="subscription">
+						<option value="Basic" <?php selected($subscription, 'Basic'); ?>>Basic</option>
+						<option value="Advanced" <?php selected($subscription, 'Advanced'); ?>>Advanced</option>
+						<option value="Professional" <?php selected($subscription, 'Professional'); ?>>Professional</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label></th>
+				<td>
+					<input type="checkbox" name="subscribe_notifications" id="subscribe_notifications" value="1" <?php checked($subscribe_notifications, '1'); ?>>
+					<label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label>
 				</td>
 			</tr>
 		</table>
@@ -226,8 +245,18 @@ class Talent_Evaluation_Loader {
 			return false;
 		}
 
-		update_user_meta($user_id, 'company', $_POST['company']);
-	}
+		if (isset($_POST['company'])) {
+			update_user_meta($user_id, 'company', sanitize_text_field($_POST['company']));
+		}
+
+		if (isset($_POST['subscription'])) {
+			update_user_meta($user_id, 'subscription', sanitize_text_field($_POST['subscription']));
+		}
+
+		// Speichern der Checkbox-Daten
+		$subscribe_notifications = isset($_POST['subscribe_notifications']) ? '1' : '0';
+		update_user_meta($user_id, 'subscribe_notifications', $subscribe_notifications);
+}
 
 	public function register_pdf_viewer_rewrite_rule() {
 		add_rewrite_rule('^pdf-viewer-page/?$', 'index.php?pdf_viewer_page=1', 'top');
