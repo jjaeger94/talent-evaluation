@@ -23,7 +23,7 @@
                 <?php elseif ($application->state == 'waiting') : ?>
                     <button class="btn btn-success review-btn" value="in_progress">Prüfung fortsetzen</button>
                 <?php elseif ($application->state == 'passed' || $application->state == 'failed') : ?>
-                    <button class="btn btn-success review-btn" data-comment="true" value="waiting">Prüfung erneut starten</button>
+                    <button class="btn btn-success review-btn" data-comment="true" value="in_progress">Prüfung erneut starten</button>
                 <?php endif; ?>
                 <!-- Weitere Aktionen je nach Status hier einfügen -->
             </div>

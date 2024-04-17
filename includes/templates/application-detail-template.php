@@ -81,8 +81,8 @@ if (!empty($file_path)) {
         <p><strong>Backlog:</strong></p>
         <!-- Container für den Backlog-Inhalt -->
         <?php if (isset($is_mail)): ?>
-            <?php include 'blocks/backlog_template.php'; ?>
-            <?php else: ?>
+            <?php include 'blocks/backlog-template.php'; ?>
+        <?php else: ?>
         <div id="backlog-container"></div>
         <!-- Button, der den Inhalt laden soll -->
         <button id="load-backlog-button" class="btn btn-primary">Backlog laden</button>
