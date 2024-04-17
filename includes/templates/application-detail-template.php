@@ -22,7 +22,7 @@
             <div class="col-md-6">
                 <p><strong>Beworben auf:</strong><br><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html($job->job_title); ?></a></p>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <p><strong>Einordnung:</strong>
                     <select class="form-select" id="classification" name="classification">
                         <option value="0" <?php echo ($application->classification == 0) ? 'selected' : ''; ?>>Automatische Einordnung</option>
@@ -30,7 +30,7 @@
                         <option data-comment="true" value="2" <?php echo ($application->classification == 2) ? 'selected' : ''; ?>>Manuell negativ</option>
                     </select>
                 </p>
-            </div>
+            </div> -->
         </div>
         <hr>
         <?php if ($application->state == 'new'): ?>
