@@ -318,10 +318,13 @@
 
 		$('#save-consent').click(function() {
 			var doc = new jspdf.jsPDF();
-			var yOffset = 20; // Startposition für das erste Formularfeld
-		
-			// Einverständniserklärung hinzufügen
-			doc.text("Einverständniserklärung", 10, 10);
+			var yOffset = 50; // Startposition für das erste Formularfeld
+
+			doc.text("Einverständniserklärung", 10, 10); // Überschrift einfügen
+
+			var consentText = $('#consent-text').text();
+			var consentTextLines = doc.splitTextToSize(consentText, 180); // Begrenzung der Breite auf 180 (angepasst nach Bedarf)
+			doc.text(consentTextLines, 10, 30); // Text aus dem HTML-Element "consent-text" einfügen
 		
 			// Iteriere durch die Formularfelder
 			$('#consent-form :input').each(function(index, element) {
