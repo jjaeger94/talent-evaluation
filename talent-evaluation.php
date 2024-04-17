@@ -362,6 +362,35 @@ function add_review_to_application($application_id){
     }
 }
 
+function send_status_mail($application_id){
+    $application = get_application_by_id($application_id);
+
+    if ($application) {
+        $job = get_job_by_id($application->job_id);
+        if ($application->review_id) {
+            $application->review = get_review_by_application($application);
+        }
+        $user = wp_get_current_user();
+        $state = '';
+        if($application->state == 'failed'){
+            $state = 'Prüfung nicht bestanden: ';
+        }else if($application->state == 'passed'){
+            $state = 'Prüfung bestanden: ';
+        }
+        $to = $user->user_email; // E-Mail-Adresse des Empfängers
+        $subject = $state. $application->prename . ' ' . $application->surname;
+        
+        ob_start();
+        include plugin_dir_path( __FILE__ ) . 'includes/templates/application-detail-template.php';
+        $message = ob_get_clean();
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        // E-Mail senden
+        wp_mail($to, $subject, $message, $headers);
+    }
+}
+
 function info_button($text) {
     
     // HTML für den Info-Button mit Popover zurückgeben

@@ -370,7 +370,6 @@ class Talent_Evaluation_Public {
 		}
 		wp_die();
 	}
-	
 
 	function handle_change_state() {
 		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
@@ -392,6 +391,10 @@ class Talent_Evaluation_Public {
 			$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
 			
 			update_application_state($application_id, $state, $comment);
+
+			if($state == 'failed' || $state == 'passed'){
+				send_status_mail($application_id);
+			}
 		}else if(current_user_can('firmenkunde')){
 			// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
 			if (!isset($_POST['job_id'])) {
