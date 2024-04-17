@@ -34,6 +34,7 @@
         $logout_button = ob_get_clean();
         if ( current_user_can( 'firmenkunde' ) ) {
             $user_id = get_current_user_id();
+            $user_info = get_userdata($user_id);
             ob_start();
             include plugin_dir_path( __FILE__ ) . 'templates/forms/edit-user-form.php';
             $form_content = ob_get_clean();    

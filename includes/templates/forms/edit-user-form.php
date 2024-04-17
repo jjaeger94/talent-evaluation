@@ -1,5 +1,9 @@
 <form id="edit-user-data-form" method="post">
     <div class="form-group mb-3">
+        <label for="first-name"><strong>Email</strong></label>
+        <input type="text" class="form-control" id="email" name="email" value="<?php echo esc_attr($user_info->user_email); ?>" required>
+    </div>
+    <div class="form-group mb-3">
         <label for="first-name"><strong>Vorname</strong></label>
         <input type="text" class="form-control" id="first-name" name="first_name" value="<?php echo esc_attr(get_user_meta($user_id,'first_name', true)); ?>" required>
     </div>

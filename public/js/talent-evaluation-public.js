@@ -307,7 +307,7 @@
                 success: function(response) {
                     // Erfolgsfall: Weiterleitung oder Anzeige einer Erfolgsmeldung
                     console.log(response);
-					$('#message').html(response);
+					$('#message').html(response.data);
                 },
                 error: function(xhr, status, error) {
                     // Fehlerfall: Anzeige einer Fehlermeldung

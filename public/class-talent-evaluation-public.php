@@ -78,17 +78,43 @@ class Talent_Evaluation_Public {
 	
 	// AJAX-Funktion zum Speichern der Benutzerdaten
 	function save_user_data() {
-		if (isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company'])) {
-			$user_id = get_current_user_id();
-			update_user_meta($user_id, 'first_name', sanitize_text_field($_POST['first_name']));
-			update_user_meta($user_id, 'last_name', sanitize_text_field($_POST['last_name']));
-			update_user_meta($user_id, 'company', sanitize_text_field($_POST['company']));
-			echo 'Benutzerdaten erfolgreich aktualisiert';
+		// Überprüfen, ob der Benutzer angemeldet ist und die erforderlichen Felder gesendet wurden
+		if (is_user_logged_in() && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company']) && isset($_POST['email'])) {
+			$current_user = wp_get_current_user();
+			$user_id = $current_user->ID;
+			// Daten validieren und aktualisieren
+			$first_name = sanitize_text_field($_POST['first_name']);
+			$last_name = sanitize_text_field($_POST['last_name']);
+			$company = sanitize_text_field($_POST['company']);
+			$email = sanitize_email($_POST['email']);
+
+			// Überprüfen, ob die E-Mail-Adresse bereits einem anderen Benutzer zugewiesen ist
+			if (email_exists($email) && email_exists($email) != $user_id) {
+				wp_send_json_error('Die angegebene E-Mail-Adresse wird bereits verwendet.');
+			}
+
+			// Benutzerdaten aktualisieren
+			$userdata = array(
+				'ID' => $user_id,
+				'user_email' => $email,
+				'first_name' => $first_name,
+				'last_name' => $last_name
+			);
+			$updated = wp_update_user($userdata);
+
+			// Benutzermetadaten aktualisieren
+			if (!is_wp_error($updated)) {
+				update_user_meta($user_id, 'company', $company);
+				wp_send_json_success('Benutzerdaten erfolgreich aktualisiert.');
+			} else {
+				wp_send_json_error('Fehler beim Aktualisieren der Benutzerdaten.');
+			}
 		} else {
-			wp_send_json_error('Fehlende Daten');
+			wp_send_json_error('Fehlende oder ungültige Daten.');
 		}
 		wp_die();
 	}
+	
 
 	function process_application_form() {
 		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
