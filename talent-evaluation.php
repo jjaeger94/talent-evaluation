@@ -366,6 +366,8 @@ function send_status_mail($application_id){
     $application = get_application_by_id($application_id);
 
     if ($application) {
+        $is_mail = True;
+        
         $job = get_job_by_id($application->job_id);
         if ($application->review_id) {
             $application->review = get_review_by_application($application);
@@ -379,10 +381,18 @@ function send_status_mail($application_id){
         }
         $to = $user->user_email; // E-Mail-Adresse des Empfängers
         $subject = $state. $application->prename . ' ' . $application->surname;
-        
+
+        // CSS-Datei einlesen und inline einbetten
+        $css_content = file_get_contents(plugin_dir_path(__FILE__) . 'public/css/custom.css');
+        $style = '<style>' . $css_content . '</style>';
+
+        // Template einlesen
         ob_start();
-        include plugin_dir_path( __FILE__ ) . 'includes/templates/application-detail-template.php';
-        $message = ob_get_clean();
+        include plugin_dir_path(__FILE__) . 'includes/templates/application-detail-template.php';
+        $template = ob_get_clean();
+
+        // CSS und Template in die E-Mail einbetten
+        $message = $style . $template;
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
