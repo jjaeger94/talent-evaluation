@@ -3,9 +3,9 @@
         <label for="email"><strong>Email</strong></label>
         <input type="text" class="form-control" id="email" name="email" value="<?php echo esc_attr($user_info->user_email); ?>" required>
     </div>
-    <div class="form-group mb-3">
-        <label for="subscribe_notifications" style="display: inline-block;"><strong>Informiere mich bei abgeschlossenen Prüfungen</strong></label>
-        <input type="checkbox" id="subscribe_notifications" name="subscribe_notifications" value="1" <?php checked(get_user_meta($user_id, 'subscribe_notifications', true), '1'); ?> style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+    <div class="form-group mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="subscribe_notifications" name="subscribe_notifications" value="1" <?php checked(get_user_meta($user_id, 'subscribe_notifications', true), '1'); ?>>
+        <label class="form-check-label" for="subscribe_notifications"><strong>Informiere mich bei abgeschlossenen Prüfungen</strong></label>
     </div>
     <div class="form-group mb-3">
         <label for="first-name"><strong>Vorname</strong></label>
