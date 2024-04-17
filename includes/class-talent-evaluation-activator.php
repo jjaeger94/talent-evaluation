@@ -86,6 +86,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'account',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Consent',
+				'content' => '[consent_form]',
+				'slug' => 'consent',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

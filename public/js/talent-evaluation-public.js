@@ -316,6 +316,82 @@
             });
         });
 
+		$('#save-consent').click(function() {
+			var doc = new jspdf.jsPDF();
+			var yOffset = 20; // Startposition für das erste Formularfeld
+		
+			// Einverständniserklärung hinzufügen
+			doc.text("Einverständniserklärung", 10, 10);
+		
+			// Iteriere durch die Formularfelder
+			$('#consent-form :input').each(function(index, element) {
+				var elementType = $(element).attr('type');
+				var elementValue = '';
+		
+				if (elementType === 'checkbox') {
+					// Position und Größe der Checkbox festlegen
+					var checkboxX = 10;
+					var checkboxY = yOffset;
+					var checkboxWidth = 5;
+					var checkboxHeight = 5;
+		
+					// Überprüfen, ob die Checkbox angehakt ist
+					var isChecked = $(element).is(':checked');
+		
+					// Checkbox zeichnen und Zustand basierend auf dem isChecked-Wert festlegen
+					doc.rect(checkboxX, checkboxY, checkboxWidth, checkboxHeight);
+					if (isChecked) {
+						// Kreuz in die Checkbox einfügen, wenn sie nicht angehakt ist
+						doc.line(checkboxX, checkboxY, checkboxX + checkboxWidth, checkboxY + checkboxHeight);
+						doc.line(checkboxX, checkboxY + checkboxHeight, checkboxX + checkboxWidth, checkboxY);
+					}
+					
+					doc.text($(element).next('label').text(), checkboxX + checkboxWidth + 2, checkboxY + 4); // Label für die Checkbox hinzufügen
+					yOffset += 10; // Anpassung der Y-Position für das nächste Formularfeld
+				} else {
+					// Übernehme den Wert für andere Feldtypen
+					elementValue = $(element).val();
+					doc.text($(element).prev('label').text(), 10, yOffset + 4); // Label für das Eingabefeld hinzufügen
+					doc.text(elementValue, 50, yOffset + 4); // Wert des Eingabefelds hinzufügen
+					yOffset += 10; // Anpassung der Y-Position für das nächste Formularfeld
+				}
+			});
+		
+			// Unterschrift hinzufügen
+			var imgData = signaturePad.toDataURL();
+			doc.addImage(imgData, 'PNG', 10, yOffset + 10, 100, 40); // Position und Größe der Unterschrift anpassen
+		
+			// PDF speichern
+			doc.save('test.pdf');
+		});
+		
+		
+		
+
+		function sendToServer(pdfData) {
+			$.ajax({
+				url: your_script_vars.ajaxurl,
+				method: 'POST',
+				data: { 
+					pdfData: pdfData,
+					action: 'save_consent'
+				},
+				success: function(response) {
+					console.log(response);
+					// Hier können Sie weitere Aktionen nach dem Speichern auf dem Server durchführen
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		}
+
+		$('#clear-signature').click(function() {
+            var canvas = $('#signature-pad')[0];
+			var signaturePad = new SignaturePad(canvas);
+			signaturePad.clear();
+        });
+
 		$('[data-toggle="popover"]').popover();
 
 		// Event-Listener hinzufügen, um das Popover zu schließen, wenn außerhalb geklickt wird

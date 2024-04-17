@@ -73,6 +73,7 @@ class Talent_Evaluation_Loader {
     public function add_shortcodes() {
         register_shortcodes_firmenkunden();
 		register_shortcodes_dienstleister();
+		register_shortcodes_talents();
     }
 
 	/**

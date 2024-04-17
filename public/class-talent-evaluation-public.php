@@ -74,6 +74,13 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_get_backlog',  array($this, 'handle_get_backlog'));
 		add_action('wp_ajax_save_user_data',  array($this, 'save_user_data'));
 		add_action('wp_ajax_nopriv_save_user_data',  array($this, 'save_user_data'));
+		add_action('wp_ajax_save_consent',  array($this, 'save_consent'));
+		add_action('wp_ajax_nopriv_save_consent',  array($this, 'save_consent'));
+		
+	}
+
+	function save_consent(){
+		echo 'test';
 	}
 
 	// AJAX-Funktion zum Speichern der Benutzerdaten
