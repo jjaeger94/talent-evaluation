@@ -372,11 +372,15 @@ class Talent_Evaluation_Public {
 
 		$state = $_POST['state'];
 
-		add_review_to_application($application_id);
+		$review_id = add_review_to_application($application_id);
 		
-		update_application_state($application_id, $state );
+		if($review_id){
+			update_application_state($application_id, $state );
 
-		wp_send_json_success('Status erfolgreich geändert.');
+			wp_send_json_success('Status erfolgreich geändert.');
+		}else{
+			wp_send_json_error('Ein Fehler ist aufgetreten');
+		}
 		wp_die();
 	}
 

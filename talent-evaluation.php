@@ -328,13 +328,17 @@ function add_review_to_application($application_id){
         // Tabellenname für Bewerbungen
         $table_name = $temp_db->prefix . 'reviews';
 
+        $uniqueDir = 'consent_' . uniqid();
+
         $result = $temp_db->insert(
             $table_name,
             array(
-                'application_id' => $application_id
+                'application_id' => $application_id,
+                'filepath' => $uniqueDir
             ),
             array(
-                '%d'
+                '%d',
+                '%s'
             )
         );
         if($result){
