@@ -418,11 +418,8 @@ class Talent_Evaluation_Public {
 				$job = get_job_by_id($application->job_id);
 				// Template einlesen
 				ob_start();
-				include plugin_dir_path(__FILE__) . 'includes/mail/consent-mail.php';
-				$template = ob_get_clean();
-		
-				// CSS und Template in die E-Mail einbetten
-				$message = $template;
+				include 'partials/consent-mail.php';
+				$message = ob_get_clean();
 		
 				$headers = array('Content-Type: text/html; charset=UTF-8');
 		
