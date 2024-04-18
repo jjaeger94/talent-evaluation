@@ -1,4 +1,4 @@
-<div id="consent-container" class="container mt-5">
+<div id="consent-container" class="container">
     <form id="consent-form" enctype="multipart/form-data">
         <p id="pre-consent-text">Hiermit gebe Ich, <?php echo $application->prename . ' ' . $application->surname; ?>, Commit IQ mein Einverständnis dazu (bitte ankreuzen):</p>
         <?php if ($job->screening & 1): ?>
@@ -27,7 +27,7 @@
     </form>
     <div class="d-flex justify-content-between">
         <button type="button" id="clear-signature" class="btn btn-danger mt-2">Unterschrift zurücksetzen</button>
-        <button type="button" id="save-consent" class="btn btn-primary">PDF speichern</button>
+        <button type="button" id="save-consent" class="btn btn-primary">Einverständnis speichern</button>
     </div>
 </div>
 
