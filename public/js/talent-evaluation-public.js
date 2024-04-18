@@ -337,6 +337,7 @@
 				processData: false, // Wichtig für das Senden von Dateien
 				success: function(response) {
 					console.log(response);
+					$('#consent-container').html('Das wars schon, du kannst die Seite jetzt schließen.');
 					// Hier können Sie weitere Aktionen nach dem Speichern auf dem Server durchführen
 				},
 				error: function(xhr, status, error) {
