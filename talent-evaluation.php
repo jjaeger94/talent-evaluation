@@ -129,21 +129,7 @@ function get_application_by_id( $application_id ) {
         // Überprüfen, ob Bewerbungsdetails vorhanden sind
         return ! empty( $application ) ? $application[0] : null;
     } else if ( current_user_can( 'dienstleister' ) ) {
-        // Datenbankverbindung öffnen
-        $temp_db = open_database_connection();
-
-        // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-        $query = $temp_db->prepare( "
-            SELECT *
-            FROM {$temp_db->prefix}applications
-            WHERE ID = %d
-        ", $application_id );
-
-        // Bewerbungsdetails abrufen
-        $application = $temp_db->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $application ) ? $application[0] : null;
+        return get_application_by_id_permissionless($application_id);
     } else {
         return null;
     }
@@ -169,21 +155,7 @@ function get_job_by_id( $job_id ) {
         // Überprüfen, ob Jobdetails vorhanden sind
         return ! empty( $job ) ? $job[0] : null;
     } else if ( current_user_can( 'dienstleister' ) ) {
-        // Datenbankverbindung öffnen
-        $temp_db = open_database_connection();
-
-        // SQL-Abfrage, um die Jobdetails abzurufen
-        $query = $temp_db->prepare( "
-            SELECT *
-            FROM {$temp_db->prefix}jobs
-            WHERE ID = %d
-        ", $job_id );
-
-        // Jobdetails abrufen
-        $job = $temp_db->get_results( $query );
-
-        // Überprüfen, ob Jobdetails vorhanden sind
-        return ! empty( $job ) ? $job[0] : null;
+        return get_job_by_id_permissionless($job_id);
     }else{
         return null;
     }
@@ -443,8 +415,78 @@ function get_text_by_key($key) {
     }
 }
 
+function get_job_by_id_permissionless($job_id){
+    $temp_db = open_database_connection();
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $temp_db->prepare( "
+         SELECT *
+         FROM {$temp_db->prefix}jobs
+         WHERE ID = %d
+    ", $job_id );
+
+    // Jobdetails abrufen
+    $jobs = $temp_db->get_results( $query );
+
+    // Überprüfen, ob Jobdetails vorhanden sind
+    return ! empty( $jobs ) ? $jobs[0] : null;
+}
+
+function get_review_by_id_permissionless($review_id){
+    $temp_db = open_database_connection();
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $temp_db->prepare( "
+         SELECT *
+         FROM {$temp_db->prefix}reviews
+         WHERE ID = %d
+    ", $review_id );
+
+    // Jobdetails abrufen
+    $reviews = $temp_db->get_results( $query );
+
+    // Überprüfen, ob Jobdetails vorhanden sind
+    return ! empty( $reviews ) ? $reviews[0] : null;
+}
+
+function get_review_by_id($review_id){
+    if(current_user_can('dienstleister')){
+         return get_review_by_id_permissionless($review_id);
+    }else{
+         return null;
+    }
+
+}
+
+function get_application_by_id_permissionless($application_id){
+    // Datenbankverbindung öffnen
+    $temp_db = open_database_connection();
+
+    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
+    $query = $temp_db->prepare( "
+        SELECT *
+        FROM {$temp_db->prefix}applications
+        WHERE ID = %d
+    ", $application_id );
+
+    // Bewerbungsdetails abrufen
+    $applications = $temp_db->get_results( $query );
+
+    // Überprüfen, ob Bewerbungsdetails vorhanden sind
+    return ! empty( $applications ) ? $applications[0] : null;
+}
+
 function get_applications_dir(){
     $uploadDir = wp_upload_dir()['basedir'] . '/applications/';
+    // Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
+    }
+    return $uploadDir;
+}
+
+function get_consent_dir(){
+    $uploadDir = wp_upload_dir()['basedir'] . '/consent/';
     // Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere

@@ -1,5 +1,5 @@
 <div class="container mt-5">
-    <form id="consent-form">
+    <form id="consent-form" enctype="multipart/form-data">
         <p id="pre-consent-text">Hiermit gebe Ich, <?php echo $application->prename . ' ' . $application->surname; ?>, Commit IQ mein Einverständnis dazu (bitte ankreuzen):</p>
         <?php if ($job->screening & 1): ?>
         <div class="mb-3 form-check">

@@ -44,8 +44,8 @@
 			});
 		});
 
-		$('#application-form').submit(function (event) {
-			event.preventDefault();
+		$('#application-form').submit(function (e) {
+			e.preventDefault();
 			var formData = new FormData(this); // FormData-Objekt erstellen und das Formular übergeben
 			formData.append('action', 'add_application');
 			$.ajax({
@@ -316,7 +316,36 @@
             });
         });
 
-		$('#save-consent').click(function() {
+		$('#save-consent').click(function(e) {
+			e.preventDefault();
+			var urlParams = new URLSearchParams(window.location.search);
+			var applicationId = urlParams.get('id');
+			var key = urlParams.get('key');
+			var pdf = generatePDF();
+			var formData = new FormData($('#consent-form')[0]); // FormData-Objekt erstellen und das Formular übergeben
+			formData.append('action', 'save_consent');
+			formData.append('application_id', applicationId);
+			formData.append('key', key);
+			var pdf = generatePDF(); // Erstelle das PDF-Dokument
+			formData.append('file', pdf, 'consent_' + Date.now() + '.pdf'); // Füge das Blob-Objekt als Datei hinzu
+		
+			$.ajax({
+				url: your_script_vars.ajaxurl,
+				method: 'POST',
+				data: formData,
+				contentType: false, // Wichtig für das Senden von Dateien
+				processData: false, // Wichtig für das Senden von Dateien
+				success: function(response) {
+					console.log(response);
+					// Hier können Sie weitere Aktionen nach dem Speichern auf dem Server durchführen
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
+		
+		function generatePDF(){
 			var doc = new jspdf.jsPDF();
 			var yOffset = 20; // Startposition für das erste Formularfeld
 
@@ -388,28 +417,7 @@
 			doc.addImage(imgData, 'PNG', 10, yOffset, 100, 40); // Position und Größe der Unterschrift anpassen
 		
 			// PDF speichern
-			doc.save('test.pdf');
-		});
-		
-		
-		
-
-		function sendToServer(pdfData) {
-			$.ajax({
-				url: your_script_vars.ajaxurl,
-				method: 'POST',
-				data: { 
-					pdfData: pdfData,
-					action: 'save_consent'
-				},
-				success: function(response) {
-					console.log(response);
-					// Hier können Sie weitere Aktionen nach dem Speichern auf dem Server durchführen
-				},
-				error: function(xhr, status, error) {
-					console.error(xhr.responseText);
-				}
-			});
+			return doc.output('blob');
 		}
 
 		$('#clear-signature').click(function() {

@@ -6,7 +6,7 @@
         }
         if (!empty($file_path)) {
             $files = glob($file_path . '*.pdf'); // Nur PDF-Dateien anzeigen
-            if ($files !== false) {
+            if ($files) {
                 echo '<ul>';
                 foreach ($files as $file) {
                     echo '<li><a href="' . esc_url( add_query_arg( array(
@@ -15,7 +15,9 @@
                     ), home_url('/pdf-viewer-page') ) ) . '" target="_blank">' . basename($file) . '</a></li>';
                 }                              
                 echo '</ul>';
-            }                        
+            } else {
+                echo '<p>Keine Dateien hochgeladen.</p>';
+            }                    
         } else {
             echo '<p>Keine Dateien hochgeladen.</p>';
         }

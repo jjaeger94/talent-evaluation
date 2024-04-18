@@ -32,6 +32,8 @@
         <?php include 'blocks/job-info-template.php'; ?>
         <hr>
         <?php if ($application->review_id) : ?>
+            <?php include 'blocks/consent-template.php'; ?>
+            <hr>
             <?php include 'blocks/criteria-template.php'; ?>
             <hr>
             <?php include 'blocks/completeness-template.php'; ?>

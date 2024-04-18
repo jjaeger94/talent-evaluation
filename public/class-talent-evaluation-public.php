@@ -80,7 +80,63 @@ class Talent_Evaluation_Public {
 	}
 
 	function save_consent(){
-		echo 'test';
+		if(isset($_POST['application_id']) && isset($_POST['key']) && isset($_FILES['file'])){
+			$application_id = absint( $_POST['application_id'] );
+			$uniqueDir = sanitize_text_field($_POST['key']);
+			$application = get_application_by_id_permissionless($application_id);
+			if($application){
+				$review = get_review_by_id_permissionless($application->review_id);
+				if ($review && ($review->filepath == $uniqueDir)){
+					$uploadDir = get_consent_dir();
+					$file_path = $uploadDir . $review->filepath .'/';
+					$filename = 'consent_' . date('Y-m-d_H-i-s') . '.pdf';
+					if(!is_dir($file_path) || !is_writable($file_path)){
+						mkdir($file_path, 0755, true);
+					}
+					$result = move_uploaded_file($_FILES['file']['tmp_name'], $file_path . $filename);
+					if($result){
+						$consent = 0;
+						if( isset($_POST['linkedIn_check']) ){
+							$consent = ($consent | 1); // LinkedIn-Check ist aktiv, setze das entsprechende Bit
+						}
+						if( isset($_POST['old_work_reference_check']) ){
+							$consent = ($consent | 2); // alter arbeitgeber ist aktiv, setze das entsprechende Bit
+						}
+						if( isset($_POST['new_work_reference_check']) ){
+							$consent = ($consent | 4); // aktueller Arbeitgeber ist aktiv, setze das entsprechende Bit
+						}
+
+									// Versuchen, eine temporäre Datenbankverbindung herzustellen
+						$temp_db = open_database_connection();
+
+						$table_name = $temp_db->prefix . 'reviews';
+
+						$data = array('consent' => $consent);
+
+						// Bedingung für die Aktualisierung
+						$where = array('ID' => $review->ID);
+					
+						// Aktualisieren der Daten in der Datenbank
+						$temp_db->update($table_name, $data, $where);
+						
+						$log = 'Bewerber hat Einverständnis hochgeladen';
+					
+						create_backlog_entry($application_id, $log);
+						wp_send_json_success('Datei erfolgreich hochgeladen');
+					}else{
+						wp_send_json_error('Fehler beim upload');
+					}
+				}else{
+					wp_send_json_error('Keine Berechtigung');
+				}
+			}else{
+				wp_send_json_error('Keine Berechtigung');
+			}
+			
+		}else{
+			wp_send_json_error('Fehlende oder ungültige Daten.');
+		}
+		wp_die();
 	}
 
 	// AJAX-Funktion zum Speichern der Benutzerdaten
@@ -346,6 +402,36 @@ class Talent_Evaluation_Public {
 				
 			
 				create_backlog_entry($application_id, $log, $comment);
+			}else if($type == 'consent'){
+				$data = array('consent' => $value);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $application->review_id);
+			
+				// Aktualisieren der Daten in der Datenbank
+				$temp_db->update($table_name, $data, $where);
+
+				$to = $application->email; // E-Mail-Adresse des Empfängers
+				$subject = 'Einverständniserklärung';
+		
+				$review = get_review_by_id($application->review_id);
+				$job = get_job_by_id($application->job_id);
+				// Template einlesen
+				ob_start();
+				include plugin_dir_path(__FILE__) . 'includes/mail/consent-mail.php';
+				$template = ob_get_clean();
+		
+				// CSS und Template in die E-Mail einbetten
+				$message = $template;
+		
+				$headers = array('Content-Type: text/html; charset=UTF-8');
+		
+				// E-Mail senden
+				wp_mail($to, $subject, $message, $headers);
+				
+				$log = 'Einverständnis Email verschickt';
+			
+				create_backlog_entry($application_id, $log);
 			}
 
 			wp_send_json_success('Status erfolgreich geändert.');
