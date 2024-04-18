@@ -13,7 +13,7 @@
         ?></h2>
         <p><?php echo esc_html($application->email); ?></p>
     </div>
-    <div class="col-md-6 d-flex align-items-center">
+    <div class="col-md-5 d-flex align-items-center text-end">
         <?php include 'columns/status.php'; ?>
     </div>
 </div>
