@@ -318,13 +318,18 @@
 
 		$('#save-consent').click(function() {
 			var doc = new jspdf.jsPDF();
-			var yOffset = 50; // Startposition für das erste Formularfeld
+			var yOffset = 20; // Startposition für das erste Formularfeld
 
-			doc.text("Einverständniserklärung", 10, 10); // Überschrift einfügen
+			doc.text("Einverständniserklärung", 10, yOffset); // Überschrift einfügen
 
-			var consentText = $('#consent-text').text();
-			var consentTextLines = doc.splitTextToSize(consentText, 180); // Begrenzung der Breite auf 180 (angepasst nach Bedarf)
-			doc.text(consentTextLines, 10, 30); // Text aus dem HTML-Element "consent-text" einfügen
+			yOffset += 20;
+
+			var preConsentText = $('#pre-consent-text').text();
+			var preConsentTextLines = doc.splitTextToSize(preConsentText, 180); // Begrenzung der Breite auf 180 (angepasst nach Bedarf)
+			doc.text(preConsentTextLines, 10, yOffset); // Text aus dem HTML-Element "consent-text" einfügen
+			yOffset += 20;
+
+
 		
 			// Iteriere durch die Formularfelder
 			$('#consent-form :input').each(function(index, element) {
@@ -359,10 +364,28 @@
 					yOffset += 10; // Anpassung der Y-Position für das nächste Formularfeld
 				}
 			});
+
+			yOffset += 10;
+
+			var postConsentText = $('#post-consent-text').text();
+			var postConsentTextLines = doc.splitTextToSize(postConsentText, 180); // Begrenzung der Breite auf 180 (angepasst nach Bedarf)
+			doc.text(postConsentTextLines, 10, yOffset);
+			yOffset += 30;
+
+			if($('#work-consent-text')[0]){
+				var workConsentText = $('#work-consent-text').text();
+				var workConsentTextLines = doc.splitTextToSize(workConsentText, 180); // Begrenzung der Breite auf 180 (angepasst nach Bedarf)
+				doc.text(workConsentTextLines, 10, yOffset);
+				yOffset += 30;
+			}
+
+
+			doc.text($('#date-consent-text').text(), 10, yOffset);
+			yOffset += 10;	
 		
 			// Unterschrift hinzufügen
 			var imgData = signaturePad.toDataURL();
-			doc.addImage(imgData, 'PNG', 10, yOffset + 10, 100, 40); // Position und Größe der Unterschrift anpassen
+			doc.addImage(imgData, 'PNG', 10, yOffset, 100, 40); // Position und Größe der Unterschrift anpassen
 		
 			// PDF speichern
 			doc.save('test.pdf');

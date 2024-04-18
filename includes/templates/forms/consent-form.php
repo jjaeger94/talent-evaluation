@@ -1,18 +1,25 @@
 <div class="container mt-5">
     <form id="consent-form">
-        <p id="consent-text">Hiermit gebe Ich, <?php echo $application->prename . ' ' . $application->surname; ?>, der Firma Commit IQ mein Einverständnis dazu (bitte ankreuzen):</p>
+        <p id="pre-consent-text">Hiermit gebe Ich, <?php echo $application->prename . ' ' . $application->surname; ?>, Commit IQ mein Einverständnis dazu (bitte ankreuzen):</p>
         <?php if ($job->screening & 1): ?>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="linkedIn_check" name="linkedIn_check">
-            <label class="form-check-label" for="linkedIn_check">Mein LinkedIn-Profil zu überprüfen</label>
+            <label class="form-check-label" for="linkedIn_check">Mein öffentliches LinkedIn-Profil einzusehen</label>
         </div>
         <?php endif; ?>
         <?php if ($job->screening & 4): ?>
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="work_reference_check" name="work_reference_check">
-            <label class="form-check-label" for="work_reference_check">Meine alten Arbeitgeber zu kontaktieren</label>
+            <input type="checkbox" class="form-check-input" id="old_work_reference_check" name="old_work_reference_check">
+            <label class="form-check-label" for="old_work_reference_check">Meine ehemaligen Arbeitgeber zu kontaktieren</label>
         </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="new_work_reference_check" name="new_work_reference_check">
+            <label class="form-check-label" for="new_work_reference_check">Meinen aktuellen Arbeitgeber zu kontaktieren</label>
+        </div>
+        <p id="work-consent-text">Ich verstehe, dass die Kontaktaufnahme mit meinen Arbeitgebern ausschließlich dazu dient, den im Lebenslauf angegebenen Arbeitszeitraum und die angegebene Stelle zu überprüfen.</p>
         <?php endif; ?>
+        <p id="post-consent-text">Ich verstehe auch, dass diese Einwilligung freiwillig ist und dass ich das Recht habe, sie jederzeit zu widerrufen, indem ich eine schriftliche Benachrichtigung an <?php echo get_option('admin_email'); ?> sende.</p>
+        <p id="date-consent-text">Datum: <?php echo date("d.m.Y")?></p>
         <div class="mb-3">
             <p>Hier unterschreiben:</p>
             <canvas id="signature-pad" class="border" width="500" height="200"></canvas>
