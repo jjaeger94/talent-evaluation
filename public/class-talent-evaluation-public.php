@@ -130,20 +130,17 @@ class Talent_Evaluation_Public {
 	function process_application_form() {
 		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
 			$applicationDir = '';
+			$uniqueDir = '';
 			// Überprüfen, ob Dateien hochgeladen wurden
 			if (isset($_FILES['resumes']) && !empty($_FILES['resumes']['name'][0])) {
-				$uploadDir = wp_upload_dir()['basedir'] . '/applications/';
-
-				// Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
-				if (!file_exists($uploadDir)) {
-					mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
-				}
-				$applicationDir = $uploadDir . 'application_' . uniqid() . '/'; // Eindeutiger Ordnername für jede Bewerbung
+				$uploadDir = get_applications_dir();
+				$uniqueDir = 'application_' . uniqid();
+				$applicationDir = $uploadDir . $uniqueDir; // Eindeutiger Ordnername für jede Bewerbung
 				mkdir($applicationDir, 0755, true); // Ordner für Bewerbung erstellen
 
 				// Durchlaufen Sie alle hochgeladenen Dateien
 				foreach ($_FILES['resumes']['tmp_name'] as $key => $tmpName) {
-					$uploadFile = $applicationDir . basename($_FILES['resumes']['name'][$key]); // Pfad zur hochgeladenen Datei im Bewerbungsordner
+					$uploadFile = $applicationDir . '/' . basename($_FILES['resumes']['name'][$key]); // Pfad zur hochgeladenen Datei im Bewerbungsordner
 					move_uploaded_file($tmpName, $uploadFile);
 				}
 			}
@@ -172,7 +169,7 @@ class Talent_Evaluation_Public {
 					'surname' => $surname,
 					'email' => $email,
 					'salutation' => $salutation,
-					'filepath' => $applicationDir,
+					'filepath' => $uniqueDir,
 					// Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
 				),
 				array(
@@ -475,15 +472,20 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
-		$file_directory = $application->filepath;
+		$uploadDir = get_applications_dir(); // Standard-WordPress-Upload-Verzeichnis
+        $file_path = $application->filepath;
+        if($file_path){
+            $file_path = $uploadDir . $file_path . '/';
+        }
+
 	
 		// Überprüfen, ob bereits Dateien vorhanden sind
-		if (!empty($file_directory)) {
+		if ($file_path && !empty($file_path)) {
 			// Dateien vorhanden
 			// Prüfen, ob es sich um ein Verzeichnis handelt und ob es beschreibbar ist
-			if (is_dir($file_directory) && is_writable($file_directory)) {
+			if (is_dir($file_path) && is_writable($file_path)) {
 				// Dateien werden im vorhandenen Verzeichnis gespeichert
-				$upload_path = $file_directory;
+				$upload_path = $file_path;
 			} else {
 				// Fehler: Das Verzeichnis existiert nicht oder ist nicht beschreibbar
 				echo 'Fehler: Das Verzeichnis für Dateien ist nicht verfügbar oder nicht beschreibbar.';
@@ -491,18 +493,13 @@ class Talent_Evaluation_Public {
 			}
 		} else {
 			// Keine Dateien vorhanden
-			// Neuen Ordner erstellen
-			$uploadDir = wp_upload_dir()['basedir'] . '/applications/'; // Standard-WordPress-Upload-Verzeichnis
-			// Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
-			if (!file_exists($uploadDir)) {
-				mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
-			}
-			$applicationDir = $uploadDir . 'application_' . uniqid() . '/'; // Eindeutiger Ordnername für jede Bewerbung
+			$uniqueDir = 'application_' . uniqid();
+			$applicationDir = $uploadDir . $uniqueDir;
 			mkdir($applicationDir, 0755, true);
 
 			// Upload-Pfad setzen
-			$upload_path = $applicationDir;
-			update_application_filepath($application_id, $applicationDir);
+			$upload_path = $applicationDir . '/';
+			update_application_filepath($application_id, $uniqueDir);
 		}
 	
 		// Dateien verschieben und speichern

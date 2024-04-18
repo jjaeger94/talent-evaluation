@@ -439,6 +439,15 @@ function get_text_by_key($key) {
     }
 }
 
+function get_applications_dir(){
+    $uploadDir = wp_upload_dir()['basedir'] . '/applications/';
+    // Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
+    }
+    return $uploadDir;
+}
+
 function get_user_home_url( $user ) {
     if ( isset( $user->roles ) && is_array( $user->roles ) ) {
         if ( in_array( 'firmenkunde', $user->roles ) ) {

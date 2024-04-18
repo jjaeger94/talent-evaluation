@@ -1,5 +1,9 @@
 <?php
+        $uploadDir = get_applications_dir();
         $file_path = $application->filepath;
+        if($file_path){
+            $file_path = $uploadDir . $file_path . '/';
+        }
         if (!empty($file_path)) {
             $files = glob($file_path . '*.pdf'); // Nur PDF-Dateien anzeigen
             if ($files !== false) {

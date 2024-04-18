@@ -5,9 +5,11 @@ if (isset($_GET['file']) && isset($_GET['application_id'])) {
     $application_id = $_GET['application_id'];
     $application = get_application_by_id($application_id);
 
-    if($application){
+    if($application && $application->filepath){
+
+        $uploadDir = get_applications_dir();
         // Pfad zur PDF-Datei konstruieren
-        $file_path = $application->filepath . $file_name;
+        $file_path = $uploadDir . $application->filepath .'/'. $file_name;
 
         // Überprüfen, ob die Datei existiert
         if (file_exists($file_path)) {
