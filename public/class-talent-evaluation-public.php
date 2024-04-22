@@ -416,6 +416,11 @@ class Talent_Evaluation_Public {
 		
 				$review = get_review_by_id($application->review_id);
 				$job = get_job_by_id($application->job_id);
+
+				$wp_user = get_user_by( 'id', $job->user_id );
+
+                $swpm_user = SwpmMemberUtils::get_user_by_email($wp_user->user_email);
+                $company = SwpmMemberUtils::get_member_field_by_id($swpm_user->member_id, 'company_name');
 				// Template einlesen
 				ob_start();
 				include 'partials/consent-mail.php';

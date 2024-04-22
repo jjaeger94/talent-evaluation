@@ -67,14 +67,17 @@
                 if($application->review_id){
                     $review = get_review_by_application($application);
                 }
+
+                $wp_user = get_user_by( 'id', $job->user_id );
+
+                $swpm_user = SwpmMemberUtils::get_user_by_email($wp_user->user_email);
+                $company = SwpmMemberUtils::get_member_field_by_id($swpm_user->member_id, 'company_name');
                 
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/task-detail-template.php';
-                $output = ob_get_clean();
+                return ob_get_clean();
 
-
-                return $output;
             } else {
                 // Keine ID-Parameter übergeben, Meldung ausgeben
                 return '<div class="alert alert-warning" role="alert">Es wurde keine Bewerbungs-ID angegeben.</div>';
