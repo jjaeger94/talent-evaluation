@@ -82,7 +82,7 @@ class Talent_Evaluation_Activator {
 			),
 			array(
 				'title' => 'Account',
-				'content' => '[edit_user_data_form]',
+				'content' => '[swpm_profile_form]',
 				'slug' => 'account',
 				'template' => '', // optional: Vorlage für die Seite
 			),
