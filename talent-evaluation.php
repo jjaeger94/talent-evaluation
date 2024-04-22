@@ -14,6 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Talent Evaluation
+ * Requires Plugins:  Simple WordPress Membership
  * Plugin URI:        https://github.com/jjaeger94/talent-evaluation
  * Description:       Plugin für Commit IQ zum Hinterlegen und evaluieren von bewerbern
  * Version:           1.0.0
