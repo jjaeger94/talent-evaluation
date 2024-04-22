@@ -104,7 +104,7 @@ class Talent_Evaluation_Admin {
 	private function register_admin_settings() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
-		add_action('wp_ajax_check_db_connection', array($this, 'check_db_connection'));		
+		// add_action('wp_ajax_check_db_connection', array($this, 'check_db_connection'));		
     }
 
     public function add_admin_menu() {
@@ -127,7 +127,7 @@ class Talent_Evaluation_Admin {
                         <th scope="row">Logo URL</th>
                         <td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
                     </tr>
-                    <tr valign="top">
+                    <!-- <tr valign="top">
                         <th scope="row">Database Host</th>
                         <td><input type="text" name="te_db_host" value="<?php echo esc_attr(get_option('te_db_host')); ?>" /></td>
                     </tr>
@@ -142,7 +142,7 @@ class Talent_Evaluation_Admin {
                     <tr valign="top">
                         <th scope="row">Database Password</th>
                         <td><input type="password" name="te_db_password" value="<?php echo esc_attr(get_option('te_db_password')); ?>" /></td>
-                    </tr>
+                    </tr> -->
                 </table>
                 <?php submit_button(); ?>
             </form>
@@ -157,25 +157,25 @@ class Talent_Evaluation_Admin {
     public function register_settings() {
 		register_setting('talent_evaluation_settings', 'te_login_logo');
 		register_setting('talent_evaluation_settings', 'te_login_title');
-        register_setting('talent_evaluation_settings', 'te_db_host');
-        register_setting('talent_evaluation_settings', 'te_db_name');
-        register_setting('talent_evaluation_settings', 'te_db_user');
-        register_setting('talent_evaluation_settings', 'te_db_password');
+        // register_setting('talent_evaluation_settings', 'te_db_host');
+        // register_setting('talent_evaluation_settings', 'te_db_name');
+        // register_setting('talent_evaluation_settings', 'te_db_user');
+        // register_setting('talent_evaluation_settings', 'te_db_password');
     }
 
-	public function check_db_connection() {
-		// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-		$temp_db = open_database_connection();
+	// public function check_db_connection() {
+	// 	// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
+	// 	$temp_db = open_database_connection();
 	
-		// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
-		if ($temp_db->ready) {
-			echo 'Connection successful';
-		} else {
-			echo 'Connection failed';
-		}
+	// 	// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
+	// 	if ($temp_db->ready) {
+	// 		echo 'Connection successful';
+	// 	} else {
+	// 		echo 'Connection failed';
+	// 	}
 	
-		// Beenden Sie die Ausführung des Skripts
-		wp_die();
-	}
+	// 	// Beenden Sie die Ausführung des Skripts
+	// 	wp_die();
+	// }
 
 }

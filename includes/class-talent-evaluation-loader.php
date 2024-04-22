@@ -213,7 +213,7 @@ class Talent_Evaluation_Loader {
 		?>
 		<h3>Talent Evaluation</h3>
 		<table class="form-table">
-			<tr>
+			<!-- <tr>
 				<th><label for="company">Firma</label></th>
 				<td>
 					<input type="text" name="company" id="company" value="<?php echo esc_attr(get_user_meta($user->ID, 'company', true)); ?>" class="regular-text">
@@ -228,7 +228,7 @@ class Talent_Evaluation_Loader {
 						<option value="Professional" <?php selected($subscription, 'Professional'); ?>>Professional</option>
 					</select>
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<th><label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label></th>
 				<td>

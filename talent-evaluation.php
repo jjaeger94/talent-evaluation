@@ -83,31 +83,33 @@ function run_talent_evaluation() {
 
 // Funktion zum Öffnen der Datenbankverbindung
 function open_database_connection() {
-    global $connection;
+    global $wpdb;
+    return $wpdb;
+    // global $connection;
 
-    // Überprüfen, ob bereits eine Verbindung besteht
-    if ( isset( $connection ) && is_object( $connection ) ) {
-        return $connection;
-    }
+    // // Überprüfen, ob bereits eine Verbindung besteht
+    // if ( isset( $connection ) && is_object( $connection ) ) {
+    //     return $connection;
+    // }
 
-    // Erfassen Sie die in den Optionen gespeicherten Daten
-    $db_host = get_option('te_db_host');
-    $db_name = get_option('te_db_name');
-    $db_user = get_option('te_db_user');
-    $db_password = get_option('te_db_password');
+    // // Erfassen Sie die in den Optionen gespeicherten Daten
+    // $db_host = get_option('te_db_host');
+    // $db_name = get_option('te_db_name');
+    // $db_user = get_option('te_db_user');
+    // $db_password = get_option('te_db_password');
 
-    // Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-    $temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
+    // // Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
+    // $temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
 
-    // Überprüfen, ob die Verbindung erfolgreich war
-    if ( ! is_wp_error( $temp_db ) ) {
-        $connection = $temp_db;
-        return $connection;
-    } else {
-        // Behandeln Sie den Fehler, wenn die Verbindung fehlschlägt
-        // Zum Beispiel, eine Fehlermeldung anzeigen oder protokollieren
-        return $temp_db;
-    }
+    // // Überprüfen, ob die Verbindung erfolgreich war
+    // if ( ! is_wp_error( $temp_db ) ) {
+    //     $connection = $temp_db;
+    //     return $connection;
+    // } else {
+    //     // Behandeln Sie den Fehler, wenn die Verbindung fehlschlägt
+    //     // Zum Beispiel, eine Fehlermeldung anzeigen oder protokollieren
+    //     return $temp_db;
+    // }
 }
 
 function get_application_by_id( $application_id ) {
@@ -119,7 +121,7 @@ function get_application_by_id( $application_id ) {
         // SQL-Abfrage, um die Bewerbungsdetails abzurufen
         $query = $temp_db->prepare( "
             SELECT *
-            FROM {$temp_db->prefix}applications
+            FROM {$temp_db->prefix}te_applications
             WHERE ID = {$application_id}
             AND user_id = {$user_id}
         ");
@@ -145,7 +147,7 @@ function get_job_by_id( $job_id ) {
         // SQL-Abfrage, um die Jobdetails abzurufen
         $query = $temp_db->prepare( "
             SELECT *
-            FROM {$temp_db->prefix}jobs
+            FROM {$temp_db->prefix}te_jobs
             WHERE ID = {$job_id}
             AND user_id = {$user_id}
         ");
@@ -165,7 +167,7 @@ function get_job_by_id( $job_id ) {
 function update_application_filepath($application_id, $file_directory){
 	$temp_db = open_database_connection();
 	// Tabellenname für Bewerbungen
-	$table_name = $temp_db->prefix . 'applications';
+	$table_name = $temp_db->prefix . 'te_applications';
 
 	// Daten zum Aktualisieren
 	$data = array('filepath' => $file_directory);
@@ -197,7 +199,7 @@ function get_review_by_application($application){
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
     $query = $temp_db->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}reviews
+        FROM {$temp_db->prefix}te_reviews
         WHERE ID = %d
     ", $application->review_id );
 
@@ -222,7 +224,7 @@ function get_backlogs_by_application( $application ) {
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
     $query = $temp_db->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}backlogs
+        FROM {$temp_db->prefix}te_backlogs
         WHERE application_id = %d
         ORDER BY added DESC
     ", $application->ID );
@@ -236,7 +238,7 @@ function create_backlog_entry($application_id, $log, $comment = ''){
     $user_id = get_current_user_id();
     $temp_db = open_database_connection();
 
-    $table_name = $temp_db->prefix . 'backlogs';
+    $table_name = $temp_db->prefix . 'te_backlogs';
 
     $result = $temp_db->insert(
         $table_name,
@@ -258,7 +260,7 @@ function create_backlog_entry($application_id, $log, $comment = ''){
 function update_job_state($job_id, $state){
     $temp_db = open_database_connection();
     // Tabellenname für Bewerbungen
-    $table_name = $temp_db->prefix . 'jobs';
+    $table_name = $temp_db->prefix . 'te_jobs';
 
     // Daten zum Aktualisieren
     $data = array('state' => $state);
@@ -273,7 +275,7 @@ function update_job_state($job_id, $state){
 function update_application_state($application_id, $state, $comment = ''){
     $temp_db = open_database_connection();
     // Tabellenname für Bewerbungen
-    $table_name = $temp_db->prefix . 'applications';
+    $table_name = $temp_db->prefix . 'te_applications';
 
     // Daten zum Aktualisieren
     $data = array('state' => $state);
@@ -299,7 +301,7 @@ function add_review_to_application($application_id){
     }else{
         $temp_db = open_database_connection();
         // Tabellenname für Bewerbungen
-        $table_name = $temp_db->prefix . 'reviews';
+        $table_name = $temp_db->prefix . 'te_reviews';
 
         $uniqueDir = 'consent_' . uniqid();
 
@@ -318,7 +320,7 @@ function add_review_to_application($application_id){
             //get id 
             $lastid = $temp_db->insert_id;
             // Tabellenname für Bewerbungen
-            $table_name = $temp_db->prefix . 'applications';
+            $table_name = $temp_db->prefix . 'te_applications';
 
             // Daten zum Aktualisieren
             $data = array('review_id' => $lastid);
@@ -422,7 +424,7 @@ function get_job_by_id_permissionless($job_id){
     // SQL-Abfrage, um die Jobdetails abzurufen
     $query = $temp_db->prepare( "
          SELECT *
-         FROM {$temp_db->prefix}jobs
+         FROM {$temp_db->prefix}te_jobs
          WHERE ID = %d
     ", $job_id );
 
@@ -439,7 +441,7 @@ function get_review_by_id_permissionless($review_id){
     // SQL-Abfrage, um die Jobdetails abzurufen
     $query = $temp_db->prepare( "
          SELECT *
-         FROM {$temp_db->prefix}reviews
+         FROM {$temp_db->prefix}te_reviews
          WHERE ID = %d
     ", $review_id );
 
@@ -466,7 +468,7 @@ function get_application_by_id_permissionless($application_id){
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
     $query = $temp_db->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}applications
+        FROM {$temp_db->prefix}te_applications
         WHERE ID = %d
     ", $application_id );
 

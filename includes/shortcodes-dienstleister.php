@@ -25,7 +25,7 @@
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
                 SELECT *
-                FROM {$temp_db->prefix}applications
+                FROM {$temp_db->prefix}te_applications
                 {$filter}
                 ORDER BY added DESC
             " );

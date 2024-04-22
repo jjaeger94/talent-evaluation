@@ -112,6 +112,37 @@ class Talent_Evaluation_Activator {
 				wp_insert_post( $page_data );
 			}
 		}
+
+		function wp_create_database_tables() {
+			global $wpdb;
+				
+			$charset_collate = $wpdb->get_charset_collate();
+		
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			$jobs = $wpdb->prefix . 'te_jobs';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$jobs}'") != $jobs ){
+				$sql = "CREATE TABLE $jobs (`ID` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL ,`location` VARCHAR(255) NOT NULL , `job_title` VARCHAR(255) NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria1` VARCHAR(255) NOT NULL , `criteria2` VARCHAR(255) NOT NULL , `criteria3` VARCHAR(255) NOT NULL , `completeness` TINYINT NOT NULL , `screening` TINYINT NOT NULL , `state` VARCHAR(255) NOT NULL DEFAULT 'active', PRIMARY KEY (`ID`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$applications = $wpdb->prefix . 'te_applications';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$applications}'") != $applications ){
+				$sql = "CREATE TABLE $applications (`ID` INT NOT NULL AUTO_INCREMENT , `job_id` INT NOT NULL , `user_id` INT NOT NULL, `prename` VARCHAR(255) NOT NULL , `surname` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `salutation` INT NOT NULL , `classification` INT NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `review_id` INT NOT NULL , `filepath` VARCHAR(255) NOT NULL , `state` VARCHAR(255) NOT NULL DEFAULT 'new', PRIMARY KEY (`ID`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$reviews = $wpdb->prefix . 'te_reviews';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$reviews}'") != $reviews ){
+				$sql = "CREATE TABLE $reviews (`ID` INT NOT NULL AUTO_INCREMENT , `application_id` INT NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria` INT NOT NULL DEFAULT '-1' , `completeness` INT NOT NULL DEFAULT '-1' , `screening` INT NOT NULL DEFAULT '-1' , `commitment` INT NOT NULL DEFAULT '-1' , `consent` INT NOT NULL DEFAULT '-1' , `filepath` VARCHAR(255) NOT NULL ,  PRIMARY KEY (`ID`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$backlogs = $wpdb->prefix . 'te_backlogs';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$backlogs}'") != $backlogs ){
+				$sql = "CREATE TABLE $backlogs (`ID` INT NOT NULL AUTO_INCREMENT , `application_id` INT NOT NULL , `user_id` INT NOT NULL, `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `log` TEXT NOT NULL , `comment` TEXT NOT NULL , PRIMARY KEY (`ID`), INDEX application_id (`application_id`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+		}
+
+		wp_create_database_tables();
+
 	}
 
 }

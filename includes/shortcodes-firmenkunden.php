@@ -99,7 +99,7 @@
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
             $query = $temp_db->prepare( "
                 SELECT *
-                FROM {$temp_db->prefix}applications
+                FROM {$temp_db->prefix}te_applications
                 {$filter}
                 ORDER BY added DESC
             " );
@@ -145,7 +145,7 @@
             // SQL-Abfrage, um alle aktiven Stellen abzurufen
             $query = $temp_db->prepare( "
                 SELECT ID, job_title
-                FROM {$temp_db->prefix}jobs
+                FROM {$temp_db->prefix}te_jobs
                 WHERE user_id = %d
                 AND state = 'active'
                 ORDER BY added DESC
@@ -165,7 +165,7 @@ function get_application_count_for_job($job_id) {
     $temp_db = open_database_connection();
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'applications';
+    $table_name = $temp_db->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
     $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d", $job_id);
@@ -180,7 +180,7 @@ function get_ongoing_application_count_for_job($job_id) {
     $temp_db = open_database_connection();
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'applications';
+    $table_name = $temp_db->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
     $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state != 'passed' AND state != 'failed'", $job_id);
@@ -195,7 +195,7 @@ function get_failed_application_count_for_job($job_id) {
     $temp_db = open_database_connection();
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'applications';
+    $table_name = $temp_db->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
     $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'failed'", $job_id);
@@ -210,7 +210,7 @@ function get_passed_application_count_for_job($job_id) {
     $temp_db = open_database_connection();
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'applications';
+    $table_name = $temp_db->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
     $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'passed'", $job_id);
@@ -233,7 +233,7 @@ function show_jobs_table() {
         // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
         $query = $temp_db->prepare( "
             SELECT ID, job_title, added, state, location
-            FROM {$temp_db->prefix}jobs
+            FROM {$temp_db->prefix}te_jobs
             WHERE user_id = %d
             ORDER BY added DESC
         ", $user_id );

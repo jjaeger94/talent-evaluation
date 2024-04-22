@@ -109,7 +109,7 @@ class Talent_Evaluation_Public {
 									// Versuchen, eine temporäre Datenbankverbindung herzustellen
 						$temp_db = open_database_connection();
 
-						$table_name = $temp_db->prefix . 'reviews';
+						$table_name = $temp_db->prefix . 'te_reviews';
 
 						$data = array('consent' => $consent);
 
@@ -213,7 +213,7 @@ class Talent_Evaluation_Public {
 			// Versuchen, eine temporäre Datenbankverbindung herzustellen
 			$temp_db = open_database_connection();
 	
-			$table_name = $temp_db->prefix . 'applications';
+			$table_name = $temp_db->prefix . 'te_applications';
 	
 			// Neuen Eintrag in die Tabelle "applications" einfügen
 			$result = $temp_db->insert(
@@ -282,7 +282,7 @@ class Talent_Evaluation_Public {
 
 		$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
 
-		$table_name = $temp_db->prefix . 'applications';
+		$table_name = $temp_db->prefix . 'te_applications';
 
 		$temp_db = open_database_connection();
 
@@ -343,7 +343,7 @@ class Talent_Evaluation_Public {
 
 			$temp_db = open_database_connection();
 			// Tabellenname für Bewerbungen
-			$table_name = $temp_db->prefix . 'reviews';
+			$table_name = $temp_db->prefix . 'te_reviews';
 		
 			if($type == 'criteria'){
 				// Daten zum Aktualisieren
@@ -624,7 +624,7 @@ class Talent_Evaluation_Public {
 			// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
 			$temp_db = open_database_connection();
 	
-			$table_name = $temp_db->prefix . 'jobs';
+			$table_name = $temp_db->prefix . 'te_jobs';
 	
 			// Neuen Eintrag in die Tabelle "Stellen" einfügen
 			$result = $temp_db->insert( 
