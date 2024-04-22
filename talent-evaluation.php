@@ -510,7 +510,7 @@ function get_user_home_url( $user ) {
 
 function render_logout_button() {
     $logout_url = wp_logout_url();
-    echo '<a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a>';
+    echo '<div class="logout-button"><a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a></div>';
 }
 
 run_talent_evaluation();

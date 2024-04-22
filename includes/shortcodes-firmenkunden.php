@@ -10,6 +10,7 @@
         add_shortcode( 'application_details', 'render_application_details_shortcode' );
         add_shortcode( 'job_details', 'render_job_details_shortcode' );
         add_shortcode('edit_user_data_form', 'render_edit_user_data_form');
+        add_shortcode('logout_button', 'render_logout_button');
         add_shortcode( 'application_button', 'render_application_button' );
     }
 
@@ -41,7 +42,7 @@
             // Formularinhalt mit Logout-Button zurückgeben
             return $form_content . '<br><div class="logout-button">' . $logout_button . '</div>';
         } else if(is_user_logged_in()){
-            return '<div class="logout-button">' . $logout_button . '</div>';
+            return $logout_button;
         }else{
             return 'Sie haben keine Berechtigung, dieses Formular anzuzeigen.';
         }
