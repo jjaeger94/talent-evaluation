@@ -85,34 +85,37 @@ class Talent_Evaluation_Public {
 	}
 
 	function process_delete_question() {
-		if (isset($_POST['question_id'])) {
-			global $wpdb;
-	
-			// Entferne potenziell gefährliche Zeichen aus der Eingabe
-			$question_id = absint($_POST['question_id']);
-	
-			// Überprüfe, ob die Frage existiert
-			$question = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_questions WHERE ID = %d", $question_id));
-	
-			if ($question) {
-				// Lösche die Frage aus der Datenbank
-				$wpdb->delete(
-					$wpdb->prefix . 'te_questions',
-					array('ID' => $question_id),
-					array('%d')
-				);
-	
-				echo 'Frage erfolgreich gelöscht!';
+		if(has_ajax_permission()){
+			if (isset($_POST['question_id'])) {
+				global $wpdb;
+		
+				// Entferne potenziell gefährliche Zeichen aus der Eingabe
+				$question_id = absint($_POST['question_id']);
+		
+				// Überprüfe, ob die Frage existiert
+				$question = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_questions WHERE ID = %d", $question_id));
+		
+				if ($question) {
+					// Lösche die Frage aus der Datenbank
+					$wpdb->delete(
+						$wpdb->prefix . 'te_questions',
+						array('ID' => $question_id),
+						array('%d')
+					);
+		
+					echo 'Frage erfolgreich gelöscht!';
+				} else {
+					echo 'Frage nicht gefunden!';
+				}
 			} else {
-				echo 'Frage nicht gefunden!';
+				echo 'Frage-ID nicht übermittelt!';
 			}
-		} else {
-			echo 'Frage-ID nicht übermittelt!';
 		}
 		wp_die();
 	}
 
 	function process_edit_question(){
+		if(has_ajax_permission()){
 		if (isset($_POST['test_id'], $_POST['question_text'], $_POST['answer_text'])) {
 			global $wpdb;
 	
@@ -160,10 +163,12 @@ class Talent_Evaluation_Public {
 			// Gib eine Fehlermeldung zurück, wenn nicht alle erforderlichen Felder übermittelt wurden
 			echo 'Alle Felder sind erforderlich!';
 		}
+	}
 		wp_die();
 	}	
 
 	function process_add_test_form(){
+		if(has_ajax_permission()){
 		// Überprüfe, ob die erforderlichen Felder gesetzt sind
 		if (isset($_POST['test_title'], $_POST['affiliate_link'], $_POST['image_link'])) {
 			global $wpdb;
@@ -190,6 +195,7 @@ class Talent_Evaluation_Public {
 			// Gib eine Fehlermeldung zurück, wenn nicht alle erforderlichen Felder übermittelt wurden
 			echo 'Alle Felder sind erforderlich!';
 		}
+	}
 		wp_die();
 	}
 
@@ -255,50 +261,53 @@ class Talent_Evaluation_Public {
 
 	// AJAX-Funktion zum Speichern der Benutzerdaten
 	function save_user_data() {
-		// Überprüfen, ob der Benutzer angemeldet ist und die erforderlichen Felder gesendet wurden
-		if (is_user_logged_in() && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company']) && isset($_POST['email'])) {
-			$current_user = wp_get_current_user();
-			$user_id = $current_user->ID;
-			
-			// Daten validieren und aktualisieren
-			$first_name = sanitize_text_field($_POST['first_name']);
-			$last_name = sanitize_text_field($_POST['last_name']);
-			$company = sanitize_text_field($_POST['company']);
-			$email = sanitize_email($_POST['email']);
+		if(has_ajax_permission()){
+			// Überprüfen, ob der Benutzer angemeldet ist und die erforderlichen Felder gesendet wurden
+			if (is_user_logged_in() && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['company']) && isset($_POST['email'])) {
+				$current_user = wp_get_current_user();
+				$user_id = $current_user->ID;
+				
+				// Daten validieren und aktualisieren
+				$first_name = sanitize_text_field($_POST['first_name']);
+				$last_name = sanitize_text_field($_POST['last_name']);
+				$company = sanitize_text_field($_POST['company']);
+				$email = sanitize_email($_POST['email']);
 
-			// Überprüfen, ob die E-Mail-Adresse bereits einem anderen Benutzer zugewiesen ist
-			if (email_exists($email) && email_exists($email) != $user_id) {
-				wp_send_json_error('Die angegebene E-Mail-Adresse wird bereits verwendet.');
-			}
+				// Überprüfen, ob die E-Mail-Adresse bereits einem anderen Benutzer zugewiesen ist
+				if (email_exists($email) && email_exists($email) != $user_id) {
+					wp_send_json_error('Die angegebene E-Mail-Adresse wird bereits verwendet.');
+				}
 
-			// Überprüfen, ob die Checkbox "Mail-Benachrichtigungen erhalten" aktiviert ist
-			$subscribe_notifications = isset($_POST['subscribe_notifications']) ? '1' : '0';
+				// Überprüfen, ob die Checkbox "Mail-Benachrichtigungen erhalten" aktiviert ist
+				$subscribe_notifications = isset($_POST['subscribe_notifications']) ? '1' : '0';
 
-			// Benutzerdaten aktualisieren
-			$userdata = array(
-				'ID' => $user_id,
-				'user_email' => $email,
-				'first_name' => $first_name,
-				'last_name' => $last_name
-			);
-			$updated = wp_update_user($userdata);
+				// Benutzerdaten aktualisieren
+				$userdata = array(
+					'ID' => $user_id,
+					'user_email' => $email,
+					'first_name' => $first_name,
+					'last_name' => $last_name
+				);
+				$updated = wp_update_user($userdata);
 
-			// Benutzermetadaten aktualisieren
-			if (!is_wp_error($updated)) {
-				update_user_meta($user_id, 'company', $company);
-				update_user_meta($user_id, 'subscribe_notifications', $subscribe_notifications); // Hinzufügen der Checkbox-Daten
-				wp_send_json_success('Benutzerdaten erfolgreich aktualisiert.');
+				// Benutzermetadaten aktualisieren
+				if (!is_wp_error($updated)) {
+					update_user_meta($user_id, 'company', $company);
+					update_user_meta($user_id, 'subscribe_notifications', $subscribe_notifications); // Hinzufügen der Checkbox-Daten
+					wp_send_json_success('Benutzerdaten erfolgreich aktualisiert.');
+				} else {
+					wp_send_json_error('Fehler beim Aktualisieren der Benutzerdaten.');
+				}
 			} else {
-				wp_send_json_error('Fehler beim Aktualisieren der Benutzerdaten.');
+				wp_send_json_error('Fehlende oder ungültige Daten.');
 			}
-		} else {
-			wp_send_json_error('Fehlende oder ungültige Daten.');
 		}
 		wp_die();
 	}	
 
 	function process_application_form() {
-		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] ) && (current_user_can( 'firmenkunde' ) || current_user_can( 'dienstleister' )) ) {
+		if(has_ajax_permission()){
+		if ( isset( $_POST['prename'] ) && isset( $_POST['surname'] ) && isset( $_POST['email'] )) {
 			$applicationDir = '';
 			$uniqueDir = '';
 			// Überprüfen, ob Dateien hochgeladen wurden
@@ -362,6 +371,7 @@ class Talent_Evaluation_Public {
 				echo '<p>Bewerbung erfolgreich hinzugefügt!</p>';
 			}
 		}
+	}
 		wp_die();
 	}
 
@@ -588,7 +598,7 @@ class Talent_Evaluation_Public {
 
 	function handle_get_backlog(){
 		// Überprüfen Sie die Benutzerberechtigungen, bevor Sie fortfahren
-		if (!current_user_can('dienstleister') && !current_user_can('firmenkunde')) {
+		if (!has_ajax_permission()) {
 			wp_send_json_error('Sie haben keine Berechtigung diese Funktion aufzurufen');
 		}
 	

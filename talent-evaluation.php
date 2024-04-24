@@ -81,6 +81,10 @@ function run_talent_evaluation() {
 
 }
 
+function has_ajax_permission(){
+    return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
+}
+
 
 function get_question_by_id($question_id){
     if ( current_user_can( 'dienstleister' ) ) {
