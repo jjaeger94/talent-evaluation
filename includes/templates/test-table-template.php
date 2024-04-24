@@ -21,3 +21,7 @@
         </tbody>
     </table>
 </div>
+<!-- Test hinzufügen Button -->
+<div class="mt-3">
+    <a href="<?php echo esc_url( home_url( '/test-hinzufuegen' ) ); ?>" class="btn btn-primary">Test hinzufügen</a>
+</div>
