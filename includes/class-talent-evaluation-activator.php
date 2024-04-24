@@ -121,7 +121,7 @@ class Talent_Evaluation_Activator {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			$jobs = $wpdb->prefix . 'te_jobs';
 			if( $wpdb->get_var("SHOW TABLES LIKE '{$jobs}'") != $jobs ){
-				$sql = "CREATE TABLE $jobs (`ID` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL ,`location` VARCHAR(255) NOT NULL , `job_title` VARCHAR(255) NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria1` VARCHAR(255) NOT NULL , `criteria2` VARCHAR(255) NOT NULL , `criteria3` VARCHAR(255) NOT NULL , `completeness` TINYINT NOT NULL , `screening` TINYINT NOT NULL , `state` VARCHAR(255) NOT NULL DEFAULT 'active', PRIMARY KEY (`ID`)) $charset_collate;";
+				$sql = "CREATE TABLE $jobs (`ID` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `test_id` INT NOT NULL , `location` VARCHAR(255) NOT NULL , `job_title` VARCHAR(255) NOT NULL , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `criteria1` VARCHAR(255) NOT NULL , `criteria2` VARCHAR(255) NOT NULL , `criteria3` VARCHAR(255) NOT NULL , `completeness` TINYINT NOT NULL , `screening` TINYINT NOT NULL , `state` VARCHAR(255) NOT NULL DEFAULT 'active', PRIMARY KEY (`ID`)) $charset_collate;";
 				dbDelta( $sql );
 			}
 			$applications = $wpdb->prefix . 'te_applications';
@@ -137,6 +137,21 @@ class Talent_Evaluation_Activator {
 			$backlogs = $wpdb->prefix . 'te_backlogs';
 			if( $wpdb->get_var("SHOW TABLES LIKE '{$backlogs}'") != $backlogs ){
 				$sql = "CREATE TABLE $backlogs (`ID` INT NOT NULL AUTO_INCREMENT , `application_id` INT NOT NULL , `user_id` INT NOT NULL, `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `log` TEXT NOT NULL , `comment` TEXT NOT NULL , PRIMARY KEY (`ID`), INDEX application_id (`application_id`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$test = $wpdb->prefix . 'te_tests';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$test}'") != $test ){
+				$sql = "CREATE TABLE  $test (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `title` VARCHAR(255) NOT NULL , `affiliate_link` VARCHAR(255) NOT NULL , `image_link` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$questions = $wpdb->prefix . 'te_questions';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$questions}'") != $questions ){
+				$sql = "CREATE TABLE  $questions (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `test_id` INT NOT NULL , `question_text` TEXT NOT NULL, PRIMARY KEY (`ID`), INDEX test_id (`test_id`)) $charset_collate;";
+				dbDelta( $sql );
+			}
+			$answers = $wpdb->prefix . 'te_answers';
+			if( $wpdb->get_var("SHOW TABLES LIKE '{$answers}'") != $answers ){
+				$sql = "CREATE TABLE  $answers (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `application_id` INT NOT NULL , `question_id` INT NOT NULL , `answer_text` TEXT NOT NULL, PRIMARY KEY (`ID`) , FOREIGN KEY (`question_id`) REFERENCES $questions(`ID`) , FOREIGN KEY (`application_id`) REFERENCES $applications(`ID`)) $charset_collate;";
 				dbDelta( $sql );
 			}
 		}
