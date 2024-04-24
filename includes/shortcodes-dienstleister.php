@@ -8,6 +8,19 @@
         add_shortcode('create_test', 'create_test_shortcode');
         add_shortcode('edit_test', 'edit_test_shortcode');
         add_shortcode('edit_question', 'edit_question_shortcode');
+        add_shortcode('show_tests', 'show_tests_shortcode');
+    }
+
+    function show_tests_shortcode(){
+        if ( current_user_can( 'dienstleister' ) ) {
+            global $wpdb;
+            $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}te_tests");
+            ob_start(); // Puffer starten
+            include_once('templates/test-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            return ob_get_clean(); // Puffer leeren und zurückgeben
+        } else {
+            return 'Keine Berechtigung';
+        }
     }
 
     function create_test_shortcode() {

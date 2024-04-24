@@ -110,6 +110,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'frage-details',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Tests',
+				'content' => '[show_tests]',
+				'slug' => 'tests',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

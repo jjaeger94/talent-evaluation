@@ -307,6 +307,7 @@ function render_job_details_shortcode() {
             if ( $job ) {
                 $member_id = SwpmMemberUtils::get_logged_in_members_id();
                 $company = SwpmMemberUtils::get_member_field_by_id($member_id, 'company_name');
+                $test = get_test_by_id($job->test_id);
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/job-detail-template.php';

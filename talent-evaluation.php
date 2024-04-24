@@ -105,7 +105,7 @@ function get_question_by_id($question_id){
 }
 
 function get_test_by_id( $test_id ) {
-    if ( current_user_can( 'dienstleister' ) ) {
+    if ( has_ajax_permission() ) {
         return get_test_by_id_permissionless($test_id);
     } else {
         return null;

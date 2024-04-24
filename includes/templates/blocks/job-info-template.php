@@ -2,6 +2,7 @@
     <div class="col-md-6">
         <p><strong>Stelle:</strong><br><?php echo esc_html( $job->job_title ); ?></p>
         <p><strong>Firma:</strong><br><?php echo esc_html( $company ); ?></p>
+        <p><strong>Test:</strong><br><?php echo esc_html( $test->title ); ?></p>
     </div>
     <div class="col-md-6">
         <p><strong>Kriterien:</strong><br>
