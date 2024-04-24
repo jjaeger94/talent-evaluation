@@ -9,3 +9,6 @@
     </div>
     <button type="submit" class="btn btn-primary"><?php echo isset($question) ? 'Frage aktualisieren' : 'Neue Frage hinzufügen'; ?></button>
 </form>
+
+<!-- Container für Fehler- oder Erfolgsmeldungen -->
+<div id="form-message" class="mt-3"></div>

@@ -2,6 +2,40 @@
 	'use strict';
 
 	$(function() {
+
+		$('#edit-question-form').on('submit', function(e) {
+			e.preventDefault(); // Verhindert das Standardverhalten des Formulars (Neuladen der Seite)
+			
+			var urlParams = new URLSearchParams(window.location.search);
+			var formData = $(this).serialize(); // Manuelle Serialisierung des Formulars
+			
+			// Hinzufügen von zusätzlichen Daten zum FormData
+			formData += '&action=edit_question';
+			var testId = urlParams.get('tid');
+			formData += '&test_id=' + testId;
+			if(urlParams.has('qid')){
+				var questionId = urlParams.get('qid');
+				formData += '&question_id=' + questionId;
+			}
+			
+			// AJAX-Anfrage senden
+			$.ajax({
+				type: 'POST', // Verwendung von POST-Methode
+				url: your_script_vars.ajaxurl, // Ziel-URL für die AJAX-Anfrage
+				data: formData, // Seriatisierung der Formulardaten
+				success: function(response) {
+					// Erfolgsfall: Verarbeite die Antwort
+					console.log(response);
+					$('#form-message').html(response);
+				},
+				error: function(xhr, status, error) {
+					// Fehlerfall: Behandele den Fehler
+					console.error(error);
+				}
+			});
+		});
+		
+
 		$('#add-job-form').submit(function(e) {
 			e.preventDefault();
 	

@@ -78,7 +78,60 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_save_consent',  array($this, 'save_consent'));
 		add_action('wp_ajax_add_test', array($this, 'process_add_test_form'));
 		add_action('wp_ajax_nopriv_add_test', array($this, 'process_add_test_form'));
+		add_action('wp_ajax_edit_question', array($this, 'process_edit_question'));
+		add_action('wp_ajax_nopriv_edit_question', array($this, 'process_edit_question'));
 	}
+
+	function process_edit_question(){
+		if (isset($_POST['test_id'], $_POST['question_text'], $_POST['answer_text'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus den Eingaben
+			$test_id = absint($_POST['test_id']);
+			$question_text = sanitize_text_field($_POST['question_text']);
+			$answer_text = sanitize_text_field($_POST['answer_text']);
+	
+			if (isset($_POST['question_id'])) {
+				$question_id = absint($_POST['question_id']);
+	
+				// Aktualisiere die Frage in der Datenbank
+				$table_name = $wpdb->prefix . 'te_questions';
+				$wpdb->update(
+					$table_name,
+					array(
+						'question_text' => $question_text,
+						'answer_text' => $answer_text
+					),
+					array('ID' => $question_id),
+					array('%s', '%s'),
+					array('%d')
+				);
+	
+				// Gib eine Erfolgsmeldung zurück
+				echo 'Frage erfolgreich aktualisiert!';
+			} else {
+				// Füge die Frage in die Datenbank ein
+				$table_name = $wpdb->prefix . 'te_questions';
+				$wpdb->insert(
+					$table_name,
+					array(
+						'test_id' => $test_id,
+						'question_text' => $question_text,
+						'answer_text' => $answer_text
+					),
+					array('%d', '%s', '%s')
+				);
+	
+				// Gib eine Erfolgsmeldung zurück
+				echo 'Frage erfolgreich erstellt!';
+			}
+	
+		} else {
+			// Gib eine Fehlermeldung zurück, wenn nicht alle erforderlichen Felder übermittelt wurden
+			echo 'Alle Felder sind erforderlich!';
+		}
+		wp_die();
+	}	
 
 	function process_add_test_form(){
 		// Überprüfe, ob die erforderlichen Felder gesetzt sind
