@@ -87,7 +87,7 @@
             $selected_tasks = isset( $_GET['filter_tasks'] ) ? sanitize_text_field( $_GET['filter_tasks'] ) : null;
 
             // Erfassen Sie die in den Optionen gespeicherten Daten
-            $temp_db = open_database_connection();
+            global $wpdb;
 
             $filter = "WHERE user_id = {$user_id}";
             if ( $selected_job ) {
@@ -98,15 +98,15 @@
                 $filter .= " AND state = '{$selected_tasks}'";
             }
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
-            $query = $temp_db->prepare( "
+            $query = $wpdb->prepare( "
                 SELECT *
-                FROM {$temp_db->prefix}te_applications
+                FROM {$wpdb->prefix}te_applications
                 {$filter}
                 ORDER BY added DESC
             " );
     
             // Stellen abrufen
-            $applications = $temp_db->get_results( $query );
+            $applications = $wpdb->get_results( $query );
 
             foreach ( $applications as $application ) {
                 $job_id = $application->job_id;
@@ -141,19 +141,19 @@
         if(current_user_can( 'firmenkunde' )){
             $user_id = get_current_user_id();
 
-            $temp_db = open_database_connection();
+            global $wpdb;
 
             // SQL-Abfrage, um alle aktiven Stellen abzurufen
-            $query = $temp_db->prepare( "
+            $query = $wpdb->prepare( "
                 SELECT ID, job_title
-                FROM {$temp_db->prefix}te_jobs
+                FROM {$wpdb->prefix}te_jobs
                 WHERE user_id = %d
                 AND state = 'active'
                 ORDER BY added DESC
             ", $user_id );
 
             // Stellen abrufen
-            $jobs = $temp_db->get_results( $query );
+            $jobs = $wpdb->get_results( $query );
 
             return $jobs;
         }else{
@@ -163,61 +163,61 @@
 }
 
 function get_application_count_for_job($job_id) {
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'te_applications';
+    $table_name = $wpdb->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
-    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d", $job_id);
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d", $job_id);
 
     // Anzahl der Kandidaten abrufen
-    $application_count = $temp_db->get_var($query);
+    $application_count = $wpdb->get_var($query);
 
 return $application_count;
 }
 
 function get_ongoing_application_count_for_job($job_id) {
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'te_applications';
+    $table_name = $wpdb->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
-    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state != 'passed' AND state != 'failed'", $job_id);
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state != 'passed' AND state != 'failed'", $job_id);
 
     // Anzahl der Kandidaten abrufen
-    $application_count = $temp_db->get_var($query);
+    $application_count = $wpdb->get_var($query);
 
 return $application_count;
 }
 
 function get_failed_application_count_for_job($job_id) {
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'te_applications';
+    $table_name = $wpdb->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
-    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'failed'", $job_id);
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'failed'", $job_id);
 
     // Anzahl der Kandidaten abrufen
-    $application_count = $temp_db->get_var($query);
+    $application_count = $wpdb->get_var($query);
 
 return $application_count;
 }
 
 function get_passed_application_count_for_job($job_id) {
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // Tabellenname für die Bewerbungen
-    $table_name = $temp_db->prefix . 'te_applications';
+    $table_name = $wpdb->prefix . 'te_applications';
 
     // SQL-Abfrage, um die Anzahl der Kandidaten für den Job abzurufen
-    $query = $temp_db->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'passed'", $job_id);
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE job_id = %d AND state = 'passed'", $job_id);
 
     // Anzahl der Kandidaten abrufen
-    $application_count = $temp_db->get_var($query);
+    $application_count = $wpdb->get_var($query);
 
 return $application_count;
 }
@@ -229,18 +229,18 @@ function show_jobs_table() {
         $user_id = get_current_user_id();
 
         // Erfassen Sie die in den Optionen gespeicherten Daten
-        $temp_db = open_database_connection();
+        global $wpdb;
 
         // SQL-Abfrage, um Stellen des aktuellen Benutzers abzurufen
-        $query = $temp_db->prepare( "
+        $query = $wpdb->prepare( "
             SELECT ID, job_title, added, state, location
-            FROM {$temp_db->prefix}te_jobs
+            FROM {$wpdb->prefix}te_jobs
             WHERE user_id = %d
             ORDER BY added DESC
         ", $user_id );
 
         // Stellen abrufen
-        $jobs = $temp_db->get_results( $query );
+        $jobs = $wpdb->get_results( $query );
 
         // Überprüfen, ob Jobs vorhanden sind
         if ( $jobs ) {

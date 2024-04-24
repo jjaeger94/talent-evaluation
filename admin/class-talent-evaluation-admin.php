@@ -127,22 +127,6 @@ class Talent_Evaluation_Admin {
                         <th scope="row">Logo URL</th>
                         <td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
                     </tr>
-                    <!-- <tr valign="top">
-                        <th scope="row">Database Host</th>
-                        <td><input type="text" name="te_db_host" value="<?php echo esc_attr(get_option('te_db_host')); ?>" /></td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">Database Name</th>
-                        <td><input type="text" name="te_db_name" value="<?php echo esc_attr(get_option('te_db_name')); ?>" /></td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">Database User</th>
-                        <td><input type="text" name="te_db_user" value="<?php echo esc_attr(get_option('te_db_user')); ?>" /></td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">Database Password</th>
-                        <td><input type="password" name="te_db_password" value="<?php echo esc_attr(get_option('te_db_password')); ?>" /></td>
-                    </tr> -->
                 </table>
                 <?php submit_button(); ?>
             </form>
@@ -157,25 +141,5 @@ class Talent_Evaluation_Admin {
     public function register_settings() {
 		register_setting('talent_evaluation_settings', 'te_login_logo');
 		register_setting('talent_evaluation_settings', 'te_login_title');
-        // register_setting('talent_evaluation_settings', 'te_db_host');
-        // register_setting('talent_evaluation_settings', 'te_db_name');
-        // register_setting('talent_evaluation_settings', 'te_db_user');
-        // register_setting('talent_evaluation_settings', 'te_db_password');
     }
-
-	// public function check_db_connection() {
-	// 	// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-	// 	$temp_db = open_database_connection();
-	
-	// 	// Überprüfen Sie, ob die Verbindung erfolgreich hergestellt wurde
-	// 	if ($temp_db->ready) {
-	// 		echo 'Connection successful';
-	// 	} else {
-	// 		echo 'Connection failed';
-	// 	}
-	
-	// 	// Beenden Sie die Ausführung des Skripts
-	// 	wp_die();
-	// }
-
 }

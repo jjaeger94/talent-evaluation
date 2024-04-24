@@ -76,7 +76,38 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_save_user_data',  array($this, 'save_user_data'));
 		add_action('wp_ajax_save_consent',  array($this, 'save_consent'));
 		add_action('wp_ajax_nopriv_save_consent',  array($this, 'save_consent'));
-		
+		add_action('wp_ajax_add_test', array($this, 'process_add_test_form'));
+		add_action('wp_ajax_nopriv_add_test', array($this, 'process_add_test_form'));
+	}
+
+	function process_add_test_form(){
+		// Überprüfe, ob die erforderlichen Felder gesetzt sind
+		if (isset($_POST['test_title'], $_POST['affiliate_link'], $_POST['image_link'])) {
+			global $wpdb;
+
+			// Entferne potenziell gefährliche Zeichen aus den Eingaben
+			$test_title = sanitize_text_field($_POST['test_title']);
+			$affiliate_link = esc_url_raw($_POST['affiliate_link']);
+			$image_link = esc_url_raw($_POST['image_link']);
+
+			// Füge den Test in die Datenbank ein
+			$table_name = $wpdb->prefix . 'te_tests';
+			$wpdb->insert(
+				$table_name,
+				array(
+					'title' => $test_title,
+					'affiliate_link' => $affiliate_link,
+					'image_link' => $image_link
+				)
+			);
+
+			// Gib eine Erfolgsmeldung zurück
+			echo 'Test erfolgreich erstellt!';
+		} else {
+			// Gib eine Fehlermeldung zurück, wenn nicht alle erforderlichen Felder übermittelt wurden
+			echo 'Alle Felder sind erforderlich!';
+		}
+		wp_die();
 	}
 
 	function save_consent(){
@@ -107,9 +138,9 @@ class Talent_Evaluation_Public {
 						}
 
 									// Versuchen, eine temporäre Datenbankverbindung herzustellen
-						$temp_db = open_database_connection();
+						global $wpdb;
 
-						$table_name = $temp_db->prefix . 'te_reviews';
+						$table_name = $wpdb->prefix . 'te_reviews';
 
 						$data = array('consent' => $consent);
 
@@ -117,7 +148,7 @@ class Talent_Evaluation_Public {
 						$where = array('ID' => $review->ID);
 					
 						// Aktualisieren der Daten in der Datenbank
-						$temp_db->update($table_name, $data, $where);
+						$wpdb->update($table_name, $data, $where);
 						
 						$log = 'Bewerber hat Einverständnis hochgeladen';
 					
@@ -211,12 +242,12 @@ class Talent_Evaluation_Public {
 			$user_id = get_current_user_id();
 	
 			// Versuchen, eine temporäre Datenbankverbindung herzustellen
-			$temp_db = open_database_connection();
+			global $wpdb;
 	
-			$table_name = $temp_db->prefix . 'te_applications';
+			$table_name = $wpdb->prefix . 'te_applications';
 	
 			// Neuen Eintrag in die Tabelle "applications" einfügen
-			$result = $temp_db->insert(
+			$result = $wpdb->insert(
 				$table_name,
 				array(
 					'job_id' => $job_id, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
@@ -282,9 +313,9 @@ class Talent_Evaluation_Public {
 
 		$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
 
-		$table_name = $temp_db->prefix . 'te_applications';
+		$table_name = $wpdb->prefix . 'te_applications';
 
-		$temp_db = open_database_connection();
+		global $wpdb;
 
 		$data = array('classification' => $value);
 			
@@ -292,7 +323,7 @@ class Talent_Evaluation_Public {
 		$where = array('ID' => $application_id, 'user_id' => $user_id);
 	
 		// Aktualisieren der Daten in der Datenbank
-		$temp_db->update($table_name, $data, $where);
+		$wpdb->update($table_name, $data, $where);
 		
 		$log = 'Einordnung gesetzt auf: '.$text;
 	
@@ -341,9 +372,9 @@ class Talent_Evaluation_Public {
 				wp_send_json_error('Keine Berechtigung');
 			}
 
-			$temp_db = open_database_connection();
+			global $wpdb;
 			// Tabellenname für Bewerbungen
-			$table_name = $temp_db->prefix . 'te_reviews';
+			$table_name = $wpdb->prefix . 'te_reviews';
 		
 			if($type == 'criteria'){
 				// Daten zum Aktualisieren
@@ -353,7 +384,7 @@ class Talent_Evaluation_Public {
 				$where = array('ID' => $application->review_id);
 			
 				// Aktualisieren der Daten in der Datenbank
-				$temp_db->update($table_name, $data, $where);
+				$wpdb->update($table_name, $data, $where);
 				
 				$log = 'Kriterien '.$text;
 			
@@ -366,7 +397,7 @@ class Talent_Evaluation_Public {
 				$where = array('ID' => $application->review_id);
 			
 				// Aktualisieren der Daten in der Datenbank
-				$temp_db->update($table_name, $data, $where);
+				$wpdb->update($table_name, $data, $where);
 				
 				$log = 'Vollständigkeit '.$text;
 			
@@ -379,7 +410,7 @@ class Talent_Evaluation_Public {
 				$where = array('ID' => $application->review_id);
 			
 				// Aktualisieren der Daten in der Datenbank
-				$temp_db->update($table_name, $data, $where);
+				$wpdb->update($table_name, $data, $where);
 				
 				$log = 'Background Screening '.$text;
 			
@@ -392,7 +423,7 @@ class Talent_Evaluation_Public {
 				$where = array('ID' => $application->review_id);
 			
 				// Aktualisieren der Daten in der Datenbank
-				$temp_db->update($table_name, $data, $where);
+				$wpdb->update($table_name, $data, $where);
 				$log = '';
 				if($value > 0){
 					$log = 'Commitment Test Ergebnis: '.$text. '/10';
@@ -409,7 +440,7 @@ class Talent_Evaluation_Public {
 				$where = array('ID' => $application->review_id);
 			
 				// Aktualisieren der Daten in der Datenbank
-				$temp_db->update($table_name, $data, $where);
+				$wpdb->update($table_name, $data, $where);
 
 				$to = $application->email; // E-Mail-Adresse des Empfängers
 				$subject = 'Einverständniserklärung';
@@ -627,12 +658,12 @@ class Talent_Evaluation_Public {
 			$user_id = get_current_user_id(); // Nutzer-ID des anlegenden Nutzers
 			
 			// Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-			$temp_db = open_database_connection();
+			global $wpdb;
 	
-			$table_name = $temp_db->prefix . 'te_jobs';
+			$table_name = $wpdb->prefix . 'te_jobs';
 	
 			// Neuen Eintrag in die Tabelle "Stellen" einfügen
-			$result = $temp_db->insert( 
+			$result = $wpdb->insert( 
 				$table_name, 
 				array( 
 					'user_id' => $user_id,
@@ -658,12 +689,12 @@ class Talent_Evaluation_Public {
 	
 			if ( $result === false ) {
 				// Fehler beim Einfügen des Datensatzes
-				if ($temp_db->last_error && strpos($temp_db->last_error, 'Duplicate entry') !== false) {
+				if ($wpdb->last_error && strpos($wpdb->last_error, 'Duplicate entry') !== false) {
 					// Fehlermeldung für Duplikateintrag ausgeben
 					echo '<p>Fehler: Eine Stelle mit diesem Namen existiert schon.</p>';
-				} elseif ($temp_db->last_error) {
+				} elseif ($wpdb->last_error) {
 					// Fehlermeldung ausgeben
-					echo '<p>Error: ' . $temp_db->last_error . '</p>';
+					echo '<p>Error: ' . $wpdb->last_error . '</p>';
 				} else {
 					// Allgemeine Fehlermeldung ausgeben
 					echo '<p>Fehler: Die Stelle konnte nicht hinzugefügt werden.</p>';

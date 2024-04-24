@@ -13,30 +13,32 @@
 				type: 'POST',
 				url: your_script_vars.ajaxurl, // Verwende die global definierte ajaxurl
 				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
-				xhr: function(){
-                    //upload Progress
-                    var xhr = $.ajaxSettings.xhr();
-                    if (xhr.upload) {
-                        xhr.upload.addEventListener('progress', function(event) {
-                            var percent = 0;
-                            var position = event.loaded || event.position;
-                            var total = event.total;
-                            if (event.lengthComputable) {
-                                percent = Math.ceil(position / total * 100);
-                            }
-                            if(percent === 100){
-                                console.log('Datei verarbeiten');
-                            }else{
-                                console.log('uploaded',percent);
-                            }
-                        }, true);
-                    }
-                    return xhr;
-                },
 				success: function(response) {
 					// Antwort verarbeiten
 					$('#form-message').html(response);
 					$('#add-job-form')[0].reset();
+				},
+				error: function(xhr, status, error) {
+					console.error(error);
+				}
+			});
+		});
+
+		$('#create-test-form').submit(function(e) {
+			e.preventDefault();
+	
+			// Formulardaten serialisieren
+			var formData = $(this).serialize();
+	
+			// Ajax-Anfrage senden
+			$.ajax({
+				type: 'POST',
+				url: your_script_vars.ajaxurl, // Verwende die global definierte ajaxurl
+				data: formData + '&action=add_test', // Daten und Aktion hinzufügen
+				success: function(response) {
+					// Antwort verarbeiten
+					$('#form-message').html(response);
+					$('#create-test-form')[0].reset();
 				},
 				error: function(xhr, status, error) {
 					console.error(error);

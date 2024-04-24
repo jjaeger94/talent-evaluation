@@ -5,6 +5,13 @@
     function register_shortcodes_dienstleister() {
         add_shortcode( 'show_tasks', 'show_tasks_table' );
         add_shortcode( 'task_details', 'render_task_details_shortcode' );
+        add_shortcode('create_test', 'create_test_shortcode');
+    }
+
+    function create_test_shortcode() {
+        ob_start(); // Puffer starten
+        include_once('templates/forms/create-test-form.php'); // Pfad zur Datei mit dem Test-Formular
+        return ob_get_clean(); // Puffer leeren und zurückgeben
     }
 
     // Kurzer Shortcode zum Anzeigen der Kandidatentabelle
@@ -14,7 +21,7 @@
 
             $selected_tasks = isset( $_GET['filter_tasks'] ) ? sanitize_text_field( $_GET['filter_tasks'] ) : null;
             // Erfassen Sie die in den Optionen gespeicherten Daten
-            $temp_db = open_database_connection();
+            global $wpdb;
 
             $filter = '';
 
@@ -23,15 +30,15 @@
             }
 
             // SQL-Abfrage, um Kandidaten des aktuellen Benutzers abzurufen
-            $query = $temp_db->prepare( "
+            $query = $wpdb->prepare( "
                 SELECT *
-                FROM {$temp_db->prefix}te_applications
+                FROM {$wpdb->prefix}te_applications
                 {$filter}
                 ORDER BY added DESC
             " );
     
             // Stellen abrufen
-            $applications = $temp_db->get_results( $query );
+            $applications = $wpdb->get_results( $query );
 
             foreach ( $applications as $application ) {
                 if ($application->review_id) {

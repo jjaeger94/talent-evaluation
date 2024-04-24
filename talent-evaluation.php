@@ -81,53 +81,22 @@ function run_talent_evaluation() {
 
 }
 
-// Funktion zum Öffnen der Datenbankverbindung
-function open_database_connection() {
-    global $wpdb;
-    return $wpdb;
-    // global $connection;
-
-    // // Überprüfen, ob bereits eine Verbindung besteht
-    // if ( isset( $connection ) && is_object( $connection ) ) {
-    //     return $connection;
-    // }
-
-    // // Erfassen Sie die in den Optionen gespeicherten Daten
-    // $db_host = get_option('te_db_host');
-    // $db_name = get_option('te_db_name');
-    // $db_user = get_option('te_db_user');
-    // $db_password = get_option('te_db_password');
-
-    // // Versuchen Sie, eine temporäre Datenbankverbindung herzustellen
-    // $temp_db = new wpdb($db_user, $db_password, $db_name, $db_host);
-
-    // // Überprüfen, ob die Verbindung erfolgreich war
-    // if ( ! is_wp_error( $temp_db ) ) {
-    //     $connection = $temp_db;
-    //     return $connection;
-    // } else {
-    //     // Behandeln Sie den Fehler, wenn die Verbindung fehlschlägt
-    //     // Zum Beispiel, eine Fehlermeldung anzeigen oder protokollieren
-    //     return $temp_db;
-    // }
-}
-
 function get_application_by_id( $application_id ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();
         // Datenbankverbindung öffnen
-        $temp_db = open_database_connection();
+        global $wpdb;
 
         // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-        $query = $temp_db->prepare( "
+        $query = $wpdb->prepare( "
             SELECT *
-            FROM {$temp_db->prefix}te_applications
+            FROM {$wpdb->prefix}te_applications
             WHERE ID = {$application_id}
             AND user_id = {$user_id}
         ");
 
         // Bewerbungsdetails abrufen
-        $application = $temp_db->get_results( $query );
+        $application = $wpdb->get_results( $query );
 
         // Überprüfen, ob Bewerbungsdetails vorhanden sind
         return ! empty( $application ) ? $application[0] : null;
@@ -142,18 +111,18 @@ function get_job_by_id( $job_id ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();
         // Datenbankverbindung öffnen
-        $temp_db = open_database_connection();
+        global $wpdb;
 
         // SQL-Abfrage, um die Jobdetails abzurufen
-        $query = $temp_db->prepare( "
+        $query = $wpdb->prepare( "
             SELECT *
-            FROM {$temp_db->prefix}te_jobs
+            FROM {$wpdb->prefix}te_jobs
             WHERE ID = {$job_id}
             AND user_id = {$user_id}
         ");
 
         // Jobdetails abrufen
-        $job = $temp_db->get_results( $query );
+        $job = $wpdb->get_results( $query );
 
         // Überprüfen, ob Jobdetails vorhanden sind
         return ! empty( $job ) ? $job[0] : null;
@@ -165,9 +134,9 @@ function get_job_by_id( $job_id ) {
 }
 
 function update_application_filepath($application_id, $file_directory){
-	$temp_db = open_database_connection();
+	global $wpdb;
 	// Tabellenname für Bewerbungen
-	$table_name = $temp_db->prefix . 'te_applications';
+	$table_name = $wpdb->prefix . 'te_applications';
 
 	// Daten zum Aktualisieren
 	$data = array('filepath' => $file_directory);
@@ -176,10 +145,10 @@ function update_application_filepath($application_id, $file_directory){
 	$where = array('ID' => $application_id);
 
 	// Aktualisieren der Daten in der Datenbank
-	$temp_db->update($table_name, $data, $where);
+	$wpdb->update($table_name, $data, $where);
 
 	// Überprüfen, ob ein Fehler aufgetreten ist
-	if ($temp_db->last_error !== '') {
+	if ($wpdb->last_error !== '') {
 		wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
 	}
 }
@@ -194,17 +163,17 @@ function get_review_by_application($application){
         return null;
     }
     //Datenbankverbindung öffnen
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $temp_db->prepare( "
+    $query = $wpdb->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}te_reviews
+        FROM {$wpdb->prefix}te_reviews
         WHERE ID = %d
     ", $application->review_id );
 
     // Bewerbungsdetails abrufen
-    $review = $temp_db->get_results( $query );
+    $review = $wpdb->get_results( $query );
 
     return ! empty( $review ) ? $review[0] : null;
 }
@@ -219,28 +188,28 @@ function get_backlogs_by_application( $application ) {
         return null;
     }
     //Datenbankverbindung öffnen
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $temp_db->prepare( "
+    $query = $wpdb->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}te_backlogs
+        FROM {$wpdb->prefix}te_backlogs
         WHERE application_id = %d
         ORDER BY added DESC
     ", $application->ID );
 
     // Bewerbungsdetails abrufen
-    return $temp_db->get_results( $query );
+    return $wpdb->get_results( $query );
 
 }
 
 function create_backlog_entry($application_id, $log, $comment = ''){
     $user_id = get_current_user_id();
-    $temp_db = open_database_connection();
+    global $wpdb;
 
-    $table_name = $temp_db->prefix . 'te_backlogs';
+    $table_name = $wpdb->prefix . 'te_backlogs';
 
-    $result = $temp_db->insert(
+    $result = $wpdb->insert(
         $table_name,
         array(
             'application_id' => $application_id, 
@@ -258,9 +227,9 @@ function create_backlog_entry($application_id, $log, $comment = ''){
 }
 
 function update_job_state($job_id, $state){
-    $temp_db = open_database_connection();
+    global $wpdb;
     // Tabellenname für Bewerbungen
-    $table_name = $temp_db->prefix . 'te_jobs';
+    $table_name = $wpdb->prefix . 'te_jobs';
 
     // Daten zum Aktualisieren
     $data = array('state' => $state);
@@ -269,13 +238,13 @@ function update_job_state($job_id, $state){
     $where = array('ID' => $job_id);
 
     // Aktualisieren der Daten in der Datenbank
-    $temp_db->update($table_name, $data, $where);
+    $wpdb->update($table_name, $data, $where);
 }
 
 function update_application_state($application_id, $state, $comment = ''){
-    $temp_db = open_database_connection();
+    global $wpdb;
     // Tabellenname für Bewerbungen
-    $table_name = $temp_db->prefix . 'te_applications';
+    $table_name = $wpdb->prefix . 'te_applications';
 
     // Daten zum Aktualisieren
     $data = array('state' => $state);
@@ -284,7 +253,7 @@ function update_application_state($application_id, $state, $comment = ''){
     $where = array('ID' => $application_id);
 
     // Aktualisieren der Daten in der Datenbank
-    $temp_db->update($table_name, $data, $where);
+    $wpdb->update($table_name, $data, $where);
     
     $log = 'Status zu "'.$state.'" geändert';
 
@@ -299,13 +268,13 @@ function add_review_to_application($application_id){
     }else if($application->review_id){
         return $application->review_id;
     }else{
-        $temp_db = open_database_connection();
+        global $wpdb;
         // Tabellenname für Bewerbungen
-        $table_name = $temp_db->prefix . 'te_reviews';
+        $table_name = $wpdb->prefix . 'te_reviews';
 
         $uniqueDir = 'consent_' . uniqid();
 
-        $result = $temp_db->insert(
+        $result = $wpdb->insert(
             $table_name,
             array(
                 'application_id' => $application_id,
@@ -318,9 +287,9 @@ function add_review_to_application($application_id){
         );
         if($result){
             //get id 
-            $lastid = $temp_db->insert_id;
+            $lastid = $wpdb->insert_id;
             // Tabellenname für Bewerbungen
-            $table_name = $temp_db->prefix . 'te_applications';
+            $table_name = $wpdb->prefix . 'te_applications';
 
             // Daten zum Aktualisieren
             $data = array('review_id' => $lastid);
@@ -329,7 +298,7 @@ function add_review_to_application($application_id){
             $where = array('ID' => $application_id);
 
             // Aktualisieren der Daten in der Datenbank
-            $temp_db->update($table_name, $data, $where);
+            $wpdb->update($table_name, $data, $where);
 
             $log = 'Prüfung begonnen';
 
@@ -419,34 +388,34 @@ function get_text_by_key($key) {
 }
 
 function get_job_by_id_permissionless($job_id){
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $temp_db->prepare( "
+    $query = $wpdb->prepare( "
          SELECT *
-         FROM {$temp_db->prefix}te_jobs
+         FROM {$wpdb->prefix}te_jobs
          WHERE ID = %d
     ", $job_id );
 
     // Jobdetails abrufen
-    $jobs = $temp_db->get_results( $query );
+    $jobs = $wpdb->get_results( $query );
 
     // Überprüfen, ob Jobdetails vorhanden sind
     return ! empty( $jobs ) ? $jobs[0] : null;
 }
 
 function get_review_by_id_permissionless($review_id){
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $temp_db->prepare( "
+    $query = $wpdb->prepare( "
          SELECT *
-         FROM {$temp_db->prefix}te_reviews
+         FROM {$wpdb->prefix}te_reviews
          WHERE ID = %d
     ", $review_id );
 
     // Jobdetails abrufen
-    $reviews = $temp_db->get_results( $query );
+    $reviews = $wpdb->get_results( $query );
 
     // Überprüfen, ob Jobdetails vorhanden sind
     return ! empty( $reviews ) ? $reviews[0] : null;
@@ -463,17 +432,17 @@ function get_review_by_id($review_id){
 
 function get_application_by_id_permissionless($application_id){
     // Datenbankverbindung öffnen
-    $temp_db = open_database_connection();
+    global $wpdb;
 
     // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $temp_db->prepare( "
+    $query = $wpdb->prepare( "
         SELECT *
-        FROM {$temp_db->prefix}te_applications
+        FROM {$wpdb->prefix}te_applications
         WHERE ID = %d
     ", $application_id );
 
     // Bewerbungsdetails abrufen
-    $applications = $temp_db->get_results( $query );
+    $applications = $wpdb->get_results( $query );
 
     // Überprüfen, ob Bewerbungsdetails vorhanden sind
     return ! empty( $applications ) ? $applications[0] : null;

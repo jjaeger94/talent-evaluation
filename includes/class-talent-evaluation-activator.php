@@ -92,6 +92,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'consent',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Test hinzufügen',
+				'content' => '[create_test]',
+				'slug' => 'test-hinzufuegen',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {
