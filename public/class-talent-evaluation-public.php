@@ -80,6 +80,36 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_add_test', array($this, 'process_add_test_form'));
 		add_action('wp_ajax_edit_question', array($this, 'process_edit_question'));
 		add_action('wp_ajax_nopriv_edit_question', array($this, 'process_edit_question'));
+		add_action('wp_ajax_delete_question', array($this, 'process_delete_question'));
+		add_action('wp_ajax_nopriv_delete_question', array($this, 'process_delete_question'));
+	}
+
+	function process_delete_question() {
+		if (isset($_POST['question_id'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$question_id = absint($_POST['question_id']);
+	
+			// Überprüfe, ob die Frage existiert
+			$question = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_questions WHERE ID = %d", $question_id));
+	
+			if ($question) {
+				// Lösche die Frage aus der Datenbank
+				$wpdb->delete(
+					$wpdb->prefix . 'te_questions',
+					array('ID' => $question_id),
+					array('%d')
+				);
+	
+				echo 'Frage erfolgreich gelöscht!';
+			} else {
+				echo 'Frage nicht gefunden!';
+			}
+		} else {
+			echo 'Frage-ID nicht übermittelt!';
+		}
+		wp_die();
 	}
 
 	function process_edit_question(){

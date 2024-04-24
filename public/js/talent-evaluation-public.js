@@ -2,6 +2,38 @@
 	'use strict';
 
 	$(function() {
+		// Klick-Ereignis für den "Löschen"-Button hinzufügen
+		$('#delete-question').on('click', function() {
+			if (confirm('Möchten Sie diese Frage wirklich löschen?')) {
+				// Frage-ID aus dem Datenattribut abrufen
+				var urlParams = new URLSearchParams(window.location.search);
+			
+				if(urlParams.has('qid')){
+					var questionId = urlParams.get('qid');
+					$.ajax({
+						type: 'POST',
+						url: your_script_vars.ajaxurl,
+						data: {
+							action: 'delete_question',
+							question_id: questionId
+						},
+						success: function(response) {
+							// Erfolgsfall: Verarbeite die Antwort
+							console.log(response);
+							$('#form-message').html(response);
+							// Aktualisiere die Seite oder führe weitere Aktionen aus
+						},
+						error: function(xhr, status, error) {
+							// Fehlerfall: Behandele den Fehler
+							console.error(error);
+						}
+					});
+				}else{
+					console.error('id nicht gefunden')
+				}
+			}
+		});
+
 
 		$('#edit-question-form').on('submit', function(e) {
 			e.preventDefault(); // Verhindert das Standardverhalten des Formulars (Neuladen der Seite)

@@ -8,6 +8,9 @@
         <input type="text" class="form-control" id="answer-text" name="answer_text" value="<?php echo isset($question) ? $question->answer_text : ''; ?>" required>
     </div>
     <button type="submit" class="btn btn-primary"><?php echo isset($question) ? 'Frage aktualisieren' : 'Neue Frage hinzufügen'; ?></button>
+    <?php if (isset($question)) : ?>
+        <button type="button" class="btn btn-danger" id="delete-question">Frage löschen</button>
+    <?php endif; ?>
 </form>
 
 <!-- Container für Fehler- oder Erfolgsmeldungen -->

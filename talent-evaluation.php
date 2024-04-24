@@ -88,7 +88,7 @@ function get_question_by_id($question_id){
         $query = $wpdb->prepare( "
             SELECT *
             FROM {$wpdb->prefix}te_questions
-            WHERE ID = {$$question_id}
+            WHERE ID = {$question_id}
         ");
         // Bewerbungsdetails abrufen
         $questions = $wpdb->get_results( $query );
@@ -114,7 +114,7 @@ function get_questions_by_test_id($test_id){
         $query = $wpdb->prepare( "
             SELECT *
             FROM {$wpdb->prefix}te_questions
-            WHERE test_id = {$$test_id}
+            WHERE test_id = {$test_id}
         ");
         return $wpdb->get_results( $query );
     } else {
