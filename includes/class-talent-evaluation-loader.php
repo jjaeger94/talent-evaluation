@@ -213,22 +213,6 @@ class Talent_Evaluation_Loader {
 		?>
 		<h3>Talent Evaluation</h3>
 		<table class="form-table">
-			<!-- <tr>
-				<th><label for="company">Firma</label></th>
-				<td>
-					<input type="text" name="company" id="company" value="<?php echo esc_attr(get_user_meta($user->ID, 'company', true)); ?>" class="regular-text">
-				</td>
-			</tr>
-			<tr>
-				<th><label for="subscription">Abonnement</label></th>
-				<td>
-					<select name="subscription" id="subscription">
-						<option value="Basic" <?php selected($subscription, 'Basic'); ?>>Basic</option>
-						<option value="Advanced" <?php selected($subscription, 'Advanced'); ?>>Advanced</option>
-						<option value="Professional" <?php selected($subscription, 'Professional'); ?>>Professional</option>
-					</select>
-				</td>
-			</tr> -->
 			<tr>
 				<th><label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label></th>
 				<td>
@@ -244,14 +228,6 @@ class Talent_Evaluation_Loader {
 	public function save_custom_user_fields($user_id) {
 		if (!current_user_can('edit_user', $user_id)) {
 			return false;
-		}
-
-		if (isset($_POST['company'])) {
-			update_user_meta($user_id, 'company', sanitize_text_field($_POST['company']));
-		}
-
-		if (isset($_POST['subscription'])) {
-			update_user_meta($user_id, 'subscription', sanitize_text_field($_POST['subscription']));
 		}
 
 		// Speichern der Checkbox-Daten

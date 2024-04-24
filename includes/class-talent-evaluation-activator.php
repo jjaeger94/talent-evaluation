@@ -98,6 +98,18 @@ class Talent_Evaluation_Activator {
 				'slug' => 'test-hinzufuegen',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Test Details',
+				'content' => '[edit_test]',
+				'slug' => 'test-details',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Frage Details',
+				'content' => '[edit_question]',
+				'slug' => 'frage-details',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {
@@ -152,7 +164,7 @@ class Talent_Evaluation_Activator {
 			}
 			$questions = $wpdb->prefix . 'te_questions';
 			if( $wpdb->get_var("SHOW TABLES LIKE '{$questions}'") != $questions ){
-				$sql = "CREATE TABLE  $questions (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `test_id` INT NOT NULL , `question_text` TEXT NOT NULL, PRIMARY KEY (`ID`), INDEX test_id (`test_id`)) $charset_collate;";
+				$sql = "CREATE TABLE  $questions (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `test_id` INT NOT NULL , `question_text` TEXT NOT NULL, `answer_text` TEXT NOT NULL , PRIMARY KEY (`ID`), INDEX test_id (`test_id`)) $charset_collate;";
 				dbDelta( $sql );
 			}
 			$answers = $wpdb->prefix . 'te_answers';

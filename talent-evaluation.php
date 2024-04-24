@@ -81,6 +81,47 @@ function run_talent_evaluation() {
 
 }
 
+
+function get_question_by_id($question_id){
+    if ( current_user_can( 'dienstleister' ) ) {
+        global $wpdb;
+        $query = $wpdb->prepare( "
+            SELECT *
+            FROM {$wpdb->prefix}te_questions
+            WHERE ID = {$$question_id}
+        ");
+        // Bewerbungsdetails abrufen
+        $questions = $wpdb->get_results( $query );
+
+        // Überprüfen, ob Bewerbungsdetails vorhanden sind
+        return ! empty( $questions ) ? $questions[0] : null;
+    } else {
+        return null;
+    }
+}
+
+function get_test_by_id( $test_id ) {
+    if ( current_user_can( 'dienstleister' ) ) {
+        return get_test_by_id_permissionless($test_id);
+    } else {
+        return null;
+    }
+}
+
+function get_questions_by_test_id($test_id){
+    if ( current_user_can( 'dienstleister' ) ) {
+        global $wpdb;
+        $query = $wpdb->prepare( "
+            SELECT *
+            FROM {$wpdb->prefix}te_questions
+            WHERE test_id = {$$test_id}
+        ");
+        return $wpdb->get_results( $query );
+    } else {
+        return null;
+    }
+}
+
 function get_application_by_id( $application_id ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();
@@ -385,6 +426,23 @@ function get_text_by_key($key) {
         // Wenn die Datei nicht existiert oder nicht lesbar ist, Rückgabe des Schlüssels
         return $key;
     }
+}
+
+function get_test_by_id_permissionless($test_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+         SELECT *
+         FROM {$wpdb->prefix}te_tests
+         WHERE ID = %d
+    ", $test_id );
+
+    // Jobdetails abrufen
+    $tests = $wpdb->get_results( $query );
+
+    // Überprüfen, ob Jobdetails vorhanden sind
+    return ! empty( $tests ) ? $tests[0] : null;
 }
 
 function get_job_by_id_permissionless($job_id){

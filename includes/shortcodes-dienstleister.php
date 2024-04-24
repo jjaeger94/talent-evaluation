@@ -6,12 +6,62 @@
         add_shortcode( 'show_tasks', 'show_tasks_table' );
         add_shortcode( 'task_details', 'render_task_details_shortcode' );
         add_shortcode('create_test', 'create_test_shortcode');
+        add_shortcode('edit_test', 'edit_test_shortcode');
+        add_shortcode('edit_question', 'edit_question_shortcode');
     }
 
     function create_test_shortcode() {
-        ob_start(); // Puffer starten
-        include_once('templates/forms/create-test-form.php'); // Pfad zur Datei mit dem Test-Formular
-        return ob_get_clean(); // Puffer leeren und zurückgeben
+        if ( current_user_can( 'dienstleister' ) ) {
+            ob_start(); // Puffer starten
+            include_once('templates/forms/create-test-form.php'); // Pfad zur Datei mit dem Test-Formular
+            return ob_get_clean(); // Puffer leeren und zurückgeben
+        } else {
+            return 'Keine Berechtigung';
+        }
+    }
+
+    function edit_question_shortcode() {
+        if ( current_user_can( 'dienstleister' ) ) {
+            if ( isset( $_GET['tid'] ) ) {
+                // ID-Parameter aus der URL abrufen
+                $test_id = intval( $_GET['tid'] );
+                if ( isset( $_GET['qid'] ) ) {
+                    $question_id = intval( $_GET['qid'] );
+                    $question = get_question_by_id($question_id);
+                }
+                ob_start(); // Puffer starten
+                include_once('templates/forms/edit-question-form.php'); // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean(); // Puffer leeren und zurückgeben
+            } else {
+                // Keine ID-Parameter übergeben, Meldung ausgeben
+                return '<div class="alert alert-warning" role="alert">Es wurde keine Test-ID angegeben.</div>';
+            }
+        } else {
+            return 'Keine Berechtigung';
+        }
+    }
+    
+    function edit_test_shortcode() {
+        if ( current_user_can( 'dienstleister' ) ) {
+            if ( isset( $_GET['id'] ) ) {
+                // ID-Parameter aus der URL abrufen
+                $test_id = intval( $_GET['id'] );
+                $test = get_test_by_id($test_id);
+                if($test){
+                    $questions = get_questions_by_test_id($test_id);
+                    ob_start(); // Puffer starten
+                    include_once('templates/test-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean(); // Puffer leeren und zurückgeben
+                }else{
+                    return '<div class="alert alert-warning" role="alert">Test nicht gefunden.</div>';
+                }
+        } else {
+            // Keine ID-Parameter übergeben, Meldung ausgeben
+            return '<div class="alert alert-warning" role="alert">Es wurde keine Test-ID angegeben.</div>';
+        }
+        } else {
+            return 'Keine Berechtigung';
+        }
     }
 
     // Kurzer Shortcode zum Anzeigen der Kandidatentabelle
