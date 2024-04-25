@@ -296,6 +296,8 @@ function render_application_details_shortcode() {
                 if ($application->review_id) {
                     $application->review = get_review_by_application($application);
                 }
+                $hash = commitment_hash($application_id); 
+                $test_page_url = add_query_arg(array('aid' => $application_id,'key' => $hash), home_url('/bewerber-test/'));
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/application-detail-template.php';
@@ -328,8 +330,10 @@ function render_job_details_shortcode() {
                 global $wpdb;
                 $member_id = SwpmMemberUtils::get_logged_in_members_id();
                 $company = SwpmMemberUtils::get_member_field_by_id($member_id, 'company_name');
+                $hash = commitment_hash($job->ID);
                 $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}te_tests");
                 $test_id = $job->test_id;
+                $test_page_url = add_query_arg(array('jid' => $job->ID,'key' => $hash), home_url('/bewerber-test/'));
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/job-detail-template.php';

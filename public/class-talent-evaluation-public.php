@@ -122,14 +122,13 @@ class Talent_Evaluation_Public {
 
 	function process_test_answers() {
 		// Überprüfen, ob die erforderlichen Daten vorhanden sind
-		if (isset($_POST['tid'], $_POST['jid'], $_POST['answers'], $_POST['key'])) {
-			$tid = intval($_POST['tid']);
+		if (isset($_POST['jid'], $_POST['answers'], $_POST['key'])) {
 			$jid = intval($_POST['jid']);
 			$answers = $_POST['answers'];
 			$key = sanitize_text_field($_POST['key']);
 			
 			// Überprüfen des Hash
-			if (commitment_hash($jid.$tid) === $key) {
+			if (commitment_hash($jid) === $key) {
 				// Überprüfen, ob eine application_id vorhanden ist
 				$aid = null;
 				if (isset($_POST['aid'])) {

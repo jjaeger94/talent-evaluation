@@ -9,7 +9,6 @@
                 <?php endif; ?>
                 <form id="test-answers-form">
                     <input type="hidden" name="jid" value="<?php echo esc_attr($jid); ?>">
-                    <input type="hidden" name="tid" value="<?php echo esc_attr($tid); ?>">
                     <input type="hidden" name="key" value="<?php echo esc_attr($key); ?>">
                     <?php if (isset($application)) : ?>
                         <input type="hidden" name="aid" value="<?php echo esc_attr($application->ID); ?>">

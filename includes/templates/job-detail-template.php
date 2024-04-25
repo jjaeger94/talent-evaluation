@@ -25,9 +25,10 @@
                 <?php endforeach; ?>
             </select>
             </div>
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="col-md-6 d-flex justify-content-center align-items-center mb-3">
             <button id="change-test-btn" class="btn btn-success">Test ändern</button>
             </div>
+			<?php echo render_link_template($test_page_url); ?>
         </div>
         <!-- <?php include 'blocks/job-info-template.php'; ?> -->
     </div>

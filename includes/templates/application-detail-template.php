@@ -32,8 +32,9 @@
                 </p>
             </div> -->
         </div>
+        <?php echo render_link_template($test_page_url); ?>
         <hr>
-        <?php if ($application->state == 'new'): ?>
+        <!-- <?php if ($application->state == 'new'): ?>
             Prüfung wurde noch nicht gestartet
         <?php else: ?>
         <div><strong>Ergebnis der Prüfung:</strong>
@@ -52,15 +53,15 @@
             </div>
         </div>
         </div>
-        <hr>
+        <hr> -->
         <p><strong>Ergebnis Commitment Test:</strong><br>
             <?php include 'columns/commitment-with-text.php';?>
         </p>
         <?php endif;?>
         <hr>
-        <p><strong>Hochgeladene Dateien:</strong></p>
+        <!-- <p><strong>Hochgeladene Dateien:</strong></p>
         <?php include 'blocks/file-template.php'; ?>
-        <hr>
+        <hr> -->
         <p><strong>Backlog:</strong></p>
         <!-- Container für den Backlog-Inhalt -->
         <?php if (isset($is_mail)): ?>

@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <select class="form-select" id="jid" name="jid">
                 <?php foreach ( $jobs as $job ) : ?>
-                    <option value="<?php echo esc_attr( $job->ID ); ?>" <?php selected( $jid, $job->ID ); ?>><?php echo esc_html( $job->job_title ); ?></option>
+                    <option data-hash="<?php echo esc_attr( $job->hash ); ?>" value="<?php echo esc_attr( $job->ID ); ?>" <?php selected( $jid, $job->ID ); ?>><?php echo esc_html( $job->job_title ); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -13,10 +13,14 @@
             <button type="submit" class="btn btn-primary">Stelle bestätigen</button>
         </div>
     </div>
-    <!-- Versteckte Felder für User-ID und Key -->
-    <input type="hidden" name="uid" value="<?php echo esc_attr( $uid ); ?>">
-    <input type="hidden" name="key" value="<?php echo esc_attr( $key ); ?>">
-    <?php if (isset ( $aid )) : ?>
-    <input type="hidden" name="aid" value="<?php echo esc_attr( $aid ); ?>">
-    <?php endif;?>
+    <!-- Verstecktes Feld für den Schlüssel -->
+    <input type="hidden" name="key" id="job_hash">
 </form>
+<script>
+jQuery(document).ready(function($) {
+    $('#jid').change(function() {
+        var selectedHash = $(this).find('option:selected').data('hash');
+        $('#job_hash').val(selectedHash);
+    }).change();
+});
+</script>
