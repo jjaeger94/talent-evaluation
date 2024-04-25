@@ -25,7 +25,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Änderungen speichern</button>
 </form>
-<div id="message"></div>
+<div id="form-message"></div>
 <script>
 jQuery(document).ready(function($) {
     $('#edit-user-data-form').submit(function(e) {
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
                 success: function(response) {
                     // Erfolgsfall: Weiterleitung oder Anzeige einer Erfolgsmeldung
                     console.log(response);
-					$('#message').html(response.data);
+					$('#form-message').html(response.data);
                 },
                 error: function(xhr, status, error) {
                     // Fehlerfall: Anzeige einer Fehlermeldung

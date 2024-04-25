@@ -34,7 +34,7 @@
     <button type="submit" class="btn btn-primary">Kandidat erstellen</button>
 </form>
 
-<div id="message"></div>
+<div id="form-message"></div>
 <script>
 jQuery(document).ready(function($) {
     $('#application-form').submit(function (e) {
@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
 				processData: false, // Daten nicht verarbeiten (wichtig für FormData)
 				contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
 				success: function (response) {
-					$('#message').html(response); // Anzeigen der Antwortmeldung
+					$('#form-message').html(response); // Anzeigen der Antwortmeldung
 					$('#application-form')[0].reset(); // Formular zurücksetzen
 				},
 				error: function (xhr, status, error) {

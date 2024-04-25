@@ -84,6 +84,40 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_delete_question', array($this, 'process_delete_question'));
 		add_action('wp_ajax_process_test_answers', array($this, 'process_test_answers'));
 		add_action('wp_ajax_nopriv_process_test_answers', array($this, 'process_test_answers'));
+		add_action('wp_ajax_change_test', array($this, 'change_test'));
+		add_action('wp_ajax_nopriv_change_test', array($this, 'change_test'));
+	}
+
+	function change_test(){
+		if(has_ajax_permission()){
+			if (isset($_POST['job_id'], $_POST['test_id'])) {
+				$job_id = intval($_POST['job_id']);
+				$test_id = intval($_POST['test_id']);
+				global $wpdb;
+				// Tabellenname für Bewerbungen
+				$table_name = $wpdb->prefix . 'te_jobs';
+
+				// Daten zum Aktualisieren
+				$data = array('test_id' => $test_id);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $job_id);
+
+				// Aktualisieren der Daten in der Datenbank
+				$wpdb->update($table_name, $data, $where);
+
+				// Überprüfen, ob ein Fehler aufgetreten ist
+				if ($wpdb->last_error !== '') {
+					wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+				}else{
+					wp_send_json_success('Test erfolgreich geändert.');
+				}
+			} else {
+				// Fehlermeldung zurückgeben, wenn erforderliche Daten fehlen
+				wp_send_json_error('Ungültige Anfrage.');
+			}
+		}
+		wp_die();
 	}
 
 	function process_test_answers() {
