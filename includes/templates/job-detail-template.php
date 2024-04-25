@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 			// Extrahieren Sie die application_id aus dem URL-Parameter
 			var requestData = {
 				action: 'change_state',
-				job_id: <?php echo $$job->ID ?>,
+				job_id: <?php echo $job->ID ?>,
 				state: $(this).val()
 			};
 		
