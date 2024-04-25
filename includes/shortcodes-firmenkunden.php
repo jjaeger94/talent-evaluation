@@ -21,7 +21,7 @@
             $button_url = get_user_home_url($user); // Anpassen Sie die URL entsprechend Ihrer Seitenstruktur    
             $output = '<a class="btn btn-primary" href="' . esc_url( $button_url ) . '">' . esc_html( $button_text ) . '</a>';
         } else {
-            $login_url = wp_login_url( home_url() ); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
+            $login_url = home_url('/membership-login'); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
             $output = '<a class="btn btn-primary" href="' . esc_url( $login_url ) . '">Jetzt einloggen</a>';
         }
     
@@ -305,9 +305,11 @@ function render_job_details_shortcode() {
 
             $job = get_job_by_id($job_id);
             if ( $job ) {
+                global $wpdb;
                 $member_id = SwpmMemberUtils::get_logged_in_members_id();
                 $company = SwpmMemberUtils::get_member_field_by_id($member_id, 'company_name');
-                $test = get_test_by_id($job->test_id);
+                $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}te_tests");
+                $test_id = $job->test_id;
                 // Tabelle aus Vorlagendatei einfügen
                 ob_start();
                 include plugin_dir_path( __FILE__ ) . 'templates/job-detail-template.php';
