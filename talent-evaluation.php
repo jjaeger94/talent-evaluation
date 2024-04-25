@@ -81,6 +81,10 @@ function run_talent_evaluation() {
 
 }
 
+function show_all_features(){
+    return false;
+}
+
 function has_ajax_permission(){
     return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
 }

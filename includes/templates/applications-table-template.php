@@ -7,9 +7,11 @@
                 <tr>
                     <th>Kandidat</th>
                     <th>Stelle</th>
-                    <!-- <th>Kriterien</th>
+                    <?php if ( show_all_features() ) : ?>
+                    <th>Kriterien</th>
                     <th>Vollständigkeit</th>
-                    <th>Background Screening</th> -->
+                    <th>Background Screening</th>
+                    <?php endif; ?>
                     <th>Commitment Test</th>
                     <th>Ergebnis</th>
                 </tr>
@@ -24,15 +26,17 @@
                     <td class="align-middle">
                         <a href="<?php echo esc_url(home_url('/job-details?id=' . $application->job_id)); ?>"><?php echo esc_html($application->job_title); ?></a>
                     </td>
-                    <!-- <td class="align-middle text-center">
+                    <?php if ( show_all_features() ) : ?>
+                    <td class="align-middle text-center">
                         <?php include 'columns/criteria.php'; ?>
                     </td>
                     <td class="align-middle text-center">
                         <?php include 'columns/completeness.php'; ?>
                     </td>
                     <td class="align-middle text-center">
-                        <?php include 'columns/screening.php'; ?> 
-                    </td>-->
+                        <?php include 'columns/screening.php'; ?>
+                    </td>
+                    <?php endif; ?>
                     <td class="align-middle text-center">
                         <?php include 'columns/commitment.php'; ?>
                     </td>
