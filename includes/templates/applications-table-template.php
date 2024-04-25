@@ -31,8 +31,8 @@
                         <?php include 'columns/completeness.php'; ?>
                     </td>
                     <td class="align-middle text-center">
-                        <?php include 'columns/screening.php'; ?> -->
-                    </td>
+                        <?php include 'columns/screening.php'; ?> 
+                    </td>-->
                     <td class="align-middle text-center">
                         <?php include 'columns/commitment.php'; ?>
                     </td>
