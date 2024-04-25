@@ -6,8 +6,9 @@
                     <h5 class="card-title">Ihre Bewerbungsstelle</h5>
                     <p class="card-text">Bitte bestätigen Sie die Stelle um fortzufahren.</p>
                     <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Stellenbezeichnung:</strong> <?php echo esc_html( $job->job_title ); ?></p>
+                        <div class="col-md-12">
+                            <p><strong>Stellenbezeichnung:</strong></p>
+                            <p><?php echo esc_html( $job->job_title ); ?></p>
                         </div>
                     </div>
                     <form method="get" action="<?php echo home_url('/test-methode/') ?>">
