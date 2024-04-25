@@ -12,6 +12,7 @@
         add_shortcode('edit_user_data_form', 'render_edit_user_data_form');
         add_shortcode('logout_button', 'render_logout_button');
         add_shortcode( 'application_button', 'render_application_button' );
+        add_shortcode( 'footer_button', 'render_footer_button' );
     }
 
     function render_application_button() {
@@ -26,7 +27,19 @@
         }
     
         return $output;
-    }    
+    }
+    
+    function render_footer_button(){
+        if ( is_user_logged_in() ) {
+            $logout_url = wp_logout_url();
+            $output = '<a href="' . esc_url($logout_url) . '>' . __('Logout', 'talent-evaluation') . '</a>';
+        } else {
+            $login_url = home_url('/membership-login'); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
+            $output = '<a href="' . esc_url( $login_url ) . '">Jetzt einloggen</a>';
+        }
+    
+        return $output;
+    }
 
     function render_edit_user_data_form() {
         // Logout-Button rendern
