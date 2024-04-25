@@ -64,6 +64,9 @@
 
     function add_job_form_shortcode() {
         if ( current_user_can( 'firmenkunde' ) ) {
+            $test_id = 0;
+            global $wpdb;
+            $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}te_tests");
             ob_start();
             include( plugin_dir_path( __FILE__ ) . 'templates/forms/job-form.php' );
             return ob_get_clean();

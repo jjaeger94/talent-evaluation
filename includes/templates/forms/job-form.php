@@ -8,6 +8,15 @@
         <input type="text" class="form-control" id="location" name="location">
     </div>
     <div class="form-group mb-3">
+        <label for="test-id"><strong>Test</strong></label>
+        <select class="form-select" id="test-id" name="test_id">
+            <?php foreach ( $tests as $test ) : ?>
+                <option value="<?php echo esc_attr( $test->ID ); ?>" <?php selected( $test_id, $test->ID ); ?>><?php echo esc_html( $test->title ); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <!-- <div class="form-group mb-3">
         <label for="criteria1"><strong class="mr-2">Kriterien zur Vorauswahl:</strong></label><?php echo info_button('job_form_criteria'); ?>
         <input type="text" class="form-control" id="criteria1" name="criteria1">
         <input type="text" class="form-control mt-2" id="criteria2" name="criteria2">
@@ -38,7 +47,7 @@
             <input type="checkbox" class="form-check-input" id="screening3" name="screening3" value="0">
             <label class="form-check-label" for="screening3">Arbeitszeugnis prüfen</label>
         </div>
-    </div>
+    </div> -->
     <input type="submit" value="Stelle hinzufügen" class="btn btn-primary">
 </form>
 

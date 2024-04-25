@@ -856,12 +856,13 @@ class Talent_Evaluation_Public {
 	}
 
 	function process_job_form() {
-		if ( isset( $_POST['job_title'] ) && current_user_can( 'firmenkunde' )) {
+		if ( isset( $_POST['job_title'], $_POST['test_id'] ) && current_user_can( 'firmenkunde' )) {
 			$job_title = sanitize_text_field( $_POST['job_title'] );
 			$location = sanitize_text_field( $_POST['location'] );
-			$criteria1 = sanitize_text_field( $_POST['criteria1'] );
-			$criteria2 = sanitize_text_field( $_POST['criteria2'] );
-			$criteria3 = sanitize_text_field( $_POST['criteria3'] );
+			$test_id = absint( $_POST['test_id'] );
+			$criteria1 = isset( $_POST['criteria1'] ) ? sanitize_text_field( $_POST['criteria1'] ) : '';
+			$criteria2 = isset( $_POST['criteria2'] ) ? sanitize_text_field( $_POST['criteria2'] ) : '';
+			$criteria3 = isset( $_POST['criteria3'] ) ? sanitize_text_field( $_POST['criteria3'] ) : '';
 			$completeness1 = isset( $_POST['completeness1'] ) ? 1 : 0;
 			$completeness2 = isset( $_POST['completeness2'] ) ? 1 : 0;
 			$screening1 = isset( $_POST['screening1'] ) ? 1 : 0;
@@ -880,6 +881,7 @@ class Talent_Evaluation_Public {
 				$table_name, 
 				array( 
 					'user_id' => $user_id,
+					'test_id' => $test_id,
 					'job_title' => $job_title,
 					'criteria1' => $criteria1,
 					'criteria2' => $criteria2,
@@ -890,6 +892,7 @@ class Talent_Evaluation_Public {
 				), 
 				array( 
 					'%d', 
+					'%d',
 					'%s',
 					'%s',
 					'%s',
