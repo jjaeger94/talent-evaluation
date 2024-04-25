@@ -82,6 +82,13 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_edit_question', array($this, 'process_edit_question'));
 		add_action('wp_ajax_delete_question', array($this, 'process_delete_question'));
 		add_action('wp_ajax_nopriv_delete_question', array($this, 'process_delete_question'));
+		add_action('wp_ajax_process_test_answers', array($this, 'process_test_answers'));
+		add_action('wp_ajax_nopriv_process_test_answers', array($this, 'process_test_answers'));
+	}
+
+	function process_test_answers() {
+		echo 'Hallo';
+		wp_die();
 	}
 
 	function process_delete_question() {

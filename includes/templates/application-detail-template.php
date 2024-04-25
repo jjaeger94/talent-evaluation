@@ -74,3 +74,34 @@
 <?php else: ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
 <?php endif;?>
+<!-- <script>
+jQuery(document).ready(function($) {
+    $('#classification').change(function() {
+        var option = $('option:selected', this);
+        var comment;
+        if(option.data('comment')){
+            comment = prompt("Bitte geben Sie einen Kommentar ein:");
+        }
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>', // Die URL Ihrer PHP-Datei zum Speichern der Einordnung
+            data: {
+                action: 'set_classification', 
+                value: option.val(), 
+                application_id: <?php echo $application->ID ?>,
+                text: option.text(),
+                comment: comment
+            },
+            success: function(response) {
+                // Erfolgreich gespeichert
+                console.log('Einordnung erfolgreich gespeichert');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Fehler beim Speichern
+                console.error('Fehler beim Speichern der Einordnung:', error);
+            }
+        });
+    });
+});
+</script> -->

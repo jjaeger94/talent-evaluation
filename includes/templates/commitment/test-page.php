@@ -1,24 +1,67 @@
-<div class="test-start-container">
-    <?php if (isset($application)) : ?>
-        <p>Willkommen, <?php echo esc_html($application->prename) . ' ' . esc_html($application->surname); ?>!</p>
-    <?php endif; ?>
-    <form id="test-answers-form">
-        <?php if (!isset($application)) : ?>
-            <div class="form-group">
-                <label for="prename">Vorname:</label>
-                <input type="text" class="form-control" id="prename" name="prename" required>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="test-start-container">
+                <?php if (isset($application)) : ?>
+                    <div class="alert alert-success" role="alert">
+                        Willkommen, <?php echo esc_html($application->prename) . ' ' . esc_html($application->surname); ?>!
+                    </div>
+                <?php endif; ?>
+                <form id="test-answers-form">
+                    <input type="hidden" name="jid" value="<?php echo esc_attr($jid); ?>">
+                    <input type="hidden" name="tid" value="<?php echo esc_attr($tid); ?>">
+                    <input type="hidden" name="key" value="<?php echo esc_attr($key); ?>">
+                    <?php if (isset($application)) : ?>
+                        <input type="hidden" name="aid" value="<?php echo esc_attr($application->ID); ?>">
+                    <?php endif; ?>
+                    <?php if (!isset($application)) : ?>
+                        <div class="mb-3">
+                            <label for="prename" class="form-label">Vorname:</label>
+                            <input type="text" class="form-control" id="prename" name="prename" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Nachname:</label>
+                            <input type="text" class="form-control" id="surname" name="surname" required>
+                        </div>
+                    <?php endif; ?>
+                    <?php foreach ($questions as $question) : ?>
+                        <div class="mb-3">
+                            <label for="answer_<?php echo $question->ID; ?>" class="form-label"><?php echo $question->question_text; ?></label>
+                            <textarea class="form-control" id="answer_<?php echo $question->ID; ?>" name="answers[]" rows="4" required></textarea>
+                        </div>
+                    <?php endforeach; ?>
+                    <button type="submit" class="btn btn-primary">Test abschließen</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="surname">Nachname:</label>
-                <input type="text" class="form-control" id="surname" name="surname" required>
-            </div>
-        <?php endif; ?>
-        <?php foreach ($questions as $question) : ?>
-            <div class="form-group">
-                <label for="answer_<?php echo $question->ID; ?>"><?php echo $question->question_text; ?></label>
-                <input type="text" class="form-control" id="answer_<?php echo $question->ID; ?>" name="answers[]" required>
-            </div>
-        <?php endforeach; ?>
-        <button type="submit" class="btn btn-primary">Test abschließen</button>
-    </form>
+        </div>
+    </div>
 </div>
+<script>
+jQuery(document).ready(function($) {
+    $('#test-answers-form').submit(function(e) {
+        e.preventDefault(); // Verhindert das Standardverhalten des Formulars (Neuladen der Seite)
+
+        // Formulardaten serialisieren
+        var formData = $(this).serialize();
+
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: {
+                action: 'process_test_answers', // Die hier angegebene Aktion wird auf der Serverseite ausgeführt
+                formData: formData // Hier können Sie weitere Daten übergeben, falls benötigt
+            },
+            success: function(response) {
+                // Erfolgsfall: Verarbeite die Antwort
+                console.log(response);
+                $('#form-message').html(response);
+            },
+            error: function(xhr, status, error) {
+                // Fehlerfall: Behandele den Fehler
+                console.error(error);
+            }
+        });
+    });
+});
+</script>

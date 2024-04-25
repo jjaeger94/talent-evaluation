@@ -35,3 +35,26 @@
 </form>
 
 <div id="message"></div>
+<script>
+jQuery(document).ready(function($) {
+    $('#application-form').submit(function (e) {
+			e.preventDefault();
+			var formData = new FormData(this); // FormData-Objekt erstellen und das Formular übergeben
+			formData.append('action', 'add_application');
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo admin_url('admin-ajax.php'); ?>',
+				data: formData,
+				processData: false, // Daten nicht verarbeiten (wichtig für FormData)
+				contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
+				success: function (response) {
+					$('#message').html(response); // Anzeigen der Antwortmeldung
+					$('#application-form')[0].reset(); // Formular zurücksetzen
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
+});
+</script>

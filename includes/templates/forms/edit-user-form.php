@@ -26,3 +26,27 @@
     <button type="submit" class="btn btn-primary">Änderungen speichern</button>
 </form>
 <div id="message"></div>
+<script>
+jQuery(document).ready(function($) {
+    $('#edit-user-data-form').submit(function(e) {
+            e.preventDefault(); // Verhindert das Standard-Formular-Verhalten
+            
+            var formData = $(this).serialize(); // Serialisiert die Formulardaten
+            
+            $.ajax({
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                type: 'POST',
+                data: formData + '&action=save_user_data', // Fügt die Aktion hinzu
+                success: function(response) {
+                    // Erfolgsfall: Weiterleitung oder Anzeige einer Erfolgsmeldung
+                    console.log(response);
+					$('#message').html(response.data);
+                },
+                error: function(xhr, status, error) {
+                    // Fehlerfall: Anzeige einer Fehlermeldung
+                    console.error('Fehler beim Speichern der Benutzerdaten:', error);
+                }
+            });
+        });
+});
+</script>

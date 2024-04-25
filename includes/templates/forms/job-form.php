@@ -44,3 +44,28 @@
 
 <!-- Container für Fehler- oder Erfolgsmeldungen -->
 <div id="form-message" class="mt-3"></div>
+<script>
+jQuery(document).ready(function($) {
+    $('#add-job-form').submit(function(e) {
+			e.preventDefault();
+	
+			// Formulardaten serialisieren
+			var formData = $(this).serialize();
+	
+			// Ajax-Anfrage senden
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo admin_url('admin-ajax.php'); ?>', // Verwende die global definierte ajaxurl
+				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
+				success: function(response) {
+					// Antwort verarbeiten
+					$('#form-message').html(response);
+					$('#add-job-form')[0].reset();
+				},
+				error: function(xhr, status, error) {
+					console.error(error);
+				}
+			});
+		});
+});
+</script>

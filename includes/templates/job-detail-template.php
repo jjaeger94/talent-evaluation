@@ -22,3 +22,35 @@
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Stellendetails gefunden.</div>
 <?php endif; ?>
+<script>
+jQuery(document).ready(function($) {
+    $('.job-state-btn').click(function() {
+			// Extrahieren Sie die application_id aus dem URL-Parameter
+			var requestData = {
+				action: 'change_state',
+				job_id: <?php echo $$job->ID ?>,
+				state: $(this).val()
+			};
+		
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo admin_url('admin-ajax.php'); ?>',
+				data: requestData,
+				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
+				success: function(response) {
+					if (response.success) {
+						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
+						location.reload();
+					} else {
+						// Fehler bei der Aktualisierung
+						alert('Fehler beim Starten der Bearbeitung');
+					}
+				},
+				error: function(xhr, status, error) {
+					// AJAX-Fehler
+					console.error('AJAX-Fehler:', error);
+				}
+			});
+		});
+});
+</script>

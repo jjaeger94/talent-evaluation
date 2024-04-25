@@ -56,3 +56,74 @@
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Bewerbungsdetails gefunden.</div>
 <?php endif; ?>
+<script>
+jQuery(document).ready(function($) {
+    $('#add-files-button').click(function() {
+				// Hier können Sie den gewünschten Code einfügen, um weitere Dateien hinzuzufügen
+				// Z.B. öffnen Sie einen Dateiauswahldialog
+				var fileInput = document.createElement('input');
+				fileInput.type = 'file';
+				fileInput.accept = 'application/pdf';
+				fileInput.multiple = true; // Erlaubt das Hochladen mehrerer Dateien
+				fileInput.click(); // Klicken Sie auf das Eingabefeld, um den Dateiauswahldialog zu öffnen
+	
+				// Event-Listener für den Dateiauswahldialog
+				fileInput.addEventListener('change', function() {
+					var files = fileInput.files;
+					var formData = new FormData();
+	
+					// Fügen Sie die ausgewählten Dateien dem FormData-Objekt hinzu
+					for (var i = 0; i < files.length; i++) {
+						formData.append('files[]', files[i]);
+					}
+			
+					// Fügen Sie die application_id dem FormData-Objekt hinzu
+					formData.append('application_id', <?php echo $application_id ?>);
+					formData.append('action', 'add_files');
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo admin_url('admin-ajax.php'); ?>',
+						data: formData,
+						processData: false, // Daten nicht verarbeiten (wichtig für FormData)
+						contentType: false, // Inhaltstyp nicht festlegen (wichtig für FormData)
+						success: function (response) {
+							console.log(response); // Anzeigen der Antwortmeldung // Formular zurücksetzen
+							location.reload();
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});
+				});
+		});
+
+        $('#review-btn-start').click(function() {
+
+			var requestData = {
+				action: 'start_review',
+				application_id: <?php echo $application_id ?>,
+				state: $(this).val()
+			};
+		
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo admin_url('admin-ajax.php'); ?>',
+				data: requestData,
+				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
+				success: function(response) {
+					if (response.success) {
+						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
+						location.reload();
+					} else {
+						// Fehler bei der Aktualisierung
+						alert('Fehler beim Starten der Bearbeitung');
+					}
+				},
+				error: function(xhr, status, error) {
+					// AJAX-Fehler
+					console.error('AJAX-Fehler:', error);
+				}
+			});
+		});	
+});
+</script>
