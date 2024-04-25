@@ -183,7 +183,7 @@ function render_commitment_test(){
           }else{
                return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
           }
-          $job->get_job_by_id_permissionless($jid);
+          $job = get_job_by_id_permissionless($jid);
           ob_start();
           include plugin_dir_path( __FILE__ ) . 'templates/commitment/selected-job.php';
           return ob_get_clean();
