@@ -32,7 +32,7 @@
     function render_footer_button(){
         if ( is_user_logged_in() ) {
             $logout_url = wp_logout_url();
-            $output = '<a href="' . esc_url($logout_url) . '>' . __('Logout', 'talent-evaluation') . '</a>';
+            $output = '<a href="' . esc_url($logout_url) . '">' . __('Logout', 'talent-evaluation') . '</a>';
         } else {
             $login_url = home_url('/membership-login'); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
             $output = '<a href="' . esc_url( $login_url ) . '">Jetzt einloggen</a>';
