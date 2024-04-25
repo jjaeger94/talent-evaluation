@@ -6,6 +6,46 @@ function register_shortcodes_talents() {
         add_shortcode( 'consent_form', 'render_consent_form' );
         add_shortcode( 'commitment_test', 'render_commitment_test' );
         add_shortcode('test_start', 'render_test_start');
+        add_shortcode('get_company', 'get_company_shortcode');
+}
+
+function get_company_shortcode(){
+     if(!isset($_GET['key'])){
+          return 'Keine Berechtigung';
+     }
+     $key = sanitize_text_field( $_GET['key'] );
+     $uid = 0;
+     if(isset($_GET['uid'])){
+          $uid = intval($_GET['uid']);
+          if (commitment_hash($uid) != $key) {
+               return 'Keine Berechtigung';
+          }
+     }else if(isset($_GET['jid'])){
+          $jid = intval($_GET['jid']);
+          if (commitment_hash($jid) != $key) {
+               return 'Keine Berechtigung';
+          }
+          $job = get_job_by_id_permissionless($jid);
+          if(!$job){
+               return 'Falsche Stellen ID';
+          }
+          $uid = $job->user_id;
+     }else if(isset($_GET['aid'])){
+          $aid = intval($_GET['aid']);
+          if (commitment_hash($aid) != $key) {
+               return 'Keine Berechtigung';
+          }
+          $application = get_job_by_id_permissionless($aid);
+          if(!$application){
+               return 'Falsche Bewerbungs ID';
+          }
+          $uid = $application->user_id;
+     }else{
+          return 'Firma nicht gefunden';
+     }
+     $wp_user = get_user_by( 'id', $uid );
+     $swpm_user = SwpmMemberUtils::get_user_by_email($wp_user->user_email);
+     return SwpmMemberUtils::get_member_field_by_id($swpm_user->member_id, 'company_name');
 }
 
 function render_test_start() {
@@ -15,7 +55,7 @@ function render_test_start() {
           $key = sanitize_text_field($_GET['key']);
           
           // Überprüfe den Hash
-          if (commitment_hash($jid) === $key) {
+          if (commitment_hash($jid) == $key) {
                // Überprüfe, ob eine application_id übergeben wurde
                if (isset($_GET['aid'])) {
                     $application_id = intval($_GET['aid']);
