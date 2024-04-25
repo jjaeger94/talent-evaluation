@@ -128,7 +128,7 @@ function render_test_methode(){
                return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
           }
           $job = get_job_by_id_permissionless($jid);
-          $test = get_test_by_id($job->test_id);
+          $test = get_test_by_id_permissionless($job->test_id);
           // Baue den Link zusammen
           $link = esc_url( home_url( '/test-starten/?jid=' . $jid ));
           // Füge die Application ID hinzu, wenn verfügbar
