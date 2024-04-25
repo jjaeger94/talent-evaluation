@@ -34,7 +34,8 @@
         </div>
         <?php echo render_link_template($test_page_url); ?>
         <hr>
-        <!-- <?php if ($application->state == 'new'): ?>
+        <?php if ( show_all_features() ) : ?>
+        <?php if ($application->state == 'new'): ?>
             Prüfung wurde noch nicht gestartet
         <?php else: ?>
         <div><strong>Ergebnis der Prüfung:</strong>
@@ -53,7 +54,8 @@
             </div>
         </div>
         </div>
-        <hr> -->
+        <hr>
+        <?php endif;?>
         <p><strong>Ergebnis Commitment Test:</strong><br>
             <?php include 'columns/commitment-with-text.php';?>
         </p>

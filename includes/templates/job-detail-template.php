@@ -30,7 +30,9 @@
             </div>
 			<?php echo render_link_template($test_page_url); ?>
         </div>
-        <!-- <?php include 'blocks/job-info-template.php'; ?> -->
+		<?php if ( show_all_features() ) : ?>
+        <?php include 'blocks/job-info-template.php'; ?>
+		<?php endif;?>
     </div>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">Es wurden keine Stellendetails gefunden.</div>
