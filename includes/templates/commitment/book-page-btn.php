@@ -1,0 +1,1 @@
+<a href="<?php echo $link; ?>" class="btn btn-primary">Test starten</a>

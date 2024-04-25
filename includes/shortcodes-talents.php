@@ -5,7 +5,10 @@
 function register_shortcodes_talents() {
         add_shortcode( 'consent_form', 'render_consent_form' );
         add_shortcode( 'commitment_test', 'render_commitment_test' );
-        add_shortcode('test_methode', 'render_test_methode');
+        add_shortcode('test_methode_btn', 'render_test_methode_btn');
+        add_shortcode('book_link', 'get_book_link');
+        add_shortcode('book_cover', 'get_book_cover');
+        add_shortcode('book_title', 'get_book_title');
         add_shortcode('test_start', 'render_test_start');
         add_shortcode('get_company', 'get_company_shortcode');
 }
@@ -105,45 +108,102 @@ function get_active_jobs_by_user_id($user_id) {
          
 }
 
-function render_test_methode(){
+function check_test_params(){
+     $params = ['jid' => 0, 'aid' => 0, 'error' => ''];
      if(isset($_GET['key'])){
-          $key = sanitize_text_field( $_GET['key'] );
-          $jid = 0;
-          if(isset($_GET['aid'])){
-               $aid = intval( $_GET['aid'] );
-               if(commitment_hash($aid) != $key){
-                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
-               }
-               $application = get_application_by_id_permissionless($aid);
-               if(!$application){
-                    return '<div class="alert alert-info" role="alert">Bewerbung nicht gefunden</div>';
-               }
-               $jid = $application->job_id;
-          }else if(isset($_GET['jid'])){
-               $jid = intval( $_GET['jid'] );
-               if(commitment_hash($jid) != $key){
-                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
-               }
-          }else{
-               return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
-          }
-          $job = get_job_by_id_permissionless($jid);
-          $test = get_test_by_id_permissionless($job->test_id);
-          // Baue den Link zusammen
-          $link = esc_url( home_url( '/test-starten/?jid=' . $jid ));
-          // Füge die Application ID hinzu, wenn verfügbar
-          if (isset($aid)) {
-               $link .= '&aid=' . $aid;
-          }
-          // Füge den Hash-Key hinzu
-          $link .= '&key=' . commitment_hash($jid);
-          ob_start();
-          include plugin_dir_path( __FILE__ ) . 'templates/commitment/book-page.php';
-          return ob_get_clean();
+         $key = sanitize_text_field( $_GET['key'] );
+         if(isset($_GET['aid'])){
+             $aid = intval( $_GET['aid'] );
+             if(commitment_hash($aid) != $key){
+                 $params['error'] = 'Kein Zugriff';
+                 return $params;
+             }
+             $application = get_application_by_id_permissionless($aid);
+             if(!$application){
+                 $params['error'] = 'Bewerbung nicht gefunden';
+                 return $params;
+             }
+             $params['aid'] = $aid;
+             $params['jid'] = $application->job_id;
+         }else if(isset($_GET['jid'])){
+             $jid = intval( $_GET['jid'] );
+             if(commitment_hash($jid) != $key){
+                 $params['error'] = 'Kein Zugriff';
+                 return $params;
+             }
+             $params['jid'] = $jid;
+         }else{
+             $params['error'] = 'Kein Zugriff';
+             return $params;
+         }
      }else{
-          return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+         $params['error'] = 'Kein Zugriff';
+         return $params;
      }
-}
+     return $params;
+ }
+
+ function get_book_link(){
+     $params = check_test_params();
+     if($params['error']){
+         return '<div class="alert alert-info" role="alert">'.$params['error'].'</div>';
+     }
+     $jid = $params['jid'];
+     $aid = $params['aid'];
+     $job = get_job_by_id_permissionless($jid);
+     $test = get_test_by_id_permissionless($job->test_id);
+     // Baue den Link zusammen
+     return $test->affiliate_link;
+ } 
+
+ function get_book_title(){
+     $params = check_test_params();
+     if($params['error']){
+         return '<div class="alert alert-info" role="alert">'.$params['error'].'</div>';
+     }
+     $jid = $params['jid'];
+     $aid = $params['aid'];
+     $job = get_job_by_id_permissionless($jid);
+     $test = get_test_by_id_permissionless($job->test_id);
+     // Baue den Link zusammen
+     return $test->title;
+ } 
+ 
+ function get_book_cover(){
+     $params = check_test_params();
+     if($params['error']){
+         return '<div class="alert alert-info" role="alert">'.$params['error'].'</div>';
+     }
+     $jid = $params['jid'];
+     $aid = $params['aid'];
+     $job = get_job_by_id_permissionless($jid);
+     $test = get_test_by_id_permissionless($job->test_id);
+     ob_start();
+     include plugin_dir_path( __FILE__ ) . 'templates/commitment/book-page-cover.php';
+     return ob_get_clean();
+ } 
+
+ function render_test_methode_btn(){
+     $params = check_test_params();
+     if($params['error']){
+         return '<div class="alert alert-info" role="alert">'.$params['error'].'</div>';
+     }
+     $jid = $params['jid'];
+     $aid = $params['aid'];
+     $job = get_job_by_id_permissionless($jid);
+     $test = get_test_by_id_permissionless($job->test_id);
+     // Baue den Link zusammen
+     $link = esc_url( home_url( '/test-starten/?jid=' . $jid ));
+     // Füge die Application ID hinzu, wenn verfügbar
+     if ($aid) {
+         $link .= '&aid=' . $aid;
+     }
+     // Füge den Hash-Key hinzu
+     $link .= '&key=' . commitment_hash($jid);
+     ob_start();
+     include plugin_dir_path( __FILE__ ) . 'templates/commitment/book-page-btn.php';
+     return ob_get_clean();
+ } 
 
 function render_commitment_test(){
      if(isset($_GET['key'])){
