@@ -243,6 +243,10 @@ function show_jobs_table() {
     if ( is_user_logged_in() ) {
         // ID des aktuellen Benutzers abrufen
         $user_id = get_current_user_id();
+        $hash = commitment_hash($user_id); // Hier den Hash-Wert einfügen
+
+        // URL für die Bewerber-Testseite mit den Parametern uid und key (hash)
+        $test_page_url = add_query_arg(array('uid' => $user_id,'key' => $hash), home_url('/bewerber-test/'));
 
         // Erfassen Sie die in den Optionen gespeicherten Daten
         global $wpdb;

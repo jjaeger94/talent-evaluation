@@ -1,3 +1,4 @@
+<?php echo render_link_template($test_page_url); ?>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -28,3 +29,4 @@
         </tbody>
     </table>
 </div>
+

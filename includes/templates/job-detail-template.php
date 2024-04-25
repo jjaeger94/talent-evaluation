@@ -17,7 +17,7 @@
             </div>
         </div>
         <hr>
-		<div class="row">
+		<div class="row mt-3">
             <div class="col-md-6">
 				<select class="form-select" id="test_id" name="test_id">
                 <?php foreach ( $tests as $test ) : ?>

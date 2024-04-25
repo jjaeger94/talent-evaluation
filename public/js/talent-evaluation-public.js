@@ -3,6 +3,26 @@
 
 	$(function() {
 
+		$('#copy-button').click(function() {
+			var input = $('#test-link');
+			if (!navigator.clipboard){
+				console.log('use old copy method');
+				input.select();
+				document.execCommand("copy");
+				alert('Link wurde kopiert!');
+			}else{
+				console.log('use new clipboard');
+				navigator.clipboard.writeText(input.val()).then(
+					function(){
+						alert('Link wurde kopiert!'); // success 
+					})
+				  .catch(
+					 function() {
+						alert('Link konnte nicht kopiert werden!'); // error
+				  });
+			}
+		});
+
 		$('.review-btn').click(function() {
 			// Extrahieren Sie die application_id aus dem URL-Parameter
 			var comment;

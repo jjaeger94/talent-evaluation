@@ -569,4 +569,18 @@ function render_logout_button() {
     echo '<div class="logout-button"><a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a></div>';
 }
 
+function render_link_template($test_page_url) {
+    ob_start();
+    ?>
+    <div class="input-group mb-3">
+        <input type="text" id="test-link" class="form-control" value="<?php echo esc_url($test_page_url); ?>" readonly>
+        <button class="btn btn-outline-secondary" type="button" id="copy-button">
+            <i class="bi bi-clipboard"></i> Kopieren
+        </button>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+
 run_talent_evaluation();
