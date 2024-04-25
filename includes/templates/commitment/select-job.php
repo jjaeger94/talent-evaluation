@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <select class="form-select" id="jid" name="jid">
                 <?php foreach ( $jobs as $job ) : ?>
-                    <option value="<?php echo esc_attr( $job->ID ); ?>" <?php selected( $job_id, $job->ID ); ?>><?php echo esc_html( $job->job_title ); ?></option>
+                    <option value="<?php echo esc_attr( $job->ID ); ?>" <?php selected( $jid, $job->ID ); ?>><?php echo esc_html( $job->job_title ); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

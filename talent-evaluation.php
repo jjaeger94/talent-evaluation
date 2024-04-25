@@ -89,6 +89,32 @@ function commitment_hash($uid){
     return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
 }
 
+function save_answer($aid, $question_id, $answer) {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'te_answers';
+
+    // Neuen Eintrag in die Tabelle "answers" einfügen
+    $result = $wpdb->insert(
+        $table_name,
+        array(
+            'application_id' => $aid,
+            'question_id' => $question_id,
+            'answer_text' => $answer
+            // Weitere Felder hinzufügen, falls erforderlich
+        ),
+        array(
+            '%d',
+            '%d',
+            '%s'
+            // Weitere Formatierungen hinzufügen, falls erforderlich
+        )
+    );
+
+    return $result;
+}
+
+
 function get_question_by_id($question_id){
     if ( current_user_can( 'dienstleister' ) ) {
         global $wpdb;

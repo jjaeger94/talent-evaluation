@@ -22,6 +22,9 @@ function render_test_start() {
                     $application_id = intval($_GET['aid']);
                     // Lade die Application
                     $application = get_application_by_id($application_id);
+                    if(!$application){
+                         return '<p>Bewerbung nicht gefunden.</p>';
+                    }
                }
           
                // Fragendaten aus der Datenbank abrufen
@@ -63,17 +66,19 @@ function render_commitment_test(){
      if(isset($_GET['uid'], $_GET['key'])){
           $uid = intval( $_GET['uid'] );
           $key = sanitize_text_field( $_GET['key'] );
-
-          if(isset($_GET['aid'])){
-               $aid = intval( $_GET['aid'] );
-          }
-
           if(commitment_hash($uid) == $key){
-               if(!isset($_GET['jid'])){
-                    $job_id = 0;
+               if(isset($_GET['aid'])){
+                    $aid = intval( $_GET['aid'] );
+                    $application = get_application_by_id_permissionless($aid);
+                    if(!$application){
+                         return '<div class="alert alert-info" role="alert">Bewerbung nicht gefunden</div>';
+                    }
+                    $jid = $application->job_id;
+               }else if(!isset($_GET['jid'])){
+                    $jid = 0;
                     $jobs = get_active_jobs_by_user_id($uid);
                     if($jobs && count($jobs) == 1){
-                         $job_id = $jobs[0]->ID;
+                         $jid = $jobs[0]->ID;
                     }else{
                          ob_start();
                          include plugin_dir_path( __FILE__ ) . 'templates/commitment/select-job.php';

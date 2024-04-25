@@ -87,9 +87,88 @@ class Talent_Evaluation_Public {
 	}
 
 	function process_test_answers() {
-		echo 'Hallo';
+		// Überprüfen, ob die erforderlichen Daten vorhanden sind
+		if (isset($_POST['tid'], $_POST['jid'], $_POST['answers'], $_POST['key'])) {
+			$tid = intval($_POST['tid']);
+			$jid = intval($_POST['jid']);
+			$answers = $_POST['answers'];
+			$key = sanitize_text_field($_POST['key']);
+			
+			// Überprüfen des Hash
+			if (commitment_hash($jid.$tid) === $key) {
+				// Überprüfen, ob eine application_id vorhanden ist
+				$aid = null;
+				if (isset($_POST['aid'])) {
+					$aid = intval($_POST['aid']);
+					// Lade die Anwendung
+					$application = get_application_by_id_permissionless($aid);
+					if(!$application){
+						wp_send_json_error('Bewerbung nicht gefunden');
+					}
+				} else {
+					$job = get_job_by_id_permissionless($jid);
+					if(!$job){
+						wp_send_json_error('Stelle nicht gefunden');
+					}
+					if ( !isset( $_POST['prename'], $_POST['surname'] )) {
+						wp_send_json_error('Name fehlt');
+					}
+					$prename = sanitize_text_field($_POST['prename']);
+					$surname = sanitize_text_field($_POST['surname']);
+					global $wpdb;
+			
+					$table_name = $wpdb->prefix . 'te_applications';
+			
+					// Neuen Eintrag in die Tabelle "applications" einfügen
+					$result = $wpdb->insert(
+						$table_name,
+						array(
+							'job_id' => $jid, // Beispielwert, ändern Sie dies entsprechend Ihrer Anforderungen
+							'user_id' => $job->user_id,
+							'prename' => $prename,
+							'surname' => $surname
+							// Fügen Sie hier weitere Felder hinzu und passen Sie die Werte an
+						),
+						array(
+							'%d',
+							'%d',
+							'%s',
+							'%s'
+							// Fügen Sie hier weitere Formatierungen hinzu, falls erforderlich
+						)
+					);
+			
+					if ( $result === false ) {
+						wp_send_json_error('Fehler: Die Bewerbung konnte nicht hinzugefügt werden.');
+					}
+					$aid = $wpdb->insert_id;
+				}
+				if(!$aid){
+					wp_send_json_error('Fehler: AID nicht gefunden.');
+				}
+				
+				// Speichern der Antworten in der Datenbank
+				foreach ($answers as $question_id => $answer) {
+					$result = save_answer($aid, $question_id, $answer);
+					if(!$result){
+						wp_send_json_error('Antworten konnten nicht hinzugefügt werden');
+					}
+				}
+				
+				// Erfolgsmeldung zurückgeben
+				wp_send_json_success('Die Testantworten wurden erfolgreich gespeichert.');
+			} else {
+				// Fehlermeldung zurückgeben, wenn der Hash nicht übereinstimmt
+				wp_send_json_error('Ungültiger Zugriff.');
+			}
+		} else {
+			// Fehlermeldung zurückgeben, wenn erforderliche Daten fehlen
+			wp_send_json_error('Ungültige Anfrage.');
+		}
+		// Beenden des Skripts
 		wp_die();
 	}
+	
 
 	function process_delete_question() {
 		if(has_ajax_permission()){
