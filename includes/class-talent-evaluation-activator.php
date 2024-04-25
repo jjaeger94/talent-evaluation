@@ -123,6 +123,12 @@ class Talent_Evaluation_Activator {
 				'template' => '', // optional: Vorlage für die Seite
 			),
 			array(
+				'title' => 'Test methode',
+				'content' => '[test_methode]',
+				'slug' => 'test-methode',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
 				'title' => 'Test starten',
 				'content' => '[test_start]',
 				'slug' => 'test-starten',

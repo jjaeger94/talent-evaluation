@@ -5,6 +5,7 @@
 function register_shortcodes_talents() {
         add_shortcode( 'consent_form', 'render_consent_form' );
         add_shortcode( 'commitment_test', 'render_commitment_test' );
+        add_shortcode('test_methode', 'render_test_methode');
         add_shortcode('test_start', 'render_test_start');
         add_shortcode('get_company', 'get_company_shortcode');
 }
@@ -104,10 +105,10 @@ function get_active_jobs_by_user_id($user_id) {
          
 }
 
-function render_commitment_test(){
+function render_test_methode(){
      if(isset($_GET['key'])){
           $key = sanitize_text_field( $_GET['key'] );
-          $link = '';
+          $jid = 0;
           if(isset($_GET['aid'])){
                $aid = intval( $_GET['aid'] );
                if(commitment_hash($aid) != $key){
@@ -123,23 +124,8 @@ function render_commitment_test(){
                if(commitment_hash($jid) != $key){
                     return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
                }
-          }else if(isset($_GET['uid'])){
-               $uid = intval( $_GET['uid'] );
-               if(commitment_hash($uid) != $key){
-                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
-               }
-               $jobs = get_active_jobs_by_user_id($uid);
-               if($jobs && count($jobs) == 1){
-                    $jid = $jobs[0]->ID;
-               }else{
-                    $jid = 0;
-                    foreach ( $jobs as $job ){
-                         $job->hash = commitment_hash($job->ID);
-                    }
-                    ob_start();
-                    include plugin_dir_path( __FILE__ ) . 'templates/commitment/select-job.php';
-                    return ob_get_clean();
-               }
+          }else{
+               return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
           }
           $job = get_job_by_id_permissionless($jid);
           $test = get_test_by_id($job->test_id);
@@ -154,6 +140,59 @@ function render_commitment_test(){
           ob_start();
           include plugin_dir_path( __FILE__ ) . 'templates/commitment/book-page.php';
           return ob_get_clean();
+     }else{
+          return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+     }
+}
+
+function render_commitment_test(){
+     if(isset($_GET['key'])){
+          $key = sanitize_text_field( $_GET['key'] );
+          $link = '';
+          if(isset($_GET['aid'])){
+               $aid = intval( $_GET['aid'] );
+               if(commitment_hash($aid) != $key){
+                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+               }
+               $application = get_application_by_id_permissionless($aid);
+               if(!$application){
+                    return '<div class="alert alert-info" role="alert">Bewerbung nicht gefunden</div>';
+               }
+               // Weiterleitung auf home_url('/test-methode/') mit dem Parameter $jid
+               header("Location: " . home_url('/test-methode/') . "?aid=" . $aid . "&key=" . $key);
+               exit;
+          }else if(isset($_GET['jid'])){
+               $jid = intval( $_GET['jid'] );
+               if(commitment_hash($jid) != $key){
+                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+               }
+               // Weiterleitung auf home_url('/test-methode/') mit dem Parameter $jid
+               header("Location: " . home_url('/test-methode/') . "?jid=" . $jid . "&key=" . $key);
+               exit;
+          }else if(isset($_GET['uid'])){
+               $uid = intval( $_GET['uid'] );
+               if(commitment_hash($uid) != $key){
+                    return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+               }
+               $jobs = get_active_jobs_by_user_id($uid);
+               if($jobs && count($jobs) == 1){
+                    $jid = $jobs[0]->ID;
+                    // Weiterleitung auf home_url('/test-methode/') mit dem Parameter $jid
+                    header("Location: " . home_url('/test-methode/') . "?jid=" . $jid . "&key=" . $key);
+                    exit;
+               }else{
+                    $jid = 0;
+                    foreach ( $jobs as $job ){
+                         $job->hash = commitment_hash($job->ID);
+                    }
+                    ob_start();
+                    include plugin_dir_path( __FILE__ ) . 'templates/commitment/select-job.php';
+                    return ob_get_clean();
+               }
+          }else{
+               return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
+          }
+
      }else{
           return '<div class="alert alert-info" role="alert">Kein Zugriff</div>';
      }
