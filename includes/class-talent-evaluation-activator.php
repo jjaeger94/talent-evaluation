@@ -116,6 +116,18 @@ class Talent_Evaluation_Activator {
 				'slug' => 'tests',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Bewerber Test',
+				'content' => '[commitment_test]',
+				'slug' => 'bewerber-test',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Test starten',
+				'content' => '[test_start]',
+				'slug' => 'test-starten',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

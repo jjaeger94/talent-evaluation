@@ -85,6 +85,9 @@ function has_ajax_permission(){
     return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
 }
 
+function commitment_hash($uid){
+    return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
+}
 
 function get_question_by_id($question_id){
     if ( current_user_can( 'dienstleister' ) ) {
@@ -113,7 +116,6 @@ function get_test_by_id( $test_id ) {
 }
 
 function get_questions_by_test_id($test_id){
-    if ( current_user_can( 'dienstleister' ) ) {
         global $wpdb;
         $query = $wpdb->prepare( "
             SELECT *
@@ -121,9 +123,6 @@ function get_questions_by_test_id($test_id){
             WHERE test_id = {$test_id}
         ");
         return $wpdb->get_results( $query );
-    } else {
-        return null;
-    }
 }
 
 function get_application_by_id( $application_id ) {
