@@ -764,7 +764,7 @@ class Talent_Evaluation_Public {
 			update_application_state($application_id, $state, $comment);
 
 			if($state == 'failed' || $state == 'passed'){
-				send_status_mail($application_id);
+				// send_status_mail($application_id);
 			}
 		}else if(current_user_can('firmenkunde')){
 			// Überprüfen Sie, ob die Anwendungs-ID gesendet wurde
