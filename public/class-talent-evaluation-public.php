@@ -86,6 +86,49 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_process_test_answers', array($this, 'process_test_answers'));
 		add_action('wp_ajax_change_test', array($this, 'change_test'));
 		add_action('wp_ajax_nopriv_change_test', array($this, 'change_test'));
+		add_action('wp_ajax_save_test_details', array($this, 'save_test_details'));
+		add_action('wp_ajax_nopriv_save_test_details', array($this, 'save_test_details'));
+	}
+
+	function save_test_details(){
+		if(!current_user_can('dienstleister')){
+			wp_send_json_error('Sie haben keine Berechtigung');
+		}
+		if (isset($_POST['test_id'], $_POST['test_title'], $_POST['book_title'], $_POST['affiliate_link'], $_POST['image_link'])) {
+			$test_id = intval($_POST['test_id']);
+			$test_title = sanitize_text_field($_POST['test_title']);
+			$book_title = sanitize_text_field($_POST['book_title']);
+			$affiliate_link = sanitize_text_field($_POST['affiliate_link']);
+			$image_link = sanitize_text_field($_POST['image_link']);
+			global $wpdb;
+			// Tabellenname für Bewerbungen
+			$table_name = $wpdb->prefix . 'te_tests';
+
+			// Daten zum Aktualisieren
+			$data = array(
+				'title' => $test_title,
+				'book_title' => $book_title,
+				'affiliate_link' => $affiliate_link,
+				'image_link' => $image_link,
+			);
+
+			// Bedingung für die Aktualisierung
+			$where = array('ID' => $test_id);
+
+			// Aktualisieren der Daten in der Datenbank
+			$wpdb->update($table_name, $data, $where);
+
+			// Überprüfen, ob ein Fehler aufgetreten ist
+			if ($wpdb->last_error !== '') {
+				wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+			}else{
+				wp_send_json_success('Test erfolgreich geändert.');
+			}
+		} else {
+			// Fehlermeldung zurückgeben, wenn erforderliche Daten fehlen
+			wp_send_json_error('Ungültige Anfrage.');
+		}
+		wp_die();
 	}
 
 	function change_test(){
