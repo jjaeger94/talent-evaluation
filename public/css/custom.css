@@ -34,3 +34,7 @@ max-width: 400px;
     background-color: var(--secondary);
     border-color: var(--secondary);
 }
+
+.progress-bar {
+    background-color: var(--primary);
+}
