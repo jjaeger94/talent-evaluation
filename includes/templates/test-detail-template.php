@@ -26,7 +26,7 @@
                 <tr>
                     <td><?php echo $question->ID; ?></td>
                     <td><?php echo $question->question_text; ?></td>
-                    <td><a href="<?php echo esc_url(home_url('/frage-details/?qid=' . $question->ID)); ?>" class="edit-question" data-question-id="<?php echo $question->ID; ?>">Bearbeiten</a></td>
+                    <td><a href="<?php echo esc_url(home_url('/frage-details/?tid=' . $test->ID . '&qid=' . $question->ID)); ?>" class="edit-question" data-question-id="<?php echo $question->ID; ?>">Bearbeiten</a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
