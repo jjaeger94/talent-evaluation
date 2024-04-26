@@ -8,7 +8,7 @@
                     </div>
                 <?php endif; ?>
                 <div class="progress mb-3">
-                    <div class="progress-bar overflow-visible text-dark" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar overflow-visible text-dark p-2" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <form id="test-answers-form">
                     <input type="hidden" name="jid" value="<?php echo esc_attr($jid); ?>">
@@ -141,7 +141,7 @@ jQuery(document).ready(function($) {
             timeLeft--; // Verringere die verbleibende Zeit um 1 Sekunde
             // Aktualisiere den Fortschrittsbalken basierend auf der verbleibenden Zeit
             progressBar.css('width', (100 - (timeLeft / 120 * 100)) + '%');
-            progressBar.text('  ' + timeLeft + ' Sekunden bis zur nächsten Frage');
+            progressBar.text(timeLeft + ' Sekunden bis zur nächsten Frage');
 
             // Überprüfe, ob die Zeit abgelaufen ist
             if (timeLeft <= 0) {
