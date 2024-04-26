@@ -5,7 +5,7 @@
     </div>
 	<div class="mb-3">
         <label for="affiliate-link" class="form-label">Buch-Titel:</label>
-        <input type="url" class="form-control" id="book-title" name="book_title" required>
+        <input type="text" class="form-control" id="book-title" name="book_title" required>
     </div>
     <div class="mb-3">
         <label for="affiliate-link" class="form-label">Affiliate-Link:</label>
