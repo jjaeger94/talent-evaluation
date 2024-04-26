@@ -3,6 +3,10 @@
         <label for="test-title" class="form-label">Titel:</label>
         <input type="text" class="form-control" id="test-title" name="test_title" required>
     </div>
+	<div class="mb-3">
+        <label for="affiliate-link" class="form-label">Buch-Titel:</label>
+        <input type="url" class="form-control" id="book-title" name="book_title" required>
+    </div>
     <div class="mb-3">
         <label for="affiliate-link" class="form-label">Affiliate-Link:</label>
         <input type="url" class="form-control" id="affiliate-link" name="affiliate_link" required>

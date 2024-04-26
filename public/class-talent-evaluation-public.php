@@ -289,11 +289,12 @@ class Talent_Evaluation_Public {
 	function process_add_test_form(){
 		if(has_ajax_permission()){
 		// Überprüfe, ob die erforderlichen Felder gesetzt sind
-		if (isset($_POST['test_title'], $_POST['affiliate_link'], $_POST['image_link'])) {
+		if (isset($_POST['test_title'],$_POST['book_title'], $_POST['affiliate_link'], $_POST['image_link'])) {
 			global $wpdb;
 
 			// Entferne potenziell gefährliche Zeichen aus den Eingaben
 			$test_title = sanitize_text_field($_POST['test_title']);
+			$book_title = sanitize_text_field($_POST['book_title']);
 			$affiliate_link = esc_url_raw($_POST['affiliate_link']);
 			$image_link = esc_url_raw($_POST['image_link']);
 
@@ -303,6 +304,7 @@ class Talent_Evaluation_Public {
 				$table_name,
 				array(
 					'title' => $test_title,
+					'book_title' => $book_title,
 					'affiliate_link' => $affiliate_link,
 					'image_link' => $image_link
 				)

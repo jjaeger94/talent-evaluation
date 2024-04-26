@@ -3,6 +3,7 @@
         <!-- Titel und Affiliate-Link -->
         <div class="col-md-9">
             <h1><?php echo $test->title; ?></h1>
+            <h5><?php echo $test->book_title; ?></h5>
             <p>Affiliate-Link: <a href="<?php echo esc_url($test->affiliate_link); ?>"><?php echo esc_url($test->affiliate_link); ?></a></p>
         </div>
         <!-- Bild -->

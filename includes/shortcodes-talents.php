@@ -166,7 +166,7 @@ function check_test_params(){
      $job = get_job_by_id_permissionless($jid);
      $test = get_test_by_id_permissionless($job->test_id);
      // Baue den Link zusammen
-     return $test->title;
+     return $test->book_title;
  } 
  
  function get_book_cover(){
