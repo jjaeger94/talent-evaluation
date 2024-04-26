@@ -141,7 +141,7 @@ jQuery(document).ready(function($) {
             timeLeft--; // Verringere die verbleibende Zeit um 1 Sekunde
             // Aktualisiere den Fortschrittsbalken basierend auf der verbleibenden Zeit
             progressBar.css('width', (100 - (timeLeft / 120 * 100)) + '%');
-            progressBar.text(timeLeft + ' Sekunden bis zur nächsten Frage');
+            progressBar.text('  ' + timeLeft + ' Sekunden bis zur nächsten Frage');
 
             // Überprüfe, ob die Zeit abgelaufen ist
             if (timeLeft <= 0) {
