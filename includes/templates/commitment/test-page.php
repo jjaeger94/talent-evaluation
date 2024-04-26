@@ -8,7 +8,7 @@
                     </div>
                 <?php endif; ?>
                 <div class="progress mb-3">
-                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar overflow-visible text-dark" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <form id="test-answers-form">
                     <input type="hidden" name="jid" value="<?php echo esc_attr($jid); ?>">
@@ -39,13 +39,13 @@
                                 <label for="answer_<?php echo $question->ID; ?>" class="form-label"><?php echo stripslashes($question->question_text); ?></label>
                                 <textarea class="form-control" id="answer_<?php echo $question->ID; ?>" name="answers[<?php echo $question->ID; ?>]" rows="4" required></textarea>
                             </div>
-                            <?php if ($index > 0) : ?>
+                            <!-- <?php if ($index > 0) : ?>
                                 <button type="button" class="btn btn-primary prev-question">Zurück</button>
-                            <?php endif; ?>
+                            <?php endif; ?> -->
                             <?php if ($index < count($questions) - 1) : ?>
                                 <button type="button" class="btn btn-primary next-question">Weiter</button>
                             <?php else: ?>
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Möchten Sie die Antworten wirklich abschicken?')">Antworten abschicken</button>
+                                <button type="submit" class="btn btn-primary">Antworten abschicken</button>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -58,7 +58,32 @@
 <script>
 jQuery(document).ready(function($) {
     var totalQuestions = <?php echo $totalQuestions; ?>;
+    var currentQuestionIndex = 0;
     var progressBar = $('.progress-bar');
+    var timerInterval;
+
+    function submitform() {
+        // Formulardaten direkt aus dem Formular extrahieren
+        var formData = $('#test-answers-form').serialize();
+
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: formData + '&action=process_test_answers', // Übergeben Sie die direkt aus dem Formular extrahierten Daten
+            success: function(response) {
+                // Erfolgsfall: Verarbeite die Antwort
+                console.log(response);
+                if(response.success){
+                    $('#test-container').html('Vielen Dank, du kannst die Seite jetzt schließen.');
+                }  
+            },
+            error: function(xhr, status, error) {
+                // Fehlerfall: Behandele den Fehler
+                console.error(error);
+            }
+        });
+    }
 
     $('#confirm-name').click(function() {
         var prename = $('#prename').val().trim();
@@ -84,6 +109,8 @@ jQuery(document).ready(function($) {
             $('#all-questions-container').removeClass('d-none');
             // Füge die d-none-Klasse zum Container mit der ID name-container hinzu
             $('#name-container').addClass('d-none');
+            // Initialisiere den Timer beim Laden der Seite
+            startTimer();
         }
     });
 
@@ -100,56 +127,63 @@ jQuery(document).ready(function($) {
         var currentQuestion = $(this).closest('.question-container');
         currentQuestion.addClass('d-none');
         currentQuestion.next('.question-container').removeClass('d-none');
-        updateProgressBar();
+        clearInterval(timerInterval); // Stoppe den Timer beim manuellen Wechsel zur nächsten Frage
+        showNextQuestion(); // Wechsle zur nächsten Frage
     });
 
+     // Funktion zum Starten des Timers
+     function startTimer() {
+        var timeLeft = 120; // Anzahl der Sekunden für den Timer
+        clearInterval(timerInterval); // Sicherstellen, dass kein anderer Timer läuft
+       
+        // Funktion, die bei jedem Timer-Schritt aufgerufen wird
+        timerInterval = setInterval(function() {
+            timeLeft--; // Verringere die verbleibende Zeit um 1 Sekunde
+            // Aktualisiere den Fortschrittsbalken basierend auf der verbleibenden Zeit
+            progressBar.css('width', (100 - (timeLeft / 120 * 100)) + '%');
+            progressBar.text(timeLeft + ' Sekunden bis zur nächsten Frage');
 
-    $('.prev-question').click(function() {
-        var currentQuestion = $(this).closest('.question-container');
-        currentQuestion.addClass('d-none');
-        currentQuestion.prev('.question-container').removeClass('d-none');
-        var prevTextarea = currentQuestion.prev('.question-container').find('textarea');
-        if(prevTextarea.hasClass('is-invalid')){
-            prevTextarea.removeClass('is-invalid');
-        }
-        updateProgressBar();
-    });
-
-    // Funktion zur Aktualisierung des Fortschrittsbalkens
-    function updateProgressBar() {
-        var answeredQuestions = $('textarea[name^="answers"]').filter(function() {
-            return $(this).val().trim() !== '';
-        }).length;
-        var progressPercentage = (answeredQuestions / totalQuestions) * 100;
-        progressBar.css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+            // Überprüfe, ob die Zeit abgelaufen ist
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval); // Stoppe den Timer
+                // Wechsel zur nächsten Frage, wenn der Timer abgelaufen ist
+                showNextQuestion();
+            }
+        }, 1000); // Timer wird alle 1 Sekunde aktualisiert
     }
 
-    // Initialisiere den Fortschrittsbalken
-    updateProgressBar();
+  // Funktion zum Anzeigen der nächsten Frage
+    function showNextQuestion() {
+        var currentQuestionContainer = $('.question-container').eq(currentQuestionIndex);
+        var currentTextarea = currentQuestionContainer.find('textarea');
+        
+        // Überprüfe, ob das Textarea-Feld der aktuellen Frage ausgefüllt ist
+        if (currentTextarea.val().trim() === '') {
+            // Füge "Zeit abgelaufen" in das Textarea-Feld ein, wenn es nicht ausgefüllt ist
+            currentTextarea.val('Zeit abgelaufen');
+        }
+
+        currentQuestionContainer.addClass('d-none'); // Verstecke die aktuelle Frage
+        currentQuestionIndex++; // Inkrementiere den Index der aktuellen Frage
+        
+        // Überprüfe, ob die nächste Frage existiert
+        if (currentQuestionIndex < totalQuestions) {
+            $('.question-container').eq(currentQuestionIndex).removeClass('d-none'); // Zeige die nächste Frage an
+            startTimer(); // Starte den Timer für die neue Frage
+        } else {
+            // Wenn keine weitere Frage vorhanden ist, sende das Formular ab
+            submitform();
+        }
+}
+
+
+    <?php if (isset($application)) : ?>
+        startTimer();
+    <?php endif; ?>
 
     $('#test-answers-form').submit(function(e) {
         e.preventDefault(); // Verhindert das Standardverhalten des Formulars (Neuladen der Seite)
-
-        // Formulardaten direkt aus dem Formular extrahieren
-        var formData = $(this).serialize();
-
-        // AJAX-Anfrage senden
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: formData + '&action=process_test_answers', // Übergeben Sie die direkt aus dem Formular extrahierten Daten
-            success: function(response) {
-                // Erfolgsfall: Verarbeite die Antwort
-                console.log(response);
-                if(response.success){
-                    $('#test-container').html('Das wars schon, du kannst die Seite jetzt schließen.');
-                }  
-            },
-            error: function(xhr, status, error) {
-                // Fehlerfall: Behandele den Fehler
-                console.error(error);
-            }
-        });
+        submitform();
     });
 });
 </script>

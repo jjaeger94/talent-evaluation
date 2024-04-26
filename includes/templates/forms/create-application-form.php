@@ -27,10 +27,12 @@
             <?php endforeach; ?>
         </select>
     </div>
+    <?php if ( show_all_features() ) : ?>
     <div class="form-group mb-3">
-        <label for="resume"><strong class="mr-2">Berwerbungsunterlagen</strong></label><?php echo info_button('application_form_docs'); ?>
+        <label for="resume"><strong class="mr-2">Bewerbungsunterlagen</strong></label><?php echo info_button('application_form_docs'); ?>
         <input class="form-control" type="file" name="resumes[]" id="resume" multiple accept="application/pdf" required>
     </div>
+    <?php endif; ?>
     <button type="submit" class="btn btn-primary">Kandidat erstellen</button>
 </form>
 
