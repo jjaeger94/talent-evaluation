@@ -45,7 +45,7 @@
                             <?php if ($index < count($questions) - 1) : ?>
                                 <button type="button" class="btn btn-primary next-question">Weiter</button>
                             <?php else: ?>
-                                <button type="submit" class="btn btn-primary">Test abschließen</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Möchten Sie die Antworten wirklich abschicken?')">Antworten abschicken</button>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
