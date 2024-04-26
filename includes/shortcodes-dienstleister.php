@@ -133,6 +133,7 @@
                 $application = get_application_by_id($application_id);
 
                 $job = get_job_by_id($application->job_id);
+                $test = get_test_by_id( $job->test_id );
                 
                 if($application->review_id){
                     $review = get_review_by_application($application);

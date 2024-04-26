@@ -32,6 +32,7 @@
         <?php include 'blocks/job-info-template.php'; ?>
         <hr>
         <?php if ($application->review_id) : ?>
+			<?php if ( show_all_features() ) : ?>
             <?php include 'blocks/consent-template.php'; ?>
             <hr>
             <?php include 'blocks/criteria-template.php'; ?>
@@ -40,13 +41,16 @@
             <hr>
             <?php include 'blocks/screening-template.php'; ?>
             <hr>
+			<?php endif;?>
             <?php include 'blocks/commitment-template.php'; ?>
             <hr>
         <?php endif; ?>
+		<?php if ( show_all_features() ) : ?>
         <p><strong>Hochgeladene Dateien:</strong></p>
         <?php include 'blocks/file-template.php'; ?>
         <button id="add-files-button" class="btn btn-primary">Dateien hinzufügen</button>
         <hr>
+		<?php endif; ?>
         <p><strong>Backlog:</strong></p>
         <!-- Container für den Backlog-Inhalt -->
         <div id="backlog-container"></div>

@@ -4,6 +4,7 @@
         <p><strong>Firma:</strong><br><?php echo esc_html( $company ); ?></p>
         <p><strong>Test:</strong><br><?php echo esc_html( $test->title ); ?></p>
     </div>
+    <?php if ( show_all_features() ) : ?>
     <div class="col-md-6">
         <p><strong>Kriterien:</strong><br>
             <?php
@@ -28,8 +29,10 @@
             ?>
         </p>
     </div>
+    <?php endif; ?>
 </div>
 <br>
+<?php if ( show_all_features() ) : ?>
 <div class="row">
     <div class="form-group col-md-6">
         <label><strong>Vollständigkeit:</strong></label>
@@ -58,3 +61,4 @@
         </div>
     </div>
 </div>
+<?php endif; ?>

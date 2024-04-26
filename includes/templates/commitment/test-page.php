@@ -36,7 +36,7 @@
                     foreach ($questions as $index => $question) : ?>
                         <div class="question-container <?php echo ($index === 0) ? '' : 'd-none'; ?>">
                             <div class="mb-3">
-                                <label for="answer_<?php echo $question->ID; ?>" class="form-label"><?php echo $question->question_text; ?></label>
+                                <label for="answer_<?php echo $question->ID; ?>" class="form-label"><?php echo stripslashes($question->question_text); ?></label>
                                 <textarea class="form-control" id="answer_<?php echo $question->ID; ?>" name="answers[<?php echo $question->ID; ?>]" rows="4" required></textarea>
                             </div>
                             <?php if ($index > 0) : ?>
