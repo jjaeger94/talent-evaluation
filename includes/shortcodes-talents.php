@@ -157,6 +157,7 @@ function check_test_params(){
      // HTML-Code hier
      echo "<a href='{$test->affiliate_link}'><strong>Fachartikel öffnen</strong></a>";
      return ob_get_clean(); // Beende die Pufferung und gib den gepufferten Inhalt zurück
+}
 
  function get_book_title(){
      $params = check_test_params();
