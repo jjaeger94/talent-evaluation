@@ -153,7 +153,7 @@ function check_test_params(){
      $job = get_job_by_id_permissionless($jid);
      $test = get_test_by_id_permissionless($job->test_id);
      // Baue den Link zusammen
-     return $test->affiliate_link;
+     return stripslashes($test->affiliate_link);
  } 
 
  function get_book_title(){
