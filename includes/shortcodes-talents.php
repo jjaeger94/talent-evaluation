@@ -155,8 +155,10 @@ function check_test_params(){
      // Baue den Link zusammen
      ob_start(); // Starte die Pufferung
      // HTML-Code hier
-     echo '<a href="' . htmlspecialchars($test->affiliate_link) . '" target="_blank"><strong>Fachartikel öffnen</strong></a>';
-     return ob_get_clean(); // Beende die Pufferung und gib den gepufferten Inhalt zurück
+     echo '<li><a href="' . esc_url( add_query_arg( array(
+          'link' => $test->affiliate_link,
+      ), home_url('/pdf-viewer-page') ) ) . '" target="_blank">Fachartikel öffnen</a></li>';
+      return ob_get_clean(); 
 }
 
  function get_book_title(){

@@ -58,6 +58,13 @@ if (isset($_GET['file']) && isset($_GET['application_id'])) {
         http_response_code(401);
         exit('unauthorized');
     }
+} else if(isset($_GET['link'])){
+    // Hier wird der Link zum PDF-Viewer geladen
+    $link = sanitize_text_field($_GET['link']);
+    // PDF-Viewer mit dem Link erstellen
+    echo do_shortcode('[pdfjs-viewer url="' . $link . '" fullscreen=false download=false print=false]');
+    // Beende den PHP-Block
+    exit;
 }else {
     // Wenn keine Datei angefordert wurde oder die Anwendungs-ID fehlt, Fehlermeldung ausgeben
     http_response_code(401);
