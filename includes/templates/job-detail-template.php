@@ -17,19 +17,26 @@
             </div>
         </div>
         <hr>
-		<div class="row mt-3">
-            <div class="col-md-6">
+		<div class="row mt-3 mb-3">
+			<div class="col-md-8 p-2">
 				<select class="form-select" id="test_id" name="test_id">
-                <?php foreach ( $tests as $test ) : ?>
-                    <option value="<?php echo esc_attr( $test->ID ); ?>" <?php selected( $test_id, $test->ID ); ?>><?php echo esc_html( $test->title ); ?></option>
-                <?php endforeach; ?>
-            </select>
-            </div>
-            <div class="col-md-6 d-flex justify-content-center align-items-center mb-3">
-            <button id="change-test-btn" class="btn btn-success">Test ändern</button>
-            </div>
+					<?php foreach ($tests as $test) : ?>
+						<option value="<?php echo esc_attr($test->ID); ?>" <?php selected($test_id, $test->ID); ?>><?php echo esc_html($test->title); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<?php foreach ($tests as $test) : ?>
+				<div id="info-button-<?php echo esc_attr($test->ID); ?>" class="col-md-1 info-button-container">
+					<?php echo info_button($test->description); ?>
+				</div>
+			<?php endforeach; ?>
+			<div class="col-md-3 p-2 text-end">
+				<button id="change-test-btn" class="btn btn-success">Test ändern</button>
+			</div>
+		</div>
+		<div class="pt-2">
 			<?php echo render_link_template($test_page_url); ?>
-        </div>
+		</div>
 		<?php if ( show_all_features() ) : ?>
         <?php include 'blocks/job-info-template.php'; ?>
 		<?php endif;?>
@@ -41,6 +48,18 @@
 <div id="form-message" class="mt-3"></div>
 <script>
 jQuery(document).ready(function($) {
+
+	$('#test_id').change(function() {
+		console.log($(this).val());
+        var selectedTestId = $(this).val();
+        $('.info-button-container').hide(); // Alle Info-Buttons ausblenden
+        $('#info-button-' + selectedTestId).show(); // Den passenden Info-Button einblenden
+    }).change();
+
+    // Initial anzeigen des richtigen Info-Buttons basierend auf der initialen Auswahl
+    var initialTestId = $('#test_id').val();
+    $('#info-button-' + initialTestId).show();
+
 	$('#change-test-btn').click(function() {
 		var requestData = {
 			action: 'change_test',
