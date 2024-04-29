@@ -62,7 +62,7 @@ if (isset($_GET['file']) && isset($_GET['application_id'])) {
     // Hier wird der Link zum PDF-Viewer geladen
     $link = sanitize_text_field($_GET['link']);
     // PDF-Viewer mit dem Link erstellen
-    echo do_shortcode('[pdfjs-viewer url="' . $link . '" fullscreen=false download=false print=false]');
+    echo do_shortcode('[pdfjs-viewer url="' . $link . '" viewer_height=100% fullscreen=false download=false print=false]');
     // Beende den PHP-Block
     exit;
 }else {
