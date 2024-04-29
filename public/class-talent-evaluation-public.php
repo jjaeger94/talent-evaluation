@@ -683,7 +683,7 @@ class Talent_Evaluation_Public {
 				$wpdb->update($table_name, $data, $where);
 				$log = '';
 				if($value > 0){
-					$log = 'Commitment Test Ergebnis: '.$text. '/10';
+					$log = 'Commitment Test Ergebnis: '.$text. '%';
 				}else{
 					$log = 'Commitment '.$text;
 				}

@@ -6,7 +6,7 @@
         <?php elseif ($review->commitment == -1) : ?>
             <p>Noch nicht überprüft</p>
         <?php else : ?>
-            <p><?php echo $review->commitment; ?>/10</p>
+            <p><?php echo $review->commitment; ?>%</p>
         <?php endif; ?>
     </div>
     <div class="col-md-8 d-flex justify-content-center align-items-center">
@@ -15,9 +15,7 @@
             <button class="btn btn-success set-review-btn" data-type="commitment" value="0">Prüfung starten</button>
         <?php elseif ($review->commitment == 0) : ?>
             <!-- Wenn die Prüfung gestartet, aber noch nicht bewertet wurde -->
-            <?php for ($i = 1; $i <= 10; $i++) : ?>
-                <button class="btn btn-primary set-review-btn" data-type="commitment" value="<?php echo $i; ?>"><?php echo $i; ?></button>
-            <?php endfor; ?>
+            <input type="number" class="form-control" id="review-commitment" name="review_commitment" min="0" max="100">
         <?php elseif ($review->commitment > 0) : ?>
             <!-- Wenn die Prüfung bewertet wurde -->
             <button class="btn btn-success set-review-btn" data-comment="true" data-type="commitment" value="0">Zurücksetzen</button>

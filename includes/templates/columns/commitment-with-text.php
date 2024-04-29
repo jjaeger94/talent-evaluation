@@ -7,14 +7,14 @@
     $commitment_score = $application->review->commitment;
     $commitment_text = '';
 
-    if ($commitment_score >= 0 && $commitment_score <= 3) {
+    if ($commitment_score >= 0 && $commitment_score <= 50) {
         $commitment_text = 'Kein Commitment';
-    } elseif ($commitment_score >= 4 && $commitment_score <= 8) {
+    } elseif ($commitment_score >= 51 && $commitment_score <= 80) {
         $commitment_text = 'Durchschnittliches Commitment';
-    } elseif ($commitment_score >= 9 && $commitment_score <= 10) {
+    } elseif ($commitment_score >= 81 && $commitment_score <= 100) {
         $commitment_text = 'Hohes Commitment';
     }
 
-    echo esc_html($commitment_score) . ' / 10 → ' . $commitment_text;
+    echo esc_html($commitment_score) . ' % → ' . $commitment_text;
     ?>
 <?php endif; ?>

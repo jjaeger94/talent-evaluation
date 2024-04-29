@@ -3,6 +3,48 @@
 
 	$(function() {
 
+		$('#review-commitment').change(function() {
+			var value = $(this).val();		
+			// Überprüfen, ob der Wert zwischen 0 und 100 liegt
+			if (value >= 0 && value <= 100) {
+				// Extrahieren Sie die application_id aus dem URL-Parameter
+				var urlParams = new URLSearchParams(window.location.search);
+				var applicationId = urlParams.get('id');
+				var requestData = {
+					action: 'set_review',
+					application_id: applicationId,
+					text: value,
+					value: value,
+					type: 'commitment'
+				};
+		
+				// AJAX-Aufruf
+				$.ajax({
+					type: 'POST',
+					url: your_script_vars.ajaxurl,
+					data: requestData,
+					dataType: 'json',
+					success: function(response) {
+						if (response.success) {
+							// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
+							location.reload();
+						} else {
+							// Fehler bei der Aktualisierung
+							alert('Fehler beim Starten der Bearbeitung');
+						}
+					},
+					error: function(xhr, status, error) {
+						// AJAX-Fehler
+						console.error('AJAX-Fehler:', error);
+					}
+				});
+			} else {
+				// Fehlermeldung für ungültigen Wert
+				alert('Bitte geben Sie einen Wert zwischen 0 und 100 ein.');
+			}
+		});
+		
+
 		$('#copy-button').click(function() {
 			var input = $('#test-link');
 			if (!navigator.clipboard){
