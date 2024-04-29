@@ -1,4 +1,8 @@
+<?php if ( show_all_features() ) : ?>
 <?php include 'filters/job-state-filter.php'; ?>
+<?php else : ?>
+<?php include 'filters/job-filter.php'; ?>
+<?php endif; ?>
 <br>
 <?php if ( ! empty( $applications ) ) : ?>
     <div class="table-responsive">
