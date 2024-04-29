@@ -155,7 +155,7 @@ function check_test_params(){
      // Baue den Link zusammen
      ob_start(); // Starte die Pufferung
      // HTML-Code hier
-     echo "<a href='{$test->affiliate_link}'><strong>Fachartikel öffnen</strong></a>";
+     echo '<a href="' . htmlspecialchars($test->affiliate_link) . '"><strong>Fachartikel öffnen</strong></a>';
      return ob_get_clean(); // Beende die Pufferung und gib den gepufferten Inhalt zurück
 }
 
