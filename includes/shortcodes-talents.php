@@ -153,8 +153,10 @@ function check_test_params(){
      $job = get_job_by_id_permissionless($jid);
      $test = get_test_by_id_permissionless($job->test_id);
      // Baue den Link zusammen
-     return stripslashes($test->affiliate_link);
- } 
+     ob_start(); // Starte die Pufferung
+     // HTML-Code hier
+     echo "<a href='{$test->affiliate_link}'><strong>Fachartikel öffnen</strong></a>";
+     return ob_get_clean(); // Beende die Pufferung und gib den gepufferten Inhalt zurück
 
  function get_book_title(){
      $params = check_test_params();
