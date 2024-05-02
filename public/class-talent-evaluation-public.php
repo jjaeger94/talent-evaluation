@@ -88,6 +88,50 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_change_test', array($this, 'change_test'));
 		add_action('wp_ajax_save_test_details', array($this, 'save_test_details'));
 		add_action('wp_ajax_nopriv_save_test_details', array($this, 'save_test_details'));
+		add_action('wp_ajax_save_send_message', array($this, 'send_message'));
+		add_action('wp_ajax_nopriv_send_message', array($this, 'send_message'));
+		add_action('wp_ajax_save_delete_chat', array($this, 'delete_chat'));
+		add_action('wp_ajax_nopriv_delete_chat', array($this, 'delete_chat'));
+		
+	}
+
+	function delete_chat(){
+		session_start();
+		if (isset($_SESSION['active_chat'])){
+			$thread_id = $_SESSION['active_chat'];
+			$result = delete_thread($thread_id);
+			if(!$result){
+				wp_send_json_error('Fehler beim ausführen');
+			}else{
+				unset($_SESSION['active_chat']);
+				wp_send_json_success('Chat erfolgreich gelöscht');
+			}
+			
+		}else{
+			wp_send_json_error('Ungültige Anfrage.');
+		}
+	}
+
+	function send_message(){
+		session_start();
+		if (isset($_POST['message'], $_SESSION['active_chat'])){
+			$thread_id = $_SESSION['active_chat'];
+			$message = sanitize_text_field($_POST['message']);
+			if(!add_message_to_thread($thread_id, $message)){
+				wp_send_json_error('Fehler beim hinzufügen der Nachricht');
+			}
+			$run = run_thread($thread_id);
+			if(!$run){
+				wp_send_json_error('Fehler beim ausführen');
+			}else{
+				$message = get_message_from_run($run);
+				$parsedMessage = parseMessageFromObject($message);
+				wp_send_json_success($parsedMessage);
+			}
+			
+		}else{
+			wp_send_json_error('Ungültige Anfrage.');
+		}
 	}
 
 	function save_test_details(){

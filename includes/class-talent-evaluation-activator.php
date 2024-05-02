@@ -134,6 +134,12 @@ class Talent_Evaluation_Activator {
 				'slug' => 'test-starten',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Sales Game',
+				'content' => '[chatbot_page]',
+				'slug' => 'sales-game',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

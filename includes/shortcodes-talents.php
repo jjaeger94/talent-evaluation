@@ -11,7 +11,45 @@ function register_shortcodes_talents() {
         add_shortcode('book_title', 'get_book_title');
         add_shortcode('test_start', 'render_test_start');
         add_shortcode('get_company', 'get_company_shortcode');
+        add_shortcode('chatbot_page', 'render_chatbot_page_content');
 }
+
+function render_chatbot_page_content() {
+     // Überprüfen, ob eine aktive Sitzung besteht
+     session_start();
+
+     if (isset($_SESSION['active_chat'])) {
+         // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
+         $thread_id = $_SESSION['active_chat'];
+         // Nachrichten des Threads abrufen
+         $messages = list_messages_by_thread($thread_id);
+         if ($messages !== false) {
+             // Wenn die Nachrichten erfolgreich abgerufen wurden, tue etwas damit
+             // Zum Beispiel die Nachrichten im Chat anzeigen
+             ob_start();
+             include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
+             return ob_get_clean();
+         } else {
+             // Wenn ein Fehler beim Abrufen der Nachrichten aufgetreten ist, handle den Fehler entsprechend
+             return "Fehler beim Abrufen der Nachrichten";
+         }
+     } else {
+          $messages = [];
+          // Wenn kein aktiver Chat vorhanden ist, erstelle einen neuen Thread und speichere die Thread-ID in der Sitzung
+          $thread_id = create_thread(); // Annahme: Funktion create_thread() erstellt einen neuen Thread und gibt die Thread-ID zurück
+          if ($thread_id !== false) {
+               $_SESSION['active_chat'] = $thread_id;
+               // Weiteren Code ausführen, z.B. Nachrichten des neuen Threads anzeigen oder andere Aktionen durchführen
+               ob_start();
+               include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
+               return ob_get_clean();
+          } else {
+               // Wenn ein Fehler beim Erstellen des Threads aufgetreten ist, handle den Fehler entsprechend
+               return "Fehler beim Erstellen des Threads";
+          }
+     }
+ }
+ 
 
 function get_company_shortcode(){
      if(!isset($_GET['key'])){

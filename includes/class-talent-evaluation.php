@@ -128,6 +128,8 @@ class Talent_Evaluation {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-talents.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/chatbot.php';
+
 
 		$this->loader = new Talent_Evaluation_Loader();
 

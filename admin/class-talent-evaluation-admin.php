@@ -122,24 +122,34 @@ class Talent_Evaluation_Admin {
 				<tr valign="top">
                         <th scope="row">Logo Url Titel</th>
                         <td><input type="text" name="te_login_title" value="<?php echo esc_attr(get_option('te_login_title')); ?>" /></td>
-                    </tr>
-					<tr valign="top">
-                        <th scope="row">Logo URL</th>
-                        <td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
-                    </tr>
+				</tr>
+				<tr valign="top">
+					<th scope="row">Logo URL</th>
+					<td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
+				</tr>
+				<tr valign="top">
+                        <th scope="row">Open AI api key</th>
+                        <td><input type="password" name="te_api_key" value="<?php echo esc_attr(get_option('te_api_key')); ?>" /></td>
+				</tr>
+				<tr valign="top">
+                        <th scope="row">Open AI assistant id</th>
+                        <td><input type="text" name="te_assistant_id" value="<?php echo esc_attr(get_option('te_assistant_id')); ?>" /></td>
+				</tr>
                 </table>
                 <?php submit_button(); ?>
             </form>
         </div>
-		<div class="wrap">
+		<!-- <div class="wrap">
 			<button id="check-db-connection" class="button">Check Database Connection</button>
             <span id="db-connection-result"></span>
-		</div>
+		</div> -->
         <?php
     }
 
     public function register_settings() {
 		register_setting('talent_evaluation_settings', 'te_login_logo');
 		register_setting('talent_evaluation_settings', 'te_login_title');
+		register_setting('talent_evaluation_settings', 'te_api_key');
+		register_setting('talent_evaluation_settings', 'te_assistant_id');
     }
 }
