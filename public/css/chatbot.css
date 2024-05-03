@@ -1,0 +1,83 @@
+/* Allgemeine Stildefinitionen */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Nachrichten linksbündig ausrichten */
+    margin-top: 20px; /* Abstand zwischen den Nachrichten */
+}
+
+.message {
+    margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
+    max-width: 70%; /* Maximale Breite der Sprechblasen */
+}
+
+/* Stildefinitionen für Nutzer-Sprechblasen */
+.user {
+    align-self: flex-end; /* Nutzer-Sprechblasen rechtsbündig ausrichten */
+    background-color: #007bff; /* Hintergrundfarbe */
+    color: #fff; /* Textfarbe */
+    border-radius: 10px; /* Abrundung der Ecken */
+    padding: 10px 15px; /* Innenabstand */
+}
+
+/* Stildefinitionen für Assistant-Sprechblasen */
+.assistant {
+    align-self: flex-start; /* Assistant-Sprechblasen linksbündig ausrichten */
+    background-color: #6c757d; /* Hintergrundfarbe */
+    color: #fff; /* Textfarbe */
+    border-radius: 10px; /* Abrundung der Ecken */
+    padding: 10px 15px; /* Innenabstand */
+}
+
+.loading {
+    width: fit-content;
+    align-self: flex-start; /* Assistant-Sprechblasen linksbündig ausrichten */
+    background-color: #6c757d; /* Hintergrundfarbe */
+    color: #fff; /* Textfarbe */
+    border-radius: 10px; /* Abrundung der Ecken */
+    padding: 20px 25px 10px 25px; /* Innenabstand */
+    max-width: 70%; /* Maximale Breite der Sprechblasen */
+    word-wrap: break-word; /* Textumbruch erzwingen */
+    margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
+}
+
+/**
+ * ==============================================
+ * Dot Typing
+ * ==============================================
+ */
+ .dot-typing {
+    position: relative;
+    left: -9999px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--dot-color);
+    color: var(--dot-color);
+    box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    animation: dot-typing 1.5s infinite linear;
+  }
+  
+  @keyframes dot-typing {
+    0% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+    16.667% {
+      box-shadow: 9984px -10px 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+    33.333% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+    50% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px -10px 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+    66.667% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+    83.333% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px -10px 0 0 var(--dot-color);
+    }
+    100% {
+      box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+  }

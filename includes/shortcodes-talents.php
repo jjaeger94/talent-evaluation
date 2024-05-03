@@ -15,9 +15,6 @@ function register_shortcodes_talents() {
 }
 
 function render_chatbot_page_content() {
-     // Überprüfen, ob eine aktive Sitzung besteht
-     session_start();
-
      if (isset($_SESSION['active_chat'])) {
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
          $thread_id = $_SESSION['active_chat'];

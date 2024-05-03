@@ -110,6 +110,7 @@ class Talent_Evaluation_Public {
 		}else{
 			wp_send_json_error('Ungültige Anfrage.');
 		}
+		wp_die();
 	}
 
 	function send_message(){
@@ -132,6 +133,7 @@ class Talent_Evaluation_Public {
 		}else{
 			wp_send_json_error('Ungültige Anfrage.');
 		}
+		wp_die();
 	}
 
 	function save_test_details(){

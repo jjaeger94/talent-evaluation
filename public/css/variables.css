@@ -21,3 +21,7 @@
 }
 
 /* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
+/* Punkt Farbe für lade animation */
+:root {
+    --dot-color: #ffffff;
+  }
