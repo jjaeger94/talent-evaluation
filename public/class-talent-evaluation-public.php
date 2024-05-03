@@ -129,9 +129,9 @@ class Talent_Evaluation_Public {
 				$parsedMessage = parseMessageFromObject($message);
 
 				// Extrahiere den Status aus der Nachricht
-				if (strpos($parsedMessage, 'bestanden') === 0) {
+				if (strpos($parsedMessage, 'bestanden') !== false) {
 					$state = 'success';
-				} elseif (strpos($parsedMessage, 'durchgefallen') === 0) {
+				} elseif (strpos($parsedMessage, 'durchgefallen') !== false) {
 					$state = 'failed';
 				} else {
 					$state = 'in_progress';
