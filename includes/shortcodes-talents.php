@@ -15,20 +15,33 @@ function register_shortcodes_talents() {
 }
 
 function render_chatbot_page_content() {
+     $state = 'in_progress';
      if (isset($_SESSION['active_chat'])) {
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
          $thread_id = $_SESSION['active_chat'];
          // Nachrichten des Threads abrufen
          $messages = list_messages_by_thread($thread_id);
          if ($messages !== false) {
-             // Wenn die Nachrichten erfolgreich abgerufen wurden, tue etwas damit
-             // Zum Beispiel die Nachrichten im Chat anzeigen
-             ob_start();
-             include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
-             return ob_get_clean();
+               if(!empty($messages)){
+                    $parsedMessage = $messages[0]['content'][0]['text']['value'];
+                    // Extrahiere den Status aus der Nachricht
+                    if (strpos($parsedMessage, 'bestanden') === 0) {
+                         $state = 'success';
+                    } elseif (strpos($parsedMessage, 'durchgefallen') === 0) {
+                         $state = 'failed';
+                    } else {
+                         $state = 'in_progress';
+                    }
+               }
+               
+               // Wenn die Nachrichten erfolgreich abgerufen wurden, tue etwas damit
+               // Zum Beispiel die Nachrichten im Chat anzeigen
+               ob_start();
+               include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
+               return ob_get_clean();
          } else {
-             // Wenn ein Fehler beim Abrufen der Nachrichten aufgetreten ist, handle den Fehler entsprechend
-             return "Fehler beim Abrufen der Nachrichten";
+               // Wenn ein Fehler beim Abrufen der Nachrichten aufgetreten ist, handle den Fehler entsprechend
+               return "Fehler beim Abrufen der Nachrichten";
          }
      } else {
           $messages = [];

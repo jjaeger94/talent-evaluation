@@ -10,28 +10,44 @@
                         <?php include 'message.php'; ?>
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <div class="alert alert-info">
-                        <p>Beginnen Sie das Spiel, indem Sie unten eine Nachricht eingeben.</p>
-                    </div>
+                    <div class="alert alert-info w-100">Beginnen Sie das Spiel, indem Sie unten eine Nachricht eingeben.</div>
                 <?php endif; ?>
-                
                 </div>
                 <div id="loading-indicator" class="message loading" style="display: none;">
                     <div class="dot-typing"></div>
                 </div>
                 <!-- Texteingabefeld und Senden-Button -->
+                <?php if ($state == 'in_progress') : ?>
                 <form id="chat-form" class="mt-4">
                     <div class="input-group">
                         <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
                         <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
                     </div>
                 </form>
+                <?php endif; ?>
                 <div class="input-group mt-4">
-                    <button id="button-delete-thread" class="btn btn-danger ms-2">Chat löschen</button>
+                    <button id="button-delete-thread" class="btn btn-danger ms-2">Erneut versuchen</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Modal für Testergebnis -->
+    <div class="modal fade" id="testResultModal" tabindex="-1" aria-labelledby="testResultModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="testResultModalLabel">Testergebnis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="testResultMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     jQuery(document).ready(function($) {
         // Event Listener für den Senden-Button hinzufügen
@@ -55,12 +71,22 @@
                 },
                 success: function(response) {
                     if(response.success){
+                        let data = JSON.parse(response.data);
+                        console.log(data);
                         $('#loading-indicator').hide();
                         // Erfolgreich: Neue Nachricht anzeigen
-                        $('.message-container').last().append('<div class="message assistant">' + response.data + '</div>');
+                        $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
+                        if(data.state === 'success') {
+                            $('#testResultMessage').text('Glückwunsch! Der Test wurde bestanden.');
+                            $('#chat-form').hide();
+                            chat-form
+                        } else if(data.state === 'failed') {
+                            $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
+                            $('#testResultModal').modal('show');
+                            $('#chat-form').hide();
+                        }
                     }else{
                         $('#loading-indicator').hide();
-                        console.log(response.data);
                     }
                 },
                 error: function(xhr, status, error) {

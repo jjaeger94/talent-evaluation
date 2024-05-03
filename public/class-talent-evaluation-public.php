@@ -127,7 +127,24 @@ class Talent_Evaluation_Public {
 			}else{
 				$message = get_message_from_run($run);
 				$parsedMessage = parseMessageFromObject($message);
-				wp_send_json_success($parsedMessage);
+
+				// Extrahiere den Status aus der Nachricht
+				if (strpos($parsedMessage, 'bestanden') === 0) {
+					$state = 'success';
+				} elseif (strpos($parsedMessage, 'durchgefallen') === 0) {
+					$state = 'failed';
+				} else {
+					$state = 'in_progress';
+				}
+
+				// Entferne 'bestanden' oder 'nicht bestanden' aus der Nachricht
+				$slicedMessage = str_replace(['Test bestanden', 'Test nicht bestanden'], '', $parsedMessage);
+
+				// Daten für die Antwort kodieren
+				$data = json_encode(['message' => $slicedMessage, 'state' => $state]);
+
+				// Senden der JSON-Antwort
+				wp_send_json_success($data);
 			}
 			
 		}else{
