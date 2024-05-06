@@ -118,6 +118,23 @@ function save_answer($aid, $question_id, $answer) {
     return $result;
 }
 
+function get_talent_by_id($talent_id){
+    if ( current_user_can( 'dienstleister' ) ) {
+        global $wpdb;
+        $query = $wpdb->prepare( "
+            SELECT *
+            FROM {$wpdb->prefix}te_talents
+            WHERE ID = {$talent_id}
+        ");
+        // Bewerbungsdetails abrufen
+        $talents = $wpdb->get_results( $query );
+
+        // Überprüfen, ob Bewerbungsdetails vorhanden sind
+        return ! empty( $talents ) ? $talents[0] : null;
+    } else {
+        return null;
+    }
+}
 
 function get_question_by_id($question_id){
     if ( current_user_can( 'dienstleister' ) ) {

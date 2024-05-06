@@ -140,6 +140,18 @@ class Talent_Evaluation_Activator {
 				'slug' => 'sales-game',
 				'template' => '', // optional: Vorlage für die Seite
 			),
+			array(
+				'title' => 'Talents',
+				'content' => '[show_talents]',
+				'slug' => 'talents',
+				'template' => '', // optional: Vorlage für die Seite
+			),
+			array(
+				'title' => 'Talent Details',
+				'content' => '[talent_details]',
+				'slug' => 'talent-details',
+				'template' => '', // optional: Vorlage für die Seite
+			),
 		);
 	
 		foreach ( $pages as $page ) {

@@ -9,6 +9,57 @@
         add_shortcode('edit_test', 'edit_test_shortcode');
         add_shortcode('edit_question', 'edit_question_shortcode');
         add_shortcode('show_tests', 'show_tests_shortcode');
+        add_shortcode('show_talents', 'render_talents_table');
+        add_shortcode('talent_details', 'render_talent_details');
+    }
+
+    function render_talent_details() {
+        // Überprüfen, ob die oai_test_id in der URL vorhanden ist
+        if (current_user_can('dienstleister')) {
+            if ( isset( $_GET['id'] ) ) {
+                $id = intval( $_GET['id'] );
+                // Abfrage, um Talentdetails abzurufen
+                $talent = get_talent_by_id($id);
+
+                // Überprüfen, ob das Talent gefunden wurde
+                if ($talent) {
+                    // Abfrage, um den Chatverlauf abzurufen
+                    $messages = list_messages_by_thread($talent->oai_test_id);
+                    ob_start(); // Puffer starten
+                    include_once('templates/talents-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean(); 
+                } else {
+                    // Talent nicht gefunden
+                    return '<p>ID nicht gefunden.</p>';
+                }
+            } else {
+                return '<p>ID nicht übergeben.</p>';
+            }
+        } else {
+            return '<p>Keine Berechtigung.</p>';
+        }
+    }
+
+    // Benutzerdefinierte Funktion, um die Talent-Tabelle zu erstellen
+    function render_talents_table() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (current_user_can('dienstleister')) {
+            // Abfrage, um Talente abzurufen
+            global $wpdb;
+            $talents_table = $wpdb->prefix . 'te_talents';
+            $talents = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
+
+            // Überprüfen, ob Talente vorhanden sind
+            if ($talents) {
+                ob_start(); // Puffer starten
+                include_once('templates/talents-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean(); 
+            } else {
+                return '<p>Keine Talente gefunden.</p>';
+            }
+        } else {
+            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+        }
     }
 
     function show_tests_shortcode(){
