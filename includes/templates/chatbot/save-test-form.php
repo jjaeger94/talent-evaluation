@@ -33,7 +33,7 @@
                         <input type="checkbox" class="form-check-input" id="acceptPrivacy" name="acceptPrivacy" required>
                         <label class="form-check-label" for="acceptPrivacy">Ich akzeptiere die Datenschutzbestimmungen</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Absenden</button>
                 </form>
             </div>
         </div>
