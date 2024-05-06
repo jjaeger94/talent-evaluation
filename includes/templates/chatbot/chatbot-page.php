@@ -62,8 +62,6 @@
                         let data = JSON.parse(response.data);
                         console.log(data);
                         $('#loading-indicator').hide();
-                        // Erfolgreich: Neue Nachricht anzeigen
-                        $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
                         if(data.state === 'success') {
                             $('#testResultMessage').text('Glückwunsch! Der Test wurde bestanden.');
                             $('#chat-form').hide();
@@ -72,6 +70,9 @@
                             $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
                             $('#testResultModal').modal('show');
                             $('#chat-form').hide();
+                        }else{
+                            // Erfolgreich: Neue Nachricht anzeigen
+                            $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
                         }
                     }else{
                         $('#loading-indicator').hide();

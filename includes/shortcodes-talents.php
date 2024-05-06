@@ -25,9 +25,9 @@ function render_chatbot_page_content() {
                if(!empty($messages)){
                     $parsedMessage = $messages[0]['content'][0]['text']['value'];
                     // Extrahiere den Status aus der Nachricht
-                    if (strpos($parsedMessage, 'bestanden') !== false) {
+                    if (strpos(strtolower($parsedMessage), 'bestanden') !== false) {
                          $state = 'success';
-                    } elseif (strpos($parsedMessage, 'durchgefallen') !== false) {
+                    } elseif (strpos(strtolower($parsedMessage), 'durchgefallen') !== false) {
                          $state = 'failed';
                     } else {
                          $state = 'in_progress';
