@@ -144,6 +144,7 @@ class Talent_Evaluation_Public {
 		if ($insert_result === false) {
 			wp_send_json_error('Fehler beim Speichern des Datensatzes.');
 		} else {
+			unset($_SESSION['active_chat']);
 			wp_send_json_success('Datensatz erfolgreich gespeichert.');
 		}
 		wp_die();

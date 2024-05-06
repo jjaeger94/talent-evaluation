@@ -55,6 +55,9 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);
+                if(response.success){
+                    $('#talentFormModal').hide();
+                }
                 // Hier können Sie je nach Bedarf weitere Aktionen ausführen
             },
             error: function(xhr, status, error) {

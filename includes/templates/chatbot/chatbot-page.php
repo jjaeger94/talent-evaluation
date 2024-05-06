@@ -65,12 +65,14 @@
                         console.log(data);
                         $('#loading-indicator').hide();
                         if(data.state === 'success') {
-                            $('#talentFormModal').show();
                             $('#chat-form').hide();
+                            $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>')
+                            $('#talentFormModal').show();
                         } else if(data.state === 'failed') {
                             $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
                             $('#testResultModal').modal('show');
                             $('#chat-form').hide();
+                            $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>');
                         }else{
                             // Erfolgreich: Neue Nachricht anzeigen
                             $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
