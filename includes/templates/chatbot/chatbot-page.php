@@ -32,7 +32,9 @@
             </div>
         </div>
     </div>
-     <!-- Modal für Testergebnis -->
+     <!-- Modal für positives Testergebnis -->
+     <?php include 'save-test-form.php'; ?>
+     <!-- Modal für negatives Testergebnis -->
     <?php include 'test-result-modal.php'; ?>
     <!-- Modal für Produkt -->
     <?php include 'product-view-modal.php'; ?>
@@ -63,9 +65,8 @@
                         console.log(data);
                         $('#loading-indicator').hide();
                         if(data.state === 'success') {
-                            $('#testResultMessage').text('Glückwunsch! Der Test wurde bestanden.');
+                            $('#talentFormModal').show();
                             $('#chat-form').hide();
-                            chat-form
                         } else if(data.state === 'failed') {
                             $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
                             $('#testResultModal').modal('show');

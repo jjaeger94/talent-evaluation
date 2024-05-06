@@ -92,8 +92,62 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_send_message', array($this, 'send_message'));
 		add_action('wp_ajax_save_delete_chat', array($this, 'delete_chat'));
 		add_action('wp_ajax_nopriv_delete_chat', array($this, 'delete_chat'));
+		add_action('wp_ajax_save_talent', array($this, 'save_talent'));
+		add_action('wp_ajax_nopriv_save_talent',  array($this, 'save_talent'));
 		
 	}
+
+	function save_talent() {
+		// Session starten
+		session_start();
+	
+		// Überprüfen, ob eine aktive Sitzung besteht
+		if (!isset($_SESSION['active_chat'])) {
+			wp_send_json_error('Aktive Sitzung nicht gefunden.');
+		}
+	
+		// Überprüfen, ob alle Formulareingaben vorhanden sind
+		$required_fields = array('prename', 'surname', 'email', 'mobile','post_code', 'acceptPrivacy');
+		foreach ($required_fields as $field) {
+			if (!isset($_POST[$field])) {
+				wp_send_json_error('Bitte füllen Sie alle erforderlichen Felder aus.');
+			}
+		}
+	
+		// Formulardaten sammeln
+		$prename = sanitize_text_field($_POST['prename']);
+		$surname = sanitize_text_field($_POST['surname']);
+		$email = sanitize_email($_POST['email']);
+		$mobile = sanitize_text_field($_POST['mobile']);
+		$post_code = sanitize_text_field($_POST['post_code']);
+		$oai_test_id = $_SESSION['active_chat']; // Wert aus der Session übernehmen
+	
+		// Tabelle und Datenbankverbindung
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'te_talents';
+	
+		// Datensatz einfügen
+		$insert_result = $wpdb->insert(
+			$table_name,
+			array(
+				'prename' => $prename,
+				'surname' => $surname,
+				'email' => $email,
+				'mobile' => $mobile,
+				'post_code' => $post_code,
+				'oai_test_id' => $oai_test_id
+			),
+			array('%s', '%s', '%s', '%s', '%s', '%s')
+		);
+	
+		// Überprüfen, ob das Einfügen erfolgreich war
+		if ($insert_result === false) {
+			wp_send_json_error('Fehler beim Speichern des Datensatzes.');
+		} else {
+			wp_send_json_success('Datensatz erfolgreich gespeichert.');
+		}
+		wp_die();
+	}	
 
 	function delete_chat(){
 		session_start();
