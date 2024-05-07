@@ -1,5 +1,5 @@
 <form method="get" action="">
-    <div class="row">
+    <div class="row align-items-center">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="postal_code" class="form-label">Postleitzahl</label>
@@ -12,7 +12,7 @@
                 <input type="number" class="form-control" id="radius" name="radius" value="<?php echo esc_attr( $radius ); ?>" required>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2 align-self-end">
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" name="submit">Filtern</button>
             </div>
