@@ -2,13 +2,7 @@
     <div class="col-md-8">
         <div class="my-chatbot-page">
             <div class="message-container">
-            <?php if (!empty($messages)) : ?>
-                <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
-                <?php foreach (array_reverse($messages) as $message) : ?>
-                    <?php include 'message.php'; ?>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <div class="alert alert-info w-100">
+            <div class="alert alert-info w-100">
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <!-- Text mit Informationen -->
@@ -25,6 +19,11 @@
                         </div>
                     </div>
                 </div>
+            <?php if (!empty($messages)) : ?>
+                <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
+                <?php foreach (array_reverse($messages) as $message) : ?>
+                    <?php include 'message.php'; ?>
+                <?php endforeach; ?>                
             <?php endif; ?>
             </div>
             <div id="loading-indicator" class="message loading" style="display: none;">
