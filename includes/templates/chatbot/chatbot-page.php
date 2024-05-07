@@ -94,9 +94,8 @@
                         }else{
                             // Erfolgreich: Neue Nachricht anzeigen
                             $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
+                            $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
                         }
-                    }else{
-                        $('#loading-indicator').hide();
                     }
                 },
                 error: function(xhr, status, error) {
@@ -104,6 +103,7 @@
                     console.error(error);
                 },
                 complete: function(){
+                    $('#loading-indicator').hide();
                     $('#button-send-message').prop('disabled', false);
                 }
             });

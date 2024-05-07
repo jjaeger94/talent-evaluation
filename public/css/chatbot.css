@@ -1,9 +1,12 @@
 /* Allgemeine Stildefinitionen */
+.my-chatbot-page{
+    margin-bottom: 200px; 
+}
 .message-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Nachrichten linksbündig ausrichten */
-    margin-top: 20px; /* Abstand zwischen den Nachrichten */
+    margin-top: 20px; /* Abstand oben */
 }
 
 .message {

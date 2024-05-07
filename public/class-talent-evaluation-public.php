@@ -88,13 +88,12 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_change_test', array($this, 'change_test'));
 		add_action('wp_ajax_save_test_details', array($this, 'save_test_details'));
 		add_action('wp_ajax_nopriv_save_test_details', array($this, 'save_test_details'));
-		add_action('wp_ajax_save_send_message', array($this, 'send_message'));
+		add_action('wp_ajax_send_message', array($this, 'send_message'));
 		add_action('wp_ajax_nopriv_send_message', array($this, 'send_message'));
 		add_action('wp_ajax_save_delete_chat', array($this, 'delete_chat'));
 		add_action('wp_ajax_nopriv_delete_chat', array($this, 'delete_chat'));
 		add_action('wp_ajax_save_talent', array($this, 'save_talent'));
 		add_action('wp_ajax_nopriv_save_talent',  array($this, 'save_talent'));
-		
 	}
 
 	function save_talent() {
@@ -181,6 +180,9 @@ class Talent_Evaluation_Public {
 				wp_send_json_error('Fehler beim ausführen');
 			}else{
 				$message = get_message_from_run($run);
+				if(!$message){
+					wp_send_json_error('Keine Antwort erhalten');
+				}
 				$parsedMessage = parseMessageFromObject($message);
 
 				// Extrahiere den Status aus der Nachricht
