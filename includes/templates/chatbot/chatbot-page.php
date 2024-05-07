@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="my-chatbot-page">
@@ -33,18 +34,21 @@
             <div id="loading-indicator" class="message loading" style="display: none;">
                 <div class="dot-typing"></div>
             </div>
-            <!-- Texteingabefeld und Senden-Button -->
-            <?php if ($state == 'in_progress') : ?>
-            <form id="chat-form" class="mt-4 mb-4">
-                <div class="input-group">
-                    <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
-                    <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
-                </div>
-            </form>
-            <?php endif; ?>
         </div>
     </div>
 </div>
+</div>
+<!-- Eingabefeld zum Senden einer Nachricht -->
+<?php if ($state == 'in_progress') : ?>
+<div id="chat-input-container" class="fixed-bottom">
+    <form id="chat-form" class="mt-4">
+        <div class="input-group">
+            <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
+            <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
+        </div>
+    </form>
+</div>
+<?php endif; ?>
 
     <!-- Modal für positives Testergebnis -->
     <?php include 'save-test-form.php'; ?>
