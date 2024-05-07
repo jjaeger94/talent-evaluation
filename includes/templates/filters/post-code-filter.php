@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="radius" class="form-label">Radius (in km)</label>
-                <input type="number" class="form-control" id="radius" name="radius" value="<?php echo esc_attr( $radius ); ?>" required>
+                <input type="number" class="form-control" id="radius" name="radius" value="<?php echo esc_attr( $radius ); ?>" min="5" max="100" required>
             </div>
         </div>
         <div class="col-md-2 align-self-end">
