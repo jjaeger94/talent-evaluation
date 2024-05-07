@@ -19,7 +19,6 @@ function render_chatbot_page_content() {
      if (isset($_SESSION['active_chat'])) {
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
          $thread_id = $_SESSION['active_chat'];
-         echo $thread_id;
          // Nachrichten des Threads abrufen
          $messages = list_messages_by_thread($thread_id);
          if ($messages !== false) {

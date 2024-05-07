@@ -58,6 +58,10 @@
 <?php include 'product-view-modal.php'; ?>
 <script>
     jQuery(document).ready(function($) {
+
+        $("#user-message-input").focus(function(){
+            window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() +50);
+        });
         // Event Listener für den Senden-Button hinzufügen
         $('#button-send-message').click(function(e) {
             e.preventDefault(); 
@@ -68,6 +72,7 @@
             // Nach dem Senden die Eingabe löschen
             $('#user-message-input').val('');
             $('#loading-indicator').show();
+            window.scrollTo(0, $('#loading-indicator').offset().top + $('#loading-indicator').height() - $(window).height() + 80);
 
             // AJAX-Anfrage senden, um die Nachricht zu speichern
             $.ajax({
@@ -94,7 +99,7 @@
                         }else{
                             // Erfolgreich: Neue Nachricht anzeigen
                             $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
-                            $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
+                            window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() +50);
                         }
                     }
                 },
