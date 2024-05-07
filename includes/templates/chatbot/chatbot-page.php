@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-md-4">
                             <!-- Bild der Kundin -->
-                            <img src="https://commitiq.de/wp-content/uploads/2024/05/sahra-bild.jpeg" class="img-fluid rounded-circle" alt="Kundin">
+                            <img src="https://commitiq.de/wp-content/uploads/2024/05/sahra-bild.jpeg" class="img-fluid rounded-circle p-3" alt="Kundin">
                             <div class="text-center">
                                 <small>Deine Kundin</small>
                             </div>
@@ -35,7 +35,7 @@
             </div>
             <!-- Texteingabefeld und Senden-Button -->
             <?php if ($state == 'in_progress') : ?>
-            <form id="chat-form" class="mt-4">
+            <form id="chat-form" class="mt-4 mb-4">
                 <div class="input-group">
                     <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
                     <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
