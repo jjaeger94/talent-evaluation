@@ -603,5 +603,34 @@ function render_link_template($test_page_url) {
     return ob_get_clean();
 }
 
+function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {
+    // URL für die API-Zip-Anfrage erstellen
+    $apiUrl = "https://zip-api.eu/api/v1/radius/{$countryCode}-{$postalCode}/{$radius}/km";
+
+    // HTTP-Anfrage senden
+    $response = file_get_contents($apiUrl);
+
+    // Überprüfen, ob die Anfrage erfolgreich war
+    if ($response === false) {
+        return false; // Fehler beim Abrufen der Daten
+    }
+
+    // Daten decodieren
+    $data = json_decode($response, true);
+
+    // Überprüfen, ob Daten vorhanden sind
+    if (!empty($data) && is_array($data)) {
+        // Überprüfen, ob es sich um ein mehrdimensionales Array handelt
+        if (isset($data[0])) {
+            // Mehrere Einträge: Nur die Postleitzahlen zurückgeben, ohne Entfernungs- und Einheitsinformationen
+            return array_column($data, 'postal_code');
+        } else {
+            // Einzelner Eintrag: Direkt die Postleitzahl zurückgeben
+            return array($data['postal_code']);
+        }
+    } else {
+        return false; // Keine Daten oder falsches Format
+    }
+}
 
 run_talent_evaluation();

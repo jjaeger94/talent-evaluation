@@ -6,6 +6,7 @@
         <p><strong>Nachname:</strong> <?php echo $talent->surname; ?></p>
         <p><strong>E-Mail:</strong> <?php echo $talent->email; ?></p>
         <p><strong>Telefonnummer:</strong> <?php echo $talent->mobile; ?></p>
+        <p><strong>PLZ:</strong> <?php echo $talent->post_code; ?></p>
         <p><strong>OAI Test ID:</strong> <?php echo $talent->oai_test_id; ?></p>
         <!-- Chatverlauf anzeigen -->
         <h2>Chatverlauf</h2>

@@ -49,14 +49,27 @@
             $talents_table = $wpdb->prefix . 'te_talents';
             $talents = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
 
-            // Überprüfen, ob Talente vorhanden sind
-            if ($talents) {
-                ob_start(); // Puffer starten
-                include_once('templates/talents-table-template.php'); // Pfad zur Datei mit dem Test-Formular
-                return ob_get_clean(); 
-            } else {
-                return '<p>Keine Talente gefunden.</p>';
+            $postal_code = isset( $_GET['postal_code'] ) ? sanitize_text_field( $_GET['postal_code'] ) : null;
+
+            $radius = isset( $_GET['radius'] ) ? intval( $_GET['radius'] ) : 0;
+
+            if ($postal_code && $radius) {           
+                // Postleitzahlen im gewünschten Radius erhalten
+                $countryCode = 'DE'; // Deutschland
+                $postal_codes = getPostalCodesInRadius($postal_code, $radius, $countryCode);
+                // Überprüfen, ob Postleitzahlen gefunden wurden
+                if ($postal_codes !== false) {
+                    // Talente nach den gefundenen Postleitzahlen filtern
+                    $talents = array_filter($talents, function($talent) use ($postal_codes) {
+                        return in_array($talent->post_code, $postal_codes);
+                    });
+                }
             }
+
+            // Überprüfen, ob Talente vorhanden sind
+            ob_start(); // Puffer starten
+            include_once('templates/talents-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            return ob_get_clean(); 
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
         }
