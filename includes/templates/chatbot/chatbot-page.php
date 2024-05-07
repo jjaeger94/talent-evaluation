@@ -1,43 +1,58 @@
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="my-chatbot-page">
-                <!-- Hier kommt der Inhalt Ihrer Chatbot-Seite -->
-                <h2 class="text-center mb-4">Willkommen zum Chatbot-Spiel!</h2>
-                <div class="message-container">
-                <?php if (!empty($messages)) : ?>
-                    <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
-                    <?php foreach (array_reverse($messages) as $message) : ?>
-                        <?php include 'message.php'; ?>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <div class="alert alert-info w-100">Beginnen Sie das Spiel, indem Sie unten eine Nachricht eingeben.</div>
-                <?php endif; ?>
-                </div>
-                <div id="loading-indicator" class="message loading" style="display: none;">
-                    <div class="dot-typing"></div>
-                </div>
-                <!-- Texteingabefeld und Senden-Button -->
-                <?php if ($state == 'in_progress') : ?>
-                <form id="chat-form" class="mt-4">
-                    <div class="input-group">
-                        <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
-                        <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="my-chatbot-page">
+            <div class="message-container">
+            <?php if (!empty($messages)) : ?>
+                <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
+                <?php foreach (array_reverse($messages) as $message) : ?>
+                    <?php include 'message.php'; ?>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <div class="alert alert-info w-100">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <!-- Text mit Informationen -->
+                            <p>Du arbeitest in einem Brillengeschäft. Eine Kundin betritt den Laden und sucht nach einer neuen Brille.</p>
+                            <p>Versuche, der Kundin eine Brille zu verkaufen. Du kannst dir die verfügbaren Brillen anzeigen lassen, indem du auf 'Brillen anzeigen' klickst.</p>
+                            <p>Das Spiel beginnt mit deiner ersten Nachricht. Viel Erfolg!</p>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Bild der Kundin -->
+                            <img src="https://commitiq.de/wp-content/uploads/2024/05/sahra-bild.jpeg" class="img-fluid rounded-circle" alt="Kundin">
+                            <div class="text-center">
+                                <small>Deine Kundin</small>
+                            </div>
+                        </div>
                     </div>
-                </form>
-                <?php endif; ?>
-                <div class="input-group mt-4">
-                    <button id="button-delete-thread" class="btn btn-danger ms-2">Erneut versuchen</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
                 </div>
+            <?php endif; ?>
+            </div>
+            <div id="loading-indicator" class="message loading" style="display: none;">
+                <div class="dot-typing"></div>
+            </div>
+            <!-- Texteingabefeld und Senden-Button -->
+            <?php if ($state == 'in_progress') : ?>
+            <form id="chat-form" class="mt-4">
+                <div class="input-group">
+                    <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
+                    <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
+                </div>
+            </form>
+            <?php endif; ?>
+            <div class="input-group mt-4">
+                <button id="button-delete-thread" class="btn btn-danger ms-2">Erneut versuchen</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
             </div>
         </div>
     </div>
-     <!-- Modal für positives Testergebnis -->
-     <?php include 'save-test-form.php'; ?>
-     <!-- Modal für negatives Testergebnis -->
-    <?php include 'test-result-modal.php'; ?>
-    <!-- Modal für Produkt -->
-    <?php include 'product-view-modal.php'; ?>
+</div>
+
+    <!-- Modal für positives Testergebnis -->
+    <?php include 'save-test-form.php'; ?>
+    <!-- Modal für negatives Testergebnis -->
+<?php include 'test-result-modal.php'; ?>
+<!-- Modal für Produkt -->
+<?php include 'product-view-modal.php'; ?>
 <script>
     jQuery(document).ready(function($) {
         // Event Listener für den Senden-Button hinzufügen
