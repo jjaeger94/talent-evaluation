@@ -9,6 +9,10 @@
                             <p>Du arbeitest in einem Brillengeschäft. Eine Kundin betritt den Laden und sucht nach einer neuen Brille.</p>
                             <p>Versuche, der Kundin eine Brille zu verkaufen. Du kannst dir die verfügbaren Brillen anzeigen lassen, indem du auf 'Brillen anzeigen' klickst.</p>
                             <p>Das Spiel beginnt mit deiner ersten Nachricht. Viel Erfolg!</p>
+                            <!-- Brillen anzeigen Button -->
+                            <div class="text-center mt-3">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <!-- Bild der Kundin -->
@@ -38,10 +42,6 @@
                 </div>
             </form>
             <?php endif; ?>
-            <div class="input-group mt-4">
-                <button id="button-delete-thread" class="btn btn-danger ms-2">Erneut versuchen</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
-            </div>
         </div>
     </div>
 </div>
