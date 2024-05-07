@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-md-4">
                             <!-- Bild der Kundin -->
-                            <img src="https://commitiq.de/wp-content/uploads/2024/05/sahra-bild.jpeg" class="img-fluid rounded-circle p-3" alt="Kundin">
+                            <img src="https://commitiq.de/wp-content/uploads/2024/05/sahra.jpeg" class="img-fluid rounded-circle p-3" alt="Kundin">
                             <div class="text-center">
                                 <small>Deine Kundin</small>
                             </div>
