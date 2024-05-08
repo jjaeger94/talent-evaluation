@@ -12,6 +12,13 @@ function register_shortcodes_talents() {
         add_shortcode('test_start', 'render_test_start');
         add_shortcode('get_company', 'get_company_shortcode');
         add_shortcode('chatbot_page', 'render_chatbot_page_content');
+        add_shortcode('chatbot_page_info', 'render_chatbot_info');
+}
+
+function render_chatbot_info(){
+     ob_start();
+     include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-info.php';
+     return ob_get_clean();
 }
 
 function render_chatbot_page_content() {
