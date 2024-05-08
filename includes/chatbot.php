@@ -167,7 +167,7 @@
                     break;
                 }
                 // Kurz warten, bevor der Status überprüft wird
-                sleep(5); // Zum Beispiel 5 Sekunden warten
+                sleep(3); // Zum Beispiel 5 Sekunden warten
                                 
                 // Den Status des Threads überwachen
                 $response_data = poll_run_status($thread_id, $response_data['id']);
