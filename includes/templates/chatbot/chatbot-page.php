@@ -22,7 +22,7 @@
 <div id="chat-input-container" class="fixed-bottom">
     <form id="chat-form" class="mt-4">
         <div class="input-group">
-            <input type="text" id="user-message-input" class="form-control" placeholder="Geben Sie Ihre Nachricht ein...">
+            <input type="text" id="user-message-input" class="form-control" placeholder="Deine Nachricht...">
             <button id="button-send-message" type="submit" class="btn btn-primary">Senden</button>
         </div>
     </form>
