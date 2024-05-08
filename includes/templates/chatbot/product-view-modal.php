@@ -13,7 +13,7 @@
                         <div class="card h-100">
                             <img src="https://commitiq.de/wp-content/uploads/2024/05/rote-brille.jpeg" class="card-img-top" alt="Brille 1">
                             <div class="card-body">
-                                <h5 class="card-title">Brille 1</h5>
+                                <h5 class="card-title">Crimson Circular</h5>
                                 <p class="card-text">Preis: 100 €</p>
                                 <p class="card-text">Material: Plastik</p>
                                 <p class="card-text">Gewicht: leicht</p>
@@ -25,7 +25,7 @@
                         <div class="card h-100">
                             <img src="https://commitiq.de/wp-content/uploads/2024/05/randlos.jpeg" class="card-img-top" alt="Brille 2">
                             <div class="card-body">
-                                <h5 class="card-title">Brille 2</h5>
+                                <h5 class="card-title">Crystal Edge Randlos</h5>
                                 <p class="card-text">Preis: 120 €</p>
                                 <p class="card-text">Material: Edelstahl</p>
                                 <p class="card-text">Gewicht: Schwer</p>
@@ -37,7 +37,7 @@
                         <div class="card h-100">
                             <img src="https://commitiq.de/wp-content/uploads/2024/05/blau-eckig.jpeg" class="card-img-top" alt="Brille 3">
                             <div class="card-body">
-                                <h5 class="card-title">Brille 3</h5>
+                                <h5 class="card-title">Sapphire Square</h5>
                                 <p class="card-text">Preis: 150 €</p>
                                 <p class="card-text">Material: Plastik</p>
                                 <p class="card-text">Gewicht: Mittel</p>
