@@ -27,7 +27,7 @@ function render_start_btn(){
      }
  
      // Button-HTML erzeugen
-     $button_html = '<a href="' . $sales_game_url . '" class="btn btn-primary">Spiel starten</a>';
+     $button_html = '<a href="' . $sales_game_url . '" class="btn btn-primary btn-lg">Spiel starten</a>';
  
      // Button ausgeben
      return $button_html;
