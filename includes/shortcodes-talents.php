@@ -3,8 +3,8 @@
      * Hier alle Shortcodes für Bewerber eintragen!
      */
 function register_shortcodes_talents() {
-        add_shortcode( 'consent_form', 'render_consent_form' );
-        add_shortcode( 'commitment_test', 'render_commitment_test' );
+        add_shortcode('consent_form', 'render_consent_form');
+        add_shortcode('commitment_test', 'render_commitment_test');
         add_shortcode('test_methode_btn', 'render_test_methode_btn');
         add_shortcode('book_link', 'get_book_link');
         add_shortcode('book_cover', 'get_book_cover');
@@ -13,7 +13,26 @@ function register_shortcodes_talents() {
         add_shortcode('get_company', 'get_company_shortcode');
         add_shortcode('chatbot_page', 'render_chatbot_page_content');
         add_shortcode('chatbot_page_info', 'render_chatbot_info');
+        add_shortcode('start_game_button', 'render_start_btn');
 }
+
+function render_start_btn(){
+     // Überprüfen, ob Parameter mitgegeben werden
+     if (!empty($_SERVER['QUERY_STRING'])) {
+         // URL zum Sales Game mit allen Übergabeparametern der aktuellen Seite
+         $sales_game_url = esc_url(home_url('/sales-game/') . '?' . $_SERVER['QUERY_STRING']);
+     } else {
+         // Keine Parameter mitgegeben, nur die Basis-URL des Sales Games verwenden
+         $sales_game_url = esc_url(home_url('/sales-game/'));
+     }
+ 
+     // Button-HTML erzeugen
+     $button_html = '<a href="' . $sales_game_url . '" class="btn btn-primary">Spiel starten</a>';
+ 
+     // Button ausgeben
+     return $button_html;
+ }
+ 
 
 function render_chatbot_info(){
      if(!isset($_GET['game'])){
