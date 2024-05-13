@@ -16,12 +16,18 @@ function register_shortcodes_talents() {
 }
 
 function render_chatbot_info(){
+     if(!isset($_GET['game'])){
+          return do_shortcode('[insert page="1632" display="content"]');
+     }
      ob_start();
      include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-info.php';
      return ob_get_clean();
 }
 
 function render_chatbot_page_content() {
+     if(!isset($_GET['game'])){
+          return "";
+     }
      $state = 'in_progress';
      if (isset($_SESSION['active_chat'])) {
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
