@@ -15,6 +15,16 @@ function register_shortcodes_talents() {
         add_shortcode('chatbot_page_info', 'render_chatbot_info');
         add_shortcode('game_info', 'render_game_info');
         add_shortcode('start_game_button', 'render_start_btn');
+        add_shortcode('get_game_image_url', 'render_game_image');
+}
+
+function render_game_image(){
+     $game = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
+     if($game == 'glasses'){
+          return 'https://commitiq.de/wp-content/uploads/2024/05/sahra.jpeg';
+     }else{
+          return 'https://commitiq.de/wp-content/uploads/2024/05/Dieter_ohne_rand.png';
+     }
 }
 
 function render_start_btn(){

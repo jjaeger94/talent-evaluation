@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-4">
             <!-- Bild der Kundin -->
-            <img src="https://commitiq.de/wp-content/uploads/2024/05/Dieter_ohne_rand.png" class="img-fluid rounded-circle p-3" alt="Kundin">
+            <img src="https://commitiq.de/wp-content/uploads/2024/05/Dieter_ohne_rand.png" class="img-fluid rounded-circle p-3" alt="Dieter">
         </div>
     </div>
 </div>
