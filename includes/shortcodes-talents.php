@@ -65,8 +65,18 @@ function render_chatbot_page_content() {
      if(!isset($_GET['game'])){
           return "";
      }
+     $game = sanitize_text_field($_GET['game']);
+     if(!isset($_SESSION['game'])){
+          $_SESSION['game'] = $game;
+     }
      $state = 'in_progress';
      if (isset($_SESSION['active_chat'])) {
+          if($game != $_SESSION['game']){
+               ob_start();
+               echo '<p>Bitte beende erst dein letztes Spiel oder löschen den Chat</p>';
+               include plugin_dir_path(__FILE__) . 'templates/chatbot/delete-chat.php';
+               return ob_get_clean();
+          }
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
          $thread_id = $_SESSION['active_chat'];
          // Nachrichten des Threads abrufen

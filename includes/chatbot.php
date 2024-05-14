@@ -114,7 +114,7 @@
         $runs_endpoint = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
     
         $api_key = get_option('te_api_key');
-        $assistant_id = get_option('te_assistant_id');
+        $assistant_id = get_assistant_id();
     
         // Überprüfen, ob der API-Schlüssel und die Assistant ID vorhanden sind
         if (empty($api_key) || empty($assistant_id)) {
@@ -236,7 +236,7 @@
         $message_endpoint = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages/' . $message_id;
     
         $api_key = get_option('te_api_key');
-        $assistant_id = get_option('te_assistant_id');
+        $assistant_id = get_assistant_id();
     
         // Überprüfen, ob der API-Schlüssel und die Assistant ID vorhanden sind
         if (empty($api_key) || empty($assistant_id)) {

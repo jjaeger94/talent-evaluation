@@ -633,4 +633,17 @@ function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {
     }
 }
 
+function get_assistant_id() {
+    if(!$_SESSION['game']){
+        return false;
+    }
+    $game = $_SESSION['game'];
+    if($game == 'burger'){
+        return 'asst_3MWRUUDVcZR8zRe5DjmYAqJD';
+    }else if($game == 'glasses'){
+        return 'asst_n5KxIqgqswb4ZV7HSvaIgZsg';
+    }
+    return false;
+}
+
 run_talent_evaluation();

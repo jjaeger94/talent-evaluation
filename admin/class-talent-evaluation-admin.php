@@ -131,10 +131,6 @@ class Talent_Evaluation_Admin {
                         <th scope="row">Open AI api key</th>
                         <td><input type="password" name="te_api_key" value="<?php echo esc_attr(get_option('te_api_key')); ?>" /></td>
 				</tr>
-				<tr valign="top">
-                        <th scope="row">Open AI assistant id</th>
-                        <td><input type="text" name="te_assistant_id" value="<?php echo esc_attr(get_option('te_assistant_id')); ?>" /></td>
-				</tr>
                 </table>
                 <?php submit_button(); ?>
             </form>
@@ -150,6 +146,5 @@ class Talent_Evaluation_Admin {
 		register_setting('talent_evaluation_settings', 'te_login_logo');
 		register_setting('talent_evaluation_settings', 'te_login_title');
 		register_setting('talent_evaluation_settings', 'te_api_key');
-		register_setting('talent_evaluation_settings', 'te_assistant_id');
     }
 }

@@ -144,6 +144,7 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Fehler beim Speichern des Datensatzes.');
 		} else {
 			unset($_SESSION['active_chat']);
+			unset($_SESSION['game']);
 			wp_send_json_success('Datensatz erfolgreich gespeichert.');
 		}
 		wp_die();
@@ -158,6 +159,7 @@ class Talent_Evaluation_Public {
 				wp_send_json_error('Fehler beim ausführen');
 			}else{
 				unset($_SESSION['active_chat']);
+				unset($_SESSION['game']);
 				wp_send_json_success('Chat erfolgreich gelöscht');
 			}
 			
