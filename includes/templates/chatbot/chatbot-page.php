@@ -10,6 +10,9 @@
                 <?php endforeach; ?>                
             <?php endif; ?>
             </div>
+            <?php if ($state != 'in_progress') : ?>
+                <div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>
+            <?php endif; ?>
             <div id="loading-indicator" class="message loading" style="display: none;">
                 <div class="dot-typing"></div>
             </div>
