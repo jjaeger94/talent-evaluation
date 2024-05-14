@@ -13,6 +13,7 @@ function register_shortcodes_talents() {
         add_shortcode('get_company', 'get_company_shortcode');
         add_shortcode('chatbot_page', 'render_chatbot_page_content');
         add_shortcode('chatbot_page_info', 'render_chatbot_info');
+        add_shortcode('game_info', 'render_game_info');
         add_shortcode('start_game_button', 'render_start_btn');
 }
 
@@ -34,12 +35,29 @@ function render_start_btn(){
  }
  
 
+ function render_game_info(){
+     $game = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
+
+     ob_start();
+     if($game == 'burger'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/game-info.php';
+     }else if($game == 'glasses'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/game-info.php';
+     }
+     return ob_get_clean();
+ }
+
 function render_chatbot_info(){
      if(!isset($_GET['game'])){
           return do_shortcode('[insert page="1632" display="content"]');
      }
+     $game = sanitize_text_field($_GET['game']);
      ob_start();
-     include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-info.php';
+     if($game == 'burger'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/chatbot-info.php';
+     }else if($game == 'glasses'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/chatbot-info.php';
+     };
      return ob_get_clean();
 }
 

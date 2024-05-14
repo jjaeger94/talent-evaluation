@@ -19,3 +19,5 @@
         </div>
     </div>
 </div>
+<!-- Modal für Produkt -->
+<?php include 'product-view-modal.php'; ?>

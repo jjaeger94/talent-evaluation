@@ -33,8 +33,6 @@
     <?php include 'save-test-form.php'; ?>
     <!-- Modal für negatives Testergebnis -->
 <?php include 'test-result-modal.php'; ?>
-<!-- Modal für Produkt -->
-<?php include 'product-view-modal.php'; ?>
 <script>
     jQuery(document).ready(function($) {
 

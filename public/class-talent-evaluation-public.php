@@ -203,7 +203,6 @@ class Talent_Evaluation_Public {
 				// Senden der JSON-Antwort
 				wp_send_json_success($data);
 			}
-			
 		}else{
 			wp_send_json_error('Ungültige Anfrage.');
 		}
