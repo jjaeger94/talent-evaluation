@@ -6,7 +6,7 @@
                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
             </div>
             <div class="modal-body">
-                <div class="alert alert-info w-100">Hast du Interesse dein Verkaufstalent zu nutzen? Hinterlasse hier deine Daten um von attraktiven Unternehmen aus deiner Gegend kontaktiert zu werden!</div>
+                <div class="alert alert-info w-100">Hast du Interesse dein Talent zu nutzen? Hinterlasse hier deine Daten um von spannenden Unternehmen aus deiner Gegend kontaktiert zu werden!</div>
                 <form id="talentForm" method="post">
                     <input type="hidden" name="action" value="submit_talent_form">
                     <div class="mb-3">
