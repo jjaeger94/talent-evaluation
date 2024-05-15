@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid pt-5 pb-5">
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="my-chatbot-page">
