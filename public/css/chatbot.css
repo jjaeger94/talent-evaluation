@@ -44,6 +44,21 @@
     margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
 }
 
+.input-error {
+  border-color: red;
+  animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+  from {
+      background-color: white;
+  }
+  to {
+      background-color: red;
+  }
+}
+
+
 /**
  * ==============================================
  * Dot Typing
