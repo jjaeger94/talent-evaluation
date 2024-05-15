@@ -47,11 +47,21 @@ jQuery(document).ready(function($) {
         // Formulardaten sammeln
         var formData = $(this).serialize();
 
+        // Hier wird der Wert des Parameters 'ad' aus dem URL-Parameter geholt
+        var urlParams = new URLSearchParams(window.location.search);
+        
+
+        var data = formData + '&action=save_talent';
+        if(urlParams && urlParams.has('ad')){
+            var adValue = urlParams.get('ad');
+            data = data + '&ad=' + adValue;
+        }
+
         // AJAX-Anfrage senden
         $.ajax({
             type: 'POST',
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: formData + '&action=save_talent',
+            data: data,
             success: function(response) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);

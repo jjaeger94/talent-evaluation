@@ -216,7 +216,7 @@ class Talent_Evaluation_Activator {
 			}
 			$talents = $wpdb->prefix . 'te_talents';
 			if( $wpdb->get_var("SHOW TABLES LIKE '{$talents}'") != $talents ){
-				$sql = "CREATE TABLE  $talents (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `prename` VARCHAR(255) NOT NULL , `surname` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `mobile` VARCHAR(20) NOT NULL , `post_code` VARCHAR(5) NOT NULL , `oai_test_id` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`) ) $charset_collate;";
+				$sql = "CREATE TABLE  $talents (`ID` INT NOT  NULL AUTO_INCREMENT , `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `edited` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `prename` VARCHAR(255) NOT NULL , `surname` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `mobile` VARCHAR(20) NOT NULL , `post_code` VARCHAR(5) NOT NULL , `oai_test_id` VARCHAR(255) NOT NULL , `ref` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`) ) $charset_collate;";
 				dbDelta( $sql );
 			}
 		}

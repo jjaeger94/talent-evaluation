@@ -120,6 +120,7 @@ class Talent_Evaluation_Public {
 		$mobile = sanitize_text_field($_POST['mobile']);
 		$post_code = sanitize_text_field($_POST['post_code']);
 		$oai_test_id = $_SESSION['active_chat']; // Wert aus der Session übernehmen
+		$ref = isset($_POST['ad']) ? sanitize_text_field($_POST['ad']) : 'unknown';
 	
 		// Tabelle und Datenbankverbindung
 		global $wpdb;
@@ -134,9 +135,10 @@ class Talent_Evaluation_Public {
 				'email' => $email,
 				'mobile' => $mobile,
 				'post_code' => $post_code,
-				'oai_test_id' => $oai_test_id
+				'oai_test_id' => $oai_test_id,
+				'ref' => $ref
 			),
-			array('%s', '%s', '%s', '%s', '%s', '%s')
+			array('%s', '%s', '%s', '%s', '%s', '%s', '%s')
 		);
 	
 		// Überprüfen, ob das Einfügen erfolgreich war
