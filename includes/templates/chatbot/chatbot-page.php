@@ -7,7 +7,9 @@
                 <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
                 <?php foreach (array_reverse($messages) as $message) : ?>
                     <?php include 'message.php'; ?>
-                <?php endforeach; ?>                
+                <?php endforeach; ?>     
+            <?php else : ?>          
+                <div class="alert alert-warning w-100">Beginne das Spiel indem du unten die erste Nachricht an Dieter sendest.</div>
             <?php endif; ?>
             </div>
             <?php if ($state != 'in_progress') : ?>

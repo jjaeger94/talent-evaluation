@@ -73,13 +73,14 @@ function render_chatbot_info(){
 
 function render_chatbot_page_content() {
      if(!isset($_GET['game'])){
-          return "";
+          return do_shortcode('[insert page="1632" display="content"]');
      }
      $game = sanitize_text_field($_GET['game']);
      if(!isset($_SESSION['game'])){
           $_SESSION['game'] = $game;
      }
      $state = 'in_progress';
+     $messages = [];
      if (isset($_SESSION['active_chat'])) {
           if($game != $_SESSION['game']){
                ob_start();
@@ -103,31 +104,30 @@ function render_chatbot_page_content() {
                          $state = 'in_progress';
                     }
                }
-               
-               // Wenn die Nachrichten erfolgreich abgerufen wurden, tue etwas damit
-               // Zum Beispiel die Nachrichten im Chat anzeigen
-               ob_start();
-               include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
-               return ob_get_clean();
          } else {
                // Wenn ein Fehler beim Abrufen der Nachrichten aufgetreten ist, handle den Fehler entsprechend
                return "Fehler beim Abrufen der Nachrichten";
          }
      } else {
-          $messages = [];
+          
           // Wenn kein aktiver Chat vorhanden ist, erstelle einen neuen Thread und speichere die Thread-ID in der Sitzung
           $thread_id = create_thread(); // Annahme: Funktion create_thread() erstellt einen neuen Thread und gibt die Thread-ID zurück
           if ($thread_id !== false) {
                $_SESSION['active_chat'] = $thread_id;
-               // Weiteren Code ausführen, z.B. Nachrichten des neuen Threads anzeigen oder andere Aktionen durchführen
-               ob_start();
-               include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
-               return ob_get_clean();
           } else {
                // Wenn ein Fehler beim Erstellen des Threads aufgetreten ist, handle den Fehler entsprechend
                return "Fehler beim Erstellen des Threads";
           }
      }
+
+     ob_start();
+     if($game == 'burger'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/chatbot-info.php';
+     }else if($game == 'glasses'){
+          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/chatbot-info.php';
+     };
+     include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
+     return ob_get_clean();
  }
  
 
