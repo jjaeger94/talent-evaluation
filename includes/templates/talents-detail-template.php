@@ -2,10 +2,12 @@
     <?php if ($talent) : ?>
         <h2>Talentdetails</h2>
         <p><strong>ID:</strong> <?php echo $talent->ID; ?></p>
+        <p><strong>Datum:</strong> <?php echo date('d.m.Y', strtotime($talent->added)); ?></p>
         <p><strong>Vorname:</strong> <?php echo $talent->prename; ?></p>
         <p><strong>Nachname:</strong> <?php echo $talent->surname; ?></p>
         <p><strong>E-Mail:</strong> <?php echo $talent->email; ?></p>
         <p><strong>Telefonnummer:</strong> <?php echo $talent->mobile; ?></p>
+        <p><strong>Ref:</strong> <?php echo $talent->ref; ?></p>
         <p><strong>PLZ:</strong> <?php echo $talent->post_code; ?></p>
         <p><strong>OAI Test ID:</strong> <?php echo $talent->oai_test_id; ?></p>
         <!-- Chatverlauf anzeigen -->

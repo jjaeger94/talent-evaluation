@@ -9,6 +9,7 @@
                 <th>E-Mail</th>
                 <th>Telefonnummer</th>
                 <th>PLZ</th>
+                <th>Ref</th>
                 <th>Talentdetails</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                     <td><?php echo $talent->email; ?></td>
                     <td><?php echo $talent->mobile; ?></td>
                     <td><?php echo $talent->post_code; ?></td>
+                    <td><?php echo $talent->ref; ?></td>
                     <td><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>">Details</a></td>
                 </tr>
             <?php endforeach; ?>
