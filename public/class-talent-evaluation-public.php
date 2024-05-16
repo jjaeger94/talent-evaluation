@@ -94,6 +94,52 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_delete_chat', array($this, 'delete_chat'));
 		add_action('wp_ajax_save_talent', array($this, 'save_talent'));
 		add_action('wp_ajax_nopriv_save_talent',  array($this, 'save_talent'));
+		add_action('wp_ajax_save_talent_details', array($this, 'save_talent_details'));
+		add_action('wp_ajax_nopriv_save_talent_details',  array($this, 'save_talent_details'));
+	}
+
+	function save_talent_details(){
+		if(!current_user_can('dienstleister')){
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['post_code'])) {
+			$talent_id = intval($_POST['talent_id']);
+			$prename = sanitize_text_field($_POST['prename']);
+			$surname = sanitize_text_field($_POST['surname']);
+			$email = sanitize_text_field($_POST['email']);
+			$mobile = sanitize_text_field($_POST['mobile']);
+			$post_code = sanitize_text_field($_POST['post_code']);
+			global $wpdb;
+			// Tabellenname für Bewerbungen
+			$table_name = $wpdb->prefix . 'te_talents';
+
+			// Daten zum Aktualisieren
+			$data = array(
+				'prename' => $prename,
+				'surname' => $surname,
+				'email' => $email,
+				'mobile' => $mobile,
+				'post_code' => $post_code,
+			);
+
+			// Bedingung für die Aktualisierung
+			$where = array('ID' => $talent_id);
+
+			// Aktualisieren der Daten in der Datenbank
+			$wpdb->update($table_name, $data, $where);
+
+			// Überprüfen, ob ein Fehler aufgetreten ist
+			if ($wpdb->last_error !== '') {
+				wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+			}else{
+				wp_send_json_success('Test erfolgreich geändert.');
+			}
+		} else {
+			// Fehlermeldung zurückgeben, wenn erforderliche Daten fehlen
+			wp_send_json_error('Ungültige Anfrage.');
+		}
+
+		wp_die();
 	}
 
 	function save_talent() {
