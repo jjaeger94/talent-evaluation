@@ -324,12 +324,11 @@ class Talent_Evaluation_Activator
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 					FOREIGN KEY (user_id) REFERENCES $talents(ID)
-					$charset_collate);";
+				) $charset_collate;";
                 dbDelta($sql);
             }
             $apprenticeship = $wpdb->prefix . 'te_apprenticeship';
             if ($wpdb->get_var("SHOW TABLES LIKE '{$apprenticeship}'") != $apprenticeship) {
-                $charset_collate = $wpdb->get_charset_collate();
                 $sql = "CREATE TABLE $apprenticeship (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
 					user_id INT,
@@ -343,7 +342,6 @@ class Talent_Evaluation_Activator
             }
             $studies = $wpdb->prefix . 'te_studies';
             if ($wpdb->get_var("SHOW TABLES LIKE '{$studies}'") != $studies) {
-                $charset_collate = $wpdb->get_charset_collate();
                 $sql = "CREATE TABLE $studies (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
 					user_id INT,
@@ -358,7 +356,6 @@ class Talent_Evaluation_Activator
             }
             $eq = $wpdb->prefix . 'te_eq';
             if ($wpdb->get_var("SHOW TABLES LIKE '{$eq}'") != $eq) {
-                $charset_collate = $wpdb->get_charset_collate();
                 $sql = "CREATE TABLE $eq (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
 					user_id INT,
@@ -369,6 +366,23 @@ class Talent_Evaluation_Activator
 				) $charset_collate;";
                 dbDelta($sql);
             }
+            $experiences = $wpdb->prefix . 'te_experiences';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$experiences}'") != $experiences) {
+                $sql = "CREATE TABLE $experiences (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT,
+                    position VARCHAR(255),
+                    company VARCHAR(255),
+                    field INT,
+                    start_date DATE,
+                    end_date DATE,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES $talents(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+}
+
         }
 
         wp_create_database_tables();

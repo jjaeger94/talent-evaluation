@@ -96,7 +96,276 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_save_talent',  array($this, 'save_talent'));
 		add_action('wp_ajax_save_talent_details', array($this, 'save_talent_details'));
 		add_action('wp_ajax_nopriv_save_talent_details',  array($this, 'save_talent_details'));
+		add_action('wp_ajax_add_school', array($this, 'add_school'));
+		add_action('wp_ajax_nopriv_add_school',  array($this, 'add_school'));
+		add_action('wp_ajax_edit_apprenticeship', array($this, 'edit_apprenticeship'));
+		add_action('wp_ajax_nopriv_edit_apprenticeship',  array($this, 'edit_apprenticeship'));
+		add_action('wp_ajax_edit_study', array($this, 'edit_study'));
+		add_action('wp_ajax_nopriv_edit_study',  array($this, 'edit_study'));
+		add_action('wp_ajax_edit_experience', array($this, 'edit_experience'));
+		add_action('wp_ajax_nopriv_edit_experience',  array($this, 'edit_experience'));
+		add_action('wp_ajax_edit_eq', array($this, 'edit_eq'));
+		add_action('wp_ajax_nopriv_edit_eq',  array($this, 'edit_eq'));
 	}
+
+	function edit_eq() {
+		// Überprüfen Sie, ob der Benutzer die Berechtigung hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob die erforderlichen Felder gesetzt sind
+		if (!isset($_POST['value']) || !isset($_POST['user_id'])) {
+			wp_send_json_error('Erforderliche Felder fehlen');
+		}
+	
+		global $wpdb;
+	
+		// Holen Sie sich die Werte aus dem POST
+		$value = sanitize_text_field($_POST['value']);
+		$user_id = intval($_POST['user_id']);
+	
+		// Überprüfen, ob es sich um eine neue EQ-Frage handelt oder eine vorhandene aktualisiert wird
+		$eq_id = isset($_POST['eq_id']) ? intval($_POST['eq_id']) : 0;
+		if ($eq_id > 0) {
+			// Aktualisieren Sie die vorhandene EQ-Frage
+			$wpdb->update(
+				$wpdb->prefix . 'te_eq',
+				array(
+					'value' => $value
+				),
+				array('ID' => $eq_id),
+				array('%s'),
+				array('%d')
+			);
+		} else {
+			// Fügen Sie eine neue EQ-Frage hinzu
+			$wpdb->insert(
+				$wpdb->prefix . 'te_eq',
+				array(
+					'user_id' => $user_id,
+					'value' => $value
+				),
+				array('%d', '%s')
+			);
+		}
+	
+		// Erfolgsantwort senden
+		wp_send_json_success('EQ-Frage erfolgreich aktualisiert/hinzugefügt');
+	}
+	
+	function edit_experience() {
+		// Überprüfen Sie, ob der Benutzer die Berechtigung hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob die erforderlichen Felder gesetzt sind
+		if (!isset($_POST['position']) || !isset($_POST['company']) || !isset($_POST['field']) || !isset($_POST['start_date']) || !isset($_POST['end_date']) || !isset($_POST['user_id'])) {
+			wp_send_json_error('Erforderliche Felder fehlen');
+		}
+	
+		global $wpdb;
+	
+		// Holen Sie sich die Werte aus dem POST und bereinigen Sie sie
+		$user_id = intval($_POST['user_id']);
+		$position = sanitize_text_field($_POST['position']);
+		$company = sanitize_text_field($_POST['company']);
+		$field = intval($_POST['field']);
+		$start_date = sanitize_text_field($_POST['start_date']);
+		$end_date = sanitize_text_field($_POST['end_date']);
+	
+		// Überprüfen, ob es sich um eine neue Berufserfahrung handelt oder eine vorhandene aktualisiert wird
+		$experience_id = isset($_POST['experience_id']) ? intval($_POST['experience_id']) : 0;
+		if ($experience_id > 0) {
+			// Aktualisieren Sie die vorhandene Berufserfahrung
+			$updated = $wpdb->update(
+				$wpdb->prefix . 'te_experiences',
+				array(
+					'position' => $position,
+					'company' => $company,
+					'field' => $field,
+					'start_date' => $start_date,
+					'end_date' => $end_date
+				),
+				array('ID' => $experience_id),
+				array('%s', '%s', '%s', '%s'),
+				array('%d')
+			);
+			if ($updated === false) {
+				wp_send_json_error('Fehler beim Aktualisieren der Berufserfahrung');
+			}
+		} else {
+			// Fügen Sie eine neue Berufserfahrung hinzu
+			$inserted = $wpdb->insert(
+				$wpdb->prefix . 'te_experiences',
+				array(
+					'user_id' => $user_id,
+					'field' => $field,
+					'position' => $position,
+					'company' => $company,
+					'start_date' => $start_date,
+					'end_date' => $end_date
+				),
+				array('%d', '%s', '%s', '%s', '%s')
+			);
+			if ($inserted === false) {
+				wp_send_json_error('Fehler beim Hinzufügen der Berufserfahrung');
+			}
+		}
+	
+		// Erfolgsantwort senden
+		wp_send_json_success('Berufserfahrung erfolgreich aktualisiert/hinzugefügt');
+	}
+	
+
+	function edit_study() {
+		// Überprüfen Sie, ob der Benutzer die Berechtigung hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob die erforderlichen Felder gesetzt sind
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['degree']) || !isset($_POST['user_id'])) {
+			wp_send_json_error('Erforderliche Felder fehlen');
+		}
+	
+		global $wpdb;
+	
+		// Holen Sie sich die Werte aus dem POST
+		$field = intval($_POST['field']);
+		$degree = intval($_POST['degree']);
+		$designation = sanitize_text_field($_POST['designation']);
+	
+		// Überprüfen, ob es sich um eine neue Ausbildung handelt oder eine vorhandene aktualisiert wird
+		$study_id = isset($_POST['study_id']) ? intval($_POST['study_id']) : 0;
+		if ($study_id > 0) {
+			// Aktualisieren Sie die vorhandene Ausbildung
+			$wpdb->update(
+				$wpdb->prefix . 'te_studies',
+				array(
+					'field' => $field,
+					'degree' => $degree,
+					'designation' => $designation
+				),
+				array('ID' => $study_id),
+				array('%d', '%d', '%s'),
+				array('%d')
+			);
+		} else {
+			$user_id = intval($_POST['user_id']);
+			// Fügen Sie eine neue Ausbildung hinzu
+			$wpdb->insert(
+				$wpdb->prefix . 'te_studies',
+				array(
+					'user_id' => $user_id,
+					'field' => $field,
+					'degree' => $degree,
+					'designation' => $designation
+				),
+				array('%d', '%d', '%d', '%s')
+			);
+		}
+	
+		// Erfolgsantwort senden
+		wp_send_json_success('Studium erfolgreich aktualisiert/hinzugefügt');
+	}
+
+	function edit_apprenticeship() {
+		// Überprüfen Sie, ob der Benutzer die Berechtigung hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob die erforderlichen Felder gesetzt sind
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['user_id'])) {
+			wp_send_json_error('Erforderliche Felder fehlen');
+		}
+	
+		global $wpdb;
+	
+		// Holen Sie sich die Werte aus dem POST
+		$field = intval($_POST['field']);
+		$designation = sanitize_text_field($_POST['designation']);
+	
+		// Überprüfen, ob es sich um eine neue Ausbildung handelt oder eine vorhandene aktualisiert wird
+		$apprenticeship_id = isset($_POST['apprenticeship_id']) ? intval($_POST['apprenticeship_id']) : 0;
+		if ($apprenticeship_id > 0) {
+			// Aktualisieren Sie die vorhandene Ausbildung
+			$wpdb->update(
+				$wpdb->prefix . 'te_apprenticeship',
+				array(
+					'field' => $field,
+					'designation' => $designation
+				),
+				array('ID' => $apprenticeship_id),
+				array('%d', '%s'),
+				array('%d')
+			);
+		} else {
+			$user_id = intval($_POST['user_id']);
+			// Fügen Sie eine neue Ausbildung hinzu
+			$wpdb->insert(
+				$wpdb->prefix . 'te_apprenticeship',
+				array(
+					'user_id' => $user_id,
+					'field' => $field,
+					'designation' => $designation
+				),
+				array('%d', '%d', '%s')
+			);
+		}
+	
+		// Erfolgsantwort senden
+		wp_send_json_success('Ausbildung erfolgreich aktualisiert/hinzugefügt');
+	}
+	
+
+	function add_school(){
+		if(!current_user_can('dienstleister')){
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob die erforderlichen Daten übergeben wurden
+		if(isset($_POST['degree']) && isset($_POST['user_id'])) {
+			global $wpdb;
+			
+			// Daten vorbereiten
+			$user_id = intval($_POST['user_id']);
+			$degree = intval($_POST['degree']);
+	
+			// Überprüfen, ob eine school_id übergeben wurde
+			if(isset($_POST['school_id'])) {
+				// Wenn eine school_id übergeben wurde, aktualisieren Sie den vorhandenen Eintrag
+				$school_id = intval($_POST['school_id']);
+				$wpdb->update(
+					$wpdb->prefix . 'te_school',
+					array('degree' => $degree),
+					array('ID' => $school_id),
+					array('%d'),
+					array('%d')
+				);
+				wp_send_json_success('Schulabschluss erfolgreich aktualisiert');
+			} else {
+				// Wenn keine school_id übergeben wurde, fügen Sie einen neuen Eintrag hinzu
+				$wpdb->insert(
+					$wpdb->prefix . 'te_school',
+					array(
+						'user_id' => $user_id,
+						'degree' => $degree
+					),
+					array('%d', '%d')
+				);
+				wp_send_json_success('Neuer Schulabschluss erfolgreich hinzugefügt');
+			}
+		} else {
+			// Wenn nicht alle erforderlichen Daten übergeben wurden, senden Sie eine Fehlermeldung zurück
+			wp_send_json_error('Nicht alle erforderlichen Daten übergeben');
+		}
+	
+		wp_die();
+	}
+	
 
 	function save_talent_details(){
 		if(!current_user_can('dienstleister')){

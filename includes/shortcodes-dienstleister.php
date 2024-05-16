@@ -25,6 +25,11 @@
                 if ($talent) {
                     // Abfrage, um den Chatverlauf abzurufen
                     $messages = list_messages_by_thread($talent->oai_test_id);
+                    $school = get_school_by_talent_id($talent->ID);
+                    $apprenticeships = get_apprenticeships_by_talent_id($talent->ID);
+                    $studies = get_studies_by_talent_id($talent->ID);
+                    $experiences = get_experiences_by_talent_id($talent->ID);
+                    $eq = get_eq_by_talent_id($talent->ID);
                     ob_start(); // Puffer starten
                     include_once('templates/talents-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                     return ob_get_clean(); 

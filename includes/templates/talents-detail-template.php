@@ -40,6 +40,11 @@
                 </div>
             </div>
         </form>
+        <?php include 'talents/school.php'; ?>
+        <?php include 'talents/apprenticeship.php'; ?>
+        <?php include 'talents/studies.php'; ?>
+        <?php include 'talents/experience.php'; ?>
+        <?php include 'talents/eq.php'; ?>
         <h2>Chatverlauf</h2>
         <div class="message-container">
             <?php if (!empty($messages)) : ?>

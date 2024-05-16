@@ -172,6 +172,82 @@ function get_questions_by_test_id($test_id){
         return $wpdb->get_results( $query );
 }
 
+function get_apprenticeships_by_talent_id($talent_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_apprenticeship
+        WHERE user_id = {$talent_id}
+    ");
+
+    // Jobdetails abrufen
+    return $wpdb->get_results( $query );
+}
+
+function get_eq_by_talent_id($talent_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_eq
+        WHERE user_id = {$talent_id}
+    ");
+
+    // Jobdetails abrufen
+    $eq = $wpdb->get_results( $query );
+
+    // Überprüfen, ob Jobdetails vorhanden sind
+    return ! empty( $eq ) ? $eq[0] : null;
+}
+
+function get_experiences_by_talent_id($talent_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_experiences
+        WHERE user_id = {$talent_id}
+    ");
+
+    // Jobdetails abrufen
+    return $wpdb->get_results( $query );
+}
+
+function get_studies_by_talent_id($talent_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_studies
+        WHERE user_id = {$talent_id}
+    ");
+
+    // Jobdetails abrufen
+    return $wpdb->get_results( $query );
+}
+
+function get_school_by_talent_id($talent_id){
+    global $wpdb;
+
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_school
+        WHERE user_id = {$talent_id}
+    ");
+
+    // Jobdetails abrufen
+    $school = $wpdb->get_results( $query );
+
+    // Überprüfen, ob Jobdetails vorhanden sind
+    return ! empty( $school ) ? $school[0] : null;
+}
+
 function get_application_by_id( $application_id ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();

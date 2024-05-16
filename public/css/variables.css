@@ -2,22 +2,22 @@
 
 /* Primärfarbe */
 :root {
-    --primary: #b7cdda; /* Ihre benutzerdefinierte Primärfarbe */
+    --primary: #A7A8CD; /* Ihre benutzerdefinierte Primärfarbe */
 }
   
 /* Sekundärfarbe */
 :root {
-    --secondary: #ada69c; /* Ihre benutzerdefinierte Sekundärfarbe */
+    --secondary: #D19D9F; /* Ihre benutzerdefinierte Sekundärfarbe */
 }
   
 /* Hintergrundfarbe */
 :root {
-    --bg-color: #d0e4e5; /* Ihre benutzerdefinierte Hintergrundfarbe */
+    --bg-color: #FFDFDF; /* Ihre benutzerdefinierte Hintergrundfarbe */
 }
   
 /* Textfarbe */
 :root {
-    --text-color: #525252; /* Ihre benutzerdefinierte Textfarbe */
+    --text-color: #454555; /* Ihre benutzerdefinierte Textfarbe */
 }
 
 /* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
