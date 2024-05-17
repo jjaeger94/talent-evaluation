@@ -14,13 +14,13 @@
             <div class="row">
                 <?php if ($eq) : ?>
                     <div class="col-md-12 mb-3">
-                        <h5 class="card-title">Warum meinst du du bist besonders Emotional intelligent?</h5>
+                        <p class="card-title"><strong>Warum meinst du du bist besonders Emotional intelligent?</strong></p>
                         <p class="card-text"><?php echo $eq->value; ?></p>
                         <button class="btn btn-primary edit-eq" data-id="<?php echo $eq->ID; ?>" data-value="<?php echo $eq->value; ?>">Bearbeiten</button>
                     </div>
                 <?php else : ?>
                     <div class="col-md-12 mb-3">
-                        <h5 class="card-title">Warum meinst du du bist besonders Emotional intelligent?</h5>
+                        <p class="card-title"><strong>Warum meinst du du bist besonders Emotional intelligent?</strong></p>
                     </div>
                     <button type="button" class="btn btn-primary" id="addEqBtnOpen">Antwort hinzufügen</button>
                 <?php endif; ?>
