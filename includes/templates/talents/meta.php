@@ -35,9 +35,9 @@ jQuery(document).ready(function($) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);
                 // Seite neu laden, um die aktualisierten Daten anzuzeigen
-                if(response.success){
-                    location.reload();
-                }
+                // if(response.success){
+                //     location.reload();
+                // }
             },
             error: function(xhr, status, error) {
                 // Fehlerbehandlung
