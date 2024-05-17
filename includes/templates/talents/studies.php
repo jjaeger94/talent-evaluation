@@ -62,6 +62,10 @@ function get_study_degree($degree) {
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php else: ?>
+            <div class="col">
+                <p>Hier kannst du Studienabschlüsse hinzufügen</p>
+            </div>
             <?php endif; ?>
             <button type="button" class="btn btn-primary" id="addStudyBtnOpen" >Studium hinzufügen</button>
         </div>
@@ -112,7 +116,7 @@ function get_study_degree($degree) {
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="study_current_job" name="current_job">
-                            <label class="form-check-label" for="current_job">Aktiver Job</label>
+                            <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="addStudyBtnClose">Schließen</button>

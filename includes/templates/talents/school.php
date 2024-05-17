@@ -28,6 +28,10 @@ function get_degree_text($degree) {
             <div class="col">
                 <p><strong>Schulabschluss:</strong> <?php echo get_degree_text($school->degree); ?></p>
             </div>
+        <?php else: ?>
+            <div class="col">
+                <p>Wähle bitte deinen Schulabschluss aus</p>
+            </div>
         <?php endif;?>
             <!-- Wenn keine Schuldaten vorhanden sind, zeige Button zum Hinzufügen -->
             <div class="col">

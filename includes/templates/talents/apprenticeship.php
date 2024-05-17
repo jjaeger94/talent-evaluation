@@ -37,6 +37,10 @@ function get_apprenticeship_field($field) {
                         </div>
                     </div>
                 <?php endforeach; ?>
+            <?php else: ?>
+            <div class="col">
+                <p>Hier kannst du deine Ausbildungen hinzufügen</p>
+            </div>
             <?php endif; ?>
             <button type="button" class="btn btn-primary" id="addApprenticeshipBtnOpen" >Ausbildung hinzufügen</button>
         </div>
@@ -78,7 +82,7 @@ function get_apprenticeship_field($field) {
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="app_current_job" name="current_job">
-                            <label class="form-check-label" for="current_job">Aktiver Job</label>
+                            <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="addApprenticeshipBtnClose">Schließen</button>
