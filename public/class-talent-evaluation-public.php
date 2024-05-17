@@ -174,12 +174,12 @@ class Talent_Evaluation_Public {
             $response_data = json_decode($response, true);
 			$response_message = $response_data['message'];
 			$new_member = $response_data['member'];
-			if ($new_member->member_id > 0) {
+			if (isset($new_member['member_id']) && $new_member['member_id'] > 0) {
 				// Aktualisieren Sie die vorhandene EQ-Frage
 				$wpdb->update(
 					$wpdb->prefix . 'te_talents',
 					array(
-						'member_id' => $new_member->member_id
+						'member_id' => $new_member['member_id']
 					),
 					array('ID' => $talent_id),
 					array('%d'),
