@@ -186,7 +186,7 @@ class Talent_Evaluation_Public {
 					array('%d')
 				);
 			}else{
-				wp_send_json_error( 'Keine member_id angelegt' );
+				wp_send_json_error($new_member);
 			}
             wp_send_json_success($response_message); // Nachrichten aus der Antwort zurückgeben
         } else {
