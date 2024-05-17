@@ -7,8 +7,17 @@
             <div class="col">
             <p><strong>Bearbeitet:</strong> <?php echo date('d.m.Y', strtotime($talent->edited)); ?></p>
             </div>
+        </div>
+        <div class="row">
             <div class="col">
             <p><strong>Ref:</strong> <?php echo $talent->ref; ?></p>
+            </div>
+            <div class="col">
+            <?php if ($talent->member_id) : ?>
+                <p><strong>member_id:</strong> <?php echo $talent->member_id; ?></p>
+            <?php else: ?>
+                <button class="btn btn-primary">jetzt nutzer anlegen</button>
+            <?php endif; ?>
             </div>
         </div>
     </div>
