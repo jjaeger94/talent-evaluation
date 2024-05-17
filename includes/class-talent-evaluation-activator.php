@@ -302,6 +302,7 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$talents}'") != $talents) {
                 $sql = "CREATE TABLE  $talents(
 					ID INT NOT  NULL AUTO_INCREMENT ,
+                    wp_user_id INT,
 					added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					edited TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					prename VARCHAR(255) NOT NULL ,
