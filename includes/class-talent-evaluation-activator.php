@@ -334,6 +334,8 @@ class Talent_Evaluation_Activator
 					user_id INT,
 					field INT,
 					designation VARCHAR(255),
+                    start_date DATE,
+                    end_date DATE,
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 					FOREIGN KEY (user_id) REFERENCES $talents(ID)
@@ -347,6 +349,8 @@ class Talent_Evaluation_Activator
 					user_id INT,
 					field INT,
 					degree INT,
+                    start_date DATE,
+                    end_date DATE,
 					designation VARCHAR(255),
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

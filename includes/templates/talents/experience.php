@@ -39,7 +39,7 @@ function get_experience_field($field) {
                                     <p class="card-text"><?php echo $experience->company; ?></p>
                                     <?php $object = $experience;?>
                                     <?php include 'blocks/render-date.php'; ?>
-                                    <a href="#" class="btn btn-primary edit-experience" data-id="<?php echo $experience->ID; ?>" data-field="<?php echo $experience->field; ?>" data-position="<?php echo $experience->position; ?>" data-company="<?php echo $experience->company; ?>" data-start-date="<?php echo $experience->start_date; ?>" data-end-date="<?php echo $experience->end_date; ?>">Bearbeiten</a>
+                                    <button class="btn btn-primary edit-experience" data-id="<?php echo $experience->ID; ?>" data-field="<?php echo $experience->field; ?>" data-position="<?php echo $experience->position; ?>" data-company="<?php echo $experience->company; ?>" data-start-date="<?php echo $experience->start_date; ?>" data-end-date="<?php echo $experience->end_date; ?>">Bearbeiten</button>
                                 </div>
                             </div>
                         </div>

@@ -57,7 +57,7 @@ function get_study_degree($degree) {
                                 <p class="card-text"> <?php echo $study->designation; ?></p>
                                 <?php $object = $study;?>
                                 <?php include 'blocks/render-date.php'; ?>
-                                <a href="#" class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</a>
+                                <button class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</button>
                             </div>
                         </div>
                     </div>
