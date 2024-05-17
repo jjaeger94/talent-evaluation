@@ -106,6 +106,105 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_edit_experience',  array($this, 'edit_experience'));
 		add_action('wp_ajax_edit_eq', array($this, 'edit_eq'));
 		add_action('wp_ajax_nopriv_edit_eq',  array($this, 'edit_eq'));
+		add_action('wp_ajax_delete_study', array($this, 'delete_study'));
+		add_action('wp_ajax_nopriv_delete_study',  array($this, 'delete_study'));
+		add_action('wp_ajax_delete_apprenticeship', array($this, 'delete_apprenticeship'));
+		add_action('wp_ajax_nopriv_delete_apprenticeship',  array($this, 'delete_apprenticeship'));
+		add_action('wp_ajax_delete_experience', array($this, 'delete_experience'));
+		add_action('wp_ajax_nopriv_delete_experience',  array($this, 'delete_experience'));
+	}
+
+	function delete_experience(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (isset($_POST['experience_id'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$experience_id = absint($_POST['experience_id']);
+	
+			// Überprüfe, ob die Frage existiert
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_experiences WHERE ID = %d", $experience_id));
+	
+			if ($data) {
+				// Lösche die Frage aus der Datenbank
+				$wpdb->delete(
+					$wpdb->prefix . 'te_experiences',
+					array('ID' => $experience_id),
+					array('%d')
+				);
+	
+				wp_send_json_success('Eintrag erfolgreich gelöscht');
+			} else {
+				wp_send_json_error('Eintrag nicht gefunden');
+			}
+		} else {
+			wp_send_json_error('Keine ID');
+		}
+		wp_die();
+	}
+
+	function delete_apprenticeship(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (isset($_POST['apprenticeship_id'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$apprenticeship_id = absint($_POST['apprenticeship_id']);
+	
+			// Überprüfe, ob die Frage existiert
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_apprenticeship WHERE ID = %d", $apprenticeship_id));
+	
+			if ($data) {
+				// Lösche die Frage aus der Datenbank
+				$wpdb->delete(
+					$wpdb->prefix . 'te_apprenticeship',
+					array('ID' => $apprenticeship_id),
+					array('%d')
+				);
+	
+				wp_send_json_success('Eintrag erfolgreich gelöscht');
+			} else {
+				wp_send_json_error('Eintrag nicht gefunden');
+			}
+		} else {
+			wp_send_json_error('Keine ID');
+		}
+		wp_die();
+	}
+
+	function delete_study(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (isset($_POST['study_id'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$study_id = absint($_POST['study_id']);
+	
+			// Überprüfe, ob die Frage existiert
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_studies WHERE ID = %d", $study_id));
+	
+			if ($data) {
+				// Lösche die Frage aus der Datenbank
+				$wpdb->delete(
+					$wpdb->prefix . 'te_studies',
+					array('ID' => $study_id),
+					array('%d')
+				);
+	
+				wp_send_json_success('Eintrag erfolgreich gelöscht');
+			} else {
+				wp_send_json_error('Eintrag nicht gefunden');
+			}
+		} else {
+			wp_send_json_error('Keine ID');
+		}
+		wp_die();
 	}
 
 	function edit_eq() {

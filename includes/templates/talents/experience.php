@@ -60,6 +60,7 @@ function get_experience_field($field) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editExperienceModalLabel">Berufserfahrung bearbeiten</h5>
+                    <button type="button" class="btn-close" id="addExperienceBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der Berufserfahrung -->
@@ -70,7 +71,7 @@ function get_experience_field($field) {
                             <label for="field">Bereich:</label>
                             <select class="form-control" id="exp_field" name="field" required>
                             <?php for ($i = 1; $i <= 9; $i++) : ?>
-                                <?php $selectedExperienceField = ($experience && $experience->field == $i) ? 'selected' : ''; ?>
+                                <?php $selectedExperienceField = (isset($experience) && $experience->field == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedExperienceField; ?>><?php echo get_experience_field($i); ?></option>
                             <?php endfor; ?>
                         </select>
@@ -95,8 +96,8 @@ function get_experience_field($field) {
                             <input type="checkbox" class="form-check-input" id="exp_current_job" name="current_job">
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="addExperienceBtnClose">Schließen</button>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" id="addExperienceBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
@@ -111,6 +112,7 @@ function get_experience_field($field) {
 <script>
     jQuery(document).ready(function($) {
         $('#addExperienceBtnOpen').click(()=>{
+            $('#addExperienceBtnDelete').hide();
             $('#editExperienceModal').modal('show');
         });
         $('#addExperienceBtnClose').click(()=>{
@@ -125,6 +127,32 @@ function get_experience_field($field) {
                 $('#exp_end_date').prop('disabled', false);
             }
         }).change();
+
+        $('#addExperienceBtnDelete').click(()=>{
+            let id = $('#experience_id').val();
+            if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                // AJAX-Anfrage senden
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    data: 'experience_id='+id+'&action=delete_experience',
+                    success: function(response) {
+                        // Erfolgreiche Verarbeitung
+                        console.log(response);
+                        // Hier können Sie je nach Bedarf weitere Aktionen ausführen
+                        // Z.B. Seite neu laden, um die aktualisierten Daten anzuzeigen
+                        if(response.success){
+                            location.reload();
+                        }
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        // Fehlerbehandlung
+                        console.error(error);
+                    }
+                });
+            }
+        });
            
         // Modales Fenster öffnen, um Berufserfahrung zu bearbeiten
         $('.edit-experience').click(function() {
@@ -141,6 +169,7 @@ function get_experience_field($field) {
                 $('#exp_current_job').prop('checked', false);
                 $('#exp_end_date').prop('disabled', false);
             }
+            $('#addExperienceBtnDelete').show();
             $('#editExperienceModal').modal('show');
         });
 

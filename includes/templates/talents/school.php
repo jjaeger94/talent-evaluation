@@ -47,6 +47,7 @@ function get_degree_text($degree) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addSchoolModalLabel">Schulabschluss hinzufügen/ändern</h5>
+                <button type="button" class="btn-close" id="addSchoolBtnClose" aria-label="Close"></button>
             </div>
             <form id="addSchoolForm">
                 <div class="modal-body">
@@ -67,7 +68,6 @@ function get_degree_text($degree) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="addSchoolBtnClose">Schließen</button>
                     <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                 </div>
             </form>

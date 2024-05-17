@@ -53,6 +53,7 @@ function get_apprenticeship_field($field) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editApprenticeshipModalLabel">Ausbildung bearbeiten</h5>
+                    <button type="button" class="btn-close" id="addApprenticeshipBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der Ausbildung -->
@@ -63,7 +64,7 @@ function get_apprenticeship_field($field) {
                             <label for="field">Ausbildungsfeld:</label>
                             <select class="form-control" id="app_field" name="field" required>
                             <?php for ($i = 1; $i <= 6; $i++) : ?>
-                                <?php $selectedApprenticeshipField = ($apprenticeship && $apprenticeship->field == $i) ? 'selected' : ''; ?>
+                                <?php $selectedApprenticeshipField = (isset($apprenticeship) && $apprenticeship->field == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedApprenticeshipField; ?>><?php echo get_apprenticeship_field($i); ?></option>
                             <?php endfor; ?>
                         </select>
@@ -84,8 +85,8 @@ function get_apprenticeship_field($field) {
                             <input type="checkbox" class="form-check-input" id="app_current_job" name="current_job">
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="addApprenticeshipBtnClose">Schließen</button>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" id="editApprenticeshipBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
@@ -100,6 +101,7 @@ function get_apprenticeship_field($field) {
 <script>
     jQuery(document).ready(function($) {
         $('#addApprenticeshipBtnOpen').click(()=>{
+            $('#editApprenticeshipBtnDelete').hide();
             $('#editApprenticeshipModal').modal('show');
         });
         $('#addApprenticeshipBtnClose').click(()=>{
@@ -114,6 +116,32 @@ function get_apprenticeship_field($field) {
                 $('#app_end_date').prop('disabled', false);
             }
         }).change();
+
+        $('#editApprenticeshipBtnDelete').click(()=>{
+            let id = $('#apprenticeship_id').val();
+            if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                // AJAX-Anfrage senden
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    data: 'apprenticeship_id='+id+'&action=delete_apprenticeship',
+                    success: function(response) {
+                        // Erfolgreiche Verarbeitung
+                        console.log(response);
+                        // Hier können Sie je nach Bedarf weitere Aktionen ausführen
+                        // Z.B. Seite neu laden, um die aktualisierten Daten anzuzeigen
+                        if(response.success){
+                            location.reload();
+                        }
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        // Fehlerbehandlung
+                        console.error(error);
+                    }
+                });
+            }
+        });
            
         // Modales Fenster öffnen, um eine Ausbildung zu bearbeiten
         $('.edit-apprenticeship').click(function() {
@@ -129,6 +157,7 @@ function get_apprenticeship_field($field) {
                 $('#app_current_job').prop('checked', false);
                 $('#app_end_date').prop('disabled', false);
             }
+            $('#editApprenticeshipBtnDelete').show();
             $('#editApprenticeshipModal').modal('show');
 
         });

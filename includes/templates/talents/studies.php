@@ -78,6 +78,7 @@ function get_study_degree($degree) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editStudyModalLabel">Studium bearbeiten</h5>
+                    <button type="button" class="btn-close" id="addStudyBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten des Studiums -->
@@ -88,7 +89,7 @@ function get_study_degree($degree) {
                             <label for="field">Studienfeld:</label>
                             <select class="form-control" id="study_field" name="field" required>
                             <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                <?php $selectedStudyField = ($study && $study->field == $i) ? 'selected' : ''; ?>
+                                <?php $selectedStudyField = (isset($study) && $study->field == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedStudyField; ?>><?php echo get_study_field($i); ?></option>
                             <?php endfor; ?>
                         </select>
@@ -97,7 +98,7 @@ function get_study_degree($degree) {
                             <label for="degree">Abschluss:</label>
                             <select class="form-control" id="study_degree" name="degree" required>
                             <?php for ($i = 1; $i <= 5; $i++) : ?>
-                                <?php $selectedStudyDegree = ($study && $study->degree == $i) ? 'selected' : ''; ?>
+                                <?php $selectedStudyDegree = (isset($study) && $study->degree == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedStudyDegree; ?>><?php echo get_study_degree($i); ?></option>
                             <?php endfor; ?>
                         </select>
@@ -118,8 +119,8 @@ function get_study_degree($degree) {
                             <input type="checkbox" class="form-check-input" id="study_current_job" name="current_job">
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="addStudyBtnClose">Schließen</button>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" id="editStudyBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
@@ -134,6 +135,7 @@ function get_study_degree($degree) {
 <script>
     jQuery(document).ready(function($) {
         $('#addStudyBtnOpen').click(()=>{
+            $('#editStudyBtnDelete').hide();
             $('#editStudyModal').modal('show');
         });
         $('#addStudyBtnClose').click(()=>{
@@ -164,8 +166,35 @@ function get_study_degree($degree) {
                 $('#study_current_job').prop('checked', false);
                 $('#study_end_date').prop('disabled', false);
             }
+            $('#editStudyBtnDelete').show();
             $('#editStudyModal').modal('show');
 
+        });
+
+        $('#editStudyBtnDelete').click(()=>{
+            let id = $('#study_id').val();
+            if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                // AJAX-Anfrage senden
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    data: 'study_id='+id+'&action=delete_study',
+                    success: function(response) {
+                        // Erfolgreiche Verarbeitung
+                        console.log(response);
+                        // Hier können Sie je nach Bedarf weitere Aktionen ausführen
+                        // Z.B. Seite neu laden, um die aktualisierten Daten anzuzeigen
+                        if(response.success){
+                            location.reload();
+                        }
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        // Fehlerbehandlung
+                        console.error(error);
+                    }
+                });
+            }
         });
 
         // AJAX-Anfrage zum Speichern eines bearbeiteten Studiums

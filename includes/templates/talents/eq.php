@@ -34,6 +34,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editEqModalLabel">Warum meinst du du bist besonders Emotional intelligent?</h5>
+                    <button type="button" class="btn-close" id="addEqBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der EQ-Frage -->
@@ -45,7 +46,6 @@
                             <textarea class="form-control" id="eq_value" name="value" rows="3" required></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="addEqBtnClose">Schließen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
