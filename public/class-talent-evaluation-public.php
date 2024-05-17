@@ -112,6 +112,73 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_delete_apprenticeship',  array($this, 'delete_apprenticeship'));
 		add_action('wp_ajax_delete_experience', array($this, 'delete_experience'));
 		add_action('wp_ajax_nopriv_delete_experience',  array($this, 'delete_experience'));
+		add_action('wp_ajax_create_user', array($this, 'create_user'));
+		add_action('wp_ajax_nopriv_create_user',  array($this, 'create_user'));
+	}
+
+	function create_user(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		$talent = get_talent_by_id($talent_id);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
+		if($talent->member_id){
+			wp_send_json_error('member_id schon vorhanden');
+		}
+		if (!$talent->prename || !$talent->surname || !$talent->email) {
+			//one of the mandatory fields missing
+			wp_send_json_error('Missing one of the mandatory fields: first_name, last_name, email');
+		}
+		$settings = SwpmSettings::get_instance();
+		$api_key = $settings->get_value('swpm-addon-api-key');
+		if(!$api_key){
+			wp_send_json_error('Missing api key');
+		}
+		$post_arr = array(
+			'swpm_api_action' => 'create',
+			'key' => $api_key,
+			'first_name' => $talent->prename,
+			'last_name' => $talent->surname ,
+			'email' => $talent->email,
+			'membership_level' => '5',
+		);
+
+		// cURL-Optionen setzen
+        $options = array(
+            CURLOPT_URL => home_url(),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $post_arr,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 30,
+        );
+    
+        // cURL-Anfrage ausführen
+        $curl = curl_init();
+        curl_setopt_array($curl, $options);
+        $response = curl_exec($curl);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+    
+        // Überprüfen Sie den Status der cURL-Anfrage
+        if ($http_status == 200) {
+            // Erfolgreich ausgeführt
+            // JSON-Daten aus der Antwort extrahieren
+            $response_data = json_decode($response, true);
+            wp_send_json_success($response_data); // Nachrichten aus der Antwort zurückgeben
+        } else {
+            // Fehler beim Abrufen der Nachrichten
+            wp_send_json_error( 'unerwarteter Fehler' );
+        }
+
+		wp_die();
 	}
 
 	function delete_experience(){
