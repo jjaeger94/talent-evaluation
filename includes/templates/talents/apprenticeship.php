@@ -30,7 +30,9 @@ function get_apprenticeship_field($field) {
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $apprenticeship->designation; ?></h5>
                                 <p class="card-text"><?php echo get_apprenticeship_field($apprenticeship->field); ?></p>
-                                <a href="#" class="btn btn-primary edit-apprenticeship" data-id="<?php echo $apprenticeship->ID; ?>" data-designation="<?php echo $apprenticeship->designation; ?>" data-field="<?php echo $apprenticeship->field; ?>">Bearbeiten</a>
+                                <?php $object = $apprenticeship;?>
+                                <?php include 'blocks/render-date.php'; ?>
+                                <a href="#" class="btn btn-primary edit-apprenticeship" data-id="<?php echo $apprenticeship->ID; ?>" data-designation="<?php echo $apprenticeship->designation; ?>" data-field="<?php echo $apprenticeship->field; ?>" data-start-date="<?php echo $apprenticeship->start_date; ?>" data-end-date="<?php echo $apprenticeship->end_date; ?>">Bearbeiten</a>
                             </div>
                         </div>
                     </div>
@@ -66,6 +68,18 @@ function get_apprenticeship_field($field) {
                             <label for="designation">Bezeichnung:</label>
                             <input type="text" class="form-control" id="app_designation" name="designation" required>
                         </div>
+                        <div class="form-group">
+                            <label for="start_date">Startdatum:</label>
+                            <input type="date" class="form-control" id="app_start_date" name="start_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">Enddatum:</label>
+                            <input type="date" class="form-control" id="app_end_date" name="end_date">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="app_current_job" name="current_job">
+                            <label class="form-check-label" for="current_job">Aktiver Job</label>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="addApprenticeshipBtnClose">Schließen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
@@ -88,12 +102,29 @@ function get_apprenticeship_field($field) {
             $('#apprenticeship_id').val(0);
             $('#editApprenticeshipModal').modal('hide');
         });
+
+        $('#app_current_job').change(function() {
+            if ($(this).is(':checked')) {
+                $('#app_end_date').prop('disabled', true).val('');
+            } else {
+                $('#app_end_date').prop('disabled', false);
+            }
+        }).change();
            
         // Modales Fenster öffnen, um eine Ausbildung zu bearbeiten
         $('.edit-apprenticeship').click(function() {
             $('#apprenticeship_id').val($(this).data('id'));
             $('#app_field').val($(this).data('field'));
             $('#app_designation').val($(this).data('designation'));
+            $('#app_start_date').val($(this).data('start-date'));
+            $('#app_end_date').val($(this).data('end-date'));
+            if ($('#app_end_date').val() == '9999-12-31') {
+                $('#app_current_job').prop('checked', true);
+                $('#app_end_date').prop('disabled', true).val('');
+            } else {
+                $('#app_current_job').prop('checked', false);
+                $('#app_end_date').prop('disabled', false);
+            }
             $('#editApprenticeshipModal').modal('show');
 
         });

@@ -22,8 +22,6 @@ function get_degree_text($degree) {
     <div class="card-body">
         <div class="row">
         <div class="col-md-12 mb-3">
-                        <div class="card">
-                        <div class="card-body">
         <!-- Schulische Ausbildung anzeigen -->
         <?php if ($school): ?>
             <!-- Wenn Schuldaten vorhanden sind, zeige sie an -->
@@ -35,8 +33,6 @@ function get_degree_text($degree) {
             <div class="col">
                 <button type="button" class="btn btn-primary" id="addSchoolBtnOpen" >Schulabschluss auswählen</button>
             </div>
-        </div>
-        </div>
         </div>
         </div>
     </div>

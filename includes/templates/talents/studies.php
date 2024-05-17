@@ -55,7 +55,9 @@ function get_study_degree($degree) {
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo get_study_degree($study->degree); ?></h5>
                                 <p class="card-text"> <?php echo $study->designation; ?></p>
-                                <a href="#" class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>">Bearbeiten</a>
+                                <?php $object = $study;?>
+                                <?php include 'blocks/render-date.php'; ?>
+                                <a href="#" class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</a>
                             </div>
                         </div>
                     </div>
@@ -100,6 +102,18 @@ function get_study_degree($degree) {
                             <label for="designation">Bezeichnung:</label>
                             <input type="text" class="form-control" id="study_designation" name="designation" required>
                         </div>
+                        <div class="form-group">
+                            <label for="start_date">Startdatum:</label>
+                            <input type="date" class="form-control" id="study_start_date" name="start_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">Enddatum:</label>
+                            <input type="date" class="form-control" id="study_end_date" name="end_date">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="study_current_job" name="current_job">
+                            <label class="form-check-label" for="current_job">Aktiver Job</label>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="addStudyBtnClose">Schließen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
@@ -122,6 +136,14 @@ function get_study_degree($degree) {
             $('#study_id').val(0);
             $('#editStudyModal').modal('hide');
         });
+
+        $('#study_current_job').change(function() {
+            if ($(this).is(':checked')) {
+                $('#study_end_date').prop('disabled', true).val('');
+            } else {
+                $('#study_end_date').prop('disabled', false);
+            }
+        }).change();
            
         // Modales Fenster öffnen, um ein Studium zu bearbeiten
         $('.edit-study').click(function() {
@@ -129,6 +151,15 @@ function get_study_degree($degree) {
             $('#study_field').val($(this).data('field'));
             $('#study_designation').val($(this).data('designation'));
             $('#study_degree').val($(this).data('degree'));
+            $('#study_start_date').val($(this).data('start-date'));
+            $('#study_end_date').val($(this).data('end-date'));
+            if ($('#study_end_date').val() == '9999-12-31') {
+                $('#study_current_job').prop('checked', true);
+                $('#study_end_date').prop('disabled', true).val('');
+            } else {
+                $('#study_current_job').prop('checked', false);
+                $('#study_end_date').prop('disabled', false);
+            }
             $('#editStudyModal').modal('show');
 
         });

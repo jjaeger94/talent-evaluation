@@ -161,7 +161,7 @@ class Talent_Evaluation_Public {
 		}
 	
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['position']) || !isset($_POST['company']) || !isset($_POST['field']) || !isset($_POST['start_date']) || !isset($_POST['end_date']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['position']) || !isset($_POST['company']) || !isset($_POST['field']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 	
@@ -173,7 +173,7 @@ class Talent_Evaluation_Public {
 		$company = sanitize_text_field($_POST['company']);
 		$field = intval($_POST['field']);
 		$start_date = sanitize_text_field($_POST['start_date']);
-		$end_date = sanitize_text_field($_POST['end_date']);
+		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
 		// Überprüfen, ob es sich um eine neue Berufserfahrung handelt oder eine vorhandene aktualisiert wird
 		$experience_id = isset($_POST['experience_id']) ? intval($_POST['experience_id']) : 0;
@@ -226,7 +226,7 @@ class Talent_Evaluation_Public {
 		}
 	
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['degree']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['degree']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 	
@@ -236,6 +236,8 @@ class Talent_Evaluation_Public {
 		$field = intval($_POST['field']);
 		$degree = intval($_POST['degree']);
 		$designation = sanitize_text_field($_POST['designation']);
+		$start_date = sanitize_text_field($_POST['start_date']);
+		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
 		// Überprüfen, ob es sich um eine neue Ausbildung handelt oder eine vorhandene aktualisiert wird
 		$study_id = isset($_POST['study_id']) ? intval($_POST['study_id']) : 0;
@@ -246,10 +248,12 @@ class Talent_Evaluation_Public {
 				array(
 					'field' => $field,
 					'degree' => $degree,
-					'designation' => $designation
+					'designation' => $designation,
+					'start_date' => $start_date,
+					'end_date' => $end_date,
 				),
 				array('ID' => $study_id),
-				array('%d', '%d', '%s'),
+				array('%d', '%d', '%s', '%s', '%s'),
 				array('%d')
 			);
 		} else {
@@ -261,9 +265,11 @@ class Talent_Evaluation_Public {
 					'user_id' => $user_id,
 					'field' => $field,
 					'degree' => $degree,
-					'designation' => $designation
+					'designation' => $designation,
+					'start_date' => $start_date,
+					'end_date' => $end_date,
 				),
-				array('%d', '%d', '%d', '%s')
+				array('%d', '%d', '%d', '%s', '%s', '%s')
 			);
 		}
 	
@@ -278,7 +284,7 @@ class Talent_Evaluation_Public {
 		}
 	
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 	
@@ -287,6 +293,8 @@ class Talent_Evaluation_Public {
 		// Holen Sie sich die Werte aus dem POST
 		$field = intval($_POST['field']);
 		$designation = sanitize_text_field($_POST['designation']);
+		$start_date = sanitize_text_field($_POST['start_date']);
+		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
 		// Überprüfen, ob es sich um eine neue Ausbildung handelt oder eine vorhandene aktualisiert wird
 		$apprenticeship_id = isset($_POST['apprenticeship_id']) ? intval($_POST['apprenticeship_id']) : 0;
@@ -296,10 +304,12 @@ class Talent_Evaluation_Public {
 				$wpdb->prefix . 'te_apprenticeship',
 				array(
 					'field' => $field,
-					'designation' => $designation
+					'designation' => $designation,
+					'start_date' => $start_date,
+					'end_date' => $end_date,
 				),
 				array('ID' => $apprenticeship_id),
-				array('%d', '%s'),
+				array('%d', '%s', '%s', '%s'),
 				array('%d')
 			);
 		} else {
@@ -310,9 +320,11 @@ class Talent_Evaluation_Public {
 				array(
 					'user_id' => $user_id,
 					'field' => $field,
-					'designation' => $designation
+					'designation' => $designation,
+					'start_date' => $start_date,
+					'end_date' => $end_date,
 				),
-				array('%d', '%d', '%s')
+				array('%d', '%d', '%s', '%s', '%s')
 			);
 		}
 	

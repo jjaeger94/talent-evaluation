@@ -37,14 +37,8 @@ function get_experience_field($field) {
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $experience->position; ?></h5>
                                     <p class="card-text"><?php echo $experience->company; ?></p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="card-text"><?php echo $experience->start_date; ?></p>
-                                        </div>
-                                        <div class="col">
-                                            <p class="card-text"><?php echo $experience->end_date; ?></p>
-                                        </div>
-                                    </div>
+                                    <?php $object = $experience;?>
+                                    <?php include 'blocks/render-date.php'; ?>
                                     <a href="#" class="btn btn-primary edit-experience" data-id="<?php echo $experience->ID; ?>" data-field="<?php echo $experience->field; ?>" data-position="<?php echo $experience->position; ?>" data-company="<?php echo $experience->company; ?>" data-start-date="<?php echo $experience->start_date; ?>" data-end-date="<?php echo $experience->end_date; ?>">Bearbeiten</a>
                                 </div>
                             </div>
@@ -93,6 +87,10 @@ function get_experience_field($field) {
                             <label for="end_date">Enddatum:</label>
                             <input type="date" class="form-control" id="exp_end_date" name="end_date">
                         </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exp_current_job" name="current_job">
+                            <label class="form-check-label" for="current_job">Aktiver Job</label>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="addExperienceBtnClose">Schließen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
@@ -115,6 +113,14 @@ function get_experience_field($field) {
             $('#experience_id').val(0);
             $('#editExperienceModal').modal('hide');
         });
+
+        $('#exp_current_job').change(function() {
+            if ($(this).is(':checked')) {
+                $('#exp_end_date').prop('disabled', true).val('');
+            } else {
+                $('#exp_end_date').prop('disabled', false);
+            }
+        }).change();
            
         // Modales Fenster öffnen, um Berufserfahrung zu bearbeiten
         $('.edit-experience').click(function() {
@@ -124,6 +130,13 @@ function get_experience_field($field) {
             $('#exp_field').val($(this).data('field'));
             $('#exp_start_date').val($(this).data('start-date'));
             $('#exp_end_date').val($(this).data('end-date'));
+            if ($('#exp_end_date').val() == '9999-12-31') {
+                $('#exp_current_job').prop('checked', true);
+                $('#exp_end_date').prop('disabled', true).val('');
+            } else {
+                $('#exp_current_job').prop('checked', false);
+                $('#exp_end_date').prop('disabled', false);
+            }
             $('#editExperienceModal').modal('show');
         });
 
