@@ -172,7 +172,23 @@ class Talent_Evaluation_Public {
             // Erfolgreich ausgeführt
             // JSON-Daten aus der Antwort extrahieren
             $response_data = json_decode($response, true);
-            wp_send_json_success($response_data); // Nachrichten aus der Antwort zurückgeben
+			$response_message = $response_data['message'];
+			$new_member = $response_data['member'];
+			if ($new_member->member_id > 0) {
+				// Aktualisieren Sie die vorhandene EQ-Frage
+				$wpdb->update(
+					$wpdb->prefix . 'te_talents',
+					array(
+						'member_id' => $new_member->member_id
+					),
+					array('ID' => $talent_id),
+					array('%d'),
+					array('%d')
+				);
+			}else{
+				wp_send_json_error( 'Keine member_id angelegt' );
+			}
+            wp_send_json_success($response_message); // Nachrichten aus der Antwort zurückgeben
         } else {
             // Fehler beim Abrufen der Nachrichten
             wp_send_json_error( 'unerwarteter Fehler' );
