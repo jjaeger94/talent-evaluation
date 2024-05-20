@@ -3,10 +3,11 @@
     <form id="swpm-registration-form" class="swpm-form" name="swpm-registration-form" method="post" action="">
         <input type="hidden" name="level_identifier" value="<?php echo esc_attr($level); ?>" />
         <input type="hidden" name="user_name" id="user_name" value="<?php echo esc_attr($email); ?>" />
+        <input type="hidden" id="email" class="form-control" value="<?php echo esc_attr($email); ?>" name="email" required/>
 
         <div class="mb-3">
-            <label for="email" class="form-label"><?php _e('Email', "simple-membership") ?></label>
-            <input type="email" id="email" class="form-control" value="<?php echo esc_attr($email); ?>" name="email" required disabled />
+            <label for="email_copy" class="form-label"><?php _e('Email', "simple-membership") ?></label>
+            <input disabled type="email" id="email_copy" class="form-control" value="<?php echo esc_attr($email); ?>" name="email_copy" required/>
         </div>
 
         <div class="mb-3">
