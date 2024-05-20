@@ -24,19 +24,8 @@ function render_talent_page(){
      $auth = SwpmAuth::get_instance();
      if ($auth->is_logged_in()) {
           $member_id = SwpmMemberUtils::get_logged_in_members_id();
-          // Abfrage, um Talentdetails abzurufen
-          global $wpdb;
-          $query = $wpdb->prepare( "
-               SELECT *
-               FROM {$wpdb->prefix}te_talents
-               WHERE member_id = {$member_id}
-          ");
-          // Bewerbungsdetails abrufen
-          $talents = $wpdb->get_results( $query );
-
           // Überprüfen, ob Bewerbungsdetails vorhanden sind
-          $talent = ! empty( $talents ) ? $talents[0] : null;
-
+          $talent = get_talent_by_member_id($member_id);
           // Überprüfen, ob das Talent gefunden wurde
           if ($talent) {
               // Abfrage, um den Chatverlauf abzurufen

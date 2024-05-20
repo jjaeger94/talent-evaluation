@@ -89,6 +89,25 @@ function has_ajax_permission(){
     return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
 }
 
+function has_edit_talent_permission($talent_id){
+     if(current_user_can( 'dienstleister' )){
+        return true;
+     }
+     $auth = SwpmAuth::get_instance();
+     if (!$auth->is_logged_in()) {
+        return false;
+     }
+    $member_id = SwpmMemberUtils::get_logged_in_members_id();
+    // Überprüfen, ob Bewerbungsdetails vorhanden sind
+    $talent = get_talent_by_member_id($member_id);
+    if(!$talent){
+        return false;
+    }
+    return $talent_id == $talent->ID;
+}
+
+
+
 function commitment_hash($uid){
     return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
 }
@@ -116,6 +135,20 @@ function save_answer($aid, $question_id, $answer) {
     );
 
     return $result;
+}
+
+function get_talent_by_member_id($member_id){
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_talents
+        WHERE member_id = {$member_id}
+    ");
+    // Bewerbungsdetails abrufen
+    $talents = $wpdb->get_results( $query );
+
+    // Überprüfen, ob Bewerbungsdetails vorhanden sind
+    return ! empty( $talents ) ? $talents[0] : null;
 }
 
 function get_talent_by_id($talent_id){
