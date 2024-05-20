@@ -20,8 +20,8 @@
             <input type="password" id="password_re" class="form-control" name="password_re" required />
         </div>
 
-        <input type="hidden" name="first_name" value="" />
-        <input type="hidden" name="last_name" value="" />
+        <input type="hidden" name="first_name" value="<?php echo esc_attr($first_name); ?>" />
+        <input type="hidden" name="last_name" value="<?php echo esc_attr($last_name); ?>" />
         <input type="hidden" name="swpm_membership_level" value="<?php echo esc_attr($membership_level); ?>" />
         <input type="hidden" name="swpm_level_hash" value="<?php echo esc_attr(md5(get_option('swpm_private_key_one') . '|' . $membership_level)); ?>" />
 
