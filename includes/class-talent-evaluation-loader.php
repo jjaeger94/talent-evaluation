@@ -194,7 +194,7 @@ class Talent_Evaluation_Loader {
 		}
 		extract( $member, EXTR_SKIP );
 		ob_start();
-		include 'templates/forms/register-swmp-form.php';
+		include 'templates/swpm/register-form.php';
 		$form = ob_get_clean();
 		return $form;
 	}	
