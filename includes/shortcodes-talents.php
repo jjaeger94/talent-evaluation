@@ -16,6 +16,46 @@ function register_shortcodes_talents() {
         add_shortcode('game_info', 'render_game_info');
         add_shortcode('start_game_button', 'render_start_btn');
         add_shortcode('get_game_image', 'render_game_image');
+        add_shortcode('landing_page_talent', 'render_talent_page');
+}
+
+function render_talent_page(){
+     ob_start();
+     $auth = SwpmAuth::get_instance();
+     if ($auth->is_logged_in()) {
+          $member_id = SwpmMemberUtils::get_logged_in_members_id();
+          // Abfrage, um Talentdetails abzurufen
+          global $wpdb;
+          $query = $wpdb->prepare( "
+               SELECT *
+               FROM {$wpdb->prefix}te_talents
+               WHERE member_id = {$member_id}
+          ");
+          // Bewerbungsdetails abrufen
+          $talents = $wpdb->get_results( $query );
+
+          // Überprüfen, ob Bewerbungsdetails vorhanden sind
+          $talent = ! empty( $talents ) ? $talents[0] : null;
+
+          // Überprüfen, ob das Talent gefunden wurde
+          if ($talent) {
+              // Abfrage, um den Chatverlauf abzurufen
+              $school = get_school_by_talent_id($talent->ID);
+              $apprenticeships = get_apprenticeships_by_talent_id($talent->ID);
+              $studies = get_studies_by_talent_id($talent->ID);
+              $experiences = get_experiences_by_talent_id($talent->ID);
+              $eq = get_eq_by_talent_id($talent->ID);
+              ob_start(); // Puffer starten
+              include_once('templates/talents-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+              return ob_get_clean(); 
+          } else {
+              // Talent nicht gefunden
+              return '<p>ID nicht gefunden.</p>';
+          }
+     } else {
+          include plugin_dir_path(__FILE__) . 'templates/swpm/login.php';
+     }
+     return ob_get_clean();
 }
 
 function render_game_image(){
