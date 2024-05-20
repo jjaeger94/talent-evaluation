@@ -19,7 +19,6 @@ if ($setting->get_value('use-new-form-ui')) {
     $login_submit_class .= ' swpm-submit-btn-default-style';
 }
 ?>
-<div class="swpm-login-widget-form">
 <form id="swpm-login-form" name="swpm-login-form" method="post" action="" class="container mt-5">
     <div class="swpm-login-form-inner row">
         <div class="mb-3 col-12">
@@ -54,4 +53,3 @@ if ($setting->get_value('use-new-form-ui')) {
         </div>
     </div>
 </form>
-</div>
