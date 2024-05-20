@@ -1,6 +1,7 @@
 <?php if ($talent) : ?>
     <div class="container">
         <?php include 'talents/meta.php'; ?>
+        <?php include 'talents/email.php'; ?>
         <?php include 'talents/personal-data.php'; ?>
         <?php include 'talents/school.php'; ?>
         <?php include 'talents/apprenticeship.php'; ?>

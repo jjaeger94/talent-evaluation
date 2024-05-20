@@ -114,6 +114,23 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_delete_experience',  array($this, 'delete_experience'));
 		add_action('wp_ajax_create_user', array($this, 'create_user'));
 		add_action('wp_ajax_nopriv_create_user',  array($this, 'create_user'));
+		add_action('wp_ajax_send_activate_account_mail', array($this, 'send_activate_account_mail'));
+		add_action('wp_ajax_nopriv_send_activate_account_mail',  array($this, 'send_activate_account_mail'));
+	}
+
+	function send_activate_account_mail(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['member_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$link_for = 'one';
+		$member_id = absint($_POST['member_id']);
+		$send_email = true;
+		$links = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
+		wp_send_json_success($links);
+		wp_die();
 	}
 
 	function create_user(){
