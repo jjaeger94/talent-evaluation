@@ -6,7 +6,7 @@
 
         <div class="mb-3">
             <label for="email" class="form-label"><?php _e('Email', "simple-membership") ?></label>
-            <input type="email" id="email" class="form-control" value="<?php echo esc_attr($email); ?>" name="email" required />
+            <input type="email" id="email" class="form-control" value="<?php echo esc_attr($email); ?>" name="email" required disabled />
         </div>
 
         <div class="mb-3">

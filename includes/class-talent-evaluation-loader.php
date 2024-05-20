@@ -146,7 +146,7 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'login_headerurl', $this, 'my_login_logo_url');
 		$this->add_filter( 'admin_title', $this, 'custom_title', 99);
 		$this->add_filter( 'login_title', $this, 'custom_title', 99);
-		//$this->add_filter( 'swpm_registration_form_override', $this, 'custom_swpm_registration_form', 10, 2);
+		$this->add_filter( 'swpm_registration_form_override', $this, 'custom_swpm_registration_form', 10, 2);
 		
 		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
@@ -169,23 +169,31 @@ class Talent_Evaluation_Loader {
 	}
 
 	function custom_swpm_registration_form($form, $level) {
-		//Membership level is specified in the shortcode (level specific registration form).
-		$member           = SwpmTransfer::$default_fields;
-		$membership_level = absint( $level );
-		//Handle the registration form in core plugin
-		$membership_info = SwpmPermission::get_instance( $membership_level );
-		$membership_level = $membership_info->get( 'id' );
-		if ( empty( $membership_level ) ) {
-			return 'Error! Failed to retrieve membership level ID from the membership info object.';
+		if ( isset( $_REQUEST['member_id'] ) ) {
+			//This is a member profile edit action
+			$record_id = sanitize_text_field( $_REQUEST['member_id'] );
+			if ( ! is_numeric( $record_id ) ) {
+				wp_die( 'Error! ID must be numeric.' );
+			}
 		}
-		$level_identifier = md5( $membership_level );
-		$membership_level_alias = $membership_info->get( 'alias' );
-		$swpm_registration_submit = filter_input( INPUT_POST, 'swpm_registration_submit' );
-		if ( ! empty( $swpm_registration_submit ) ) {
-			$member = array_map( 'sanitize_text_field', $_POST );
+		global $wpdb;
+		$id     = absint($record_id);
+		$query  = "SELECT * FROM {$wpdb->prefix}swpm_members_tbl WHERE member_id = $id";
+		$member = $wpdb->get_row( $query, ARRAY_A );
+		if ( isset( $_POST['editswpmuser'] ) ) {
+			$_POST['user_name'] = sanitize_text_field( $member['user_name'] );
+			$_POST['email']     = sanitize_email( $member['email'] );
+			foreach ( $_POST as $key => $value ) {
+				$key = sanitize_text_field( $key );
+				if ( $key == 'email' ) {
+					$member[ $key ] = sanitize_email( $value );
+				} else {
+					$member[ $key ] = sanitize_text_field( $value );
+				}
+			}
 		}
+		extract( $member, EXTR_SKIP );
 		ob_start();
-		extract( (array) $member, EXTR_SKIP );
 		include 'templates/forms/register-swmp-form.php';
 		$form = ob_get_clean();
 		return $form;
