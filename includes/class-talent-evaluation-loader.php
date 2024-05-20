@@ -169,7 +169,23 @@ class Talent_Evaluation_Loader {
 	}
 
 	function custom_swpm_registration_form($form, $level) {
+		//Membership level is specified in the shortcode (level specific registration form).
+		$member           = SwpmTransfer::$default_fields;
+		$membership_level = absint( $level );
+		//Handle the registration form in core plugin
+		$membership_info = SwpmPermission::get_instance( $membership_level );
+		$membership_level = $membership_info->get( 'id' );
+		if ( empty( $membership_level ) ) {
+			return 'Error! Failed to retrieve membership level ID from the membership info object.';
+		}
+		$level_identifier = md5( $membership_level );
+		$membership_level_alias = $membership_info->get( 'alias' );
+		$swpm_registration_submit = filter_input( INPUT_POST, 'swpm_registration_submit' );
+		if ( ! empty( $swpm_registration_submit ) ) {
+			$member = array_map( 'sanitize_text_field', $_POST );
+		}
 		ob_start();
+		extract( (array) $member, EXTR_SKIP );
 		include 'templates/forms/register-swmp-form.php';
 		$form = ob_get_clean();
 		return $form;
