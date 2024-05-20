@@ -662,8 +662,11 @@ function get_user_home_url( $user ) {
 }
 
 function render_logout_button() {
-    $logout_url = wp_logout_url();
-    echo '<div class="logout-button"><a href="' . esc_url($logout_url) . '" class="btn btn-danger">' . __('Logout', 'talent-evaluation') . '</a></div>';
+    ?>
+    <div class="swpm-logged-logout-link">
+        <a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a>
+    </div>
+    <?php
 }
 
 function render_link_template($test_page_url) {

@@ -16,7 +16,7 @@
     }
 
     function render_application_button() {
-        if ( is_user_logged_in() ) {
+        if ( SwpmMemberUtils::is_member_logged_in() ) {
             $user = wp_get_current_user();
             $button_text = 'Zur Kandidatenverwaltung';
             $button_url = get_user_home_url($user); // Anpassen Sie die URL entsprechend Ihrer Seitenstruktur    
@@ -30,9 +30,8 @@
     }
     
     function render_footer_button(){
-        if ( is_user_logged_in() ) {
-            $logout_url = wp_logout_url();
-            $output = '<a href="' . esc_url($logout_url) . '">' . __('Logout', 'talent-evaluation') . '</a>';
+        if ( SwpmMemberUtils::is_member_logged_in() ) {
+            $output = render_logout_button();
         } else {
             $login_url = home_url('/membership-login'); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist
             $output = '<a href="' . esc_url( $login_url ) . '">Jetzt einloggen</a>';
