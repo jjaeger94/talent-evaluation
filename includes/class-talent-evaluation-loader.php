@@ -146,6 +146,7 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'login_headerurl', $this, 'my_login_logo_url');
 		$this->add_filter( 'admin_title', $this, 'custom_title', 99);
 		$this->add_filter( 'login_title', $this, 'custom_title', 99);
+		$this->add_filter( 'swpm_registration_form_override', $this, 'custom_swpm_registration_form', 10, 2);
 		// $this->add_action( 'wp_before_admin_bar_render', $this, 'customize_admin_bar' );
 		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
 		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
@@ -166,6 +167,13 @@ class Talent_Evaluation_Loader {
 		
 		session_start();
 	}
+
+	function custom_swpm_registration_form($form, $level) {
+		ob_start();
+		include 'templates/forms/register-swmp-form.php';
+		$form = ob_get_clean();
+		return $form;
+	}	
 
 	public function custom_title($origtitle) {
 		// Entferne das Wort "WordPress" aus dem Seitentitel
