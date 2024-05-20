@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <!-- Bild von Dieter -->
             <div class="col-2">
-                <img src="https://commitiq.de/wp-content/uploads/2024/05/Dieter_ohne_rand.png" class="img-fluid rounded-circle" alt="Dieter" style="width: 50px;">
+                <img src="<?php echo home_url('/wp-content/uploads/2024/05/Dieter_ohne_rand.png'); ?>" class="img-fluid rounded-circle" alt="Dieter" style="width: 50px;">
             </div>
             <!-- Name von Dieter -->
             <div class="col-8 text-center">

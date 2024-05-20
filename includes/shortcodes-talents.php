@@ -21,9 +21,9 @@ function register_shortcodes_talents() {
 function render_game_image(){
      $game = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
      if($game == 'glasses'){
-          return '<img src="https://commitiq.de/wp-content/uploads/2024/05/sahra.jpeg" alt="Kundin">';
+          return '<img src="' . home_url('/wp-content/uploads/2024/05/sahra.jpeg') . '" alt="Kundin">';
      }else{
-          return '<img src="https://commitiq.de/wp-content/uploads/2024/05/Dieter_ohne_rand.png" alt="Kundin">';
+          return '<img src="' . home_url('/wp-content/uploads/2024/05/Dieter_ohne_rand.') . '" alt="Kundin">';
      }
 }
 

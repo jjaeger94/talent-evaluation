@@ -11,7 +11,7 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card h-100">
-                            <img src="https://commitiq.de/wp-content/uploads/2024/05/rote-brille.jpeg" class="card-img-top" alt="Brille 1">
+                            <img src="<?php echo home_url('/wp-content/uploads/2024/05/rote-brille.jpeg'); ?>" class="card-img-top" alt="Brille 1">
                             <div class="card-body">
                                 <h5 class="card-title">Crimson Circular</h5>
                                 <p class="card-text">Preis: 100 €</p>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100">
-                            <img src="https://commitiq.de/wp-content/uploads/2024/05/randlos.jpeg" class="card-img-top" alt="Brille 2">
+                            <img src="<?php echo home_url('/wp-content/uploads/2024/05/randlos.jpeg'); ?>" class="card-img-top" alt="Brille 2">
                             <div class="card-body">
                                 <h5 class="card-title">Crystal Edge Randlos</h5>
                                 <p class="card-text">Preis: 120 €</p>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100">
-                            <img src="https://commitiq.de/wp-content/uploads/2024/05/blau-eckig.jpeg" class="card-img-top" alt="Brille 3">
+                            <img src="<?php echo home_url('/wp-content/uploads/2024/05/blau-eckig.jpeg'); ?>" class="card-img-top" alt="Brille 3">
                             <div class="card-body">
                                 <h5 class="card-title">Sapphire Square</h5>
                                 <p class="card-text">Preis: 150 €</p>
