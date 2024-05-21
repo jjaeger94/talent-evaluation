@@ -303,6 +303,7 @@ class Talent_Evaluation_Activator
                 $sql = "CREATE TABLE  $talents(
 					ID INT NOT  NULL AUTO_INCREMENT ,
                     member_id INT,
+                    availability INT,
 					added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					edited TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					prename VARCHAR(255) NOT NULL ,

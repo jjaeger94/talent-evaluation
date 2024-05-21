@@ -627,7 +627,7 @@ class Talent_Evaluation_Public {
 
 	function save_talent_details(){
 
-		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['post_code'])) {
+		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['availability'], $_POST['post_code'])) {
 			$talent_id = intval($_POST['talent_id']);
 			if (!has_edit_talent_permission($talent_id)) {
 				wp_send_json_error('Keine Berechtigung');
@@ -637,6 +637,7 @@ class Talent_Evaluation_Public {
 			$email = sanitize_text_field($_POST['email']);
 			$mobile = sanitize_text_field($_POST['mobile']);
 			$post_code = sanitize_text_field($_POST['post_code']);
+			$availability = intval($_POST['availability']);
 			global $wpdb;
 			// Tabellenname für Bewerbungen
 			$table_name = $wpdb->prefix . 'te_talents';
@@ -648,6 +649,7 @@ class Talent_Evaluation_Public {
 				'email' => $email,
 				'mobile' => $mobile,
 				'post_code' => $post_code,
+				'availability' => $availability
 			);
 
 			// Bedingung für die Aktualisierung
@@ -710,9 +712,10 @@ class Talent_Evaluation_Public {
 				'mobile' => $mobile,
 				'post_code' => $post_code,
 				'oai_test_id' => $oai_test_id,
-				'ref' => $ref
+				'ref' => $ref,
+				'availability' => 0
 			),
-			array('%s', '%s', '%s', '%s', '%s', '%s', '%s')
+			array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d')
 		);
 	
 		// Überprüfen, ob das Einfügen erfolgreich war

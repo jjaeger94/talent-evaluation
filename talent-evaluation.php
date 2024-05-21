@@ -89,6 +89,30 @@ function has_ajax_permission(){
     return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
 }
 
+function get_availability_string($availability){
+    switch ($availability) {
+        case 0:
+            return 'Sofort';
+        case 1:
+            return '1 Monat';
+        case 2:
+            return '2 Monate';
+        case 3:
+            return '3 Monate';
+        case 4:
+            return '4 Monate';
+        case 5:
+            return '5 Monate';
+        case 6:
+            return '6 Monate';
+        case 7:
+            return 'Momentan nicht verfügbar';
+        // Weitere Fälle hinzufügen, falls erforderlich
+        default:
+            return '';
+    }
+}
+
 function has_edit_talent_permission($talent_id){
      if(current_user_can( 'dienstleister' )){
         return true;

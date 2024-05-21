@@ -22,6 +22,15 @@
                 <label for="post_code">PLZ:</label>
                 <input type="text" class="form-control" id="post_code" name="post_code" value="<?php echo $talent->post_code; ?>">
             </div>
+            <div class="form-group">
+                <label for="field">Verfügbarkeit:</label>
+                <select class="form-control" id="availability" name="availability" required>
+                <?php for ($i = 0; $i <= 7; $i++) : ?>
+                    <?php $selectedAvailability= ($talent->availability == $i) ? 'selected' : ''; ?>
+                    <option value="<?php echo $i; ?>" <?php echo $selectedAvailability; ?>><?php echo get_availability_string($i); ?></option>
+                <?php endfor; ?>
+            </select>
+            </div>
             <!-- Weitere Felder hinzufügen, falls erforderlich -->
             <button id="" type="submit" class="btn btn-primary mt-2">Aktualisieren</button>
         </div>
