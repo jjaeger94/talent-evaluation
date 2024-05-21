@@ -7,7 +7,6 @@
         <?php include 'talents/info.php'; ?>
         <?php endif; ?>
         <?php include 'talents/personal-data-start.php'; ?>
-        <?php include 'talents/school.php'; ?>
         <?php include 'talents/apprenticeship.php'; ?>
         <?php include 'talents/studies.php'; ?>
         <?php include 'talents/experience.php'; ?>

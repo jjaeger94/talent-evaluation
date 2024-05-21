@@ -641,6 +641,7 @@ class Talent_Evaluation_Public {
 			$availability = intval($_POST['availability']);
 			$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
 			$mobility = absint($_POST['mobility']);
+			$school = absint($_POST['school']);
 			global $wpdb;
 			// Tabellenname für Bewerbungen
 			$table_name = $wpdb->prefix . 'te_talents';
@@ -654,7 +655,8 @@ class Talent_Evaluation_Public {
 				'post_code' => $post_code,
 				'availability' => $availability,
 				'mobility' => $mobility,
-				'license' => $license
+				'license' => $license,
+				'school' => $school
 				
 			);
 

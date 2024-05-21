@@ -25,7 +25,7 @@
                 if ($talent) {
                     // Abfrage, um den Chatverlauf abzurufen
                     $messages = list_messages_by_thread($talent->oai_test_id);
-                    $school = get_school_by_talent_id($talent->ID);
+                    // $school = get_school_by_talent_id($talent->ID);
                     $apprenticeships = get_apprenticeships_by_talent_id($talent->ID);
                     $studies = get_studies_by_talent_id($talent->ID);
                     $experiences = get_experiences_by_talent_id($talent->ID);

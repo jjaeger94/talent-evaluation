@@ -33,4 +33,5 @@
         </select>
     </div>
     <?php include 'mobility.php'; ?>
+    <?php include 'school.php'; ?>
 </form>
