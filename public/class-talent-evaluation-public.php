@@ -164,6 +164,7 @@ class Talent_Evaluation_Public {
 			'last_name' => $talent->surname ,
 			'email' => $talent->email,
 			'membership_level' => '5',
+			'send_email' => true,
 		);
 
 		// cURL-Optionen setzen

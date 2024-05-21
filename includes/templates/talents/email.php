@@ -5,7 +5,7 @@
                 <?php if (!$talent->member_id) : ?>
                     <p>"Bitte lege zuerst den Nutzer an um eine Email zu senden"</p>
                 <?php else: ?>
-                    <button id="activateAccount" class="btn btn-primary">Email senden</button>
+                    <button id="activateAccount" class="btn btn-primary">Email erneut senden</button>
                 <?php endif; ?> 
             </div>
         </div>
