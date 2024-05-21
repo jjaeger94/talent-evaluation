@@ -712,7 +712,7 @@ function get_user_home_url( $user ) {
         if ( in_array( 'firmenkunde', $user->roles ) ) {
             return home_url( '/kandidaten' );
         } elseif ( in_array( 'dienstleister', $user->roles ) ) {
-            return home_url( '/dienstleister' );
+            return home_url( '/talents' );
         } elseif ( in_array( 'subscriber', $user->roles ) ) {
             return home_url( '/membership-login' );
         }

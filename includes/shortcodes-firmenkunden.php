@@ -16,7 +16,7 @@
     }
 
     function render_application_button() {
-        if ( SwpmMemberUtils::is_member_logged_in() ) {
+        if ( SwpmMemberUtils::is_member_logged_in() || is_user_logged_in()) {
             $user = wp_get_current_user();
             $button_text = 'Zum Login Bereich';
             $button_url = get_user_home_url($user); // Anpassen Sie die URL entsprechend Ihrer Seitenstruktur    
