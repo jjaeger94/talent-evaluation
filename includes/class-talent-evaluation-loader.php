@@ -175,9 +175,11 @@ class Talent_Evaluation_Loader {
 			if ( ! is_numeric( $record_id ) ) {
 				wp_die( 'Error! ID must be numeric.' );
 			}
+		}else{
+			return "Manuelle Registrierung gesperrt!";
 		}
 		global $wpdb;
-		$id     = absint($record_id);
+		$id = absint($record_id);
 		$query  = "SELECT * FROM {$wpdb->prefix}swpm_members_tbl WHERE member_id = $id";
 		$member = $wpdb->get_row( $query, ARRAY_A );
 		if ( isset( $_POST['editswpmuser'] ) ) {
