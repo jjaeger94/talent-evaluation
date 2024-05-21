@@ -3,6 +3,8 @@
         <?php if (current_user_can('dienstleister')) : ?>
         <?php include 'talents/actions.php'; ?>
         <?php include 'talents/meta.php'; ?>
+        <?php else: ?>
+        <?php include 'talents/info.php'; ?>
         <?php endif; ?>
         <?php include 'talents/personal-data.php'; ?>
         <?php include 'talents/school.php'; ?>

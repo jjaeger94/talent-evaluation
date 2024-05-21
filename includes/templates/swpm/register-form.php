@@ -1,3 +1,5 @@
+<p>Bitte vergebe ein Passwort um deinen Account zu aktivieren. </p>
+<p>Anschließend kannst du dich einloggen und dein Profil vervollständigen.</p>
 <form id="swpm-registration-form" class="swpm-form" name="swpm-registration-form" method="post" action="">
     <input type="hidden" name="level_identifier" value="<?php echo esc_attr($level); ?>" />
     <input type="hidden" name="user_name" id="user_name" value="<?php echo esc_attr($email); ?>" />
