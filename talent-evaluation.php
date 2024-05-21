@@ -730,7 +730,7 @@ function render_logout_button() {
     }else if(is_user_logged_in()){
         ?>
         <div class="swpm-logged-logout-link">
-        <a href="<?php echo home_url('/wp-login.php?action=logout'); ?>">Logout</a>
+        <a href="<?php echo wp_logout_url(); ?>">Logout</a>
         </div>
         <?php
     }
