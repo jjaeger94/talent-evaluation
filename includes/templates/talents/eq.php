@@ -40,7 +40,7 @@
                     <!-- Formular zum Bearbeiten der EQ-Frage -->
                     <form id="editEqForm">
                         <input type="hidden" id="eq_id" name="eq_id" value="0">
-                        <input type="hidden" name="user_id" value="<?php echo $talent->ID; ?>">
+                        <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                         <div class="form-group">
                             <label for="value">Antwort:</label>
                             <textarea class="form-control" id="eq_value" name="value" rows="3" required></textarea>

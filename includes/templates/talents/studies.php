@@ -84,7 +84,7 @@ function get_study_degree($degree) {
                     <!-- Formular zum Bearbeiten des Studiums -->
                     <form id="editStudyForm">
                         <input type="hidden" id="study_id" name="study_id" value="0">
-                        <input type="hidden" name="user_id" value="<?php echo $talent->ID; ?>">
+                        <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                         <div class="form-group">
                             <label for="field">Studienfeld:</label>
                             <select class="form-control" id="study_field" name="field" required>

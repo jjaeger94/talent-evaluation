@@ -320,11 +320,11 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$school}'") != $school) {
                 $sql = "CREATE TABLE $school (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
-					user_id INT,
+					talent_id INT,
 					degree INT,
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-					FOREIGN KEY (user_id) REFERENCES $talents(ID)
+					FOREIGN KEY (talent_id) REFERENCES $talents(ID)
 				) $charset_collate;";
                 dbDelta($sql);
             }
@@ -332,14 +332,14 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$apprenticeship}'") != $apprenticeship) {
                 $sql = "CREATE TABLE $apprenticeship (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
-					user_id INT,
+					talent_id INT,
 					field INT,
 					designation VARCHAR(255),
                     start_date DATE,
                     end_date DATE,
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-					FOREIGN KEY (user_id) REFERENCES $talents(ID)
+					FOREIGN KEY (talent_id) REFERENCES $talents(ID)
 				) $charset_collate;";
                 dbDelta($sql);
             }
@@ -347,7 +347,7 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$studies}'") != $studies) {
                 $sql = "CREATE TABLE $studies (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
-					user_id INT,
+					talent_id INT,
 					field INT,
 					degree INT,
                     start_date DATE,
@@ -355,7 +355,7 @@ class Talent_Evaluation_Activator
 					designation VARCHAR(255),
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-					FOREIGN KEY (user_id) REFERENCES $talents(ID)
+					FOREIGN KEY (talent_id) REFERENCES $talents(ID)
 				) $charset_collate;";
                 dbDelta($sql);
             }
@@ -363,11 +363,11 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$eq}'") != $eq) {
                 $sql = "CREATE TABLE $eq (
 					ID INT AUTO_INCREMENT PRIMARY KEY,
-					user_id INT,
+					talent_id INT,
 					value TEXT,
 					added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-					FOREIGN KEY (user_id) REFERENCES $talents(ID)
+					FOREIGN KEY (talent_id) REFERENCES $talents(ID)
 				) $charset_collate;";
                 dbDelta($sql);
             }
@@ -375,7 +375,7 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$experiences}'") != $experiences) {
                 $sql = "CREATE TABLE $experiences (
                     ID INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT,
+                    talent_id INT,
                     position VARCHAR(255),
                     company VARCHAR(255),
                     field INT,
@@ -383,7 +383,7 @@ class Talent_Evaluation_Activator
                     end_date DATE,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    FOREIGN KEY (user_id) REFERENCES $talents(ID)
+                    FOREIGN KEY (talent_id) REFERENCES $talents(ID)
                 ) $charset_collate;";
                 dbDelta($sql);
 }

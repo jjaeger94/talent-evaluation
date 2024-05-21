@@ -66,7 +66,7 @@ function get_experience_field($field) {
                     <!-- Formular zum Bearbeiten der Berufserfahrung -->
                     <form id="editExperienceForm">
                         <input type="hidden" id="experience_id" name="experience_id" value="0">
-                        <input type="hidden" name="user_id" value="<?php echo $talent->ID; ?>">
+                        <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                         <div class="form-group">
                             <label for="field">Bereich:</label>
                             <select class="form-control" id="exp_field" name="field" required>

@@ -51,8 +51,8 @@ function get_degree_text($degree) {
             </div>
             <form id="addSchoolForm">
                 <div class="modal-body">
-                    <!-- Verstecktes Eingabefeld für user_id -->
-                    <input type="hidden" name="user_id" value="<?php echo $talent->ID; ?>">
+                    <!-- Verstecktes Eingabefeld für talent_id -->
+                    <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                     <?php if ($school): ?>
                         <!-- Wenn Schuldaten vorhanden sind, verstecktes Eingabefeld für ID einfügen -->
                         <input type="hidden" name="school_id" value="<?php echo $school->ID; ?>">

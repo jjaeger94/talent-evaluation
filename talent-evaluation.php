@@ -212,7 +212,7 @@ function get_apprenticeships_by_talent_id($talent_id){
     $query = $wpdb->prepare( "
         SELECT *
         FROM {$wpdb->prefix}te_apprenticeship
-        WHERE user_id = {$talent_id}
+        WHERE talent_id = {$talent_id}
     ");
 
     // Jobdetails abrufen
@@ -226,7 +226,7 @@ function get_eq_by_talent_id($talent_id){
     $query = $wpdb->prepare( "
         SELECT *
         FROM {$wpdb->prefix}te_eq
-        WHERE user_id = {$talent_id}
+        WHERE talent_id = {$talent_id}
     ");
 
     // Jobdetails abrufen
@@ -243,7 +243,7 @@ function get_experiences_by_talent_id($talent_id){
     $query = $wpdb->prepare( "
         SELECT *
         FROM {$wpdb->prefix}te_experiences
-        WHERE user_id = {$talent_id}
+        WHERE talent_id = {$talent_id}
     ");
 
     // Jobdetails abrufen
@@ -257,7 +257,7 @@ function get_studies_by_talent_id($talent_id){
     $query = $wpdb->prepare( "
         SELECT *
         FROM {$wpdb->prefix}te_studies
-        WHERE user_id = {$talent_id}
+        WHERE talent_id = {$talent_id}
     ");
 
     // Jobdetails abrufen
@@ -271,7 +271,7 @@ function get_school_by_talent_id($talent_id){
     $query = $wpdb->prepare( "
         SELECT *
         FROM {$wpdb->prefix}te_school
-        WHERE user_id = {$talent_id}
+        WHERE talent_id = {$talent_id}
     ");
 
     // Jobdetails abrufen

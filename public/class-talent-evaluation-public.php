@@ -116,6 +116,52 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_create_user',  array($this, 'create_user'));
 		add_action('wp_ajax_send_activate_account_mail', array($this, 'send_activate_account_mail'));
 		add_action('wp_ajax_nopriv_send_activate_account_mail',  array($this, 'send_activate_account_mail'));
+		add_action('wp_ajax_remove_talent', array($this, 'remove_talent'));
+		add_action('wp_ajax_nopriv_remove_talent',  array($this, 'remove_talent'));
+	}
+
+	function remove_talent(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$talent_id = absint($_POST['talent_id']);
+		global $wpdb;
+
+		$wpdb->delete(
+			$wpdb->prefix . 'te_talents',
+			array('ID' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_school',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_experiences',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_apprenticeship',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_studies',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_eq',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		wp_send_json_success('Eintrag gelöscht');
+		wp_die();
 	}
 
 	function send_activate_account_mail(){
@@ -231,7 +277,7 @@ class Talent_Evaluation_Public {
 			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_experiences WHERE ID = %d", $experience_id));
 	
 			if ($data) {
-				if (!has_edit_talent_permission($data->user_id)) {
+				if (!has_edit_talent_permission($data->talent_id)) {
 					wp_send_json_error('Keine Berechtigung');
 				}
 				// Lösche die Frage aus der Datenbank
@@ -262,7 +308,7 @@ class Talent_Evaluation_Public {
 			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_apprenticeship WHERE ID = %d", $apprenticeship_id));
 	
 			if ($data) {
-				if (!has_edit_talent_permission($data->user_id)) {
+				if (!has_edit_talent_permission($data->talent_id)) {
 					wp_send_json_error('Keine Berechtigung');
 				}
 				// Lösche die Frage aus der Datenbank
@@ -293,7 +339,7 @@ class Talent_Evaluation_Public {
 			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_studies WHERE ID = %d", $study_id));
 	
 			if ($data) {
-				if (!has_edit_talent_permission($data->user_id)) {
+				if (!has_edit_talent_permission($data->talent_id)) {
 					wp_send_json_error('Keine Berechtigung');
 				}
 				// Lösche die Frage aus der Datenbank
@@ -315,14 +361,14 @@ class Talent_Evaluation_Public {
 
 	function edit_eq() {
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['value']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['value']) || !isset($_POST['talent_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}		
 	
 		// Holen Sie sich die Werte aus dem POST
 		$value = sanitize_text_field($_POST['value']);
-		$user_id = intval($_POST['user_id']);
-		if (!has_edit_talent_permission($user_id)) {
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
@@ -346,7 +392,7 @@ class Talent_Evaluation_Public {
 			$wpdb->insert(
 				$wpdb->prefix . 'te_eq',
 				array(
-					'user_id' => $user_id,
+					'talent_id' => $talent_id,
 					'value' => $value
 				),
 				array('%d', '%s')
@@ -359,13 +405,13 @@ class Talent_Evaluation_Public {
 	
 	function edit_experience() {
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['position']) || !isset($_POST['company']) || !isset($_POST['field']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['position']) || !isset($_POST['company']) || !isset($_POST['field']) || !isset($_POST['start_date']) || !isset($_POST['talent_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 	
 		// Holen Sie sich die Werte aus dem POST und bereinigen Sie sie
-		$user_id = intval($_POST['user_id']);
-		if (!has_edit_talent_permission($user_id)) {
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
@@ -402,7 +448,7 @@ class Talent_Evaluation_Public {
 			$inserted = $wpdb->insert(
 				$wpdb->prefix . 'te_experiences',
 				array(
-					'user_id' => $user_id,
+					'talent_id' => $talent_id,
 					'field' => $field,
 					'position' => $position,
 					'company' => $company,
@@ -423,12 +469,12 @@ class Talent_Evaluation_Public {
 
 	function edit_study() {	
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['degree']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['degree']) || !isset($_POST['start_date']) || !isset($_POST['talent_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 
-		$user_id = intval($_POST['user_id']);
-		if (!has_edit_talent_permission($user_id)) {
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 	
@@ -463,7 +509,7 @@ class Talent_Evaluation_Public {
 			$wpdb->insert(
 				$wpdb->prefix . 'te_studies',
 				array(
-					'user_id' => $user_id,
+					'talent_id' => $talent_id,
 					'field' => $field,
 					'degree' => $degree,
 					'designation' => $designation,
@@ -481,12 +527,12 @@ class Talent_Evaluation_Public {
 	function edit_apprenticeship() {
 
 		// Überprüfen, ob die erforderlichen Felder gesetzt sind
-		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['start_date']) || !isset($_POST['user_id'])) {
+		if (!isset($_POST['field']) || !isset($_POST['designation']) || !isset($_POST['start_date']) || !isset($_POST['talent_id'])) {
 			wp_send_json_error('Erforderliche Felder fehlen');
 		}
 
-		$user_id = intval($_POST['user_id']);
-		if (!has_edit_talent_permission($user_id)) {
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 	
@@ -519,7 +565,7 @@ class Talent_Evaluation_Public {
 			$wpdb->insert(
 				$wpdb->prefix . 'te_apprenticeship',
 				array(
-					'user_id' => $user_id,
+					'talent_id' => $talent_id,
 					'field' => $field,
 					'designation' => $designation,
 					'start_date' => $start_date,
@@ -536,9 +582,9 @@ class Talent_Evaluation_Public {
 
 	function add_school(){
 		// Überprüfen, ob die erforderlichen Daten übergeben wurden
-		if(isset($_POST['degree']) && isset($_POST['user_id'])) {
-			$user_id = intval($_POST['user_id']);
-			if (!has_edit_talent_permission($user_id)) {
+		if(isset($_POST['degree']) && isset($_POST['talent_id'])) {
+			$talent_id = intval($_POST['talent_id']);
+			if (!has_edit_talent_permission($talent_id)) {
 				wp_send_json_error('Keine Berechtigung');
 			}
 			global $wpdb;
@@ -563,7 +609,7 @@ class Talent_Evaluation_Public {
 				$wpdb->insert(
 					$wpdb->prefix . 'te_school',
 					array(
-						'user_id' => $user_id,
+						'talent_id' => $talent_id,
 						'degree' => $degree
 					),
 					array('%d', '%d')

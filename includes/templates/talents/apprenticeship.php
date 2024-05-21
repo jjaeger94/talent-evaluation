@@ -59,7 +59,7 @@ function get_apprenticeship_field($field) {
                     <!-- Formular zum Bearbeiten der Ausbildung -->
                     <form id="editApprenticeshipForm">
                         <input type="hidden" id="apprenticeship_id" name="apprenticeship_id" value="0">
-                        <input type="hidden" name="user_id" value="<?php echo $talent->ID; ?>">
+                        <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                         <div class="form-group">
                             <label for="field">Ausbildungsfeld:</label>
                             <select class="form-control" id="app_field" name="field" required>
