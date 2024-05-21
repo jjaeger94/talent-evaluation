@@ -131,11 +131,6 @@ class Talent_Evaluation_Public {
 		global $wpdb;
 
 		$wpdb->delete(
-			$wpdb->prefix . 'te_talents',
-			array('ID' => $talent_id),
-			array('%d')
-		);
-		$wpdb->delete(
 			$wpdb->prefix . 'te_school',
 			array('talent_id' => $talent_id),
 			array('%d')
@@ -160,6 +155,12 @@ class Talent_Evaluation_Public {
 			array('talent_id' => $talent_id),
 			array('%d')
 		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_talents',
+			array('ID' => $talent_id),
+			array('%d')
+		);
+		
 		wp_send_json_success('Eintrag gelöscht');
 		wp_die();
 	}
