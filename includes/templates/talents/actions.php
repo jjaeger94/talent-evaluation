@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
                 console.log(response);
                 // Seite neu laden, um die aktualisierten Daten anzuzeigen
                 if(response.success){
-                    location.reload();
+                    window.location.href = '<?php echo home_url('/talents/');?>';
                 }
             },
             error: function(xhr, status, error) {
