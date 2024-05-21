@@ -9,9 +9,7 @@
                 <?php endif; ?>
             </div>
             <div class="col">
-                <?php if (!$talent->member_id) : ?>
-                    <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
-                <?php endif; ?>
+                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
             </div>
         </div>
         <div class="wrap">
