@@ -6,12 +6,13 @@
         <?php else: ?>
         <?php include 'talents/info.php'; ?>
         <?php endif; ?>
-        <?php include 'talents/personal-data.php'; ?>
+        <?php include 'talents/personal-data-start.php'; ?>
         <?php include 'talents/school.php'; ?>
         <?php include 'talents/apprenticeship.php'; ?>
         <?php include 'talents/studies.php'; ?>
         <?php include 'talents/experience.php'; ?>
         <?php include 'talents/eq.php'; ?>
+        <?php include 'talents/personal-data-end.php'; ?>
         <?php if (!empty($messages)) : ?>
         <h2>Chatverlauf</h2>
         <div class="message-container">

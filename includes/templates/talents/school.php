@@ -18,28 +18,23 @@ function get_degree_text($degree) {
     }
 }
 ?>
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-        <div class="col-md-12 mb-3">
-        <!-- Schulische Ausbildung anzeigen -->
-        <?php if ($school): ?>
-            <!-- Wenn Schuldaten vorhanden sind, zeige sie an -->
-            <div class="col">
-                <p><strong>Schulabschluss:</strong> <?php echo get_degree_text($school->degree); ?></p>
-            </div>
-        <?php else: ?>
-            <div class="col">
-                <p>Wähle bitte deinen Schulabschluss aus</p>
-            </div>
-        <?php endif;?>
-            <!-- Wenn keine Schuldaten vorhanden sind, zeige Button zum Hinzufügen -->
-            <div class="col">
-                <button type="button" class="btn btn-primary" id="addSchoolBtnOpen" >Schulabschluss auswählen</button>
-            </div>
+<div class="row mb-3">
+    <p class="card-title"><strong>Schulabschluss</strong></p>
+    <!-- Schulische Ausbildung anzeigen -->
+    <?php if ($school): ?>
+        <!-- Wenn Schuldaten vorhanden sind, zeige sie an -->
+        <div class="col">
+            <p><?php echo get_degree_text($school->degree); ?></p>
         </div>
+    <?php else: ?>
+        <div class="col">
+            <p>Wähle bitte deinen Schulabschluss aus</p>
         </div>
-    </div>
+    <?php endif;?>
+        <!-- Wenn keine Schuldaten vorhanden sind, zeige Button zum Hinzufügen -->
+        <div class="col">
+            <button type="button" class="btn btn-primary" id="addSchoolBtnOpen" >Schulabschluss auswählen</button>
+        </div>
 </div>
 <!-- Modal zum Hinzufügen einer neuen Schule -->
 <div class="modal fade" id="addSchoolModal" tabindex="-1" role="dialog" aria-labelledby="addSchoolModalLabel" aria-hidden="true">

@@ -20,32 +20,29 @@ function get_apprenticeship_field($field) {
 }
 ?>
 <?php if ($talent) : ?>
-    <div class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-            <?php if ($apprenticeships) : ?>
-                <?php foreach ($apprenticeships as $apprenticeship) : ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $apprenticeship->designation; ?></h5>
-                                <p class="card-text"><?php echo get_apprenticeship_field($apprenticeship->field); ?></p>
-                                <?php $object = $apprenticeship;?>
-                                <?php include 'blocks/render-date.php'; ?>
-                                <button href="#" class="btn btn-primary edit-apprenticeship" data-id="<?php echo $apprenticeship->ID; ?>" data-designation="<?php echo $apprenticeship->designation; ?>" data-field="<?php echo $apprenticeship->field; ?>" data-start-date="<?php echo $apprenticeship->start_date; ?>" data-end-date="<?php echo $apprenticeship->end_date; ?>">Bearbeiten</button>
-                            </div>
-                        </div>
+<div class="row">
+<p class="card-title"><strong>Ausbildung</strong></p>
+    <?php if ($apprenticeships) : ?>
+        <?php foreach ($apprenticeships as $apprenticeship) : ?>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $apprenticeship->designation; ?></h5>
+                        <p class="card-text"><?php echo get_apprenticeship_field($apprenticeship->field); ?></p>
+                        <?php $object = $apprenticeship;?>
+                        <?php include 'blocks/render-date.php'; ?>
+                        <button href="#" class="btn btn-primary edit-apprenticeship" data-id="<?php echo $apprenticeship->ID; ?>" data-designation="<?php echo $apprenticeship->designation; ?>" data-field="<?php echo $apprenticeship->field; ?>" data-start-date="<?php echo $apprenticeship->start_date; ?>" data-end-date="<?php echo $apprenticeship->end_date; ?>">Bearbeiten</button>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-            <div class="col">
-                <p>Hier kannst du deine Ausbildungen hinzufügen</p>
+                </div>
             </div>
-            <?php endif; ?>
-            <button type="button" class="btn btn-primary" id="addApprenticeshipBtnOpen" >Ausbildung hinzufügen</button>
-        </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+<div class="row mb-3">
+<div class="col">
+    <button type="button" class="btn btn-primary" id="addApprenticeshipBtnOpen" >Ausbildung hinzufügen</button>
     </div>
-    </div>
+</div>
 
     <!-- Modal zum Bearbeiten einer Ausbildung -->
     <div class="modal fade" id="editApprenticeshipModal" tabindex="-1" role="dialog" aria-labelledby="editApprenticeshipModalLabel" aria-hidden="true">

@@ -45,32 +45,29 @@ function get_study_degree($degree) {
 }
 ?>
 <?php if ($talent) : ?>
-    <div class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-            <?php if ($studies) : ?>
-                <?php foreach ($studies as $study) : ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo get_study_degree($study->degree); ?></h5>
-                                <p class="card-text"> <?php echo $study->designation; ?></p>
-                                <?php $object = $study;?>
-                                <?php include 'blocks/render-date.php'; ?>
-                                <button class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</button>
-                            </div>
-                        </div>
+<div class="row">
+<p class="card-title"><strong>Studium</strong></p>
+    <?php if ($studies) : ?>
+        <?php foreach ($studies as $study) : ?>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo get_study_degree($study->degree); ?></h5>
+                        <p class="card-text"> <?php echo $study->designation; ?></p>
+                        <?php $object = $study;?>
+                        <?php include 'blocks/render-date.php'; ?>
+                        <button class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</button>
                     </div>
-                <?php endforeach; ?>
-                <?php else: ?>
-            <div class="col">
-                <p>Hier kannst du Studienabschlüsse hinzufügen</p>
+                </div>
             </div>
-            <?php endif; ?>
-            <button type="button" class="btn btn-primary" id="addStudyBtnOpen" >Studium hinzufügen</button>
-        </div>
-    </div>
-    </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+<div class="row mb-3">
+<div class="col">
+    <button type="button" class="btn btn-primary" id="addStudyBtnOpen" >Studium hinzufügen</button>
+</div>
+</div>
 
     <!-- Modal zum Bearbeiten eines Studiums -->
     <div class="modal fade" id="editStudyModal" tabindex="-1" role="dialog" aria-labelledby="editStudyModalLabel" aria-hidden="true">
