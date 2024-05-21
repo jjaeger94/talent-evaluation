@@ -4,7 +4,7 @@
     <label class="form-check-label" for="dataProcessingCheckbox">Ich habe einen Führerhschein (Klasse B)</label>
 </div>
 <div class="form-group mb-3">
-    <label for="field">Maximale Distanz zur neuen Stelle:</label><?php echo info_button('personal_data_mobility'); ?>
+    <label for="field">Distanz:</label><?php echo info_button('personal_data_mobility'); ?>
     <select class="form-select" id="mobility" name="mobility" required>
     <option value="20" <?php echo ($talent->mobility == 20) ? 'selected' : ''; ?> >bis 20 km</option>
     <option value="50" <?php echo ($talent->mobility == 50) ? 'selected' : ''; ?> >bis 50 km</option>
