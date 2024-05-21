@@ -30,7 +30,7 @@
     }
     
     function render_footer_button(){
-        if ( SwpmMemberUtils::is_member_logged_in() ) {
+        if ( SwpmMemberUtils::is_member_logged_in() || is_user_logged_in()) {
             $output = render_logout_button();
         } else {
             $login_url = home_url('/membership-login'); // Login-URL für den Fall, dass der Benutzer nicht eingeloggt ist

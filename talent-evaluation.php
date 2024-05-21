@@ -721,11 +721,19 @@ function get_user_home_url( $user ) {
 }
 
 function render_logout_button() {
-    ?>
-    <div class="swpm-logged-logout-link">
-        <a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a>
-    </div>
-    <?php
+    if ( SwpmMemberUtils::is_member_logged_in()) {
+        ?>
+        <div class="swpm-logged-logout-link">
+            <a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a>
+        </div>
+        <?php
+    }else if(is_user_logged_in()){
+        ?>
+        <div class="swpm-logged-logout-link">
+        <a href="<?php echo home_url('/wp-login.php?action=logout'); ?>">Logout</a>
+        </div>
+        <?php
+    }
 }
 
 function render_link_template($test_page_url) {
