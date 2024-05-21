@@ -18,7 +18,7 @@
     function render_application_button() {
         if ( SwpmMemberUtils::is_member_logged_in() ) {
             $user = wp_get_current_user();
-            $button_text = 'Zur Kandidatenverwaltung';
+            $button_text = 'Zum Login Bereich';
             $button_url = get_user_home_url($user); // Anpassen Sie die URL entsprechend Ihrer Seitenstruktur    
             $output = '<a class="btn btn-primary" href="' . esc_url( $button_url ) . '">' . esc_html( $button_text ) . '</a>';
         } else {
