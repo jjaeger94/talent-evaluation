@@ -54,7 +54,7 @@ function get_degree_text($degree) {
                     <?php endif; ?>
                     <div class="form-group">
                         <label for="degree">Abschluss:</label>
-                        <select class="form-control" id="degree" name="degree" required>
+                        <select class="form-select" id="degree" name="degree" required>
                             <?php for ($i = 0; $i <= 4; $i++) : ?>
                                 <?php $selectedSchoolDegree = ($school && $school->degree == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedSchoolDegree; ?>><?php echo get_degree_text($i); ?></option>

@@ -639,6 +639,8 @@ class Talent_Evaluation_Public {
 			$mobile = sanitize_text_field($_POST['mobile']);
 			$post_code = sanitize_text_field($_POST['post_code']);
 			$availability = intval($_POST['availability']);
+			$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
+			$mobility = absint($_POST['mobility']);
 			global $wpdb;
 			// Tabellenname für Bewerbungen
 			$table_name = $wpdb->prefix . 'te_talents';
@@ -650,7 +652,10 @@ class Talent_Evaluation_Public {
 				'email' => $email,
 				'mobile' => $mobile,
 				'post_code' => $post_code,
-				'availability' => $availability
+				'availability' => $availability,
+				'mobility' => $mobility,
+				'license' => $license
+				
 			);
 
 			// Bedingung für die Aktualisierung

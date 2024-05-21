@@ -84,7 +84,7 @@ function get_study_degree($degree) {
                         <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                         <div class="form-group">
                             <label for="field">Studienfeld:</label>
-                            <select class="form-control" id="study_field" name="field" required>
+                            <select class="form-select" id="study_field" name="field" required>
                             <?php for ($i = 1; $i <= 10; $i++) : ?>
                                 <?php $selectedStudyField = (isset($study) && $study->field == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedStudyField; ?>><?php echo get_study_field($i); ?></option>
@@ -93,7 +93,7 @@ function get_study_degree($degree) {
                         </div>
                         <div class="form-group">
                             <label for="degree">Abschluss:</label>
-                            <select class="form-control" id="study_degree" name="degree" required>
+                            <select class="form-select" id="study_degree" name="degree" required>
                             <?php for ($i = 1; $i <= 5; $i++) : ?>
                                 <?php $selectedStudyDegree = (isset($study) && $study->degree == $i) ? 'selected' : ''; ?>
                                 <option value="<?php echo $i; ?>" <?php echo $selectedStudyDegree; ?>><?php echo get_study_degree($i); ?></option>

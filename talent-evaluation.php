@@ -94,17 +94,17 @@ function get_availability_string($availability){
         case 0:
             return 'Sofort';
         case 1:
-            return '1 Monat';
+            return 'in einem Monat';
         case 2:
-            return '2 Monate';
+            return 'in 2 Monaten';
         case 3:
-            return '3 Monate';
+            return 'in 3 Monaten';
         case 4:
-            return '4 Monate';
+            return 'in 4 Monaten';
         case 5:
-            return '5 Monate';
+            return 'in 5 Monaten';
         case 6:
-            return '6 Monate';
+            return 'in 6 Monaten';
         case 7:
             return 'Momentan nicht verfügbar';
         // Weitere Fälle hinzufügen, falls erforderlich
