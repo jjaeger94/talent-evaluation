@@ -171,6 +171,9 @@ function get_study_degree($degree) {
         $('#editStudyBtnDelete').click(()=>{
             let id = $('#study_id').val();
             if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                if($('#talentDetailForm')[0]){
+                    $('#talentDetailForm').trigger('submit');
+                }
                 // AJAX-Anfrage senden
                 $.ajax({
                     type: 'POST',
@@ -197,6 +200,9 @@ function get_study_degree($degree) {
         // AJAX-Anfrage zum Speichern eines bearbeiteten Studiums
         $('#editStudyForm').submit(function(e) {
             e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
+            if($('#talentDetailForm')[0]){
+                $('#talentDetailForm').trigger('submit');
+            }
 
             // Formulardaten sammeln
             var formData = $(this).serialize();

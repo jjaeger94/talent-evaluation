@@ -73,6 +73,9 @@
         // AJAX-Anfrage zum Speichern von bearbeiteter EQ-Frage
         $('#editEqForm').submit(function(e) {
             e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
+            if($('#talentDetailForm')[0]){
+                $('#talentDetailForm').trigger('submit');
+            }
 
             // Formulardaten sammeln
             var formData = $(this).serialize();

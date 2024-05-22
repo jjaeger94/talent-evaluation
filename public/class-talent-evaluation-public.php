@@ -628,7 +628,7 @@ class Talent_Evaluation_Public {
 
 	function save_talent_details(){
 
-		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['availability'], $_POST['post_code'])) {
+		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['availability'], $_POST['post_code'], $_POST['school'])) {
 			$talent_id = intval($_POST['talent_id']);
 			if (!has_edit_talent_permission($talent_id)) {
 				wp_send_json_error('Keine Berechtigung');
@@ -657,7 +657,6 @@ class Talent_Evaluation_Public {
 				'mobility' => $mobility,
 				'license' => $license,
 				'school' => $school
-				
 			);
 
 			// Bedingung für die Aktualisierung
@@ -668,7 +667,7 @@ class Talent_Evaluation_Public {
 
 			// Überprüfen, ob ein Fehler aufgetreten ist
 			if ($wpdb->last_error !== '') {
-				wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
+				wp_send_json_error($wpdb->last_error);
 			}else{
 				wp_send_json_success('Test erfolgreich geändert.');
 			}

@@ -117,6 +117,9 @@ function get_apprenticeship_field($field) {
         $('#editApprenticeshipBtnDelete').click(()=>{
             let id = $('#apprenticeship_id').val();
             if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                if($('#talentDetailForm')[0]){
+                    $('#talentDetailForm').trigger('submit');
+                }
                 // AJAX-Anfrage senden
                 $.ajax({
                     type: 'POST',
@@ -162,6 +165,9 @@ function get_apprenticeship_field($field) {
         // AJAX-Anfrage zum Speichern einer bearbeiteten Ausbildung
         $('#editApprenticeshipForm').submit(function(e) {
             e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
+            if($('#talentDetailForm')[0]){
+                $('#talentDetailForm').trigger('submit');
+            }
 
             // Formulardaten sammeln
             var formData = $(this).serialize();

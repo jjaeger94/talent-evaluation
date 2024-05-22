@@ -128,6 +128,9 @@ function get_experience_field($field) {
         $('#addExperienceBtnDelete').click(()=>{
             let id = $('#experience_id').val();
             if (id != 0 && confirm('Eintrag wirklich löschen?')){
+                if($('#talentDetailForm')[0]){
+                    $('#talentDetailForm').trigger('submit');
+                }
                 // AJAX-Anfrage senden
                 $.ajax({
                     type: 'POST',
@@ -173,7 +176,9 @@ function get_experience_field($field) {
         // AJAX-Anfrage zum Speichern von bearbeiteter Berufserfahrung
         $('#editExperienceForm').submit(function(e) {
             e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
-
+            if($('#talentDetailForm')[0]){
+                $('#talentDetailForm').trigger('submit');
+            }
             // Formulardaten sammeln
             var formData = $(this).serialize();
 
