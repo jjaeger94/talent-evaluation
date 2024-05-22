@@ -741,7 +741,7 @@ function render_link_template($test_page_url) {
     ?>
     <div class="input-group mb-3">
         <input type="text" id="test-link" class="form-control" value="<?php echo esc_url($test_page_url); ?>" readonly>
-        <button class="btn btn-outline-secondary" type="button" id="copy-button">
+        <button class="btn btn-outline-secondary" id="copy-button">
             <i class="bi bi-clipboard"></i> Kopieren
         </button>
     </div>

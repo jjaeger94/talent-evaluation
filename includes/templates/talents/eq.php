@@ -20,7 +20,7 @@
         <div class="col-md-12 mb-3">
             <p class="card-title"><strong>Warum meinst du du bist besonders Emotional intelligent?</strong></p>
         </div>
-        <button type="button" class="btn btn-primary" id="addEqBtnOpen">Antwort hinzufügen</button>
+        <button class="btn btn-primary" id="addEqBtnOpen">Antwort hinzufügen</button>
     <?php endif; ?>
 </div>
 
@@ -30,7 +30,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editEqModalLabel">Warum meinst du du bist besonders Emotional intelligent?</h5>
-                    <button type="button" class="btn-close" id="addEqBtnClose" aria-label="Close"></button>
+                    <button class="btn-close" id="addEqBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der EQ-Frage -->

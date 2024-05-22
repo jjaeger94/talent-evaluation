@@ -9,7 +9,7 @@
     </div>
     <button type="submit" class="btn btn-primary"><?php echo isset($question) ? 'Frage aktualisieren' : 'Neue Frage hinzufügen'; ?></button>
     <?php if (isset($question)) : ?>
-        <button type="button" class="btn btn-danger" id="delete-question">Frage löschen</button>
+        <button class="btn btn-danger" id="delete-question">Frage löschen</button>
     <?php endif; ?>
 </form>
 

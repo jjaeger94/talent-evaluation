@@ -7,7 +7,7 @@
             <p>Das Spiel beginnt mit deiner ersten Nachricht. Viel Erfolg!</p>
             <!-- Brillen anzeigen Button -->
             <div class="mt-3">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#glassesModal">Brillen anzeigen</button>
             </div>
         </div>
         <div class="col-md-4">

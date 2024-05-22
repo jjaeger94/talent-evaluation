@@ -26,8 +26,8 @@
         </div>
     </form>
     <div class="d-flex justify-content-between">
-        <button type="button" id="clear-signature" class="btn btn-danger mt-2">Unterschrift zurücksetzen</button>
-        <button type="button" id="save-consent" class="btn btn-primary">Einverständnis speichern</button>
+        <button id="clear-signature" class="btn btn-danger mt-2">Unterschrift zurücksetzen</button>
+        <button id="save-consent" class="btn btn-primary">Einverständnis speichern</button>
     </div>
 </div>
 

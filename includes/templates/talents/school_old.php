@@ -33,7 +33,7 @@ function get_degree_text($degree) {
     <?php endif;?>
         <!-- Wenn keine Schuldaten vorhanden sind, zeige Button zum Hinzufügen -->
         <div class="col">
-            <button type="button" class="btn btn-primary" id="addSchoolBtnOpen" >Schulabschluss auswählen</button>
+            <button class="btn btn-primary" id="addSchoolBtnOpen" >Schulabschluss auswählen</button>
         </div>
 </div>
 <!-- Modal zum Hinzufügen einer neuen Schule -->
@@ -42,7 +42,7 @@ function get_degree_text($degree) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addSchoolModalLabel">Schulabschluss hinzufügen/ändern</h5>
-                <button type="button" class="btn-close" id="addSchoolBtnClose" aria-label="Close"></button>
+                <button class="btn-close" id="addSchoolBtnClose" aria-label="Close"></button>
             </div>
             <form id="addSchoolForm">
                 <div class="modal-body">

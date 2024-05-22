@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-danger" id="button-delete-thread">Chat löschen</button>
+<button class="btn btn-danger" id="button-delete-thread">Chat löschen</button>
 <script>
     jQuery(document).ready(function($) {       
          // Event Listener für den Löschen-Button hinzufügen

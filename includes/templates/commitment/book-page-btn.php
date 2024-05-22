@@ -11,7 +11,7 @@
                 Sind Sie sicher, dass Sie den Test starten möchten?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="dismiss-start-btn">Abbrechen</button>
+                <button class="btn btn-secondary" id="dismiss-start-btn">Abbrechen</button>
                 <a href="<?php echo $link; ?>" id="confirm-start-btn" class="btn btn-primary">Ja, Test starten</a>
             </div>
         </div>

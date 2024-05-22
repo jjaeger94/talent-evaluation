@@ -47,7 +47,7 @@ function get_experience_field($field) {
 </div>
 <div class="row mb-3">
 <div class="col">
-    <button type="button" class="btn btn-primary" id="addExperienceBtnOpen">Berufserfahrung hinzufügen</button>
+    <button class="btn btn-primary" id="addExperienceBtnOpen">Berufserfahrung hinzufügen</button>
     </div>
 </div>
 
@@ -57,7 +57,7 @@ function get_experience_field($field) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editExperienceModalLabel">Berufserfahrung bearbeiten</h5>
-                    <button type="button" class="btn-close" id="addExperienceBtnClose" aria-label="Close"></button>
+                    <button class="btn-close" id="addExperienceBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der Berufserfahrung -->
@@ -94,7 +94,7 @@ function get_experience_field($field) {
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" id="addExperienceBtnDelete">Eintrag entfernen</button>
+                            <button class="btn btn-danger" id="addExperienceBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>

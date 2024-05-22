@@ -65,7 +65,7 @@ function get_study_degree($degree) {
 </div>
 <div class="row mb-3">
 <div class="col">
-    <button type="button" class="btn btn-primary" id="addStudyBtnOpen" >Studium hinzufügen</button>
+    <button class="btn btn-primary" id="addStudyBtnOpen" >Studium hinzufügen</button>
 </div>
 </div>
 
@@ -75,7 +75,7 @@ function get_study_degree($degree) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editStudyModalLabel">Studium bearbeiten</h5>
-                    <button type="button" class="btn-close" id="addStudyBtnClose" aria-label="Close"></button>
+                    <button class="btn-close" id="addStudyBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten des Studiums -->
@@ -117,7 +117,7 @@ function get_study_degree($degree) {
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" id="editStudyBtnDelete">Eintrag entfernen</button>
+                            <button class="btn btn-danger" id="editStudyBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>

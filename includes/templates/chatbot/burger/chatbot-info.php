@@ -11,7 +11,7 @@
             </div>
             <!-- Icon mit Fragezeichen -->
             <div class="col-2 text-right">
-                <button type="button" class="btn btn-outline-primary" id="help-btn-open">
+                <button class="btn btn-outline-primary" id="help-btn-open">
                     <i class="fas fa-question-circle"></i>
                 </button>
             </div>
@@ -35,7 +35,7 @@
                 <p>Das Spiel beginnt mit deiner ersten Nachricht. Viel Erfolg!</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="help-btn-close">Schließen</button>
+                <button class="btn btn-secondary" id="help-btn-close">Schließen</button>
             </div>
         </div>
     </div>

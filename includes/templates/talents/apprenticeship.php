@@ -40,7 +40,7 @@ function get_apprenticeship_field($field) {
 </div>
 <div class="row mb-3">
 <div class="col">
-    <button type="button" class="btn btn-primary" id="addApprenticeshipBtnOpen" >Ausbildung hinzufügen</button>
+    <button class="btn btn-primary" id="addApprenticeshipBtnOpen" >Ausbildung hinzufügen</button>
     </div>
 </div>
 
@@ -50,7 +50,7 @@ function get_apprenticeship_field($field) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editApprenticeshipModalLabel">Ausbildung bearbeiten</h5>
-                    <button type="button" class="btn-close" id="addApprenticeshipBtnClose" aria-label="Close"></button>
+                    <button class="btn-close" id="addApprenticeshipBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Formular zum Bearbeiten der Ausbildung -->
@@ -83,7 +83,7 @@ function get_apprenticeship_field($field) {
                             <label class="form-check-label" for="current_job">Ich bin noch dabei</label>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" id="editApprenticeshipBtnDelete">Eintrag entfernen</button>
+                            <button class="btn btn-danger" id="editApprenticeshipBtnDelete">Eintrag entfernen</button>
                             <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>

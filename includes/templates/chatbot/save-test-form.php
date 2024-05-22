@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Super, du hast es geschafft!</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <!-- <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
             </div>
             <div class="modal-body">
                 <div class="alert alert-info w-100">Hast du Interesse dein Talent zu nutzen? Hinterlasse hier deine Daten um von spannenden Unternehmen aus deiner Gegend kontaktiert zu werden!</div>

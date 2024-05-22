@@ -26,7 +26,7 @@
                             <label for="surname" class="form-label">Nachname:</label>
                             <input type="text" class="form-control" id="surname" name="surname" required>
                         </div>
-                        <button type="button" id="confirm-name" class="btn btn-primary">Name bestätigen</button>
+                        <button id="confirm-name" class="btn btn-primary">Name bestätigen</button>
                     </div>
                     <?php endif; ?>
                     <div id="all-questions-container" class="<?php echo isset($application) ? '' : 'd-none'; ?>" >
@@ -40,10 +40,10 @@
                                 <textarea class="form-control" id="answer_<?php echo $question->ID; ?>" name="answers[<?php echo $question->ID; ?>]" rows="4" required></textarea>
                             </div>
                             <!-- <?php if ($index > 0) : ?>
-                                <button type="button" class="btn btn-primary prev-question">Zurück</button>
+                                <button class="btn btn-primary prev-question">Zurück</button>
                             <?php endif; ?> -->
                             <?php if ($index < count($questions) - 1) : ?>
-                                <button type="button" class="btn btn-primary next-question">Weiter</button>
+                                <button class="btn btn-primary next-question">Weiter</button>
                             <?php else: ?>
                                 <button type="submit" class="btn btn-primary">Antworten abschicken</button>
                             <?php endif; ?>
