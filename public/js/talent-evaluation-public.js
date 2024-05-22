@@ -160,7 +160,11 @@
 			});
 		});
 
-		$('[data-toggle="popover"]').popover();
+		$('[data-toggle="popover"]').popover({
+			content: function(popover) {
+				return $(popover).data('content');
+			}
+		});
 
 		// Event-Listener hinzufügen, um das Popover zu schließen, wenn außerhalb geklickt wird
 		$(document).on('click', function (e) {

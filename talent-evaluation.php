@@ -580,7 +580,7 @@ function send_status_mail($application_id){
 function info_button($text) {
     
     // HTML für den Info-Button mit Popover zurückgeben
-    return '<div class="info-button" data-toggle="popover" title="'.get_text_by_key($text).'"">
+    return '<div class="info-button" data-toggle="popover" data-content="'.get_text_by_key($text).'">
                 <i class="fa-regular fa-circle-question"></i>
             </div>';
 }
