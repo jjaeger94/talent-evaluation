@@ -216,11 +216,11 @@ class Talent_Evaluation_Loader {
 			?>
 			<style type="text/css">#login h1 a, .login h1 a {
 				background-image: url("<?php echo $logo_url; ?>");
-				height: 150px;
+				height: auto;
 				width: 235px;
-				background-size: 235px 150px;
+				background-size: 235px auto;
 				background-repeat: no-repeat;
-				padding-bottom: 30px;
+				padding-bottom: 50px;
 			}</style>
 			<?php 
 		}
