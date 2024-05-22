@@ -715,6 +715,8 @@ function get_user_home_url( $user ) {
             return home_url( '/talents' );
         } elseif ( in_array( 'subscriber', $user->roles ) ) {
             return home_url( '/membership-login' );
+        } elseif ( in_array( 'admin', $user->roles ) ) {
+            return home_url( '/wp-admin' );
         }
     }
     return home_url();
