@@ -31,7 +31,7 @@
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="acceptPrivacy" name="acceptPrivacy" required>
-                        <label class="form-check-label" for="acceptPrivacy">Ich akzeptiere die Datenschutzbestimmungen</label>
+                        <label class="form-check-label" for="acceptPrivacy">Ich akzeptiere die <a href="/datenschutzerklaerung" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a></label>
                     </div>
                     <button type="submit" class="btn btn-primary">Absenden</button>
                 </form>
