@@ -19,8 +19,9 @@ if ($setting->get_value('use-new-form-ui')) {
     $login_submit_class .= ' swpm-submit-btn-default-style';
 }
 ?>
-<p>Logge dich mit deiner Email und deinem Passwort hier ein. </p>
 <form id="swpm-login-form" name="swpm-login-form" method="post" action="" class="container mt-5">
+    <p>Logge dich mit deiner Email und deinem Passwort hier ein. </p>
+    <br>
     <div class="swpm-login-form-inner row">
         <div class="mb-3 col-12">
             <label for="swpm_user_name" class="form-label"><?php echo $swpm_username_label; ?></label>
