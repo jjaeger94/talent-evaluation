@@ -246,26 +246,21 @@ function get_studies_by_talent_id($talent_id){
 }
 
 function get_job_by_id( $job_id ) {
-    if ( current_user_can( 'firmenkunde' ) ) {
-        $user_id = get_current_user_id();
-        // Datenbankverbindung öffnen
+    if ( current_user_can( 'dienstleister' ) ) {
         global $wpdb;
 
         // SQL-Abfrage, um die Jobdetails abzurufen
         $query = $wpdb->prepare( "
             SELECT *
             FROM {$wpdb->prefix}te_jobs
-            WHERE ID = {$job_id}
-            AND user_id = {$user_id}
-        ");
+            WHERE ID = %d
+        ", $job_id );
 
         // Jobdetails abrufen
-        $job = $wpdb->get_results( $query );
+        $jobs = $wpdb->get_results( $query );
 
         // Überprüfen, ob Jobdetails vorhanden sind
-        return ! empty( $job ) ? $job[0] : null;
-    } else if ( current_user_can( 'dienstleister' ) ) {
-        return get_job_by_id_permissionless($job_id);
+        return ! empty( $jobs ) ? $jobs[0] : null;
     }else{
         return null;
     }
@@ -318,23 +313,6 @@ function get_text_by_key($key) {
         // Wenn die Datei nicht existiert oder nicht lesbar ist, Rückgabe des Schlüssels
         return $key;
     }
-}
-
-function get_job_by_id_permissionless($job_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-         SELECT *
-         FROM {$wpdb->prefix}te_jobs
-         WHERE ID = %d
-    ", $job_id );
-
-    // Jobdetails abrufen
-    $jobs = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $jobs ) ? $jobs[0] : null;
 }
 
 function get_user_home_url( $user ) {
