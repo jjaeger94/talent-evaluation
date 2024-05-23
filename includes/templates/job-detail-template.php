@@ -5,7 +5,7 @@ if(!isset($_GET['add']) || $_GET['add'] == false):
     $talents_table = $wpdb->prefix . 'te_talents';
 
     // Grundabfrage
-    $query = "SELECT * FROM $talents_table WHERE school >= %d AND availability <= %d";
+    $query = "SELECT * FROM $talents_table WHERE member_id > 0 AND school >= %d AND availability <= %d";
 
     // Parameter für die Abfrage
     $params = array($job->school, $job->availability);
@@ -50,7 +50,7 @@ if(!isset($_GET['add']) || $_GET['add'] == false):
             }
         }
     endforeach;
-    
+
     include 'talents-table-template.php';
 endif;
 ?>
