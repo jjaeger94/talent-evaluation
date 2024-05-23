@@ -136,31 +136,6 @@ function commitment_hash($uid){
     return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
 }
 
-function save_answer($aid, $question_id, $answer) {
-    global $wpdb;
-
-    $table_name = $wpdb->prefix . 'te_answers';
-
-    // Neuen Eintrag in die Tabelle "answers" einfügen
-    $result = $wpdb->insert(
-        $table_name,
-        array(
-            'application_id' => $aid,
-            'question_id' => $question_id,
-            'answer_text' => $answer
-            // Weitere Felder hinzufügen, falls erforderlich
-        ),
-        array(
-            '%d',
-            '%d',
-            '%s'
-            // Weitere Formatierungen hinzufügen, falls erforderlich
-        )
-    );
-
-    return $result;
-}
-
 function get_talent_by_member_id($member_id){
     global $wpdb;
     $query = $wpdb->prepare( "
@@ -193,40 +168,22 @@ function get_talent_by_id($talent_id){
     }
 }
 
-function get_question_by_id($question_id){
+function get_customer_by_id($customer_id){
     if ( current_user_can( 'dienstleister' ) ) {
         global $wpdb;
         $query = $wpdb->prepare( "
             SELECT *
-            FROM {$wpdb->prefix}te_questions
-            WHERE ID = {$question_id}
+            FROM {$wpdb->prefix}te_customers
+            WHERE ID = {$customer_id}
         ");
         // Bewerbungsdetails abrufen
-        $questions = $wpdb->get_results( $query );
+        $customers = $wpdb->get_results( $query );
 
         // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $questions ) ? $questions[0] : null;
+        return ! empty( $customers ) ? $customers[0] : null;
     } else {
         return null;
     }
-}
-
-function get_test_by_id( $test_id ) {
-    if ( has_ajax_permission() ) {
-        return get_test_by_id_permissionless($test_id);
-    } else {
-        return null;
-    }
-}
-
-function get_questions_by_test_id($test_id){
-        global $wpdb;
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_questions
-            WHERE test_id = {$test_id}
-        ");
-        return $wpdb->get_results( $query );
 }
 
 function get_apprenticeships_by_talent_id($talent_id){
@@ -288,49 +245,6 @@ function get_studies_by_talent_id($talent_id){
     return $wpdb->get_results( $query );
 }
 
-function get_school_by_talent_id($talent_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_school
-        WHERE talent_id = {$talent_id}
-    ");
-
-    // Jobdetails abrufen
-    $school = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $school ) ? $school[0] : null;
-}
-
-function get_application_by_id( $application_id ) {
-    if ( current_user_can( 'firmenkunde' ) ) {
-        $user_id = get_current_user_id();
-        // Datenbankverbindung öffnen
-        global $wpdb;
-
-        // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_applications
-            WHERE ID = {$application_id}
-            AND user_id = {$user_id}
-        ");
-
-        // Bewerbungsdetails abrufen
-        $application = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $application ) ? $application[0] : null;
-    } else if ( current_user_can( 'dienstleister' ) ) {
-        return get_application_by_id_permissionless($application_id);
-    } else {
-        return null;
-    }
-}
-
 function get_job_by_id( $job_id ) {
     if ( current_user_can( 'firmenkunde' ) ) {
         $user_id = get_current_user_id();
@@ -357,99 +271,6 @@ function get_job_by_id( $job_id ) {
     }
 }
 
-function update_application_filepath($application_id, $file_directory){
-	global $wpdb;
-	// Tabellenname für Bewerbungen
-	$table_name = $wpdb->prefix . 'te_applications';
-
-	// Daten zum Aktualisieren
-	$data = array('filepath' => $file_directory);
-
-	// Bedingung für die Aktualisierung
-	$where = array('ID' => $application_id);
-
-	// Aktualisieren der Daten in der Datenbank
-	$wpdb->update($table_name, $data, $where);
-
-	// Überprüfen, ob ein Fehler aufgetreten ist
-	if ($wpdb->last_error !== '') {
-		wp_send_json_error('Fehler beim Aktualisieren des Dateipfads in der Datenbank.');
-	}
-}
-
-function get_review_by_application($application){
-    if ( current_user_can( 'firmenkunde' ) ) {
-        $user_id = get_current_user_id();
-        if ($application->user_id != $user_id){
-            return null;
-        }
-    } else if ( !current_user_can( 'dienstleister' ) ) {
-        return null;
-    }
-    //Datenbankverbindung öffnen
-    global $wpdb;
-
-    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_reviews
-        WHERE ID = %d
-    ", $application->review_id );
-
-    // Bewerbungsdetails abrufen
-    $review = $wpdb->get_results( $query );
-
-    return ! empty( $review ) ? $review[0] : null;
-}
-
-function get_backlogs_by_application( $application ) {
-    if ( current_user_can( 'firmenkunde' ) ) {
-        $user_id = get_current_user_id();
-        if ($application->user_id != $user_id){
-            return null;
-        }
-    } else if ( !current_user_can( 'dienstleister' ) ) {
-        return null;
-    }
-    //Datenbankverbindung öffnen
-    global $wpdb;
-
-    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_backlogs
-        WHERE application_id = %d
-        ORDER BY added DESC
-    ", $application->ID );
-
-    // Bewerbungsdetails abrufen
-    return $wpdb->get_results( $query );
-
-}
-
-function create_backlog_entry($application_id, $log, $comment = ''){
-    $user_id = get_current_user_id();
-    global $wpdb;
-
-    $table_name = $wpdb->prefix . 'te_backlogs';
-
-    $result = $wpdb->insert(
-        $table_name,
-        array(
-            'application_id' => $application_id, 
-            'user_id' => $user_id,
-            'log' => $log,
-            'comment' => $comment,
-        ),
-        array(
-            '%d',
-            '%d',
-            '%s',
-            '%s',
-        )
-    );
-}
-
 function update_job_state($job_id, $state){
     global $wpdb;
     // Tabellenname für Bewerbungen
@@ -463,118 +284,6 @@ function update_job_state($job_id, $state){
 
     // Aktualisieren der Daten in der Datenbank
     $wpdb->update($table_name, $data, $where);
-}
-
-function update_application_state($application_id, $state, $comment = ''){
-    global $wpdb;
-    // Tabellenname für Bewerbungen
-    $table_name = $wpdb->prefix . 'te_applications';
-
-    // Daten zum Aktualisieren
-    $data = array('state' => $state);
-
-    // Bedingung für die Aktualisierung
-    $where = array('ID' => $application_id);
-
-    // Aktualisieren der Daten in der Datenbank
-    $wpdb->update($table_name, $data, $where);
-    
-    $log = 'Status zu "'.$state.'" geändert';
-
-    create_backlog_entry($application_id, $log, $comment);
-}
-
-function add_review_to_application($application_id){
-    $application = get_application_by_id($application_id);
-
-    if(!$application){
-        return null;
-    }else if($application->review_id){
-        return $application->review_id;
-    }else{
-        global $wpdb;
-        // Tabellenname für Bewerbungen
-        $table_name = $wpdb->prefix . 'te_reviews';
-
-        $uniqueDir = 'consent_' . uniqid();
-
-        $result = $wpdb->insert(
-            $table_name,
-            array(
-                'application_id' => $application_id,
-                'filepath' => $uniqueDir
-            ),
-            array(
-                '%d',
-                '%s'
-            )
-        );
-        if($result){
-            //get id 
-            $lastid = $wpdb->insert_id;
-            // Tabellenname für Bewerbungen
-            $table_name = $wpdb->prefix . 'te_applications';
-
-            // Daten zum Aktualisieren
-            $data = array('review_id' => $lastid);
-
-            // Bedingung für die Aktualisierung
-            $where = array('ID' => $application_id);
-
-            // Aktualisieren der Daten in der Datenbank
-            $wpdb->update($table_name, $data, $where);
-
-            $log = 'Prüfung begonnen';
-
-            create_backlog_entry($application_id, $log);
-            return $lastid;
-        }else{
-            return null;
-        }
-    }
-}
-
-function send_status_mail($application_id){
-    $user = wp_get_current_user();
-    $subscribe_notifications = get_user_meta($user->ID, 'subscribe_notifications', true);
-    if($subscribe_notifications){
-        $application = get_application_by_id($application_id);
-
-        if ($application) {
-            $is_mail = True;
-            
-            $job = get_job_by_id($application->job_id);
-            if ($application->review_id) {
-                $application->review = get_review_by_application($application);
-            }
-            
-            $state = '';
-            if($application->state == 'failed'){
-                $state = 'Prüfung nicht bestanden: ';
-            }else if($application->state == 'passed'){
-                $state = 'Prüfung bestanden: ';
-            }
-            $to = $user->user_email; // E-Mail-Adresse des Empfängers
-            $subject = $state. $application->prename . ' ' . $application->surname;
-    
-            // CSS-Datei einlesen und inline einbetten
-            $css_content = file_get_contents(plugin_dir_path(__FILE__) . 'public/css/custom.css');
-            $style = '<style>' . $css_content . '</style>';
-    
-            // Template einlesen
-            ob_start();
-            include plugin_dir_path(__FILE__) . 'includes/templates/application-detail-template.php';
-            $template = ob_get_clean();
-    
-            // CSS und Template in die E-Mail einbetten
-            $message = $style . $template;
-    
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-    
-            // E-Mail senden
-            wp_mail($to, $subject, $message, $headers);
-        }
-    }
 }
 
 function info_button($text) {
@@ -611,23 +320,6 @@ function get_text_by_key($key) {
     }
 }
 
-function get_test_by_id_permissionless($test_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-         SELECT *
-         FROM {$wpdb->prefix}te_tests
-         WHERE ID = %d
-    ", $test_id );
-
-    // Jobdetails abrufen
-    $tests = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $tests ) ? $tests[0] : null;
-}
-
 function get_job_by_id_permissionless($job_id){
     global $wpdb;
 
@@ -645,68 +337,6 @@ function get_job_by_id_permissionless($job_id){
     return ! empty( $jobs ) ? $jobs[0] : null;
 }
 
-function get_review_by_id_permissionless($review_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-         SELECT *
-         FROM {$wpdb->prefix}te_reviews
-         WHERE ID = %d
-    ", $review_id );
-
-    // Jobdetails abrufen
-    $reviews = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $reviews ) ? $reviews[0] : null;
-}
-
-function get_review_by_id($review_id){
-    if(current_user_can('dienstleister')){
-         return get_review_by_id_permissionless($review_id);
-    }else{
-         return null;
-    }
-
-}
-
-function get_application_by_id_permissionless($application_id){
-    // Datenbankverbindung öffnen
-    global $wpdb;
-
-    // SQL-Abfrage, um die Bewerbungsdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_applications
-        WHERE ID = %d
-    ", $application_id );
-
-    // Bewerbungsdetails abrufen
-    $applications = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Bewerbungsdetails vorhanden sind
-    return ! empty( $applications ) ? $applications[0] : null;
-}
-
-function get_applications_dir(){
-    $uploadDir = wp_upload_dir()['basedir'] . '/applications/';
-    // Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
-    if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
-    }
-    return $uploadDir;
-}
-
-function get_consent_dir(){
-    $uploadDir = wp_upload_dir()['basedir'] . '/consent/';
-    // Überprüfen, ob das Verzeichnis existiert, andernfalls erstellen
-    if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0755, true); // Verzeichnis erstellen mit Lesen/Schreiben-Rechten für Besitzer und Leserechten für andere
-    }
-    return $uploadDir;
-}
-
 function get_user_home_url( $user ) {
     if ( isset( $user->roles ) && is_array( $user->roles ) ) {
         if ( in_array( 'firmenkunde', $user->roles ) ) {
@@ -720,35 +350,6 @@ function get_user_home_url( $user ) {
         }
     }
     return home_url();
-}
-
-function render_logout_button() {
-    if ( SwpmMemberUtils::is_member_logged_in()) {
-        ?>
-        <div class="swpm-logged-logout-link">
-            <a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a>
-        </div>
-        <?php
-    }else if(is_user_logged_in()){
-        ?>
-        <div class="swpm-logged-logout-link">
-        <a href="<?php echo wp_logout_url(); ?>">Logout</a>
-        </div>
-        <?php
-    }
-}
-
-function render_link_template($test_page_url) {
-    ob_start();
-    ?>
-    <div class="input-group mb-3">
-        <input type="text" id="test-link" class="form-control" value="<?php echo esc_url($test_page_url); ?>" readonly>
-        <button class="btn btn-outline-secondary" id="copy-button">
-            <i class="bi bi-clipboard"></i> Kopieren
-        </button>
-    </div>
-    <?php
-    return ob_get_clean();
 }
 
 function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {

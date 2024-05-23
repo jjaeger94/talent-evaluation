@@ -71,6 +71,7 @@ class Talent_Evaluation_Loader {
      * @since    1.0.0
      */
     public function add_shortcodes() {
+		register_shortcodes_allgemein();
         register_shortcodes_firmenkunden();
 		register_shortcodes_dienstleister();
 		register_shortcodes_talents();
@@ -140,7 +141,6 @@ class Talent_Evaluation_Loader {
 	public function run() {
 
 		$this->add_filter( 'login_redirect', $this, 'redirect_after_login', 10, 3 );
-		$this->add_filter( 'query_vars', $this, 'register_query_vars');
 		$this->add_filter( 'show_admin_bar', $this, 'hide_wordpress_admin_bar');
 		$this->add_filter( 'login_headertitle', $this, 'my_login_logo_url_title');
 		$this->add_filter( 'login_headerurl', $this, 'my_login_logo_url');
@@ -149,12 +149,6 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'swpm_registration_form_override', $this, 'custom_swpm_registration_form', 10, 2);
 		
 		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
-		$this->add_action( 'init', $this, 'register_pdf_viewer_rewrite_rule' );
-		$this->add_action( 'template_redirect', $this, 'pdf_viewer_template_redirect' );
-		$this->add_action('show_user_profile', $this, 'custom_user_fields');
-        $this->add_action('edit_user_profile', $this, 'custom_user_fields');
-		$this->add_action( 'personal_options_update', $this, 'save_custom_user_fields' );
-		$this->add_action( 'edit_user_profile_update', $this, 'save_custom_user_fields' );
 
 
 		foreach ( $this->filters as $hook ) {
@@ -239,51 +233,6 @@ class Talent_Evaluation_Loader {
 			return 'Commit IQ';
 		}
 		
-	}
-
-	// Funktion zum Anzeigen benutzerdefinierter Felder auf der Benutzerbearbeitungsseite
-	public function custom_user_fields($user) {
-		$subscription = get_user_meta($user->ID, 'subscription', true);
-		$subscribe_notifications = get_user_meta($user->ID, 'subscribe_notifications', true); // Hinzufügen der Checkbox-Daten
-		?>
-		<h3>Talent Evaluation</h3>
-		<table class="form-table">
-			<tr>
-				<th><label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label></th>
-				<td>
-					<input type="checkbox" name="subscribe_notifications" id="subscribe_notifications" value="1" <?php checked($subscribe_notifications, '1'); ?>>
-					<label for="subscribe_notifications">Mail-Benachrichtigungen erhalten</label>
-				</td>
-			</tr>
-		</table>
-		<?php
-	}
-
-	// Funktion zum Speichern benutzerdefinierter Felder
-	public function save_custom_user_fields($user_id) {
-		if (!current_user_can('edit_user', $user_id)) {
-			return false;
-		}
-
-		// Speichern der Checkbox-Daten
-		$subscribe_notifications = isset($_POST['subscribe_notifications']) ? '1' : '0';
-		update_user_meta($user_id, 'subscribe_notifications', $subscribe_notifications);
-}
-
-	public function register_pdf_viewer_rewrite_rule() {
-		add_rewrite_rule('^pdf-viewer-page/?$', 'index.php?pdf_viewer_page=1', 'top');
-	}
-
-	public function register_query_vars($vars) {
-		$vars[] = 'pdf_viewer_page';
-		return $vars;
-	}
-
-	public function pdf_viewer_template_redirect() {
-		if (get_query_var('pdf_viewer_page')) {
-			include(plugin_dir_path( dirname( __FILE__ ) ) . 'pdf-viewer.php');
-			exit;
-		}
 	}
 
 	/**

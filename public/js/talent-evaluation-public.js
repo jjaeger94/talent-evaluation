@@ -138,27 +138,6 @@
 				}
 			});
 		});	
-		
-		$('#load-backlog-button').click(function() {
-			var urlParams = new URLSearchParams(window.location.search);
-			var applicationId = urlParams.get('id'); // Hier sollten Sie die Anwendungs-ID dynamisch erhalten
-			$.ajax({
-				url: your_script_vars.ajaxurl,
-				type: 'POST',
-				data: {
-					action: 'get_backlog',  
-					application_id: applicationId
-				},
-				success: function(response) {
-					// Fügen Sie den geladenen Inhalt dem Container hinzu
-					$('#backlog-container').html(response);
-				},
-				error: function(xhr, status, error) {
-					// Behandeln Sie Fehler hier
-					console.error('Fehler beim Laden des Backlogs:', error);
-				}
-			});
-		});
 
 		$('[data-toggle="popover"]').popover({
 			content: function(popover) {
