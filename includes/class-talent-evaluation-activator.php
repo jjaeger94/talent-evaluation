@@ -37,13 +37,7 @@ class Talent_Evaluation_Activator
             array(
                 'title' => 'Stellen',
                 'content' => '[show_jobs]',
-                'slug' => 'stellen',
-                'template' => '', // optional: Vorlage für die Seite
-            ),
-            array(
-                'title' => 'Stellen hinzufügen',
-                'content' => '[add_job_form]',
-                'slug' => 'stelle-hinzufuegen',
+                'slug' => 'jobs',
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
