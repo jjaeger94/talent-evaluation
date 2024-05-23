@@ -72,12 +72,94 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('create_user');
 		$this->add_public_request('send_activate_account_mail');
 		$this->add_public_request('edit_customer');
+		$this->add_public_request('edit_job');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
 	}
+
+	function edit_job() {
+		global $wpdb;
+	
+		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob das erforderliche Feld 'job_title' gesetzt ist
+		if (!isset($_POST['job_title'])) {
+			wp_send_json_error('job_title error');
+		}
+	
+		// Sanitize and retrieve POST data
+		$job_id = isset($_POST['job_id']) ? intval($_POST['job_id']) : 0;
+		$customer_id = isset($_POST['customer_id']) ? intval($_POST['customer_id']) : null;
+		$job_title = sanitize_text_field($_POST['job_title']);
+		$post_code = isset($_POST['post_code']) ? sanitize_text_field($_POST['post_code']) : null;
+		$school = isset($_POST['school']) ? intval($_POST['school']) : null;
+		$mobility = isset($_POST['mobility']) ? intval($_POST['mobility']) : null;
+		$license = isset($_POST['license']) ? boolval($_POST['license']) : null;
+		$home_office = isset($_POST['home_office']) ? boolval($_POST['home_office']) : null;
+		$availability = isset($_POST['availability']) ? intval($_POST['availability']) : null;
+	
+		// Prepare data arrays for insert and update
+		$data = array(
+			'customer_id' => $customer_id,
+			'job_title' => $job_title,
+			'post_code' => $post_code,
+			'school' => $school,
+			'mobility' => $mobility,
+			'license' => $license,
+			'home_office' => $home_office,
+			'availability' => $availability
+		);
+		
+		// Remove null values to avoid overwriting with NULL in database
+		$data = array_filter($data, function($value) { return !is_null($value); });
+		$format = array(
+			'%d',
+			'%s',
+			'%s',
+			'%d',
+			'%d',
+			'%d',
+			'%d',
+			'%d'
+		);
+		$format = array_slice($format, 0, count($data)); // Adjust format array length
+	
+		if ($job_id > 0) {
+			// Aktualisieren Sie den vorhandenen Job
+			$updated = $wpdb->update(
+				$wpdb->prefix . 'te_jobs',
+				$data,
+				array('ID' => $job_id),
+				$format,
+				array('%d')
+			);
+	
+			if (false === $updated) {
+				wp_send_json_error('Fehler beim Aktualisieren des Jobs.');
+			} else {
+				wp_send_json_success('Job erfolgreich aktualisiert.');
+			}
+		} else {
+			// Fügen Sie einen neuen Job hinzu
+			$inserted = $wpdb->insert(
+				$wpdb->prefix . 'te_jobs',
+				$data,
+				$format
+			);
+	
+			if (false === $inserted) {
+				wp_send_json_error('Fehler beim Hinzufügen des Jobs.');
+			} else {
+				wp_send_json_success('Job erfolgreich hinzugefügt.');
+			}
+		}
+	}	
 
 	function edit_customer() {
 		global $wpdb;

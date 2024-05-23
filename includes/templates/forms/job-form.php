@@ -1,80 +1,77 @@
-<form id="add-job-form" class="bootstrap-form" method="post">
+<form id="edit-job-form" method="post">
+    <?php if(isset($job->ID)): ?>
+        <input type="hidden" name="job_id" value="<?php echo $job->ID; ?>">
+    <?php endif; ?>
     <div class="form-group mb-3">
-        <label for="job-title"><strong class="mr-2">Stellenbezeichnung:</strong></label><?php echo info_button('job_form_title'); ?>
-        <input type="text" class="form-control" id="job-title" name="job_title" required>
-    </div>
-    <div class="form-group mb-3">
-        <label for="location"><strong class="mr-2">Standort:</strong></label><?php echo info_button('job_form_location'); ?>
-        <input type="text" class="form-control" id="location" name="location">
-    </div>
-    <div class="form-group mb-3">
-        <label for="test-id"><strong>Test</strong></label>
-        <select class="form-select" id="test-id" name="test_id">
-            <?php foreach ( $tests as $test ) : ?>
-                <option value="<?php echo esc_attr( $test->ID ); ?>" <?php selected( $test_id, $test->ID ); ?>><?php echo esc_html( $test->title ); ?></option>
+        <label for="customer_id"><strong>Kunde</strong></label>
+        <select class="form-control" id="customer_id" name="customer_id" required>
+            <option value="">Wählen Sie einen Kunden</option>
+            <?php foreach($customers as $customer): ?>
+                <option value="<?php echo $customer->ID; ?>" <?php echo (isset($job->customer_id) && $job->customer_id == $customer->ID) ? 'selected' : ''; ?>>
+                    <?php echo esc_html($customer->company_name); ?>
+                </option>
             <?php endforeach; ?>
         </select>
     </div>
-
-    <!-- <div class="form-group mb-3">
-        <label for="criteria1"><strong class="mr-2">Kriterien zur Vorauswahl:</strong></label><?php echo info_button('job_form_criteria'); ?>
-        <input type="text" class="form-control" id="criteria1" name="criteria1">
-        <input type="text" class="form-control mt-2" id="criteria2" name="criteria2">
-        <input type="text" class="form-control mt-2" id="criteria3" name="criteria3">
+    <div class="form-group mb-3">
+        <label for="job_title"><strong>Job-Titel</strong></label>
+        <input type="text" class="form-control" id="job_title" name="job_title" value="<?php echo isset($job->job_title) ? esc_attr($job->job_title) : ''; ?>" required>
     </div>
     <div class="form-group mb-3">
-        <label for="completeness1"><strong class="mr-2">Vollständigkeits Check</strong></label><?php echo info_button('job_form_completeness'); ?>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="completeness1" name="completeness1" value="0">
-            <label class="form-check-label" for="completeness1">Zeugnisse auf Vollständigkeit prüfen</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="completeness2" name="completeness2" value="0">
-            <label class="form-check-label" for="completeness2">Arbeitszeugnisse auf Vollständigkeit prüfen</label>
-        </div>
+        <label for="post_code"><strong>Postleitzahl</strong></label>
+        <input type="text" class="form-control" id="post_code" name="post_code" value="<?php echo isset($job->post_code) ? esc_attr($job->post_code) : ''; ?>">
     </div>
     <div class="form-group mb-3">
-        <label for="screening1"><strong class="mr-2">Screening</strong></label><?php echo info_button('job_form_screening'); ?>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="screening1" name="screening1" value="0">
-            <label class="form-check-label" for="screening1">LinkedIn checken</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="screening2" name="screening2" value="0">
-            <label class="form-check-label" for="screening2">Höchstes Bildungszeugnis prüfen</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="screening3" name="screening3" value="0">
-            <label class="form-check-label" for="screening3">Arbeitszeugnis prüfen</label>
-        </div>
-    </div> -->
-    <input type="submit" value="Stelle hinzufügen" class="btn btn-primary">
+        <label for="school"><strong>benötigter Schulabschluss:</strong></label>
+        <select class="form-select" id="school" name="school" required>
+        <option value="0" <?php echo (isset($job->school) && $job->school == 0) ? 'selected' : ''; ?> >Kein Abschluss</option>
+        <option value="1" <?php echo (isset($job->school) && $job->school == 1) ? 'selected' : ''; ?> >Hauptschulabschluss</option>
+        <option value="2" <?php echo (isset($job->school) && $job->school == 2) ? 'selected' : ''; ?> >Realschulabschluss und vergleichbare Schulabschlüsse</option>
+        <option value="3" <?php echo (isset($job->school) && $job->school == 3) ? 'selected' : ''; ?> >Fachhochschulreife</option>
+        <option value="4" <?php echo (isset($job->school) && $job->school == 4) ? 'selected' : ''; ?> >Abitur</option>
+        </select>
+    </div>
+    <div class="form-check mb-1">
+    <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo isset($job->mobility) && $job->license ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="license">Führerhschein (Klasse B)</label>
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="home_office" name="home_office" <?php echo isset($job->home_office) && $job->home_office ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="home_office">Home Office möglich</label>
+    </div>
+    <div class="form-group mb-3">
+        <label for="field">Verfügbarkeit:</label><?php echo info_button('jobs_availability'); ?>
+        <select class="form-select" id="availability" name="availability" required>
+        <?php for ($i = 0; $i <= 7; $i++) : ?>
+            <?php $selectedAvailability= (isset($job->availability) && $job->availability == $i) ? 'selected' : ''; ?>
+            <option value="<?php echo $i; ?>" <?php echo $selectedAvailability; ?>><?php echo get_availability_string($i); ?></option>
+        <?php endfor; ?>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary"><?php echo isset($job->ID) ? 'Änderungen speichern' : 'Neuen Job anlegen'; ?></button>
 </form>
-
-<!-- Container für Fehler- oder Erfolgsmeldungen -->
-<div id="form-message" class="mt-3"></div>
+<div id="form-message"></div>
 <script>
 jQuery(document).ready(function($) {
-    $('#add-job-form').submit(function(e) {
-			e.preventDefault();
-	
-			// Formulardaten serialisieren
-			var formData = $(this).serialize();
-	
-			// Ajax-Anfrage senden
-			$.ajax({
-				type: 'POST',
-				url: '<?php echo admin_url('admin-ajax.php'); ?>', // Verwende die global definierte ajaxurl
-				data: formData + '&action=add_job', // Daten und Aktion hinzufügen
-				success: function(response) {
-					// Antwort verarbeiten
-					$('#form-message').html(response);
-					$('#add-job-form')[0].reset();
-				},
-				error: function(xhr, status, error) {
-					console.error(error);
-				}
-			});
-		});
+    $('#edit-job-form').submit(function(e) {
+        e.preventDefault(); // Verhindert das Standard-Formular-Verhalten
+        
+        var formData = $(this).serialize(); // Serialisiert die Formulardaten
+        
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: formData + '&action=edit_job', // Fügt die Aktion hinzu
+            success: function(response) {
+                // Erfolgsfall: Weiterleitung oder Anzeige einer Erfolgsmeldung
+                console.log(response);
+                $('#form-message').html(response.data);
+            },
+            error: function(xhr, status, error) {
+                // Fehlerfall: Anzeige einer Fehlermeldung
+                console.error('Fehler beim Speichern der Jobdaten:', error);
+            }
+        });
+    });
 });
 </script>

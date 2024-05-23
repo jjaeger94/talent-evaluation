@@ -7,6 +7,57 @@
         add_shortcode('talent_details', 'render_talent_details');
         add_shortcode('show_customers', 'render_customers_table');
         add_shortcode('customer_details', 'render_customer_details');
+        add_shortcode('show_jobs', 'render_jobs_table');
+        add_shortcode('job_details', 'render_job_details');
+    }
+
+    function render_job_details() {
+        if (current_user_can('dienstleister')) {
+            global $wpdb;
+            $customers = $wpdb->get_results("SELECT ID, company_name FROM {$wpdb->prefix}te_customers");
+            if ( isset( $_GET['id'] ) ) {
+                $id = intval( $_GET['id'] );
+                // Abfrage, um Talentdetails abzurufen
+                $job = get_job_by_id($id);
+
+                // Überprüfen, ob das Talent gefunden wurde
+                if ($job) {
+                    ob_start(); // Puffer starten
+                    include_once('templates/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean(); 
+                } else {
+                    // Talent nicht gefunden
+                    return '<p>ID nicht gefunden.</p>';
+                }
+            } else if(isset( $_GET['add']) && $_GET['add'] == true){
+                $job = [];
+                ob_start(); // Puffer starten
+                include_once('templates/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean(); 
+            } else {
+                return '<p>ID nicht übergeben.</p>';
+            }
+        } else {
+            return '<p>Keine Berechtigung.</p>';
+        }
+    }
+
+    // Benutzerdefinierte Funktion, um die Kunden-Tabelle zu erstellen
+    function render_jobs_table() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (current_user_can('dienstleister')) {
+            // Abfrage, um Talente abzurufen
+            global $wpdb;
+            $jobs_table = $wpdb->prefix . 'te_jobs';
+            $jobs = $wpdb->get_results("SELECT * FROM $jobs_table ORDER BY added DESC");
+
+            // Überprüfen, ob Talente vorhanden sind
+            ob_start(); // Puffer starten
+            include_once('templates/jobs-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            return ob_get_clean(); 
+        } else {
+            return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
+        }
     }
 
     function render_customer_details() {

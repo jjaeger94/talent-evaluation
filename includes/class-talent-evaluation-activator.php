@@ -140,7 +140,6 @@ class Talent_Evaluation_Activator
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     post_code VARCHAR(5) NOT NULL ,
                     school INT,
-                    mobility INT,
                     availability INT,
                     license TINYINT(1),
                     home_office TINYINT(1),

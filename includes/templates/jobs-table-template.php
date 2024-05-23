@@ -1,32 +1,21 @@
-<?php echo render_link_template($test_page_url); ?>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Stellenbezeichnung</th>
-                <th>Anzahl Kandidaten</th>
-                <th>Prüfung läuft</th>
-                <th>Prüfung nicht bestanden</th>
-                <th>Prüfung bestanden</th>
-                <th>Status</th>
+                <th>ID</th>
+                <th>Firmenname</th>
+                <th>Talentdetails</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ( $jobs as $job ) : ?>
+            <?php foreach ($jobs as $job) : ?>
                 <tr>
-                    <td class="align-middle"> <!-- "align-middle" für vertikale Zentrierung und "text-center" für horizontale Zentrierung -->
-                        <strong><a href="<?php echo esc_url(home_url('/job-details?id=' . $job->ID)); ?>"><?php echo esc_html($job->job_title); ?></a></strong><br>
-                        <?php echo $job->location; ?><br>
-                        Erstellt am: <?php echo date('d.m.Y', strtotime($job->added)); ?> <!-- Nur das Datum anzeigen -->
-                    </td>
-                    <td class="align-middle"><?php echo get_application_count_for_job($job->ID); ?></td>
-                    <td class="align-middle"><?php echo get_ongoing_application_count_for_job($job->ID); ?></td>
-                    <td class="align-middle"><?php echo get_failed_application_count_for_job($job->ID); ?></td>
-                    <td class="align-middle"><?php echo get_passed_application_count_for_job($job->ID); ?></td>
-                    <td class="align-middle"><?php echo $job->state == 'active' ? 'aktiv' : 'inaktiv'; ?></td>
+                    <td><?php echo $job->ID; ?></td>
+                    <td><?php echo $job->job_title; ?></td>
+                    <td><a href="<?php echo esc_url(home_url('/job-details/?id=' . $job->ID)); ?>">Details</a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
-
+<td><a href="<?php echo esc_url(home_url('/job-details/?add=true')); ?>">Stelle hinzufügen</a></td>
