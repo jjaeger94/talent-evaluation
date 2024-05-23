@@ -32,7 +32,7 @@
         </select>
     </div>
     <div class="form-check mb-1">
-    <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo isset($job->mobility) && $job->license ? 'checked' : ''; ?>>
+    <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo isset($job->license) && $job->license ? 'checked' : ''; ?>>
         <label class="form-check-label" for="license">Führerhschein (Klasse B)</label>
     </div>
     <div class="form-check mb-3">

@@ -100,8 +100,8 @@ class Talent_Evaluation_Public {
 		$post_code = isset($_POST['post_code']) ? sanitize_text_field($_POST['post_code']) : null;
 		$school = isset($_POST['school']) ? intval($_POST['school']) : null;
 		$mobility = isset($_POST['mobility']) ? intval($_POST['mobility']) : null;
-		$license = isset($_POST['license']) ? boolval($_POST['license']) : null;
-		$home_office = isset($_POST['home_office']) ? boolval($_POST['home_office']) : null;
+		$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
+		$home_office = filter_var($_POST['home_office'], FILTER_VALIDATE_BOOLEAN);
 		$availability = isset($_POST['availability']) ? intval($_POST['availability']) : null;
 	
 		// Prepare data arrays for insert and update

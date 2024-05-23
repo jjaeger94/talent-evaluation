@@ -1,4 +1,3 @@
-<?php include 'filters/post-code-filter.php'; ?>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

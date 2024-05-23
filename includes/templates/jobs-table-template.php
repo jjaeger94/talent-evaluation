@@ -18,4 +18,3 @@
         </tbody>
     </table>
 </div>
-<td><a href="<?php echo esc_url(home_url('/job-details/?add=true')); ?>">Stelle hinzufügen</a></td>
