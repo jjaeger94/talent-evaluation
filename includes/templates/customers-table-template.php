@@ -18,4 +18,3 @@
         </tbody>
     </table>
 </div>
-<td><a href="<?php echo esc_url(home_url('/customer-details/?add=true')); ?>">Kunde hinzufügen</a></td>
