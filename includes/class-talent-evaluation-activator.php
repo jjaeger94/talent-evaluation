@@ -222,8 +222,21 @@ class Talent_Evaluation_Activator
                     FOREIGN KEY (talent_id) REFERENCES $talents(ID)
                 ) $charset_collate;";
                 dbDelta($sql);
-}
-
+            }
+            $requirements = $wpdb->prefix . 'te_requirements';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$requirements}'") != $requirements) {
+                $sql = "CREATE TABLE $requirements (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    job_id INT,
+                    type INT,
+                    field INT,
+                    degree INT,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (job_id) REFERENCES $jobs(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
         }
 
         wp_create_database_tables();
