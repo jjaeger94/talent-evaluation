@@ -640,6 +640,7 @@ class Talent_Evaluation_Public {
 			$post_code = sanitize_text_field($_POST['post_code']);
 			$availability = intval($_POST['availability']);
 			$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
+			$home_office = filter_var($_POST['home_office'], FILTER_VALIDATE_BOOLEAN);
 			$mobility = absint($_POST['mobility']);
 			$school = absint($_POST['school']);
 			global $wpdb;
@@ -656,6 +657,7 @@ class Talent_Evaluation_Public {
 				'availability' => $availability,
 				'mobility' => $mobility,
 				'license' => $license,
+				'home_office' => $home_office,
 				'school' => $school
 			);
 
