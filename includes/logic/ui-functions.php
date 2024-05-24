@@ -1,4 +1,31 @@
 <?php
+function requirements_match($requirements, $talent_requirements){
+    $grouped_requirements = [];
+    foreach ($requirements as $requirement) {
+        $grouped_requirements[$requirement->type][] = $requirement;
+    }
+    foreach ($grouped_requirements as $type => $type_requirements) {
+        if($type == 2 && isset($talent_requirements[2])){
+            foreach ($type_requirements as $requirement) {
+                foreach ($talent_requirements[2] as $talent_requirement) {
+                    if(($requirement->field == $talent_requirement->field) && ($requirement->degree <= $talent_requirement->degree)){
+                        return true;
+                    }
+                }
+            }
+        }else if(($type == 1 && isset($talent_requirements[1])) || ($type == 3 && isset($talent_requirements[3]))){
+            foreach ($type_requirements as $requirement) {
+                foreach ($talent_requirements[$type] as $talent_requirement) {
+                    if($requirement->field == $talent_requirement->field){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 function get_type_label($type) {
     $types = [
         1 => 'Ausbildung',

@@ -1,21 +1,17 @@
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <?php if ($talent->member_id) : ?>
-                    <button id="activateAccount" class="btn btn-primary">Email erneut senden</button>
-                <?php else: ?>
-                    <button id="createUser" class="btn btn-primary">Nutzer anlegen</button>
-                <?php endif; ?>
-            </div>
-            <div class="col">
-                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
-            </div>
-        </div>
-        <div class="wrap">
-            <span id="send-mail-result"></span>
-		</div>
+<div class="row">
+    <div class="col">
+        <?php if ($talent->member_id) : ?>
+            <button id="activateAccount" class="btn btn-primary">Email erneut senden</button>
+        <?php else: ?>
+            <button id="createUser" class="btn btn-primary">Nutzer anlegen</button>
+        <?php endif; ?>
     </div>
+    <div class="col">
+        <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
+    </div>
+</div>
+<div class="wrap">
+    <span id="send-mail-result"></span>
 </div>
 <script>
 jQuery(document).ready(function($) {

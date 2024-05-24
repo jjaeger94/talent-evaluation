@@ -117,6 +117,7 @@
 
                 // Überprüfen, ob das Talent gefunden wurde
                 if ($talent) {
+                    global $wpdb;
                     // Abfrage, um den Chatverlauf abzurufen
                     $messages = list_messages_by_thread($talent->oai_test_id);
                     // $school = get_school_by_talent_id($talent->ID);
@@ -124,6 +125,78 @@
                     $studies = get_studies_by_talent_id($talent->ID);
                     $experiences = get_experiences_by_talent_id($talent->ID);
                     $eq = get_eq_by_talent_id($talent->ID);
+
+                    $jobs_table = $wpdb->prefix . 'te_jobs';
+
+                    // Grundabfrage
+                    $query = "SELECT * FROM $jobs_table WHERE school <= %d AND availability >= %d";
+
+                    // Parameter für die Abfrage
+                    $params = array($talent->school, $talent->availability);
+
+                    // Zusätzliche Bedingungen für license und home_office
+                    if (!$talent->license) {
+                        $query .= " AND license = %d";
+                        $params[] = $talent->license;
+                    }
+
+                    if ($talent->home_office) {
+                        $query .= " AND home_office = %d";
+                        $params[] = $talent->home_office;
+                    }
+
+                    // Abfrage vorbereiten
+                    $query .= " ORDER BY added DESC";
+                    $prepared_query = $wpdb->prepare($query, ...$params);
+
+                    // Talente abrufen
+                    $basic = $wpdb->get_results($prepared_query);
+                    
+                    $unfiltered = [];
+                    if(!empty($basic)){
+                        $requirements_table = $wpdb->prefix . 'te_requirements';
+                        $talent_requirements = [];
+                        $talent_requirements[1] = $apprenticeships;
+                        $talent_requirements[2] = $studies;
+                        $talent_requirements[3] = $experiences;
+                        foreach ($basic as $job) :
+                            $requirements = $wpdb->get_results($wpdb->prepare(
+                                "SELECT * FROM $requirements_table WHERE job_id = %d ORDER BY added DESC",
+                                $job->ID
+                            ));
+                            if(empty($requirements) || requirements_match($requirements, $talent_requirements)){
+                                array_push($unfiltered, $job);
+                            }
+                        endforeach;
+                    }
+
+                    $jobs = [];
+
+                    if(!empty($unfiltered)){
+                        $countryCode = 'DE'; // Deutschland
+                        $postal_codes_20 = getPostalCodesInRadius($talent->post_code, 20, $countryCode);
+                        $postal_codes_50 = getPostalCodesInRadius($talent->post_code, 50, $countryCode);
+                        $postal_codes_100 = getPostalCodesInRadius($talent->post_code, 100, $countryCode);
+                        
+                        foreach ($unfiltered as $job) :
+                            if($job->mobility == 0){
+                                array_push($jobs, $job);
+                            }else if($job->mobility == 20){
+                                if(in_array($job->post_code, $postal_codes_20)){
+                                    array_push($jobs, $job);
+                                }
+                            }else if($job->mobility == 50){
+                                if(in_array($result->post_code, $postal_codes_50)){
+                                    array_push($jobs, $job);
+                                }
+                            }else if($job->mobility == 100){
+                                if(in_array($job->post_code, $postal_codes_100)){
+                                    array_push($jobs, $job);
+                                }
+                            }
+                        endforeach;
+                    }
+
                     ob_start(); // Puffer starten
                     include_once('details/talent-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                     return ob_get_clean(); 

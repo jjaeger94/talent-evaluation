@@ -1,5 +1,6 @@
 <div class="card mb-3">
     <div class="card-body">
+        <h5 class="card-title"><?php echo $talent->prename . ' ' . $talent->surname; ?></h5>
         <div class="row">
             <div class="col">
             <p><strong>Hinzugefügt:</strong> <?php echo date('d.m.Y', strtotime($talent->added)); ?></p>
@@ -18,5 +19,6 @@
             <?php endif; ?>
             </div>
         </div>
+        <?php include 'actions.php'; ?>
     </div>
 </div>

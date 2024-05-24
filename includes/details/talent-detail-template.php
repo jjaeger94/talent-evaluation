@@ -1,8 +1,11 @@
 <?php if ($talent) : ?>
     <div class="container">
         <?php if (current_user_can('dienstleister')) : ?>
-        <?php include TE_DIR.'talents/actions.php'; ?>
         <?php include TE_DIR.'talents/meta.php'; ?>
+        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#personalDataCollapse" aria-expanded="false" aria-controls="personalDataCollapse">
+            Alle Infos anzeigen
+        </button>
+        <div class="collapse" id="personalDataCollapse">
         <?php else: ?>
         <?php include TE_DIR.'talents/info.php'; ?>
         <?php endif; ?>
@@ -12,7 +15,16 @@
         <?php include TE_DIR.'talents/experience.php'; ?>
         <?php include TE_DIR.'talents/eq.php'; ?>
         <?php include TE_DIR.'talents/personal-data-end.php'; ?>
-        <?php include TE_DIR.'talents/chat.php'; ?>
+        <?php if (current_user_can('dienstleister')) : ?>
+            </div>
+            <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#jobsTableCollapse" aria-expanded="false" aria-controls="jobsTableCollapse">
+            Jobs anzeigen
+            </button>
+            <div class="collapse" id="jobsTableCollapse">
+                <?php include TE_DIR.'tables/jobs-table-template.php'; ?>
+            </div>
+            <?php include TE_DIR.'talents/chat.php'; ?>
+        <?php endif; ?>
     </div>
 <?php else : ?>
     <p>Talent nicht gefunden.</p>
