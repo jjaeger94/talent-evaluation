@@ -23,7 +23,7 @@
                 // Überprüfen, ob das Talent gefunden wurde
                 if ($job) {
                     ob_start(); // Puffer starten
-                    include_once('templates/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    include_once('details/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                     return ob_get_clean(); 
                 } else {
                     // Talent nicht gefunden
@@ -32,7 +32,7 @@
             } else if(isset( $_GET['add']) && $_GET['add'] == true){
                 $job = [];
                 ob_start(); // Puffer starten
-                include_once('templates/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                include_once('details/job-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                 return ob_get_clean(); 
             } else {
                 return '<p>ID nicht übergeben.</p>';
@@ -53,7 +53,7 @@
 
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
-            include_once('templates/jobs-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            include_once('tables/jobs-table-template.php'); // Pfad zur Datei mit dem Test-Formular
             return ob_get_clean(); 
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
@@ -70,7 +70,7 @@
                 // Überprüfen, ob das Talent gefunden wurde
                 if ($customer) {
                     ob_start(); // Puffer starten
-                    include_once('templates/customer-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    include_once('details/customer-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                     return ob_get_clean(); 
                 } else {
                     // Talent nicht gefunden
@@ -79,7 +79,7 @@
             } else if(isset( $_GET['add']) && $_GET['add'] == true){
                 $customer = [];
                 ob_start(); // Puffer starten
-                include_once('templates/customer-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                include_once('details/customer-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                 return ob_get_clean(); 
             } else {
                 return '<p>ID nicht übergeben.</p>';
@@ -100,7 +100,7 @@
 
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
-            include_once('templates/customers-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            include_once('tables/customers-table-template.php'); // Pfad zur Datei mit dem Test-Formular
             return ob_get_clean(); 
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
@@ -125,7 +125,7 @@
                     $experiences = get_experiences_by_talent_id($talent->ID);
                     $eq = get_eq_by_talent_id($talent->ID);
                     ob_start(); // Puffer starten
-                    include_once('templates/talent-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+                    include_once('details/talent-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
                     return ob_get_clean(); 
                 } else {
                     // Talent nicht gefunden
@@ -167,7 +167,7 @@
 
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
-            include_once('templates/talents-table-template.php'); // Pfad zur Datei mit dem Test-Formular
+            include_once('tables/talents-table-template.php'); // Pfad zur Datei mit dem Test-Formular
             return ob_get_clean(); 
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';

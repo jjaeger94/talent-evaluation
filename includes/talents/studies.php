@@ -50,15 +50,7 @@ function get_study_degree($degree) {
     <?php if ($studies) : ?>
         <?php foreach ($studies as $study) : ?>
             <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo get_study_degree($study->degree); ?></h5>
-                        <p class="card-text"> <?php echo $study->designation; ?></p>
-                        <?php $object = $study;?>
-                        <?php include 'blocks/render-date.php'; ?>
-                        <button class="btn btn-primary edit-study" data-id="<?php echo $study->ID; ?>" data-designation="<?php echo $study->designation; ?>" data-field="<?php echo $study->field; ?>" data-degree="<?php echo $study->degree; ?>" data-start-date="<?php echo $study->start_date; ?>" data-end-date="<?php echo $study->end_date; ?>">Bearbeiten</button>
-                    </div>
-                </div>
+                <?php include TE_DIR.'blocks/study-card.php'; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

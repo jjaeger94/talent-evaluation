@@ -1,7 +1,15 @@
 <?php
-include 'forms/job-form.php';
+include TE_DIR.'forms/job-form.php';
 if(!isset($_GET['add']) || $_GET['add'] == false):
-    global $wpdb;
+?><br><?php
+global $wpdb;
+$requirements_table = $wpdb->prefix . 'te_requirements';
+$requirements = $wpdb->get_results($wpdb->prepare(
+    "SELECT * FROM $requirements_table WHERE job_id = %d ORDER BY added DESC",
+    $job->ID
+));
+include TE_DIR.'filters/requirements-list.php';
+?><br><?php
     $talents_table = $wpdb->prefix . 'te_talents';
 
     // Grundabfrage
@@ -51,6 +59,6 @@ if(!isset($_GET['add']) || $_GET['add'] == false):
         }
     endforeach;
 
-    include 'talents-table-template.php';
+    include TE_DIR.'tables/talents-table-template.php';
 endif;
 ?>

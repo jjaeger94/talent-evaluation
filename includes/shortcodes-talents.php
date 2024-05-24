@@ -26,14 +26,14 @@ function render_talent_page(){
               $experiences = get_experiences_by_talent_id($talent->ID);
               $eq = get_eq_by_talent_id($talent->ID);
               ob_start(); // Puffer starten
-              include_once('templates/talent-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
+              include_once('details/talent-detail-template.php'); // Pfad zur Datei mit dem Test-Formular
               return ob_get_clean(); 
           } else {
               // Talent nicht gefunden
               return '<p>ID nicht gefunden.</p>';
           }
      } else {
-          include plugin_dir_path(__FILE__) . 'templates/swpm/login.php';
+          include plugin_dir_path(__FILE__) . 'swpm/login.php';
      }
      return ob_get_clean();
 }
@@ -70,9 +70,9 @@ function render_start_btn(){
 
      ob_start();
      if($game == 'burger'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/game-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/burger/game-info.php';
      }else if($game == 'glasses'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/game-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/glasses/game-info.php';
      }
      return ob_get_clean();
  }
@@ -84,9 +84,9 @@ function render_chatbot_info(){
      $game = sanitize_text_field($_GET['game']);
      ob_start();
      if($game == 'burger'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/chatbot-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/burger/chatbot-info.php';
      }else if($game == 'glasses'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/chatbot-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/glasses/chatbot-info.php';
      };
      return ob_get_clean();
 }
@@ -105,7 +105,7 @@ function render_chatbot_page_content() {
           if($game != $_SESSION['game']){
                ob_start();
                echo '<p>Bitte beende erst dein letztes Spiel oder löschen den Chat</p>';
-               include plugin_dir_path(__FILE__) . 'templates/chatbot/delete-chat.php';
+               include plugin_dir_path(__FILE__) . 'chatbot/delete-chat.php';
                return ob_get_clean();
           }
          // Wenn ein aktiver Chat vorhanden ist, hole die Thread-ID aus der Sitzung
@@ -142,10 +142,10 @@ function render_chatbot_page_content() {
 
      ob_start();
      if($game == 'burger'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/burger/chatbot-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/burger/chatbot-info.php';
      }else if($game == 'glasses'){
-          include plugin_dir_path(__FILE__) . 'templates/chatbot/glasses/chatbot-info.php';
+          include plugin_dir_path(__FILE__) . 'chatbot/glasses/chatbot-info.php';
      };
-     include plugin_dir_path(__FILE__) . 'templates/chatbot/chatbot-page.php';
+     include plugin_dir_path(__FILE__) . 'chatbot/chatbot-page.php';
      return ob_get_clean();
  }

@@ -37,6 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'TALENT_EVALUATION_VERSION', '1.0.0' );
+define( 'TE_DIR', dirname(__FILE__).'/includes/' );
 
 /**
  * The code that runs during plugin activation.

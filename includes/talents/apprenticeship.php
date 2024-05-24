@@ -25,15 +25,7 @@ function get_apprenticeship_field($field) {
     <?php if ($apprenticeships) : ?>
         <?php foreach ($apprenticeships as $apprenticeship) : ?>
             <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $apprenticeship->designation; ?></h5>
-                        <p class="card-text"><?php echo get_apprenticeship_field($apprenticeship->field); ?></p>
-                        <?php $object = $apprenticeship;?>
-                        <?php include 'blocks/render-date.php'; ?>
-                        <button href="#" class="btn btn-primary edit-apprenticeship" data-id="<?php echo $apprenticeship->ID; ?>" data-designation="<?php echo $apprenticeship->designation; ?>" data-field="<?php echo $apprenticeship->field; ?>" data-start-date="<?php echo $apprenticeship->start_date; ?>" data-end-date="<?php echo $apprenticeship->end_date; ?>">Bearbeiten</button>
-                    </div>
-                </div>
+                <?php include TE_DIR.'blocks/apprenticeship-card.php'; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
