@@ -1,7 +1,7 @@
 <p class="card-title"><strong>Mobilität:</strong></p>
 <div class="form-check mb-1">
     <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo $talent->license ? 'checked' : ''; ?>>
-    <label class="form-check-label" for="license">Ich habe einen Führerhschein (Klasse B)</label>
+    <label class="form-check-label" for="license">Ich habe einen Führerschein (Klasse B)</label>
 </div>
 <div class="form-group mb-3">
     <label for="field">Distanz:</label><?php echo info_button('personal_data_mobility'); ?>

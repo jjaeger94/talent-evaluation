@@ -1,31 +1,3 @@
-<?php
-function get_experience_field($field) {
-    switch ($field) {
-        case 1:
-            return 'Geschäftsführung/Vorstand';
-        case 2:
-            return 'Vertrieb und Marketing';
-        case 3:
-            return 'Finanzen und Buchhaltung';
-        case 4:
-            return 'Personalwesen/Personalabteilung';
-        case 5:
-            return 'Produktion/Operations';
-        case 6:
-            return 'Forschung und Entwicklung';
-        case 7:
-            return 'Kundendienst und Suppor';
-        case 8:
-            return 'Informationstechnologie';
-        case 9:
-            return 'Sonstige';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
-    }
-}
-?>
-
 <?php if ($talent) : ?>
 <div class="row">
     <p class="card-title"><strong>Berufserfahrung</strong></p>

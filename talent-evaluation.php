@@ -82,38 +82,6 @@ function run_talent_evaluation() {
 
 }
 
-function show_all_features(){
-    return false;
-}
-
-function has_ajax_permission(){
-    return current_user_can( 'dienstleister' ) || current_user_can( 'firmenkunde' );
-}
-
-function get_availability_string($availability){
-    switch ($availability) {
-        case 0:
-            return 'Sofort';
-        case 1:
-            return 'in einem Monat';
-        case 2:
-            return 'in 2 Monaten';
-        case 3:
-            return 'in 3 Monaten';
-        case 4:
-            return 'in 4 Monaten';
-        case 5:
-            return 'in 5 Monaten';
-        case 6:
-            return 'in 6 Monaten';
-        case 7:
-            return 'Momentan nicht verfügbar';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
-    }
-}
-
 function has_edit_talent_permission($talent_id){
      if(current_user_can( 'dienstleister' )){
         return true;
@@ -129,12 +97,6 @@ function has_edit_talent_permission($talent_id){
         return false;
     }
     return $talent_id == $talent->ID;
-}
-
-
-
-function commitment_hash($uid){
-    return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
 }
 
 function info_button($text) {
@@ -213,24 +175,6 @@ function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {
         }
     } else {
         return false; // Keine Daten oder falsches Format
-    }
-}
-
-function get_study_degree($degree) {
-    switch ($degree) {
-        case 1:
-            return 'Kein Abschluss';
-        case 2:
-            return 'Bachelor';
-        case 3:
-            return 'Master';
-        case 4:
-            return 'Doktor';
-        case 5:
-            return 'Sonstige';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
     }
 }
 

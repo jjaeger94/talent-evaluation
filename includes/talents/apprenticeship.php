@@ -1,24 +1,3 @@
-<?php
-function get_apprenticeship_field($field) {
-    switch ($field) {
-        case 1:
-            return 'Gewerblich-technische Ausbildungsberufe';
-        case 2:
-            return 'Kaufmännische Ausbildungsberufe';
-        case 3:
-            return 'Sozialpädagogische und Gesundheitsberufe';
-        case 4:
-            return 'Informationstechnologie und Medien';
-        case 5:
-            return 'Handwerkliche Berufe';
-        case 6:
-            return 'Sonstige';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
-    }
-}
-?>
 <?php if ($talent) : ?>
 <div class="row">
 <p class="card-title"><strong>Ausbildung</strong></p>

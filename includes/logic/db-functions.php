@@ -1,4 +1,14 @@
 <?php
+function get_table_name($type) {
+    global $wpdb;
+    $types = [
+        1 => $wpdb->prefix . 'te_apprenticeship',
+        2 => $wpdb->prefix . 'te_studies',
+        3 => $wpdb->prefix . 'te_experiences'
+    ];
+    return isset($types[$type]) ? $types[$type] : null;
+}
+
 function get_talent_by_member_id($member_id){
     global $wpdb;
     $query = $wpdb->prepare( "

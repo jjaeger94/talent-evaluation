@@ -73,11 +73,118 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('send_activate_account_mail');
 		$this->add_public_request('edit_customer');
 		$this->add_public_request('edit_job');
+		$this->add_public_request('save_requirement');
+		$this->add_public_request('delete_requirement');
+		
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function delete_requirement() {
+		// Code für delete_requirement
+		// Beispielcode:
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+
+		if (isset($_POST['requirement_id'])) {
+			global $wpdb;
+	
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$requirement_id = absint($_POST['requirement_id']);
+	
+			// Überprüfe, ob die Frage existiert
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_requirements WHERE ID = %d", $requirement_id));
+	
+			if ($data) {
+				// Lösche die Frage aus der Datenbank
+				$wpdb->delete(
+					$wpdb->prefix . 'te_requirements',
+					array('ID' => $requirement_id),
+					array('%d')
+				);
+	
+				wp_send_json_success('Anforderung erfolgreich gelöscht');
+			} else {
+				wp_send_json_error('Anforderung nicht gefunden');
+			}
+		} else {
+			wp_send_json_error('Fehler beim Löschen der Anforderung');
+		}
+	}
+
+	function save_requirement(){
+		global $wpdb;
+	
+		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+
+		// Überprüfen, ob das erforderliche Feld 'job_id' gesetzt ist
+		if (!isset($_POST['job_id'], $_POST['type'], $_POST['requirement_id'], $_POST['field'])) {
+			wp_send_json_error('job_id, requirement_id, type or field missing');
+		}
+
+		$requirement_id = absint($_POST['requirement_id']);
+		$job_id = absint($_POST['job_id']);
+		$type = absint($_POST['type']);
+		$field = absint($_POST['field']);
+		$degree = isset($_POST['degree']) && $type == 2 ? absint($_POST['degree']) : null;
+
+		// Prepare data arrays for insert and update
+		$data = array(
+			'job_id' => $job_id,
+			'type' => $type,
+			'field' => $field,
+			'degree' => $degree
+		);
+
+		// Remove null values to avoid overwriting with NULL in database
+		$data = array_filter($data, function($value) { return !is_null($value); });
+		$format = array(
+			'%d',
+			'%d',
+			'%d',
+			'%d'
+		);
+		$format = array_slice($format, 0, count($data)); // Adjust format array length
+		
+
+		if ($requirement_id > 0) {
+			// Aktualisieren Sie den vorhandenen Job
+			$updated = $wpdb->update(
+				$wpdb->prefix . 'te_requirements',
+				$data,
+				array('ID' => $requirement_id),
+				$format,
+				array('%d')
+			);
+	
+			if (false === $updated) {
+				wp_send_json_error('Fehler beim Aktualisieren der Anforderung.');
+			} else {
+				wp_send_json_success('Anforderung erfolgreich aktualisiert.');
+			}
+		} else {
+			// Fügen Sie einen neuen Job hinzu
+			$inserted = $wpdb->insert(
+				$wpdb->prefix . 'te_requirements',
+				$data,
+				$format
+			);
+	
+			if (false === $inserted) {
+				wp_send_json_error('Fehler beim Hinzufügen der Anforderung.');
+			} else {
+				wp_send_json_success('Anforderung erfolgreich hinzugefügt.');
+			}
+		}
+
+		wp_die();
 	}
 
 	function edit_job() {
@@ -159,6 +266,7 @@ class Talent_Evaluation_Public {
 				wp_send_json_success('Job erfolgreich hinzugefügt.');
 			}
 		}
+		wp_die();
 	}	
 
 	function edit_customer() {
@@ -234,6 +342,7 @@ class Talent_Evaluation_Public {
 				wp_send_json_success('Kunde erfolgreich hinzugefügt.');
 			}
 		}
+		wp_die();
 	}
 	
 	function remove_talent(){

@@ -4,7 +4,7 @@
     <?php endif; ?>
     <div class="form-group mb-3">
         <label for="customer_id"><strong>Kunde</strong></label>
-        <select class="form-control" id="customer_id" name="customer_id" required>
+        <select class="form-select" id="customer_id" name="customer_id" required>
             <option value="">Wählen Sie einen Kunden</option>
             <?php foreach($customers as $customer): ?>
                 <option value="<?php echo $customer->ID; ?>" <?php echo (isset($job->customer_id) && $job->customer_id == $customer->ID) ? 'selected' : ''; ?>>
@@ -33,7 +33,7 @@
     </div>
     <div class="form-check mb-1">
     <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo isset($job->license) && $job->license ? 'checked' : ''; ?>>
-        <label class="form-check-label" for="license">Führerhschein (Klasse B)</label>
+        <label class="form-check-label" for="license">Führerschein (Klasse B)</label>
     </div>
     <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" id="home_office" name="home_office" <?php echo isset($job->home_office) && $job->home_office ? 'checked' : ''; ?>>

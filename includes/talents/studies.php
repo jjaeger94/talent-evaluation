@@ -1,32 +1,3 @@
-<?php
-function get_study_field($field) {
-    switch ($field) {
-        case 1:
-            return 'Informatik und Informationstechnologie';
-        case 2:
-            return 'Betriebswirtschaftslehre (BWL) und Management';
-        case 3:
-            return 'Gesundheitswissenschaften und Medizin';
-        case 4:
-            return 'Erziehungswissenschaften und Pädagogik';
-        case 5:
-            return 'Umweltwissenschaften und Nachhaltigkeit';
-        case 6:
-            return 'Design und Kreativwirtschaft';
-        case 7:
-            return 'Tourismus- und Eventmanagement';
-        case 8:
-            return 'Sozialwissenschaften und Soziale Arbeit';
-        case 9:
-            return 'Naturwissenschaften und Forschung';
-        case 10:
-            return 'Sonstige';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
-    }
-}
-?>
 <?php if ($talent) : ?>
 <div class="row">
 <p class="card-title"><strong>Studium</strong></p>
