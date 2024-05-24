@@ -1,8 +1,4 @@
 <?php if (!empty($messages)) : ?>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#chatCollapse" aria-expanded="false" aria-controls="chatCollapse">
-Chatverlauf anzeigen
-</button>
-<div class="collapse" id="chatCollapse">
     <div class="card card-body">
         <div class="message-container">
         <?php if (current_user_can('dienstleister')) : ?>
@@ -13,7 +9,6 @@ Chatverlauf anzeigen
         <?php else : ?>
             <p>Fehler beim Abrufen der Nachrichten</p>
         <?php endif; ?>
-    </div>
     </div>
 </div>
 <?php endif; ?>
