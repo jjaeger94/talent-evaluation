@@ -137,151 +137,6 @@ function commitment_hash($uid){
     return substr(hash('sha256', 'diesIstEinHash' . $uid), -8);
 }
 
-function get_talent_by_member_id($member_id){
-    global $wpdb;
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_talents
-        WHERE member_id = {$member_id}
-    ");
-    // Bewerbungsdetails abrufen
-    $talents = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Bewerbungsdetails vorhanden sind
-    return ! empty( $talents ) ? $talents[0] : null;
-}
-
-function get_talent_by_id($talent_id){
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_talents
-            WHERE ID = {$talent_id}
-        ");
-        // Bewerbungsdetails abrufen
-        $talents = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $talents ) ? $talents[0] : null;
-    } else {
-        return null;
-    }
-}
-
-function get_customer_by_id($customer_id){
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_customers
-            WHERE ID = {$customer_id}
-        ");
-        // Bewerbungsdetails abrufen
-        $customers = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $customers ) ? $customers[0] : null;
-    } else {
-        return null;
-    }
-}
-
-function get_apprenticeships_by_talent_id($talent_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_apprenticeship
-        WHERE talent_id = {$talent_id}
-    ");
-
-    // Jobdetails abrufen
-    return $wpdb->get_results( $query );
-}
-
-function get_eq_by_talent_id($talent_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_eq
-        WHERE talent_id = {$talent_id}
-    ");
-
-    // Jobdetails abrufen
-    $eq = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $eq ) ? $eq[0] : null;
-}
-
-function get_experiences_by_talent_id($talent_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_experiences
-        WHERE talent_id = {$talent_id}
-    ");
-
-    // Jobdetails abrufen
-    return $wpdb->get_results( $query );
-}
-
-function get_studies_by_talent_id($talent_id){
-    global $wpdb;
-
-    // SQL-Abfrage, um die Jobdetails abzurufen
-    $query = $wpdb->prepare( "
-        SELECT *
-        FROM {$wpdb->prefix}te_studies
-        WHERE talent_id = {$talent_id}
-    ");
-
-    // Jobdetails abrufen
-    return $wpdb->get_results( $query );
-}
-
-function get_job_by_id( $job_id ) {
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
-
-        // SQL-Abfrage, um die Jobdetails abzurufen
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_jobs
-            WHERE ID = %d
-        ", $job_id );
-
-        // Jobdetails abrufen
-        $jobs = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Jobdetails vorhanden sind
-        return ! empty( $jobs ) ? $jobs[0] : null;
-    }else{
-        return null;
-    }
-}
-
-function update_job_state($job_id, $state){
-    global $wpdb;
-    // Tabellenname für Bewerbungen
-    $table_name = $wpdb->prefix . 'te_jobs';
-
-    // Daten zum Aktualisieren
-    $data = array('state' => $state);
-
-    // Bedingung für die Aktualisierung
-    $where = array('ID' => $job_id);
-
-    // Aktualisieren der Daten in der Datenbank
-    $wpdb->update($table_name, $data, $where);
-}
-
 function info_button($text) {
     
     // HTML für den Info-Button mit Popover zurückgeben
@@ -361,17 +216,22 @@ function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {
     }
 }
 
-function get_assistant_id() {
-    if(!$_SESSION['game']){
-        return false;
+function get_study_degree($degree) {
+    switch ($degree) {
+        case 1:
+            return 'Kein Abschluss';
+        case 2:
+            return 'Bachelor';
+        case 3:
+            return 'Master';
+        case 4:
+            return 'Doktor';
+        case 5:
+            return 'Sonstige';
+        // Weitere Fälle hinzufügen, falls erforderlich
+        default:
+            return '';
     }
-    $game = $_SESSION['game'];
-    if($game == 'burger'){
-        return 'asst_3MWRUUDVcZR8zRe5DjmYAqJD';
-    }else if($game == 'glasses'){
-        return 'asst_n5KxIqgqswb4ZV7HSvaIgZsg';
-    }
-    return false;
 }
 
 run_talent_evaluation();

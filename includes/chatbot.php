@@ -471,4 +471,17 @@
             return 'No content found in the message object.';
         }
     }
+
+    function get_assistant_id() {
+        if(!$_SESSION['game']){
+            return false;
+        }
+        $game = $_SESSION['game'];
+        if($game == 'burger'){
+            return 'asst_3MWRUUDVcZR8zRe5DjmYAqJD';
+        }else if($game == 'glasses'){
+            return 'asst_n5KxIqgqswb4ZV7HSvaIgZsg';
+        }
+        return false;
+    }
     

@@ -132,6 +132,8 @@ class Talent_Evaluation {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/chatbot.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/db_functions.php';
+
 
 		$this->loader = new Talent_Evaluation_Loader();
 

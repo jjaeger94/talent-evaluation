@@ -26,23 +26,6 @@ function get_study_field($field) {
             return '';
     }
 }
-function get_study_degree($degree) {
-    switch ($degree) {
-        case 1:
-            return 'Kein Abschluss';
-        case 2:
-            return 'Bachelor';
-        case 3:
-            return 'Master';
-        case 4:
-            return 'Doktor';
-        case 5:
-            return 'Sonstige';
-        // Weitere Fälle hinzufügen, falls erforderlich
-        default:
-            return '';
-    }
-}
 ?>
 <?php if ($talent) : ?>
 <div class="row">
