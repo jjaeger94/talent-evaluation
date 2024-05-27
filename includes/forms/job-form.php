@@ -22,6 +22,10 @@
         <input type="text" class="form-control" id="post_code" name="post_code" value="<?php echo isset($job->post_code) ? esc_attr($job->post_code) : ''; ?>">
     </div>
     <div class="form-group mb-3">
+        <label for="job_info"><strong>Job-Info</strong></label>
+        <textarea rows="3" class="form-control" id="job_info" name="job_info" required><?php echo isset($job->job_info) ? esc_attr($job->job_info) : ''; ?></textarea>
+    </div>
+    <div class="form-group mb-3">
         <label for="school"><strong>benötigter Schulabschluss:</strong></label>
         <select class="form-select" id="school" name="school" required>
         <option value="0" <?php echo (isset($job->school) && $job->school == 0) ? 'selected' : ''; ?> >Kein Abschluss</option>

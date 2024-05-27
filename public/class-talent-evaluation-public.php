@@ -75,12 +75,51 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('edit_job');
 		$this->add_public_request('save_requirement');
 		$this->add_public_request('delete_requirement');
-		
+		$this->add_public_request('save_talent_notes');		
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function save_talent_notes(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		if (!isset($_POST['notes'])) {
+			wp_send_json_error('Keine notes');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		$talent = get_talent_by_id($talent_id);
+		$notes = sanitize_text_field($_POST['notes']);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
+		global $wpdb;
+		// Tabellenname für Bewerbungen
+		$table_name = $wpdb->prefix . 'te_talents';
+
+		// Daten zum Aktualisieren
+		$data = array(
+			'notes' => $notes
+		);
+
+		// Bedingung für die Aktualisierung
+		$where = array('ID' => $talent_id);
+
+		// Aktualisieren der Daten in der Datenbank
+		$wpdb->update($table_name, $data, $where);
+
+		// Überprüfen, ob ein Fehler aufgetreten ist
+		if ($wpdb->last_error !== '') {
+			wp_send_json_error($wpdb->last_error);
+		}else{
+			wp_send_json_success('Test erfolgreich geändert.');
+		}
 	}
 
 	function delete_requirement() {
@@ -204,6 +243,7 @@ class Talent_Evaluation_Public {
 		$job_id = isset($_POST['job_id']) ? intval($_POST['job_id']) : 0;
 		$customer_id = isset($_POST['customer_id']) ? intval($_POST['customer_id']) : null;
 		$job_title = sanitize_text_field($_POST['job_title']);
+		$job_info = sanitize_text_field($_POST['job_info']);
 		$post_code = isset($_POST['post_code']) ? sanitize_text_field($_POST['post_code']) : null;
 		$school = isset($_POST['school']) ? intval($_POST['school']) : null;
 		$mobility = isset($_POST['mobility']) ? intval($_POST['mobility']) : null;
@@ -215,6 +255,7 @@ class Talent_Evaluation_Public {
 		$data = array(
 			'customer_id' => $customer_id,
 			'job_title' => $job_title,
+			'job_info' => $job_info,
 			'post_code' => $post_code,
 			'school' => $school,
 			'mobility' => $mobility,
