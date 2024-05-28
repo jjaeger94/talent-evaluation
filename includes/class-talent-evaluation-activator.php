@@ -71,6 +71,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Vergleich',
+                'content' => '[compare_details]',
+                'slug' => 'compare-details',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Kunden',
                 'content' => '[show_customers]',
                 'slug' => 'customers',
@@ -236,6 +242,20 @@ class Talent_Evaluation_Activator
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (job_id) REFERENCES $jobs(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
+            $matching = $wpdb->prefix . 'te_matching';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$matching}'") != $matching) {
+                $sql = "CREATE TABLE $matching (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    job_id INT,
+                    talent_id INT,
+                    value INT,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (job_id) REFERENCES $jobs(ID),
+                    FOREIGN KEY (talent_id) REFERENCES $talents(ID)
                 ) $charset_collate;";
                 dbDelta($sql);
             }

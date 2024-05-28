@@ -20,7 +20,7 @@ Liste anzeigen
 </div>
 <div class="collapse" id="tableCollapse">
     <div class="card card-body">
-        <?php include TE_DIR.'tables/talents-table-template.php';?>
+        <?php include TE_DIR.'tables/talents-job-table-template.php';?>
     </div>
 </div>
  <?php    

@@ -122,13 +122,13 @@ class Talent_Evaluation {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-talent-evaluation-public.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-firmenkunden.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes/shortcodes-firmenkunden.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-dienstleister.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes/shortcodes-dienstleister.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-talents.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes/shortcodes-talents.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes-allgemein.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes/shortcodes-allgemein.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/logic/chatbot-functions.php';
 

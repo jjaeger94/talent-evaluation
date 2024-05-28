@@ -34,10 +34,10 @@
 </div>
 <?php endif; ?>
 
-    <!-- Modal für positives Testergebnis -->
-    <?php include 'save-test-form.php'; ?>
-    <!-- Modal für negatives Testergebnis -->
-<?php include 'test-result-modal.php'; ?>
+<!-- Modal für positives Testergebnis -->
+<?php include_once 'save-test-form.php'; ?>
+<!-- Modal für negatives Testergebnis -->
+<?php include_once 'test-result-modal.php'; ?>
 <script>
     jQuery(document).ready(function($) {
 
