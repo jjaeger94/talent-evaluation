@@ -2,143 +2,6 @@
 	'use strict';
 
 	$(function() {
-
-		$('#review-commitment').change(function() {
-			var value = $(this).val();		
-			// Überprüfen, ob der Wert zwischen 0 und 100 liegt
-			if (value >= 0 && value <= 100) {
-				// Extrahieren Sie die application_id aus dem URL-Parameter
-				var urlParams = new URLSearchParams(window.location.search);
-				var applicationId = urlParams.get('id');
-				var requestData = {
-					action: 'set_review',
-					application_id: applicationId,
-					text: value,
-					value: value,
-					type: 'commitment'
-				};
-		
-				// AJAX-Aufruf
-				$.ajax({
-					type: 'POST',
-					url: your_script_vars.ajaxurl,
-					data: requestData,
-					dataType: 'json',
-					success: function(response) {
-						if (response.success) {
-							// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
-							location.reload();
-						} else {
-							// Fehler bei der Aktualisierung
-							alert('Fehler beim Starten der Bearbeitung');
-						}
-					},
-					error: function(xhr, status, error) {
-						// AJAX-Fehler
-						console.error('AJAX-Fehler:', error);
-					}
-				});
-			} else {
-				// Fehlermeldung für ungültigen Wert
-				alert('Bitte geben Sie einen Wert zwischen 0 und 100 ein.');
-			}
-		});
-		
-
-		$('#copy-button').click(function() {
-			var input = $('#test-link');
-			if (!navigator.clipboard){
-				console.log('use old copy method');
-				input.select();
-				document.execCommand("copy");
-				alert('Link wurde kopiert!');
-			}else{
-				console.log('use new clipboard');
-				navigator.clipboard.writeText(input.val()).then(
-					function(){
-						alert('Link wurde kopiert!'); // success 
-					})
-				  .catch(
-					 function() {
-						alert('Link konnte nicht kopiert werden!'); // error
-				  });
-			}
-		});
-
-		$('.review-btn').click(function() {
-			// Extrahieren Sie die application_id aus dem URL-Parameter
-			var comment;
-			if($(this).data('comment')){
-				comment = prompt("Bitte geben Sie einen Kommentar ein:");
-			}
-			var urlParams = new URLSearchParams(window.location.search);
-			var applicationId = urlParams.get('id');
-			var requestData = {
-				action: 'change_state',
-				application_id: applicationId,
-				state: $(this).val(),
-				comment: comment
-			};
-		
-			$.ajax({
-				type: 'POST',
-				url: your_script_vars.ajaxurl,
-				data: requestData,
-				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
-				success: function(response) {
-					if (response.success) {
-						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
-						location.reload();
-					} else {
-						// Fehler bei der Aktualisierung
-						alert('Fehler beim Starten der Bearbeitung');
-					}
-				},
-				error: function(xhr, status, error) {
-					// AJAX-Fehler
-					console.error('AJAX-Fehler:', error);
-				}
-			});
-		});	
-
-		$('.set-review-btn').click(function() {
-			var comment;
-			if($(this).data('comment')){
-				comment = prompt("Bitte geben Sie einen Kommentar ein:");
-			}
-			// Extrahieren Sie die application_id aus dem URL-Parameter
-			var urlParams = new URLSearchParams(window.location.search);
-			var applicationId = urlParams.get('id');
-			var requestData = {
-				action: 'set_review',
-				application_id: applicationId,
-				value: $(this).val(),
-				text: $(this).text(),
-				type: $(this).data('type'),
-				comment: comment
-			};
-		
-			$.ajax({
-				type: 'POST',
-				url: your_script_vars.ajaxurl,
-				data: requestData,
-				dataType: 'json', // Hier können Sie den erwarteten Datenformat angeben
-				success: function(response) {
-					if (response.success) {
-						// Hier können Sie weitere Aktionen ausführen, z.B. die Seite neu laden
-						location.reload();
-					} else {
-						// Fehler bei der Aktualisierung
-						alert('Fehler beim Starten der Bearbeitung');
-					}
-				},
-				error: function(xhr, status, error) {
-					// AJAX-Fehler
-					console.error('AJAX-Fehler:', error);
-				}
-			});
-		});	
-
 		$('[data-toggle="popover"]').popover({
 			content: function(popover) {
 				return $(popover).data('content');
@@ -153,6 +16,16 @@
 				$('[data-toggle="popover"]').popover('hide');
 			}
 		});
+
+		setTimeout(function() {
+			// Elementor "Umschalter" Accordion immer ZU:
+			$('.elementor-tab-title').removeClass('elementor-active');
+			$('.elementor-tab-content').css('display', 'none');
+	
+			// ULTIMATE Accordion immer ZU:
+			$('.uael-accordion-title').removeClass('uael-title-active');
+			$('.uael-accordion-content').css('display', 'none');
+		}, 100);
 
 		
 	})
