@@ -26,6 +26,18 @@ function requirements_match($requirements, $talent_requirements){
     return false;
 }
 
+function get_school_degree($type) {
+    $types = [
+        0 => 'Kein Abschluss',
+        1 => 'Hauptschulabschluss',
+        2 => 'Realschulabschluss und vergleichbare Schulabschlüsse',
+        3 => 'Fachhochschulreife',
+        4 => 'Abitur',
+    ];
+
+    return isset($types[$type]) ? $types[$type] : 'Kein Abschluss';
+}
+
 function get_mobility_label($type){
     $types = [
         0 => 'über 100 km',

@@ -9,8 +9,8 @@
 <tbody>
     <tr>
         <td>Schulabschluss</td>
-        <td><?php echo get_study_degree($job->school); ?></td>
-        <td><?php echo get_study_degree($talent->school); ?></td>
+        <td><?php echo get_school_degree($job->school); ?></td>
+        <td><?php echo get_school_degree($talent->school); ?></td>
     </tr>
     <tr>
         <td>Verfügbarkeit</td>
