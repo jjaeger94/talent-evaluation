@@ -6,10 +6,10 @@
 <div class="form-group mb-3">
     <label for="field">Distanz:</label><?php echo info_button('personal_data_mobility'); ?>
     <select class="form-select" id="mobility" name="mobility" required>
-    <option value="20" <?php echo ($talent->mobility == 20) ? 'selected' : ''; ?> >bis 20 km</option>
-    <option value="50" <?php echo ($talent->mobility == 50) ? 'selected' : ''; ?> >bis 50 km</option>
-    <option value="100" <?php echo ($talent->mobility == 100) ? 'selected' : ''; ?> >bis 100 km</option>
-    <option value="0" <?php echo ($talent->mobility == 0) ? 'selected' : ''; ?> >über 100 km</option>
+    <option value="20" <?php echo ($talent->mobility == 20) ? 'selected' : ''; ?> ><?php echo get_mobility_label(20); ?></option>
+    <option value="50" <?php echo ($talent->mobility == 50) ? 'selected' : ''; ?> ><?php echo get_mobility_label(50); ?></option>
+    <option value="100" <?php echo ($talent->mobility == 100) ? 'selected' : ''; ?> ><?php echo get_mobility_label(100); ?></option>
+    <option value="0" <?php echo ($talent->mobility == 0) ? 'selected' : ''; ?> ><?php echo get_mobility_label(0); ?></option>
     </select>
 </div>
 <div class="form-check mb-3">

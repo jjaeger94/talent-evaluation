@@ -9,6 +9,44 @@
         add_shortcode('customer_details', 'render_customer_details');
         add_shortcode('show_jobs', 'render_jobs_table');
         add_shortcode('job_details', 'render_job_details');
+        add_shortcode('compare_details', 'render_compare_details');
+    }
+
+    function render_compare_details(){
+        // Überprüfen, ob die oai_test_id in der URL vorhanden ist
+        if (current_user_can('dienstleister')) {
+            if ( isset( $_GET['job_id'], $_GET['talent_id']) ) {
+                $customers = get_all_customers();
+                $talent_id = intval( $_GET['talent_id'] );
+                $job_id = intval( $_GET['job_id'] );
+                // Abfrage, um Talentdetails abzurufen
+                $talent = get_talent_by_id($talent_id);
+                $job = get_job_by_id($job_id);
+
+                // Überprüfen, ob das Talent gefunden wurde
+                if ($talent && $job) {
+                    $apprenticeships = get_apprenticeships_by_talent_id($talent->ID);
+                    $studies = get_studies_by_talent_id($talent->ID);
+                    $experiences = get_experiences_by_talent_id($talent->ID);
+                    $eq = get_eq_by_talent_id($talent->ID);
+                    $requirements = get_requirements_for_job_id($job->ID);
+                    $grouped_requirements = [];
+                    foreach ($requirements as $requirement) {
+                        $grouped_requirements[$requirement->type][] = $requirement;
+                    }
+                    ob_start(); // Puffer starten
+                    include TE_DIR.'details/compare-detail-template.php'; // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean(); 
+                } else {
+                    // Talent nicht gefunden
+                    return '<p>ID nicht gefunden.</p>';
+                }
+            } else {
+                return '<p>ID nicht übergeben.</p>';
+            }
+        } else {
+            return '<p>Keine Berechtigung.</p>';
+        }
     }
 
     function render_job_details() {

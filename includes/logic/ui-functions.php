@@ -26,6 +26,16 @@ function requirements_match($requirements, $talent_requirements){
     return false;
 }
 
+function get_mobility_label($type){
+    $types = [
+        0 => 'über 100 km',
+        20 => 'bis 20 km',
+        50 => 'bis 50 km',
+        100 => 'bis 100 km'
+    ];
+    return isset($types[$type]) ? $types[$type] : 'über 100 km';
+}
+
 function get_type_label($type) {
     $types = [
         1 => 'Ausbildung',

@@ -178,4 +178,28 @@ function getPostalCodesInRadius($postalCode, $radius=10, $countryCode='DE') {
     }
 }
 
+function getDistanceBetween($postalCode1, $postalCode2, $countryCode1='DE', $countryCode2='DE') {
+    // URL für die API-Zip-Anfrage erstellen
+    $apiUrl = "https://zip-api.eu/api/v1/distance/{$countryCode1}-{$postalCode1}/{$countryCode2}-{$postalCode2}/km";
+
+    // HTTP-Anfrage senden
+    $response = file_get_contents($apiUrl);
+
+    // Überprüfen, ob die Anfrage erfolgreich war
+    if ($response === false) {
+        return false; // Fehler beim Abrufen der Daten
+    }
+
+    // Daten decodieren
+    $data = json_decode($response, true);
+
+    // Überprüfen, ob Daten vorhanden sind
+    if (!empty($data) && is_array($data)) {
+        // Einzelner Eintrag: Direkt die Postleitzahl zurückgeben
+        return $data['distance'] . ' km';
+    } else {
+        return false; // Keine Daten oder falsches Format
+    }
+}
+
 run_talent_evaluation();

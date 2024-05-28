@@ -24,7 +24,7 @@
         <?php if (current_user_can('dienstleister')) : ?>
             </div>
             <div class="collapse" id="jobsTableCollapse">
-                <?php include TE_DIR.'tables/jobs-table-template.php'; ?>
+                <?php include TE_DIR.'tables/talent-jobs-table-template.php'; ?>
             </div>
             <div class="collapse" id="chatCollapse">
                 <?php include TE_DIR.'talents/chat.php'; ?>
