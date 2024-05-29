@@ -28,9 +28,9 @@ function requirements_match($requirements, $talent_requirements){
 
 function get_matching_state($type) {
     $types = [
-        0 => 'Nicht gesetzt',
-        1 => 'Nein',
-        2 => 'Ja'
+        0 => 'Noch nicht bearbeitet',
+        1 => 'Negativ',
+        2 => 'Positiv'
     ];
 
     return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
