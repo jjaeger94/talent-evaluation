@@ -88,20 +88,6 @@
     pointer-events: none;
   }
   
-  .swiper--card h3 {
-    margin-top: 24px;
-    font-size: 24px;
-    padding: 0 18px;
-    pointer-events: none;
-  }
-  
-  .swiper--card p {
-    margin-top: 20px;
-    font-size: 16px;
-    padding: 0 18px;
-    pointer-events: none;
-  }
-  
   .swiper--buttons {
     flex: 0 0 100px;
     text-align: center;
