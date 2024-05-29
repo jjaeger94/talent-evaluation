@@ -117,4 +117,8 @@ jQuery(document).ready(function($) {
     love.on('click', loveListener);
 });
 </script>
-
+<style type="text/css">
+html, body {
+  overflow-y: hidden;
+}
+</style>
