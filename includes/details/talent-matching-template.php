@@ -8,7 +8,7 @@
         <?php foreach ($matching as $index => $match) : ?>
         <?php $job=get_job_by_id($match->job_id); ?>
         <div class="swiper--card">
-            <p><strong><?php echo esc_html($job->job_title); ?></strong</p>
+            <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
             <p><?php echo nl2br($job->job_info); ?></p>
         </div>
         <?php endforeach; ?>
