@@ -91,7 +91,7 @@
   .swiper--buttons {
     flex: 0 0 100px;
     text-align: center;
-    padding: 0 !important;
+    padding-top: 20px;
   }
   
   .swiper--buttons button {
@@ -102,6 +102,7 @@
     background: #E6E6FA;
     display: inline-block;
     margin: 0 8px;
+    padding: 0;
   }
   
   .swiper--buttons button:focus {
