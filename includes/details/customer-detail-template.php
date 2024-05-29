@@ -8,7 +8,7 @@ $jobs = $wpdb->get_results($wpdb->prepare(
     $id
 ));
 ?>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#editCustomerCollapse" aria-expanded="false" aria-controls="editCustomerCollapse">
+<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#editCustomerCollapse" aria-expanded="true" aria-controls="editCustomerCollapse">
     Kunden bearbeiten
 </button>
 <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#jobsTableCollapse" aria-expanded="false" aria-controls="jobsTableCollapse">

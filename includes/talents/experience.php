@@ -4,7 +4,7 @@
     <?php if ($experiences) : ?>
         <?php foreach ($experiences as $experience) : ?>
             <div class="col-md-4 mb-3">
-                <?php include TE_DIR.'blocks/experience-card.php'; ?>
+                <?php include TE_DIR.'cards/experience-card.php'; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

@@ -4,7 +4,7 @@
     <?php if ($studies) : ?>
         <?php foreach ($studies as $study) : ?>
             <div class="col-md-4 mb-3">
-                <?php include TE_DIR.'blocks/study-card.php'; ?>
+                <?php include TE_DIR.'cards/study-card.php'; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

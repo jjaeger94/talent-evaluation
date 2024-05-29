@@ -2,7 +2,7 @@
     <div class="container">
         <?php if (current_user_can('dienstleister')) : ?>
         <?php include TE_DIR.'talents/meta.php'; ?>
-        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#personalDataCollapse" aria-expanded="false" aria-controls="personalDataCollapse">
+        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#personalDataCollapse" aria-expanded="true" aria-controls="personalDataCollapse">
             Alle Infos anzeigen
         </button>
         <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#jobsTableCollapse" aria-expanded="false" aria-controls="jobsTableCollapse">
