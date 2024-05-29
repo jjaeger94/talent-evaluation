@@ -48,9 +48,6 @@ jQuery(document).ready(function($) {
 
         hammertime.on('pan', function(event) {
             $(el).addClass('moving');
-        });
-
-        hammertime.on('pan', function(event) {
             if (event.deltaX === 0) return;
             if (event.center.x === 0 && event.center.y === 0) return;
 
@@ -61,7 +58,7 @@ jQuery(document).ready(function($) {
             var yMulti = event.deltaY / 80;
             var rotate = xMulti * yMulti;
 
-            $(event.target).css('transform', 'translate(' + event.deltaX + 'px, ' + event.deltaY + 'px) rotate(' + rotate + 'deg)');
+            $(el).css('transform', 'translate(' + event.deltaX + 'px, ' + event.deltaY + 'px) rotate(' + rotate + 'deg)');
         });
 
         hammertime.on('panend', function(event) {
@@ -71,10 +68,10 @@ jQuery(document).ready(function($) {
             var moveOutWidth = document.body.clientWidth;
             var keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
 
-            $(event.target).toggleClass('removed', !keep);
+            $(el).toggleClass('removed', !keep);
 
             if (keep) {
-                $(event.target).css('transform', '');
+                $(el).css('transform', '');
             } else {
                 var endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
                 var toX = event.deltaX > 0 ? endX : -endX;
@@ -84,7 +81,7 @@ jQuery(document).ready(function($) {
                 var yMulti = event.deltaY / 80;
                 var rotate = xMulti * yMulti;
 
-                $(event.target).css('transform', 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)');
+                $(el).css('transform', 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)');
                 initCards();
             }
         });
