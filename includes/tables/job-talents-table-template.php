@@ -4,7 +4,7 @@
             <tr>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Status</th>
+                <th>Matching</th>
                 <th>Talentdetails</th>
             </tr>
         </thead>
