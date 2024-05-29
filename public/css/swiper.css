@@ -87,6 +87,10 @@
     max-width: 100%;
     pointer-events: none;
   }
+
+  .swiper--card p{
+    margin: 20px;
+  }
   
   .swiper--buttons {
     flex: 0 0 100px;
