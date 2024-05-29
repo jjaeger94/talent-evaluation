@@ -119,6 +119,6 @@ jQuery(document).ready(function($) {
 </script>
 <style type="text/css">
 html, body {
-  overflow-y: hidden;
+  overflow: hidden;
 }
 </style>
