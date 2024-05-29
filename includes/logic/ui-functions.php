@@ -26,6 +26,16 @@ function requirements_match($requirements, $talent_requirements){
     return false;
 }
 
+function get_matching_state($type) {
+    $types = [
+        0 => 'Nicht gesetzt',
+        1 => 'Nein',
+        2 => 'Ja'
+    ];
+
+    return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
+}
+
 function get_school_degree($type) {
     $types = [
         0 => 'Kein Abschluss',

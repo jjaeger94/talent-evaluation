@@ -31,6 +31,7 @@
                     $eq = get_eq_by_talent_id($talent->ID);
                     $requirements = get_requirements_for_job_id($job->ID);
                     $grouped_requirements = [];
+                    $matching = get_matching_for_ids($talent_id, $job_id);
                     foreach ($requirements as $requirement) {
                         $grouped_requirements[$requirement->type][] = $requirement;
                     }

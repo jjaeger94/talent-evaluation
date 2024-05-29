@@ -1,4 +1,9 @@
 <?php
+function get_matching_for_ids($talent_id, $job_id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_matching';
+    return  $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND job_id = %d", $talent_id, $job_id));
+}
 function get_all_customers(){
     global $wpdb;
     return $wpdb->get_results("SELECT ID, company_name FROM {$wpdb->prefix}te_customers");

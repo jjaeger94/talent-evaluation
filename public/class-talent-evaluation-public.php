@@ -76,11 +76,96 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_requirement');
 		$this->add_public_request('delete_requirement');
 		$this->add_public_request('save_talent_notes');		
+		$this->add_public_request('activate_matching');
+		$this->add_public_request('save_matching');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function save_matching(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['matching_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		if (!isset($_POST['matching'])) {
+			wp_send_json_error('Kein matching value');
+		}
+		$matching_id = intval($_POST['matching_id']);
+		$value = intval($_POST['matching']);
+		global $wpdb;
+		// Tabellenname für Bewerbungen
+		$table_name = $wpdb->prefix . 'te_matching';
+
+		// Daten zum Aktualisieren
+		$data = array(
+			'value' => $value
+		);
+
+		// Bedingung für die Aktualisierung
+		$where = array('ID' => $matching_id);
+
+		// Aktualisieren der Daten in der Datenbank
+		$wpdb->update($table_name, $data, $where);
+
+		// Überprüfen, ob ein Fehler aufgetreten ist
+		if ($wpdb->last_error !== '') {
+			wp_send_json_error($wpdb->last_error);
+		}else{
+			wp_send_json_success('Test erfolgreich geändert.');
+		}
+	}
+
+	function activate_matching(){
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine talent_id');
+		}
+		if (!isset($_POST['job_id'])) {
+			wp_send_json_error('Keine job_id');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		$job_id = intval($_POST['job_id']);
+		
+		// Überprüfe, ob die Frage existiert
+		$entry = get_matching_for_ids($talent_id, $job_id);
+	
+		if (!$entry) {
+			global $wpdb;
+
+			// Prepare data arrays for insert and update
+			$data = array(
+				'job_id' => $job_id,
+				'talent_id' => $talent_id
+			);
+
+			$format = array(
+				'%d',
+				'%d'
+			);
+			// Fügen Sie einen neuen Job hinzu
+			$inserted = $wpdb->insert(
+				$wpdb->prefix . 'te_matching',
+				$data,
+				$format
+			);
+	
+			if (false === $inserted) {
+				wp_send_json_error('Fehler beim Hinzufügen des Eintrag.');
+			} else {
+				wp_send_json_success('Eintrag erfolgreich hinzugefügt.');
+			}
+
+			wp_send_json_success('Anforderung erfolgreich gelöscht');
+		} else {
+			wp_send_json_error('Eintrag schon vorhanden');
+		}
 	}
 
 	function save_talent_notes(){
