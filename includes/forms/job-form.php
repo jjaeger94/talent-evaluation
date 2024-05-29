@@ -23,7 +23,7 @@
     </div>
     <div class="form-group mb-3">
         <label for="job_info"><strong>Job-Info</strong></label>
-        <textarea rows="3" class="form-control" id="job_info" name="job_info" required><?php echo isset($job->job_info) ? esc_attr($job->job_info) : ''; ?></textarea>
+        <textarea rows="3" class="form-control" id="job_info" name="job_info" required><?php echo isset($job->job_info) ? nl2br($job->job_info) : ''; ?></textarea>
     </div>
     <div class="form-group mb-3">
         <label for="school"><strong>benötigter Schulabschluss:</strong></label>

@@ -77,6 +77,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Matching',
+                'content' => '[matching_talent]',
+                'slug' => 'matching',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Kunden',
                 'content' => '[show_customers]',
                 'slug' => 'customers',
@@ -251,7 +257,7 @@ class Talent_Evaluation_Activator
                     ID INT AUTO_INCREMENT PRIMARY KEY,
                     job_id INT,
                     talent_id INT,
-                    value INT,
+                    value INT NOT NULL DEFAULT 0 ,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (job_id) REFERENCES $jobs(ID),

@@ -1,8 +1,13 @@
 <?php
+function get_active_matching_for_talent_id($talent_id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_matching';
+    return $wpdb->get_results($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND value = 0", $talent_id));
+}
 function get_matching_for_ids($talent_id, $job_id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_matching';
-    return  $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND job_id = %d", $talent_id, $job_id));
+    return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND job_id = %d", $talent_id, $job_id));
 }
 function get_all_customers(){
     global $wpdb;
@@ -214,46 +219,29 @@ function get_talent_by_member_id($member_id){
         WHERE member_id = {$member_id}
     ");
     // Bewerbungsdetails abrufen
-    $talents = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Bewerbungsdetails vorhanden sind
-    return ! empty( $talents ) ? $talents[0] : null;
+    return $wpdb->get_row( $query );
 }
 
 function get_talent_by_id($talent_id){
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_talents
-            WHERE ID = {$talent_id}
-        ");
-        // Bewerbungsdetails abrufen
-        $talents = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $talents ) ? $talents[0] : null;
-    } else {
-        return null;
-    }
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_talents
+        WHERE ID = {$talent_id}
+    ");
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
 }
 
 function get_customer_by_id($customer_id){
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_customers
-            WHERE ID = {$customer_id}
-        ");
-        // Bewerbungsdetails abrufen
-        $customers = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Bewerbungsdetails vorhanden sind
-        return ! empty( $customers ) ? $customers[0] : null;
-    } else {
-        return null;
-    }
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_customers
+        WHERE ID = {$customer_id}
+    ");
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
 }
 
 function get_apprenticeships_by_talent_id($talent_id){
@@ -281,10 +269,7 @@ function get_eq_by_talent_id($talent_id){
     ");
 
     // Jobdetails abrufen
-    $eq = $wpdb->get_results( $query );
-
-    // Überprüfen, ob Jobdetails vorhanden sind
-    return ! empty( $eq ) ? $eq[0] : null;
+    return $wpdb->get_row( $query );
 }
 
 function get_experiences_by_talent_id($talent_id){
@@ -316,22 +301,15 @@ function get_studies_by_talent_id($talent_id){
 }
 
 function get_job_by_id( $job_id ) {
-    if ( current_user_can( 'dienstleister' ) ) {
-        global $wpdb;
+    global $wpdb;
 
-        // SQL-Abfrage, um die Jobdetails abzurufen
-        $query = $wpdb->prepare( "
-            SELECT *
-            FROM {$wpdb->prefix}te_jobs
-            WHERE ID = %d
-        ", $job_id );
+    // SQL-Abfrage, um die Jobdetails abzurufen
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_jobs
+        WHERE ID = %d
+    ", $job_id );
 
-        // Jobdetails abrufen
-        $jobs = $wpdb->get_results( $query );
-
-        // Überprüfen, ob Jobdetails vorhanden sind
-        return ! empty( $jobs ) ? $jobs[0] : null;
-    }else{
-        return null;
-    }
+    // Jobdetails abrufen
+    return $wpdb->get_row( $query );
 }
