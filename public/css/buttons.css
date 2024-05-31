@@ -11,6 +11,7 @@
 .btn-primary button[type=submit] {
     background-color: var(--primary) !important; /* Ihre benutzerdefinierte Primärfarbe */
     border-color: var(--primary) !important; /* Farbe des Schaltflächenrahmens */
+    color: #fff !important;
 }
 
 /* Hover- und Fokus-Stile */
