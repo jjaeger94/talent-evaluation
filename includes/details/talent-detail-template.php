@@ -1,13 +1,13 @@
 <?php if ($talent) : ?>
     <div class="container">
         <?php include TE_DIR.'controls/talent.php'; ?>
-        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#personalDataCollapse" aria-expanded="true" aria-controls="personalDataCollapse">
+        <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#personalDataCollapse" aria-expanded="true" aria-controls="personalDataCollapse">
             Alle Infos anzeigen
         </button>
-        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#jobsTableCollapse" aria-expanded="false" aria-controls="jobsTableCollapse">
+        <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#jobsTableCollapse" aria-expanded="false" aria-controls="jobsTableCollapse">
             Jobs anzeigen
         </button>
-        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#chatCollapse" aria-expanded="false" aria-controls="chatCollapse">
+        <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#chatCollapse" aria-expanded="false" aria-controls="chatCollapse">
             Chatverlauf anzeigen
         </button>
         <div class="collapse" id="personalDataCollapse">

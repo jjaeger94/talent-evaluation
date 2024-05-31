@@ -1,7 +1,7 @@
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#controlCollapse" aria-expanded="true" aria-controls="controlCollapse">
+<button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#controlCollapse" aria-expanded="true" aria-controls="controlCollapse">
 Aktionen
 </button>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
+<button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
 Tabelle
 </button>
 <div class="collapse" id="controlCollapse">

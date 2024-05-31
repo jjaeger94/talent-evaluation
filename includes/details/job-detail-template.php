@@ -1,11 +1,11 @@
 <?php if(!isset($_GET['add']) || $_GET['add'] == false): ?>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#jobInfoCollapse" aria-expanded="true" aria-controls="jobInfoCollapse">
+<button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#jobInfoCollapse" aria-expanded="true" aria-controls="jobInfoCollapse">
     Job Infos bearbeiten
 </button>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#requirementCollapse" aria-expanded="false" aria-controls="requirementCollapse">
+<button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#requirementCollapse" aria-expanded="false" aria-controls="requirementCollapse">
     Anforderung hinzufügen/bearbeiten
 </button>
-<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
+<button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
 Liste anzeigen
 </button>
 <div class="collapse" id="jobInfoCollapse">
