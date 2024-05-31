@@ -11,7 +11,7 @@
             </div>
             <!-- Icon mit Fragezeichen -->
             <div class="col-2 text-right">
-                <button class="btn btn-outline-primary" id="help-btn-open">
+                <button class="btn btn-outline-primary" id="help-chat-open">
                     <i class="fas fa-question-circle"></i>
                 </button>
             </div>
@@ -42,7 +42,7 @@
 </div>
 <script>
 jQuery(document).ready(function($) {
-    $('#help-btn-open').click(function() {
+    $('#help-chat-open').click(function() {
         $('#tipModal').modal('show');
     });
     $('#help-btn-close').click(function() {
