@@ -6,6 +6,13 @@
         add_shortcode('logout_button', 'render_logout_button');
         add_shortcode( 'application_button', 'render_application_button' );
         add_shortcode( 'footer_button', 'render_footer_button' );
+        add_shortcode( 'test_shortcode', 'render_test_shortcode' );
+    }
+
+    function render_test_shortcode(){
+        $user = wp_get_current_user();
+        print_r($user);
+        return json_decode($user->roles);
     }
 
     function render_application_button() {
