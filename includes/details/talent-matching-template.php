@@ -30,7 +30,7 @@
             <div class="modal-body">
                 <p>Wähle im Jobmatching aus welche Stellen für dich interessant sind.</p>
                 <p>Wische die Stellen die dir gefallen nach Links oder drücke unten auf das Herz. Die Stellen die dir nicht zusagen kannst du mit einem klick auf das X oder einem Swipe nach links entfernen.</p>
-                <p>Mit einem Doppeltipp auf den Text werden dir mehr Informationen zur Stelle angezeigt.</p>
+                <p>Mit einem Tippen auf den Text werden dir mehr Informationen zur Stelle angezeigt.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="help-btn-close">Schließen</button>

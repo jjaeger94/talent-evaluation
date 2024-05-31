@@ -107,8 +107,7 @@ jQuery(document).ready(function($) {
             }
         });
 
-        // Doppeltippen Erkennung
-        hammertime.on('doubletap', function(event) {
+        hammertime.on('tap', function(event) {
             var jobInfo = $(el).find('p').last().html();
             $('.modal-body').html(jobInfo);
             $('#textModal').modal('show');
