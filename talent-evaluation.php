@@ -139,7 +139,7 @@ function get_user_home_url( $user ) {
             return home_url( '/kandidaten' );
         } elseif ( in_array( 'dienstleister', $user->roles ) ) {
             return home_url( '/talents' );
-        } elseif ( in_array( 'subscriber', $user->roles ) ) {
+        } elseif ( in_array( 'abonnent', $user->roles ) ) {
             return home_url( '/membership-login' );
         } elseif ( in_array( 'administrator', $user->roles ) ) {
             return home_url( '/wp-admin' );
