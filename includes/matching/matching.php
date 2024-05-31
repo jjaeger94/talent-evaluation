@@ -24,8 +24,26 @@
 <div class="alert alert-warning">Momentan gibt es keine Angebote für dich, schaue später noch einmal hinein.</div>
 <?php endif; ?>
 
+<!-- Modal für ganzen Text -->
+<div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="textModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="textModalLabel">Tipps für das Spiel mit Dieter</h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="text-btn-close">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 jQuery(document).ready(function($) {
+    $('#text-btn-close').click(function() {
+        $('#textModal').modal('hide');
+    });
     var swiperContainer = $('.swiper');
     var allCards = $('.swiper--card');
     var nope = $('#nope');
@@ -87,6 +105,13 @@ jQuery(document).ready(function($) {
                 $(el).css('transform', 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)');
                 initCards();
             }
+        });
+
+        // Doppeltippen Erkennung
+        hammertime.on('doubletap', function(event) {
+            var jobInfo = $(el).find('p').last().html();
+            $('.modal-body').html(jobInfo);
+            $('#textModal').modal('show');
         });
     });
 
