@@ -20,7 +20,7 @@
     </div>
 </div>
 <?php if ($talent) : ?>
-    <div class="container">
+    <div class="container top-bar-margin">
         <?php include TE_DIR.'profile/personal-data-start.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>
