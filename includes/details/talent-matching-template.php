@@ -26,14 +26,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="helpModalLabel">Jobmatching</h5>
+                <button class="btn-close" id="help-btn-close" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Wähle im Jobmatching aus welche Stellen für dich interessant sind.</p>
                 <p>Wische die Stellen die dir gefallen nach Links oder drücke unten auf das Herz. Die Stellen die dir nicht zusagen kannst du mit einem klick auf das X oder einem Swipe nach links entfernen.</p>
                 <p>Mit einem Tippen auf den Text werden dir mehr Informationen zur Stelle angezeigt.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="help-btn-close">Schließen</button>
             </div>
         </div>
     </div>
@@ -43,6 +41,7 @@
 jQuery(document).ready(function($) {
     $('#help-matching-open').click(function() {
         $('#helpModal').modal('show');
+        history.pushState({modalOpen: true}, null, null);
     });
     $('#help-btn-close').click(function() {
         $('#helpModal').modal('hide');

@@ -29,12 +29,10 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="textModalLabel">Tipps für das Spiel mit Dieter</h5>
+                <h5 class="modal-title" id="textModalLabel">Stellenbeschreibung</h5>
+                <button class="btn-close" id="text-btn-close" aria-label="Close"></button>
             </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="text-btn-close">Schließen</button>
-            </div>
+            <div class="modal-body" id="modal-text"></div>
         </div>
     </div>
 </div>
@@ -109,8 +107,9 @@ jQuery(document).ready(function($) {
 
         hammertime.on('tap', function(event) {
             var jobInfo = $(el).find('p').last().html();
-            $('.modal-body').html(jobInfo);
+            $('#modal-text').html(jobInfo);
             $('#textModal').modal('show');
+            history.pushState({modalOpen: true}, null, null);
         });
     });
 

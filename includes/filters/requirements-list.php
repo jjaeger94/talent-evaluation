@@ -99,8 +99,6 @@ jQuery(document).ready(function($) {
         
         var row = $(this).closest('tr');
         var id = row.data('id');
-        console.log(row);
-        console.log(id);
         $('#requirement_id').val(id);
         $('#type').val(row.find('td:eq(0)').data('value')); // Typ
         $('#field').val(row.find('td:eq(1)').data('value')); // Feld

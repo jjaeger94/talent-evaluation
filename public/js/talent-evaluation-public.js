@@ -8,6 +8,13 @@
 			}
 		});
 
+		$(window).bind('popstate',  function(event) {
+			console.log('popstae', event);
+			if($('.modal.fade.show')[0]){
+				$('.modal.fade.show').modal('hide');
+			}
+		});
+
 		// Event-Listener hinzufügen, um das Popover zu schließen, wenn außerhalb geklickt wird
 		$(document).on('click', function (e) {
 			// Überprüfen, ob das geklickte Element ein Popover ist oder innerhalb des Popovers liegt
