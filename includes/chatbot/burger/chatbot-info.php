@@ -11,9 +11,9 @@
             </div>
             <!-- Icon mit Fragezeichen -->
             <div class="col-2 text-right">
-                <button class="btn btn-outline-primary" id="help-chat-open">
-                    <i class="fas fa-question-circle"></i>
-                </button>
+                <div class="info-button" id="help-chat-open">
+                    <i class="fa-regular fa-circle-question"></i>
+                </div>
             </div>
         </div>
     </div>
