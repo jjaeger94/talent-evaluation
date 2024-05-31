@@ -1,4 +1,4 @@
-<div class="alert alert-info w-100 p-3 fixed-top" style="z-index: 1000;">
+<div class="chat-bar fixed-top" style="z-index: 1000;">
     <div class="container">
         <div class="row align-items-center">
             <!-- Bild von Dieter -->

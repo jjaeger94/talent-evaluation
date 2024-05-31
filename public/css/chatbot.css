@@ -49,6 +49,11 @@
   animation: blink 0.5s infinite alternate;
 }
 
+.chat-bar{
+  background-color: var(--accent);
+  padding: 6px;
+}
+
 @keyframes blink {
   from {
       background-color: white;

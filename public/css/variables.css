@@ -20,6 +20,11 @@
     --text-color: #454555; /* Ihre benutzerdefinierte Textfarbe */
 }
 
+/* Akzentfarbe */
+:root {
+    --accent: #E6E6FA;
+}
+
 /* Überschreiben der Standardfarben von Bootstrap-Schaltflächen */
 /* Punkt Farbe für lade animation */
 :root {

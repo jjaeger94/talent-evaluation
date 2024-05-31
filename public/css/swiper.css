@@ -59,7 +59,7 @@
   }
   
   .swiper--card {
-    background: #E6E6FA;
+    background: var(--accent);
     border: 2px solid white;
     display: inline-block;
     width: 90vw;
@@ -103,7 +103,7 @@
     line-height: 60px;
     width: 60px;
     border: 0;
-    background: #E6E6FA;
+    background: var(--accent);
     display: inline-block;
     margin: 0 8px;
     padding: 0;
@@ -119,10 +119,10 @@
   }
   
   .fa-heart {
-    color: #D19F9F;
+    color: var(--secondary);
   }
-  
+
   .fa-xmark {
-    color: #454555;
+    color: var(--text-color);;
   }
   
