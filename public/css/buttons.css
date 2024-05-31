@@ -1,10 +1,12 @@
 /* Primärfarbe für Schaltflächen */
-.btn-primary {
+.btn-primary, .btn-primary button[type=button]{
     background-color: var(--primary); /* Ihre benutzerdefinierte Primärfarbe */
     border-color: var(--primary); /* Farbe des Schaltflächenrahmens */
 }
 .btn-primary:hover,
-.btn-primary:focus {
+.btn-primary:focus,
+.btn-primary button[type=button]:hover,
+.btn-primary button[type=button]:focus {
     background-color: #2c141d; /* Farbe des Hovers/Fokus */
     border-color: #2c141d; /* Farbe des Schaltflächenrahmens beim Hovern/Fokus */
 }
