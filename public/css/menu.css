@@ -1,5 +1,12 @@
 .top-bar-margin{
-    margin-top: 60px;
+    margin-top: 60px !important;
+}
+
+.menu-button {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--secondary); /* Ändern Sie die Farbe nach Bedarf */
+    font-size: 25px;
 }
 
 .menu {
@@ -32,9 +39,7 @@
      transition:0.4s;
   }
   
-  
-  
-  .bar-1, .bar-2 ,.bar-3 {
+  .bar-1, .bar-2 .bar-3 {
     width:5em;
     display: block;
     width: 40px;

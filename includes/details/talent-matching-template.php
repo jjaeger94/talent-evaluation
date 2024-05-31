@@ -11,7 +11,7 @@
             </div>
             <!-- Icon mit Fragezeichen -->
             <div class="col-2 text-right">
-                <div class="info-button" id="help-matching-open">
+                <div class="menu-button" id="help-matching-open">
                     <i class="fa-regular fa-circle-question"></i>
                 </div>
             </div>
