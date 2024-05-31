@@ -83,6 +83,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Profile',
+                'content' => '[profile_talent]',
+                'slug' => 'profile',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Kunden',
                 'content' => '[show_customers]',
                 'slug' => 'customers',

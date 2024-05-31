@@ -10,6 +10,7 @@ function register_shortcodes_talents() {
         add_shortcode('get_game_image', 'render_game_image');
         add_shortcode('landing_page_talent', 'render_talent_page');
         add_shortcode('matching_talent', 'render_matching_page');
+        add_shortcode('profile_talent', 'render_talent_page');
 }
 
 function render_matching_page(){

@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <!-- Menü -->
             <div class="col-2">
-               
+                <?php include TE_DIR.'menu/burger.php'; ?>
             </div>
             <!-- Name von Dieter -->
             <div class="col-8 text-center">
@@ -16,8 +16,10 @@
                 </div>
             </div>
         </div>
+        <?php include TE_DIR.'menu/entries.php'; ?>
     </div>
 </div>
+
 <?php include TE_DIR.'matching/matching.php'; ?>
 
 <!-- Modal für Tipps -->

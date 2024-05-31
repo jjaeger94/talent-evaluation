@@ -1,0 +1,64 @@
+.menu {
+    height:100%;
+    width:100%;
+    z-index:9999;
+    display:none;
+    text-align:center;
+  }
+  
+.menu li  {
+    padding: 10px;
+    text-decoration:none;
+    list-style-type: none;    
+}
+  
+.menu li  a {
+    padding: 10px;
+    text-decoration:none;
+    color:var(--text-color);
+    
+} 
+  
+  .burger-menu { 
+    cursor:pointer;
+  }
+  
+  
+  .bar {
+     transition:0.4s;
+  }
+  
+  
+  
+  .bar-1, .bar-2 ,.bar-3 {
+    width:5em;
+    display: block;
+    width: 40px;
+    border-top: 6px solid var(--text-color);
+    padding-top:6px;
+    cursor:pointer;
+    transition:0.4s;
+  }
+  
+  .change .bar-1 {
+  
+  -webkit-transform: rotate(-45deg) translate(-10px, 5px);
+      transform: rotate(-45deg) translate(-10px, 8px);
+  }
+  
+  .change .bar-2 {opacity:0;}
+  
+  .change .bar-3 {
+      -webkit-transform: rotate(45deg) translate(-10px, 5px);
+      transform: rotate(45deg) translate(-10px, -5px);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
