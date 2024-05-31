@@ -26,7 +26,7 @@
                     </form>
                 </div>
                 <div class="col">
-                    <button form="matchingForm" type="submit" class="btn btn-success">Speichern</button>
+                    <button form="matchingForm" type="submit" class="btn btn-primary">Speichern</button>
                 </div>
             </div>
         <?php else: ?>

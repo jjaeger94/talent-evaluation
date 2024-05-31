@@ -30,7 +30,7 @@
         </div>
         <div class="row">
         <div class="col">
-            <button form="editNotesForm" type="submit" class="btn btn-success">Notizen speichern</button>
+            <button form="editNotesForm" type="submit" class="btn btn-primary">Notizen speichern</button>
         </div>
         <div class="col">
             <?php if ($talent->member_id) : ?>

@@ -1,4 +1,4 @@
-<button form="talentDetailForm" type="submit" class="btn btn-success mt-2">Daten speichern</button>
+<button form="talentDetailForm" type="submit" class="btn btn-primary mt-2">Daten speichern</button>
 <div class="wrap">
     <span id="personal-data-result"></span>
 </div>
