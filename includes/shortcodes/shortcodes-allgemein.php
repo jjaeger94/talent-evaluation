@@ -35,16 +35,9 @@
 
     function render_logout_button() {
         if ( SwpmMemberUtils::is_member_logged_in()) {
-            ?>
-            <div class="swpm-logged-logout-link">
-                <a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a>
-            </div>
-            <?php
+            $output = '<div class="swpm-logged-logout-link"><a href="?swpm-logout=true"><?php echo SwpmUtils::_("Logout"); ?></a></div>';
         }else if(is_user_logged_in()){
-            ?>
-            <div class="swpm-logged-logout-link">
-            <a href="<?php echo wp_logout_url(); ?>">Logout</a>
-            </div>
-            <?php
+            $output = '<div class="swpm-logged-logout-link"><a href="<?php echo wp_logout_url(); ?>">Logout</a></div>';
         }
+        return $output;
     }
