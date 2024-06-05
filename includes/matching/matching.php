@@ -2,6 +2,9 @@
     <div class="swiper--status">
         <i class="fa fa-xmark"></i>
         <i class="fa fa-heart"></i>
+        <div class="no-more-cards" style="display: none;">
+        <p>Momentan gibt es keine weiteren Angebote für dich, schaue später noch einmal hinein.</p>
+        </div>
     </div>
     <div class="swiper--cards">
         <?php foreach ($matching as $index => $match) : ?>
@@ -16,9 +19,6 @@
         <button id="nope"><i class="fa fa-xmark"></i></button>
         <button id="love"><i class="fa fa-heart"></i></button>
     </div>
-</div>
-<div class="no-more-cards" style="display: none;">
-    <p>Momentan gibt es keine weiteren Angebote für dich, schaue später noch einmal hinein.</p>
 </div>
 
 <!-- Modal für ganzen Text -->
