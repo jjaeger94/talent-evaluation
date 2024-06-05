@@ -86,37 +86,48 @@ class Talent_Evaluation_Public {
 	}
 
 	function save_matching(){
-		if (!current_user_can('dienstleister')) {
-			wp_send_json_error('Keine Berechtigung');
-		}
 		if (!isset($_POST['matching_id'])) {
 			wp_send_json_error('Keine ID');
 		}
 		if (!isset($_POST['matching'])) {
 			wp_send_json_error('Kein matching value');
 		}
-		$matching_id = intval($_POST['matching_id']);
-		$value = intval($_POST['matching']);
 		global $wpdb;
-		// Tabellenname für Bewerbungen
-		$table_name = $wpdb->prefix . 'te_matching';
 
-		// Daten zum Aktualisieren
-		$data = array(
-			'value' => $value
-		);
+		// Entferne potenziell gefährliche Zeichen aus der Eingabe
+		$matching_id = absint($_POST['matching_id']);
 
-		// Bedingung für die Aktualisierung
-		$where = array('ID' => $matching_id);
+		// Überprüfe, ob die Frage existiert
+		$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_matching WHERE ID = %d", $matching_id));
 
-		// Aktualisieren der Daten in der Datenbank
-		$wpdb->update($table_name, $data, $where);
+		if ($data) {
+			if (!has_edit_talent_permission($data->talent_id)) {
+				wp_send_json_error('Keine Berechtigung');
+			}
+			$value = absint($_POST['matching']);
 
-		// Überprüfen, ob ein Fehler aufgetreten ist
-		if ($wpdb->last_error !== '') {
-			wp_send_json_error($wpdb->last_error);
-		}else{
-			wp_send_json_success('Test erfolgreich geändert.');
+			$table_name = $wpdb->prefix . 'te_matching';
+
+			// Daten zum Aktualisieren
+			$data = array(
+				'value' => $value
+			);
+
+			// Bedingung für die Aktualisierung
+			$where = array('ID' => $matching_id);
+
+			// Aktualisieren der Daten in der Datenbank
+			$wpdb->update($table_name, $data, $where);
+
+			// Überprüfen, ob ein Fehler aufgetreten ist
+			if ($wpdb->last_error !== '') {
+				wp_send_json_error($wpdb->last_error);
+			}else{
+				wp_send_json_success('Test erfolgreich geändert.');
+			}
+			
+		} else {
+			wp_send_json_error('Eintrag nicht gefunden');
 		}
 	}
 
