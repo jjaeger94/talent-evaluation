@@ -4,6 +4,13 @@ function get_active_matching_for_talent_id($talent_id){
     $table_name = $wpdb->prefix . 'te_matching';
     return $wpdb->get_results($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND value = 0", $talent_id));
 }
+function get_active_matching_count_for_talent_id($talent_id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_matching';
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM {$table_name} WHERE talent_id = %d AND value = 0", $talent_id);
+    return $wpdb->get_var($query);
+}
+
 function get_matching_for_ids($talent_id, $job_id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_matching';

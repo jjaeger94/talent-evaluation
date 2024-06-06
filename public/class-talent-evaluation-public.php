@@ -78,6 +78,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_talent_notes');		
 		$this->add_public_request('activate_matching');
 		$this->add_public_request('save_matching');
+		$this->add_public_request('send_job_mail');
 	}
 
 	private function add_public_request($request_name){
@@ -526,6 +527,53 @@ class Talent_Evaluation_Public {
 		wp_send_json_success('Eintrag gelöscht');
 		wp_die();
 	}
+	
+	function send_job_mail(){
+		// Prüfe, ob der aktuelle Benutzer die erforderlichen Berechtigungen hat
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		
+		// Prüfe, ob die 'talent_id' in den POST-Daten vorhanden ist
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		
+		// Erhalte und validiere die 'talent_id'
+		$talent_id = absint($_POST['talent_id']);
+		
+		// Hole die Anzahl der aktiven Jobs für die gegebene Talent-ID
+		$count = get_active_matching_count_for_talent_id($talent_id);
+		
+		// Wenn keine aktiven Jobs vorhanden sind, sende eine Erfolgsnachricht und beende die Funktion
+		if($count == 0){
+			wp_send_json_success('Keine Aktiven jobs vorhanden');
+		} else {
+			// Hole die Talent-Daten basierend auf der Talent-ID
+			$talent = get_talent_by_id($talent_id);
+			
+			// Setze den Betreff und die Absender-Adresse der E-Mail
+			$subject = 'Neue Stellen';
+			$settings = SwpmSettings::get_instance();
+			$from_address = $settings->get_value('email-from');
+			$headers = 'From: ' . $from_address . "\r\n";
+			
+			// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
+			ob_start();
+			include TE_DIR . 'mails/new_job_mail.php';
+			$message = ob_get_clean();
+			
+			// Sende die E-Mail
+			wp_mail($talent->email, $subject, $message, $headers);
+			
+			// Sende eine Erfolgsnachricht mit der Anzahl der neuen Stellen
+			wp_send_json_success('Email für ' . $count . ' neue Stellen wurde gesendet');
+		}
+		
+		// Beende die Ausführung des Skripts
+		wp_die();
+	}
+	
 
 	function send_activate_account_mail(){
 		if (!current_user_can('dienstleister')) {
