@@ -191,7 +191,7 @@ class Talent_Evaluation_Public {
 		}
 		$talent_id = intval($_POST['talent_id']);
 		$talent = get_talent_by_id($talent_id);
-		$notes = sanitize_text_field($_POST['notes']);
+		$notes = wp_kses_post($_POST['notes']);
 		if(!$talent){
 			wp_send_json_error('Talent nicht gefunden');
 		}
@@ -729,7 +729,7 @@ class Talent_Evaluation_Public {
 		}		
 	
 		// Holen Sie sich die Werte aus dem POST
-		$value = sanitize_text_field($_POST['value']);
+		$value = wp_kses_post($_POST['value']);
 		$talent_id = intval($_POST['talent_id']);
 		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
