@@ -26,6 +26,22 @@ function requirements_match($requirements, $talent_requirements){
     return false;
 }
 
+function get_talent_state($talent){
+    if(!isset($talent)){
+        return 'Error';
+    }else if(!$talent->member_id){
+        return 'Neu';
+    }else if($talent->member_id){
+        $username = SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name');
+        if($username){
+            return 'Registriert';
+        }else{
+            return 'Warten';
+        }
+    }
+    return 'Error';
+}
+
 function get_matching_state($type) {
     $types = [
         0 => 'Noch nicht bearbeitet',
