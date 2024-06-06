@@ -346,6 +346,7 @@ class Talent_Evaluation_Public {
 		$mobility = isset($_POST['mobility']) ? intval($_POST['mobility']) : null;
 		$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
 		$home_office = filter_var($_POST['home_office'], FILTER_VALIDATE_BOOLEAN);
+		$part_time = filter_var($_POST['part_time'], FILTER_VALIDATE_BOOLEAN);
 		$availability = isset($_POST['availability']) ? intval($_POST['availability']) : null;
 	
 		// Prepare data arrays for insert and update
@@ -358,6 +359,7 @@ class Talent_Evaluation_Public {
 			'mobility' => $mobility,
 			'license' => $license,
 			'home_office' => $home_office,
+			'part_time' => $part_time,
 			'availability' => $availability
 		);
 		
@@ -367,6 +369,7 @@ class Talent_Evaluation_Public {
 			'%d',
 			'%s',
 			'%s',
+			'%d',
 			'%d',
 			'%d',
 			'%d',
@@ -1051,6 +1054,7 @@ class Talent_Evaluation_Public {
 			$availability = intval($_POST['availability']);
 			$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
 			$home_office = filter_var($_POST['home_office'], FILTER_VALIDATE_BOOLEAN);
+			$part_time = filter_var($_POST['part_time'], FILTER_VALIDATE_BOOLEAN);
 			$mobility = absint($_POST['mobility']);
 			$school = absint($_POST['school']);
 			global $wpdb;
@@ -1068,6 +1072,7 @@ class Talent_Evaluation_Public {
 				'mobility' => $mobility,
 				'license' => $license,
 				'home_office' => $home_office,
+				'part_time' => $part_time,
 				'school' => $school
 			);
 

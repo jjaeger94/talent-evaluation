@@ -14,5 +14,9 @@
 </div>
 <div class="form-check mb-3">
     <input class="form-check-input" type="checkbox" id="home_office" name="home_office" <?php echo $talent->home_office ? 'checked' : ''; ?>>
-    <label class="form-check-label" for="home_office">teilweise Home Office möglich</label>
+    <label class="form-check-label" for="home_office">teilweise Home Office gewünscht</label>
+</div>
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" id="part_time" name="part_time" <?php echo $talent->part_time ? 'checked' : ''; ?>>
+    <label class="form-check-label" for="part_time">Teilzeit gewünscht</label>
 </div>

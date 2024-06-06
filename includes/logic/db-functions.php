@@ -41,6 +41,11 @@ function get_talents_for_job($job, $requirements = null){
         $params[] = $job->home_office;
     }
 
+    if (!$job->part_time) {
+        $query .= " AND part_time = %d";
+        $params[] = $job->part_time;
+    }
+
     // Gruppierung der Anforderungen nach Typ
 
     if ($requirements) {
@@ -141,6 +146,11 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
     if ($talent->home_office) {
         $query .= " AND home_office = %d";
         $params[] = $talent->home_office;
+    }
+
+    if ($talent->part_time) {
+        $query .= " AND part_time = %d";
+        $params[] = $talent->part_time;
     }
 
     // Abfrage vorbereiten

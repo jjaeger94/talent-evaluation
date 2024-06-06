@@ -23,6 +23,11 @@
         <td><?php echo isset($talent->home_office) && $talent->home_office ? 'Verlangt' : 'Egal'; ?></td>
     </tr>
     <tr>
+        <td>Teilzeit</td>
+        <td><?php echo isset($job->part_time) && $job->part_time ? 'Angeboten' : 'Verboten'; ?></td>
+        <td><?php echo isset($talent->part_time) && $talent->part_time ? 'Verlangt' : 'Egal'; ?></td>
+    </tr>
+    <tr>
         <td>Führerschein</td>
         <td><?php echo isset($job->license) && $job->license ? 'Benötigt' : 'Egal'; ?></td>
         <td><?php echo isset($talent->license) && $talent->license ? 'Vorhanden' : 'Nicht vorhanden'; ?></td>

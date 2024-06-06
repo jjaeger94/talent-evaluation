@@ -39,9 +39,13 @@
     <input class="form-check-input" type="checkbox" id="license" name="license" <?php echo isset($job->license) && $job->license ? 'checked' : ''; ?>>
         <label class="form-check-label" for="license">Führerschein (Klasse B)</label>
     </div>
-    <div class="form-check mb-3">
+    <div class="form-check mb-1">
         <input class="form-check-input" type="checkbox" id="home_office" name="home_office" <?php echo isset($job->home_office) && $job->home_office ? 'checked' : ''; ?>>
         <label class="form-check-label" for="home_office">Home Office möglich</label>
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="part_time" name="part_time" <?php echo isset($job->part_time) && $job->part_time ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="part_time">Teilzeit möglich</label>
     </div>
     <div class="form-group mb-3">
         <label for="field">Verfügbarkeit:</label><?php echo info_button('jobs_availability'); ?>

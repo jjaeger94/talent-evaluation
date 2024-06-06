@@ -156,6 +156,7 @@ class Talent_Evaluation_Activator
                     availability INT,
                     license TINYINT(1),
                     home_office TINYINT(1),
+                    part_time TINYINT(1),
 					FOREIGN KEY (customer_id) REFERENCES $customers(ID)
 				) $charset_collate;";
                 dbDelta($sql);
@@ -169,6 +170,7 @@ class Talent_Evaluation_Activator
                     mobility INT,
                     license TINYINT(1),
                     home_office TINYINT(1),
+                    part_time TINYINT(1),
                     notes TEXT,
                     availability INT,
 					added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
