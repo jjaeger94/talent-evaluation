@@ -187,32 +187,30 @@
         // Überprüfen, ob der Benutzer eingeloggt ist
         if (current_user_can('dienstleister')) {
             // Abfrage, um Talente abzurufen
+            $ref = isset($_GET['ref']) ? sanitize_text_field($_GET['ref']) : null;
+
             global $wpdb;
             $talents_table = $wpdb->prefix . 'te_talents';
-            $talents = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
-
-            $postal_code = isset( $_GET['postal_code'] ) ? sanitize_text_field( $_GET['postal_code'] ) : null;
-
-            $radius = isset( $_GET['radius'] ) ? intval( $_GET['radius'] ) : 0;
-
-            if ($postal_code && $radius) {           
-                // Postleitzahlen im gewünschten Radius erhalten
-                $countryCode = 'DE'; // Deutschland
-                $postal_codes = getPostalCodesInRadius($postal_code, $radius, $countryCode);
-                // Überprüfen, ob Postleitzahlen gefunden wurden
-                if ($postal_codes !== false) {
-                    // Talente nach den gefundenen Postleitzahlen filtern
-                    $talents = array_filter($talents, function($talent) use ($postal_codes) {
-                        return in_array($talent->post_code, $postal_codes);
-                    });
-                }
+            
+            if ($ref) {
+                // Sicherstellen, dass die ref korrekt in der SQL-Abfrage verwendet wird
+                $talents = $wpdb->get_results($wpdb->prepare("SELECT * FROM $talents_table WHERE ref LIKE %s ORDER BY added DESC", $ref.'%'));
+            } else {
+                $talents = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
             }
-
-            // Überprüfen, ob Talente vorhanden sind
+            // Filterformular einfügen
             ob_start(); // Puffer starten
-            include TE_DIR.'tables/talents-table-template.php'; // Pfad zur Datei mit dem Test-Formular
-            return ob_get_clean(); 
+            include TE_DIR . 'filters/ref-filter.php'; // Pfad zur Datei mit dem Filterformular
+            $filter_form = ob_get_clean();
+
+            // Tabelleninhalt einfügen
+            ob_start();
+            include TE_DIR . 'tables/talents-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
+            $table_content = ob_get_clean();
+
+            // Kombinierten Inhalt zurückgeben
+            return $filter_form . $table_content;
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
         }
-    }
+}

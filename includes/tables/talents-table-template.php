@@ -13,11 +13,11 @@
         <tbody>
             <?php foreach ($talents as $talent) : ?>
                 <tr>
-                    <td><?php echo $talent->email; ?></td>
-                    <td><?php echo $talent->mobile; ?></td>
-                    <td><?php echo $talent->post_code; ?></td>
-                    <td><?php echo $talent->ref; ?></td>
-                    <td><?php echo get_talent_state($talent); ?></td>
+                    <td><?php echo esc_html($talent->email); ?></td>
+                    <td><?php echo esc_html($talent->mobile); ?></td>
+                    <td><?php echo esc_html($talent->post_code); ?></td>
+                    <td><?php echo esc_html($talent->ref); ?></td>
+                    <td><?php echo esc_html(get_talent_state($talent)); ?></td>
                     <td><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>">Details</a></td>
                 </tr>
             <?php endforeach; ?>
