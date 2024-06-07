@@ -1,4 +1,9 @@
 <?php
+function get_display_name($user_id) {
+    if (!$user = get_userdata($user_id))
+        return false;
+    return $user->data->display_name;
+}
 function requirements_match($requirements, $talent_requirements){
     $grouped_requirements = [];
     foreach ($requirements as $requirement) {

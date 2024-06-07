@@ -166,6 +166,7 @@
                     $experiences = get_experiences_by_talent_id($talent->ID);
                     $eq = get_eq_by_talent_id($talent->ID);
                     $jobs = get_jobs_for_talent($talent, $apprenticeships, $studies, $experiences);
+                    $events = get_talent_events($talent->ID);
 
                     ob_start(); // Puffer starten
                     include TE_DIR.'details/talent-detail-template.php'; // Pfad zur Datei mit dem Test-Formular

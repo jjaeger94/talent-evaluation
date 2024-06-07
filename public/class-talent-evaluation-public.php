@@ -174,7 +174,6 @@ class Talent_Evaluation_Public {
 				wp_send_json_success('Eintrag erfolgreich hinzugefügt.');
 			}
 
-			wp_send_json_success('Anforderung erfolgreich gelöscht');
 		} else {
 			wp_send_json_error('Eintrag schon vorhanden');
 		}
@@ -568,7 +567,7 @@ class Talent_Evaluation_Public {
 			
 			// Sende die E-Mail
 			wp_mail($talent->email, $subject, $message, $headers);
-			
+			log_event('Job Mail gesendet', 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent_id);
 			// Sende eine Erfolgsnachricht mit der Anzahl der neuen Stellen
 			wp_send_json_success('Email für ' . $count . ' neue Stellen wurde gesendet');
 		}
@@ -582,13 +581,22 @@ class Talent_Evaluation_Public {
 		if (!current_user_can('dienstleister')) {
 			wp_send_json_error('Keine Berechtigung');
 		}
-		if (!isset($_POST['member_id'])) {
+		if (!isset($_POST['talent_id'])) {
 			wp_send_json_error('Keine ID');
 		}
 		$link_for = 'one';
-		$member_id = absint($_POST['member_id']);
+		$talent_id = absint($_POST['talent_id']);
+		$talent = get_talent_by_id($talent_id);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
+		$member_id = $talent->member_id;
+		if (!$member_id){
+			wp_send_json_error('member_id nicht gefunden');
+		}
 		$send_email = true;
 		$links = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
+		log_event('Registrierungsmail verschickt', 'Email für Registrierung wurde manuell erneut verschickt', $talent_id);
 		wp_send_json_success($links);
 		wp_die();
 	}
@@ -670,7 +678,7 @@ class Talent_Evaluation_Public {
 			}else if(isset($response_data['errors'])){
 				wp_send_json_error($response_data['errors']);
 			}
-			
+			log_event('Nutzer angelegt', 'Email für Registrierung wurde verschickt', $talent_id);
             wp_send_json_success($response_message); // Nachrichten aus der Antwort zurückgeben
         } else {
             // Fehler beim Abrufen der Nachrichten

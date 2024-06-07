@@ -144,7 +144,7 @@ jQuery(document).ready(function($) {
         $.ajax({
             type: 'POST',
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: 'member_id=<?php echo $talent->member_id; ?>&action=send_activate_account_mail',
+            data: 'talent_id=<?php echo $talent->ID; ?>&action=send_activate_account_mail',
             success: function(response) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);

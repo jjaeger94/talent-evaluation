@@ -273,6 +273,24 @@ class Talent_Evaluation_Activator
                 ) $charset_collate;";
                 dbDelta($sql);
             }
+            $events = $wpdb->prefix . 'te_events';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$events}'") != $events) {
+                $sql = "CREATE TABLE $events (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    talent_id INT NULL,
+                    job_id INT NULL,
+                    matching_id INT NULL,
+                    user_id INT NOT NULL,
+                    event_type VARCHAR(255) NOT NULL,
+                    event_description TEXT NOT NULL,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (talent_id) REFERENCES $talents(ID),
+                    FOREIGN KEY (job_id) REFERENCES $jobs(ID),
+                    FOREIGN KEY (matching_id) REFERENCES $matching(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
         }
 
         wp_create_database_tables();

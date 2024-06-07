@@ -10,6 +10,9 @@
         <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#chatCollapse" aria-expanded="false" aria-controls="chatCollapse">
             Chatverlauf anzeigen
         </button>
+        <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#eventsCollapse" aria-expanded="false" aria-controls="eventsCollapse">
+            Eventlogs anzeigen
+        </button>
         <div class="collapse" id="personalDataCollapse">
         <?php include TE_DIR.'profile/personal-data-start.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
@@ -23,6 +26,9 @@
         </div>
         <div class="collapse" id="chatCollapse">
             <?php include TE_DIR.'controls/chat.php'; ?>
+        </div>
+        <div class="collapse" id="eventsCollapse">
+            <?php include TE_DIR.'tables/talent-events-table.php'; ?>
         </div>
     </div>
 <?php else : ?>

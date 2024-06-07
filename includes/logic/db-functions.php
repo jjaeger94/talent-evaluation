@@ -1,4 +1,50 @@
 <?php
+function get_talent_events($talent_id) {
+    global $wpdb;
+    return $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}te_events WHERE talent_id = %d ORDER BY added DESC",
+        $talent_id
+    ));
+}
+function get_job_events($job_id) {
+    global $wpdb;
+    return $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}te_events WHERE job_id = %d ORDER BY added DESC",
+        $job_id
+    ));
+}
+function get_matching_events($matching_id) {
+    global $wpdb;
+    return $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}te_events WHERE matching_id = %d ORDER BY added DESC",
+        $matching_id
+    ));
+}
+
+function log_event($event_type, $event_description, $talent_id = null, $job_id = null, $matching_id = null) {
+    $user_id = get_current_user_id();
+    global $wpdb;
+    $wpdb->insert(
+        $wpdb->prefix . 'te_events',
+        [
+            'event_type' => $event_type,
+            'event_description' => $event_description,
+            'talent_id' => $talent_id,
+            'job_id' => $job_id,
+            'matching_id' => $matching_id,
+            'user_id' => $user_id
+        ],
+        [
+            '%s',
+            '%s',
+            '%d',
+            '%d',
+            '%d',
+            '%d'
+        ]
+    );
+}
+
 function get_active_matching_for_talent_id($talent_id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_matching';
