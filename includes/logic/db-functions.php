@@ -140,6 +140,7 @@ function get_talents_for_job($job, $requirements = null){
 
     // Talente abrufen
     $results = $wpdb->get_results($prepared_query);
+        
     $talents = [];
 
     if(!empty($results)){
@@ -148,23 +149,25 @@ function get_talents_for_job($job, $requirements = null){
         $postal_codes_50 = getPostalCodesInRadius($job->post_code, 50, $countryCode);
         $postal_codes_100 = getPostalCodesInRadius($job->post_code, 100, $countryCode);
         
-        foreach ($results as $result) :
-            if($result->mobility == 0){
-                array_push($talents, $result);
-            }else if($result->mobility == 20){
-                if(in_array($result->post_code, $postal_codes_20)){
+        foreach ($results as $result){
+            if(SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')){
+                if($result->mobility == 0){
                     array_push($talents, $result);
-                }
-            }else if($result->mobility == 50){
-                if(in_array($result->post_code, $postal_codes_50)){
-                    array_push($talents, $result);
-                }
-            }else if($result->mobility == 100){
-                if(in_array($result->post_code, $postal_codes_100)){
-                    array_push($talents, $result);
+                }else if($result->mobility == 20){
+                    if(in_array($result->post_code, $postal_codes_20)){
+                        array_push($talents, $result);
+                    }
+                }else if($result->mobility == 50){
+                    if(in_array($result->post_code, $postal_codes_50)){
+                        array_push($talents, $result);
+                    }
+                }else if($result->mobility == 100){
+                    if(in_array($result->post_code, $postal_codes_100)){
+                        array_push($talents, $result);
+                    }
                 }
             }
-        endforeach;
+        }
     }
 
     return $talents;
