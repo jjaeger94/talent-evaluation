@@ -134,7 +134,7 @@ function get_experience_field($field) {
         case 6:
             return 'Forschung und Entwicklung';
         case 7:
-            return 'Kundendienst und Suppor';
+            return 'Kundendienst und Support';
         case 8:
             return 'Informationstechnologie';
         case 9:
