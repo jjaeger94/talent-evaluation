@@ -148,6 +148,7 @@ class Talent_Evaluation_Activator
 					ID INT AUTO_INCREMENT PRIMARY KEY,
                     customer_id INT NOT NULL,
                     job_title VARCHAR(255) NOT NULL ,
+                    link VARCHAR(255),
                     job_info TEXT,
                     added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

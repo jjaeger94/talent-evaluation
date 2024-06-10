@@ -18,6 +18,15 @@
         <input type="text" class="form-control" id="job_title" name="job_title" value="<?php echo isset($job->job_title) ? esc_attr($job->job_title) : ''; ?>" required>
     </div>
     <div class="form-group mb-3">
+        <label for="job_url"><strong>Link</strong></label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="job_url" name="job_url" value="<?php echo isset($job->link) ? esc_attr($job->link) : ''; ?>">
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="open_link_button" type="button">Öffnen</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mb-3">
         <label for="post_code"><strong>Postleitzahl</strong></label>
         <input type="text" class="form-control" id="post_code" name="post_code" value="<?php echo isset($job->post_code) ? esc_attr($job->post_code) : ''; ?>">
     </div>
@@ -80,6 +89,14 @@ jQuery(document).ready(function($) {
                 console.error('Fehler beim Speichern der Jobdaten:', error);
             }
         });
+    });
+    $('#open_link_button').on('click', function() {
+        var url = $('#job_url').val();
+        if (url) {
+            window.open(url, '_blank');
+        } else {
+            alert('Bitte geben Sie einen Link ein.');
+        }
     });
 });
 </script>
