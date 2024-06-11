@@ -3,7 +3,8 @@
         <i class="fa fa-xmark"></i>
         <i class="fa fa-heart"></i>
         <div class="no-more-cards" style="display: none;">
-        <p>Momentan gibt es keine weiteren Angebote für dich, schaue später noch einmal hinein.</p>
+        <p>Momentan gibt es keine weiteren Angebote für dich.</p>
+        <p>Wir Benachrichtigen dich sobald neue Stellen Verfügbar sind.</p>
         </div>
     </div>
     <div class="swiper--cards">

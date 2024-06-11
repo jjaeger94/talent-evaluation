@@ -79,12 +79,128 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('activate_matching');
 		$this->add_public_request('save_matching');
 		$this->add_public_request('send_job_mail');
+		$this->add_public_request('generate_resume_pdf');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
 	}
+
+	function generate_resume_pdf() {
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine Talent-ID angegeben');
+			wp_die();
+		}
+	
+		$talent_id = intval($_POST['talent_id']);
+	
+		// Deine Funktion zur PDF-Erstellung
+		global $wpdb;
+	
+		// Talents-Tabelle abfragen
+		$talents_table = $wpdb->prefix . 'te_talents';
+		$talent = $wpdb->get_row($wpdb->prepare("SELECT * FROM $talents_table WHERE ID = %d", $talent_id));
+	
+		if (!$talent) {
+			wp_send_json_error('Talent nicht gefunden');
+			wp_die();
+		}
+	
+		// PDF-Objekt erstellen
+		require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
+		$pdf = new FPDF();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial', 'B', 16);
+	
+		// Titel
+		$pdf->Cell(40, 10, 'Lebenslauf');
+		$pdf->Ln(20);
+	
+		// Kandidateninformationen
+		$pdf->SetFont('Arial', '', 12);
+		$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
+		$pdf->Ln(10);
+		$pdf->Cell(40, 10, utf8_decode('Verfügbarkeit: ' . get_availability_string($talent->availability)));
+		$pdf->Ln(10);
+		$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
+		$pdf->Ln(10);
+		
+	
+		// Weitere Informationen wie Erfahrung, Ausbildung etc. hinzufügen
+
+		// Ausbildung
+		$apprenticeship_table = $wpdb->prefix . 'te_apprenticeship';
+		$apprenticeships = $wpdb->get_results($wpdb->prepare("SELECT * FROM $apprenticeship_table WHERE talent_id = %d", $talent_id));
+		if ($apprenticeships) {
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->Cell(40, 10, 'Ausbildung:');
+			$pdf->SetFont('Arial', '', 12);
+			foreach ($apprenticeships as $apprenticeship) {
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, utf8_decode('Bezeichnung: ' . $apprenticeship->designation));
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($apprenticeship));
+			}
+		}
+
+		// Studium
+		$study_table = $wpdb->prefix . 'te_studies';
+		$studies = $wpdb->get_results($wpdb->prepare("SELECT * FROM $study_table WHERE talent_id = %d", $talent_id));
+		if ($studies) {
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->Cell(40, 10, 'Studium:');
+			$pdf->SetFont('Arial', '', 12);
+			foreach ($studies as $study) {
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, utf8_decode('Bezeichnung: ' . $study->designation));
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($study));
+			}
+		}
+
+		//Ausbildung
+
+		//Berufserfahrung
+		$experience_table = $wpdb->prefix . 'te_experience';
+		$experiences = $wpdb->get_results($wpdb->prepare("SELECT * FROM $experience_table WHERE talent_id = %d", $talent_id));
+		if ($experiences) {
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->Cell(40, 10, 'Berufserfahrung:');
+			$pdf->SetFont('Arial', '', 12);
+			foreach ($experiences as $experience) {
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, utf8_decode('Position: ' . $experience->position));
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, utf8_decode('Unternehmen: ' . $experience->company));
+				$pdf->Ln(10);
+				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($experience));
+			}
+		}
+	
+
+	
+		// PDF-Datei in einen temporären Speicher speichern
+		$upload_dir = wp_upload_dir();
+		$upload_path = $upload_dir['basedir'] . '/talent_resumes/';
+		
+		if (!file_exists($upload_path)) {
+			mkdir($upload_path, 0755, true);
+		}
+		
+		$filename = 'Lebenslauf_Talent_' . $talent->member_id . '.pdf';
+		$file_path = $upload_path . $filename;
+		$pdf->Output('F', $file_path);
+	
+		// URL der Datei zurückgeben
+		$file_url = $upload_dir['baseurl'] . '/talent_resumes/' . $filename;
+		wp_send_json_success(['file_url' => $file_url]);
+		wp_die();
+	}
+
 
 	function save_matching(){
 		if (!isset($_POST['matching_id'])) {

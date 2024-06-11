@@ -35,12 +35,14 @@
         <div class="col">
             <?php if (!$talent->member_id) : ?>
                 <button id="createUser" class="btn btn-primary">Nutzer anlegen</button>
-                
             <?php elseif (!SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name')): ?>
                 <button id="activateAccount" class="btn btn-primary">Registrierung erneut senden</button>
             <?php else: ?>
                 <button id="sendJobMails" class="btn btn-primary">Über neue Jobs informieren</button>
             <?php endif; ?>
+        </div>
+        <div class="col">
+            <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
         </div>
         <div class="col">
             <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
@@ -53,6 +55,31 @@
 </div>
 <script>
 jQuery(document).ready(function($) {
+    $('#generateResume').on('click', function() {
+        var talent_id = $(this).data('talent-id');
+        
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: 'talent_id=<?php echo $talent->ID; ?>&action=generate_resume_pdf',
+            success: function(response) {
+                if (response.success) {
+                    var file_url = response.data.file_url;
+                    var link = document.createElement('a');
+                    link.href = file_url;
+                    link.download = file_url.substring(file_url.lastIndexOf('/') + 1);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    alert('Fehler: ' + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Ein Fehler ist aufgetreten: ' + error);
+            }
+        });
+    });
     $('#editNotesForm').submit(function(e) {
         e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
         // Formulardaten sammeln

@@ -1,4 +1,14 @@
 <?php
+function get_date_string($object){
+    
+    if ($object->end_date != '9999-12-31'){
+        $dateString = date("d.m.Y", strtotime($object->start_date)) . '-' . date("d.m.Y", strtotime($object->end_date));
+    }else{
+        $dateString = 'seit ' . date("d.m.Y", strtotime($object->start_date));
+    }
+
+    return $dateString;
+}
 function get_display_name($user_id) {
     if (!$user = get_userdata($user_id))
         return false;
