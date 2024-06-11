@@ -164,7 +164,7 @@ class Talent_Evaluation_Public {
 		//Ausbildung
 
 		//Berufserfahrung
-		$experience_table = $wpdb->prefix . 'te_experience';
+		$experience_table = $wpdb->prefix . 'te_experiences';
 		$experiences = $wpdb->get_results($wpdb->prepare("SELECT * FROM $experience_table WHERE talent_id = %d", $talent_id));
 		if ($experiences) {
 			$pdf->Ln(10);
