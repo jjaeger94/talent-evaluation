@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label for="end_date">Enddatum:</label>
-                            <input type="date" class="form-control" id="exp_end_date" name="end_date">
+                            <input type="date" class="form-control" id="exp_end_date" name="end_date" required>
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="exp_current_job" name="current_job">
