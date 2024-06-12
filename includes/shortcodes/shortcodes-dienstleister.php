@@ -189,19 +189,35 @@
         if (current_user_can('dienstleister')) {
             // Abfrage, um Talente abzurufen
             $ref = isset($_GET['ref']) ? sanitize_text_field($_GET['ref']) : null;
+            $selected_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : '';
 
             global $wpdb;
             $talents_table = $wpdb->prefix . 'te_talents';
             
             if ($ref) {
                 // Sicherstellen, dass die ref korrekt in der SQL-Abfrage verwendet wird
-                $talents = $wpdb->get_results($wpdb->prepare("SELECT * FROM $talents_table WHERE ref LIKE %s ORDER BY added DESC", $ref.'%'));
+                $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $talents_table WHERE ref LIKE %s ORDER BY added DESC", $ref.'%'));
             } else {
-                $talents = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
+                $results = $wpdb->get_results("SELECT * FROM $talents_table ORDER BY added DESC");
+            }
+            
+            if($selected_state != ''){
+                $talents = [];
+                foreach ($results as $result){
+                    if($selected_state == 'new' && !$result->member_id){
+                        array_push($talents, $result);
+                    }else if($selected_state == 'waiting' && $result->member_id && !SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')){
+                        array_push($talents, $result);
+                    }else if($selected_state == 'registered' && $result->member_id && SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')){
+                        array_push($talents, $result);
+                    }
+                }
+            }else{
+                $talents = $results;
             }
             // Filterformular einfügen
             ob_start(); // Puffer starten
-            include TE_DIR . 'filters/ref-filter.php'; // Pfad zur Datei mit dem Filterformular
+            include TE_DIR . 'filters/ref-state-filter.php'; // Pfad zur Datei mit dem Filterformular
             $filter_form = ob_get_clean();
 
             // Tabelleninhalt einfügen
