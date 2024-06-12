@@ -64,7 +64,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button class="btn btn-danger" id="editStudyBtnDelete">Eintrag entfernen</button>
-                            <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
+                            <button type="submit" id="submitStudyFormBtn" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
                 </div>
@@ -150,6 +150,8 @@
                 $('#talentDetailForm').trigger('submit');
             }
 
+            $('#submitStudyFormBtn').prop('disabled', true);
+
             // Formulardaten sammeln
             var formData = $(this).serialize();
 
@@ -166,11 +168,13 @@
                     if(response.success){
                         location.reload();
                     }
+                    $('#submitStudyFormBtn').prop('disabled', false);
                     
                 },
                 error: function(xhr, status, error) {
                     // Fehlerbehandlung
                     console.error(error);
+                    $('#submitStudyFormBtn').prop('disabled', false);
                 }
             });
         });

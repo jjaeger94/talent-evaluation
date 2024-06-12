@@ -12,13 +12,13 @@
 <div class="row mb-3">
     <?php if ($eq) : ?>
         <div class="col-md-12 mb-3">
-            <p class="card-title"><strong>Warum meinst du du bist besonders Emotional intelligent?</strong></p>
+            <p class="card-title"><strong>Was ist dir im Beruf besonders wichtig?</strong></p>
             <p class="card-text"><?php echo $eq->value; ?></p>
             <button class="btn btn-primary edit-eq" data-id="<?php echo $eq->ID; ?>" data-value="<?php echo $eq->value; ?>">Antwort bearbeiten</button>
         </div>
     <?php else : ?>
         <div class="col-md-12 mb-3">
-            <p class="card-title"><strong>Warum meinst du du bist besonders Emotional intelligent?</strong></p>
+            <p class="card-title"><strong>Was ist dir im Beruf besonders wichtig?</strong></p>
         </div>
         <button class="btn btn-primary" id="addEqBtnOpen">Antwort hinzufügen</button>
     <?php endif; ?>
@@ -29,7 +29,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editEqModalLabel">Warum meinst du du bist besonders Emotional intelligent?</h5>
+                    <h5 class="modal-title" id="editEqModalLabel">Was ist dir im Beruf besonders wichtig?</h5>
                     <button class="btn-close" id="addEqBtnClose" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -42,7 +42,7 @@
                             <textarea class="form-control" id="eq_value" name="value" rows="3" required></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
+                            <button type="submit" id="submitEqFormBtn" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
                 </div>
@@ -76,6 +76,7 @@
             if($('#talentDetailForm')[0]){
                 $('#talentDetailForm').trigger('submit');
             }
+            $('#submitEqFormBtn').prop('disabled', true);
 
             // Formulardaten sammeln
             var formData = $(this).serialize();
@@ -93,10 +94,12 @@
                     if(response.success){
                         location.reload();
                     }
+                    $('#submitEqFormBtn').prop('disabled', false);
                 },
                 error: function(xhr, status, error) {
                     // Fehlerbehandlung
                     console.error(error);
+                    $('#submitEqFormBtn').prop('disabled', false);
                 }
             });
         });

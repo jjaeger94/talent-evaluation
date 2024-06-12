@@ -59,7 +59,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button class="btn btn-danger" id="addExperienceBtnDelete">Eintrag entfernen</button>
-                            <button type="submit" class="btn btn-primary">Hinzufügen/Ändern</button>
+                            <button type="submit" id="submitExperienceFormBtn" class="btn btn-primary">Hinzufügen/Ändern</button>
                         </div>
                     </form>
                 </div>
@@ -143,6 +143,7 @@
             if($('#talentDetailForm')[0]){
                 $('#talentDetailForm').trigger('submit');
             }
+            $('#submitExperienceFormBtn').prop('disabled', true);
             // Formulardaten sammeln
             var formData = $(this).serialize();
 
@@ -159,10 +160,12 @@
                     if(response.success){
                         location.reload();
                     }
+                    $('#submitExperienceFormBtn').prop('disabled', false);
                 },
                 error: function(xhr, status, error) {
                     // Fehlerbehandlung
                     console.error(error);
+                    $('#submitExperienceFormBtn').prop('disabled', false);
                 }
             });
         });
