@@ -57,11 +57,11 @@
         <td><?php echo isset($grouped_requirements[3][$i]) ? get_experience_field($grouped_requirements[3][$i]->field) : '';?></td>
         <td><?php echo isset($experiences[$i]) ? get_experience_field($experiences[$i]->field) .': '. $experiences[$i]->position : '';?></td>
     </tr>
+    <?php endfor; ?>
     <tr>
         <td>Beschreibung/Notizen</td>
         <td><?php echo $job->job_info; ?></td>
         <td><?php echo $talent->notes; ?></td>
     </tr>
-    <?php endfor; ?>
 </tbody>
 </table>
