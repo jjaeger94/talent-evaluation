@@ -44,6 +44,7 @@
 <script>
 jQuery(document).ready(function($) {
     $('#activateMatchingForm').submit(function(e) {
+        e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
         var formData = $(this).serialize();
         // AJAX-Anfrage senden
         $.ajax({
