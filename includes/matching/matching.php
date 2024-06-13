@@ -12,7 +12,7 @@
         <?php $job=get_job_by_id($match->job_id); ?>
         <div class="swiper--card" data-matching-id="<?php echo $match->ID; ?>">
             <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
-            <p><?php echo nl2br($job->job_info); ?></p>
+            <p><?php echo isset($match->job_info) && $match->job_info != '' ? nl2br($match->job_info) : nl2br($job->job_info); ?></p>
         </div>
         <?php endforeach; ?>
     </div>

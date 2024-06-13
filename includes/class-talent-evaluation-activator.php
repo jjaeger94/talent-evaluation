@@ -267,6 +267,7 @@ class Talent_Evaluation_Activator
                     job_id INT,
                     talent_id INT,
                     value INT NOT NULL DEFAULT 0 ,
+                    job_info TEXT,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (job_id) REFERENCES $jobs(ID),

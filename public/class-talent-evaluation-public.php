@@ -260,6 +260,7 @@ class Talent_Evaluation_Public {
 		}
 		$talent_id = intval($_POST['talent_id']);
 		$job_id = intval($_POST['job_id']);
+		$job_info = isset($_POST['job_info']) ? wp_kses_post($_POST['job_info']) : '';
 		
 		// Überprüfe, ob die Frage existiert
 		$entry = get_matching_for_ids($talent_id, $job_id);
@@ -270,12 +271,14 @@ class Talent_Evaluation_Public {
 			// Prepare data arrays for insert and update
 			$data = array(
 				'job_id' => $job_id,
-				'talent_id' => $talent_id
+				'talent_id' => $talent_id,
+				'job_info' => $job_info,
 			);
 
 			$format = array(
 				'%d',
-				'%d'
+				'%d',
+				'%s'
 			);
 			// Fügen Sie einen neuen Job hinzu
 			$inserted = $wpdb->insert(
