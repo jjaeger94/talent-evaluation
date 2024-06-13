@@ -222,12 +222,14 @@ class Talent_Evaluation_Public {
 				wp_send_json_error('Keine Berechtigung');
 			}
 			$value = absint($_POST['matching']);
+			$job_info = isset($_POST['job_info']) ? wp_kses_post($_POST['job_info']) : '';
 
 			$table_name = $wpdb->prefix . 'te_matching';
 
 			// Daten zum Aktualisieren
 			$data = array(
-				'value' => $value
+				'value' => $value,
+				'job_info' => $job_info,
 			);
 
 			// Bedingung für die Aktualisierung
