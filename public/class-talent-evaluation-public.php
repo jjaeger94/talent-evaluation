@@ -525,7 +525,7 @@ class Talent_Evaluation_Public {
 			);
 	
 			if (false === $inserted) {
-				wp_send_json_error('Fehler beim Hinzufügen des Jobs.');
+				wp_send_json_error($wpdb->last_error);
 			} else {
 				wp_send_json_success('Job erfolgreich hinzugefügt.');
 			}
