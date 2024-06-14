@@ -293,6 +293,19 @@ class Talent_Evaluation_Activator
                 ) $charset_collate;";
                 dbDelta($sql);
             }
+            $evaluations = $wpdb->prefix . 'te_evaluations';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$evaluations}'") != $evaluations) {
+                $sql = "CREATE TABLE $evaluations (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    talent_id INT NULL,
+                    rating INT NOT NULL,
+                    comment TEXT NULL,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (talent_id) REFERENCES $talents(ID),
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
         }
 
         wp_create_database_tables();

@@ -81,11 +81,51 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('send_job_mail');
 		$this->add_public_request('generate_resume_pdf');
 		$this->add_public_request('activate_all_matchings');
+		$this->add_public_request('submit_evaluation');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+	
+	function submit_evaluation() {
+		if(!isset($_POST['talent_id'], $_POST['rating'])){
+			wp_send_json_error('Felder fehlen');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		$rating = absint($_POST['rating']);
+		$comment = isset($_POST['comment']) ? sanitize_text_field($_POST['comment']) : '';
+		global $wpdb;
+
+		// Prepare data arrays for insert and update
+		$data = array(
+			'talent_id' => $talent_id,
+			'rating' => $rating,
+			'comment' => $comment,
+		);
+
+		$format = array(
+			'%d',
+			'%d',
+			'%s'
+		);
+
+		// Füge das Matching hinzu
+		$inserted = $wpdb->insert(
+			$wpdb->prefix . 'te_evaluations',
+			$data,
+			$format
+		);
+
+		if (false === $inserted) {
+			wp_send_json_error('Fehler beim Hinzufügen');
+		}
+		wp_send_json_success('added comment');
+		wp_die();
 	}
 
 	function activate_all_matchings() {

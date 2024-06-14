@@ -3,16 +3,16 @@
         <i class="fa fa-xmark"></i>
         <i class="fa fa-heart"></i>
         <div class="no-more-cards" style="display: none;">
-        <p>Momentan gibt es keine weiteren Angebote für dich.</p>
-        <p>Wir Benachrichtigen dich sobald neue Stellen Verfügbar sind.</p>
+            <p>Momentan gibt es keine weiteren Angebote für dich.</p>
+            <p>Wir Benachrichtigen dich sobald neue Stellen Verfügbar sind.</p>
         </div>
     </div>
     <div class="swiper--cards">
         <?php foreach ($matching as $index => $match) : ?>
         <?php $job=get_job_by_id($match->job_id); ?>
         <div class="swiper--card" data-matching-id="<?php echo $match->ID; ?>">
-            <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
             <p><?php echo isset($match->job_info) && $match->job_info != '' ? nl2br($match->job_info) : nl2br($job->job_info); ?></p>
+            <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
         </div>
         <?php endforeach; ?>
     </div>
@@ -30,13 +30,82 @@
                 <h5 class="modal-title" id="textModalLabel">Stellenbeschreibung</h5>
                 <button class="btn-close" id="text-btn-close" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="modal-text"></div>
+            <div class="modal-body">
+                <p id="modal-text"></p>
+                <p id="modal-title"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal für Bewertung -->
+<div class="modal fade" id="evaluationModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="evaluationModalLabel">Bewertung</h5>
+                <button class="btn-close" id="evaluation-btn-close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="evaluationForm">
+                    <p>Bitte bewerte, ob dir die bisherigen Stellen gut gefallen haben</p>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Bewertung: <span id="ratingValue">5</span></label>
+                        <input type="range" class="form-range" id="rating" name="rating" min="1" max="10" required>
+                        <div class="d-flex justify-content-between">
+                            <span>1</span>
+                            <span>10</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Kommentar</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Absenden</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
 jQuery(document).ready(function($) {
+    $('#rating').on('input', function() {
+        $('#ratingValue').text($(this).val());
+    });
+
+    $('#evaluation-btn-close').click(function() {
+        $('#evaluationModal').modal('hide');
+    });
+
+    $('#evaluationForm').submit(function(event) {
+        event.preventDefault();
+        var rating = $('#rating').val();
+        var comment = $('#comment').val();
+
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: {
+                action: 'submit_evaluation',
+                rating: rating,
+                comment: comment,
+                talent_id: <?php echo $talent->ID; ?>
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('Evaluation submitted: ' + response.data);
+                } else {
+                    console.log('Error: ' + response.data);
+                }
+                $('#evaluationModal').modal('hide');
+            },
+            error: function() {
+                console.log('AJAX request failed.');
+                $('#evaluationModal').modal('hide');
+            }
+        });
+    });
     $('#text-btn-close').click(function() {
         $('#textModal').modal('hide');
     });
@@ -48,6 +117,7 @@ jQuery(document).ready(function($) {
 
     function initCards() {
         var newCards = $('.swiper--card:not(.removed)');
+        var removedCards = $('.swiper--card.removed');
 
         newCards.each(function(index) {
             $(this).css('z-index', allCards.length - index);
@@ -60,6 +130,9 @@ jQuery(document).ready(function($) {
         // Überprüfe, ob keine Karten mehr vorhanden sind und zeige den Hinweistext
         if (newCards.length === 0) {
             noMoreCardsText.show();
+            if(removedCards.length > 0){
+                $('#evaluationModal').modal('show');
+            }
         } else {
             noMoreCardsText.hide();
         }
@@ -137,8 +210,10 @@ jQuery(document).ready(function($) {
         });
 
         hammertime.on('tap', function(event) {
-            var jobInfo = $(el).find('p').last().html();
+            var jobInfo = $(el).find('p').first().html();
+            var jobTitle = $(el).find('p').last().html();
             $('#modal-text').html(jobInfo);
+            $('#modal-title').html(jobTitle);
             $('#textModal').modal('show');
             history.pushState({modalOpen: true}, null, null);
         });
