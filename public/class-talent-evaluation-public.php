@@ -80,6 +80,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_matching');
 		$this->add_public_request('send_job_mail');
 		$this->add_public_request('generate_resume_pdf');
+		$this->add_public_request('activate_all_matchings');
 	}
 
 	private function add_public_request($request_name){
@@ -87,10 +88,72 @@ class Talent_Evaluation_Public {
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
 	}
 
-	function generate_resume_pdf() {
+	function activate_all_matchings() {
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
 		if (!isset($_POST['talent_id'])) {
 			wp_send_json_error('Keine Talent-ID angegeben');
-			wp_die();
+		}
+	
+		$talent_id = intval($_POST['talent_id']);
+		$talent = get_talent_by_id($talent_id);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
+		$jobs = get_jobs_for_talent($talent); // Annahme: Diese Funktion gibt eine Liste von Jobs zurück
+	
+		if (empty($jobs)) {
+			wp_send_json_error('Keine passenden Jobs gefunden.');
+		}
+	
+		foreach ($jobs as $job) {
+			$job_id = intval($job->ID); // Annahme: Hier wird die Job-ID aus den zurückgegebenen Jobs extrahiert
+			$job_info = ''; // Hier könntest du ggf. zusätzliche Informationen übergeben, die du für jeden Job spezifizieren möchtest
+	
+			// Überprüfe, ob das Matching bereits existiert
+			$entry = get_matching_for_ids($talent_id, $job_id);
+	
+			if (!$entry) {
+				global $wpdb;
+	
+				// Prepare data arrays for insert and update
+				$data = array(
+					'job_id' => $job_id,
+					'talent_id' => $talent_id,
+					'job_info' => $job_info,
+				);
+	
+				$format = array(
+					'%d',
+					'%d',
+					'%s'
+				);
+	
+				// Füge das Matching hinzu
+				$inserted = $wpdb->insert(
+					$wpdb->prefix . 'te_matching',
+					$data,
+					$format
+				);
+	
+				if (false === $inserted) {
+					wp_send_json_error('Fehler beim Hinzufügen des Eintrags für Job ID ' . $job_id);
+				}
+			}
+		}
+	
+		wp_send_json_success('Alle Matchings erfolgreich aktiviert.');
+		wp_die();
+	}
+
+	function generate_resume_pdf() {
+		if (!current_user_can('dienstleister')) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('Keine Talent-ID angegeben');
 		}
 	
 		$talent_id = intval($_POST['talent_id']);
@@ -104,7 +167,6 @@ class Talent_Evaluation_Public {
 	
 		if (!$talent) {
 			wp_send_json_error('Talent nicht gefunden');
-			wp_die();
 		}
 	
 		// PDF-Objekt erstellen

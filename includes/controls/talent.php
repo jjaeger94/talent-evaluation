@@ -39,11 +39,17 @@
             <div class="col">
                 <button id="createUserCalled" class="btn btn-primary">Nicht erreicht</button>
             </div>       
+            <div class="col">
+                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
+            </div>
         <?php elseif (!SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name')): ?>
             <div class="col">
                 <button id="activateAccount" class="btn btn-primary">Registrierung erneut senden</button>
             </div>
         <?php else: ?>
+            <div class="col">
+                <button id="activateAllMatchings" class="btn btn-primary">Alle Matchings starten</button>
+            </div>
             <div class="col">
                 <button id="sendJobMails" class="btn btn-primary">Über neue Jobs informieren</button>
             </div>
@@ -51,9 +57,6 @@
                 <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
             </div>
         <?php endif; ?>
-        <div class="col">
-            <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
-        </div>
     </div>
     <div class="wrap">
         <span id="metaResult"></span>
@@ -157,6 +160,26 @@ jQuery(document).ready(function($) {
             type: 'POST',
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
             data: 'talent_id=<?php echo $talent->ID; ?>&custom_email=true&action=create_user',
+            success: function(response) {
+                // Erfolgreiche Verarbeitung
+                console.log(response);
+                // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                if(response.success){
+                    location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Fehlerbehandlung
+                console.error(error);
+            }
+        });
+    });
+    $('#activateAllMatchings').click(()=>{
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: 'talent_id=<?php echo $talent->ID; ?>&action=activate_all_matchings',
             success: function(response) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);
