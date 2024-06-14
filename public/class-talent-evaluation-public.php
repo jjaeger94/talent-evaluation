@@ -800,7 +800,7 @@ class Talent_Evaluation_Public {
 					if($custom_email){
 						//Nutze andere email vorlage
 						// Setze den Betreff und die Absender-Adresse der E-Mail
-						$subject = 'Neue Stellen';
+						$subject = 'Willkommen bei Convii';
 						$from_address = $settings->get_value('email-from');
 						$headers = 'From: ' . $from_address . "\r\n";
 						

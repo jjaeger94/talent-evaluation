@@ -26,7 +26,7 @@
         Unabhängig davon kannst Du Dich auch bereits über den folgenden Link registrieren:
     </p>
     <p>
-        <a href="<?php echo home_url('/membership-join/membership-registration') . '?member_id=' . $new_member->member_id . '&code=' . $new_member->reg_code; ?>">Hier registrieren</a>
+        <a href="<?php echo home_url('/membership-join/membership-registration') . '?member_id=' . $new_member['member_id'] . '&code=' . $new_member['reg_code']; ?>">Hier registrieren</a>
     </p>
     
     <p>Dein Team Convii</p>
