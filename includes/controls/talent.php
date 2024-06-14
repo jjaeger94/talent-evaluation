@@ -32,18 +32,25 @@
         <div class="col">
             <button form="editNotesForm" type="submit" class="btn btn-primary">Notizen speichern</button>
         </div>
-        <div class="col">
-            <?php if (!$talent->member_id) : ?>
+        <?php if (!$talent->member_id) : ?>
+            <div class="col">
                 <button id="createUser" class="btn btn-primary">Nutzer anlegen</button>
-            <?php elseif (!SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name')): ?>
+            </div>
+            <div class="col">
+                <button id="createUserCalled" class="btn btn-primary">Nicht erreicht</button>
+            </div>       
+        <?php elseif (!SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name')): ?>
+            <div class="col">
                 <button id="activateAccount" class="btn btn-primary">Registrierung erneut senden</button>
-            <?php else: ?>
+            </div>
+        <?php else: ?>
+            <div class="col">
                 <button id="sendJobMails" class="btn btn-primary">Über neue Jobs informieren</button>
-            <?php endif; ?>
-        </div>
-        <div class="col">
-            <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
-        </div>
+            </div>
+            <div class="col">
+                <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
+            </div>
+        <?php endif; ?>
         <div class="col">
             <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
         </div>
@@ -123,13 +130,33 @@ jQuery(document).ready(function($) {
             }
         });
     });
-
     $('#createUser').click(()=>{
         // AJAX-Anfrage senden
         $.ajax({
             type: 'POST',
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: 'talent_id=<?php echo $talent->ID; ?>&action=create_user',
+            data: 'talent_id=<?php echo $talent->ID; ?>&custom_email=false&action=create_user',
+            success: function(response) {
+                // Erfolgreiche Verarbeitung
+                console.log(response);
+                // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                if(response.success){
+                    location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Fehlerbehandlung
+                console.error(error);
+            }
+        });
+    });
+
+    $('#createUserCalled').click(()=>{
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: 'talent_id=<?php echo $talent->ID; ?>&custom_email=true&action=create_user',
             success: function(response) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);

@@ -744,6 +744,7 @@ class Talent_Evaluation_Public {
 			//one of the mandatory fields missing
 			wp_send_json_error('Missing one of the mandatory fields: first_name, last_name, email');
 		}
+		$custom_email = filter_var($_POST['custom_email'], FILTER_VALIDATE_BOOLEAN);
 		$settings = SwpmSettings::get_instance();
 		$api_key = $settings->get_value('swpm-addon-api-key');
 		if(!$api_key){
@@ -756,7 +757,7 @@ class Talent_Evaluation_Public {
 			'last_name' => $talent->surname ,
 			'email' => $talent->email,
 			'membership_level' => '5',
-			'send_email' => true,
+			'send_email' => $custom_email ? false : true,
 		);
 
 		// cURL-Optionen setzen
@@ -796,13 +797,28 @@ class Talent_Evaluation_Public {
 						array('%d'),
 						array('%d')
 					);
+					if($custom_email){
+						//Nutze andere email vorlage
+						// Setze den Betreff und die Absender-Adresse der E-Mail
+						$subject = 'Neue Stellen';
+						$from_address = $settings->get_value('email-from');
+						$headers = 'From: ' . $from_address . "\r\n";
+						
+						// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
+						ob_start();
+						include TE_DIR . 'mails/register_missed_call.php';
+						$message = ob_get_clean();
+						
+						// Sende die E-Mail
+						wp_mail($talent->email, $subject, $message, $headers);
+					}
 				}else{
 					wp_send_json_error('No member_id');
 				}
 			}else if(isset($response_data['errors'])){
 				wp_send_json_error($response_data['errors']);
 			}
-			log_event('Nutzer angelegt', 'Email für Registrierung wurde verschickt', $talent_id);
+			
             wp_send_json_success($response_message); // Nachrichten aus der Antwort zurückgeben
         } else {
             // Fehler beim Abrufen der Nachrichten
