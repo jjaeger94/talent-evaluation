@@ -71,10 +71,11 @@ function get_talents_for_job($job, $requirements = null){
     $talents_table = $wpdb->prefix . 'te_talents';
 
     // Grundabfrage
-    $query = "SELECT * FROM $talents_table WHERE member_id > 0 AND school >= %d AND availability <= %d";
+    $query = "SELECT * FROM $talents_table WHERE member_id > 0 AND school >= %d";
+    //AND availability <= %d
 
     // Parameter für die Abfrage
-    $params = array($job->school, $job->availability);
+    $params = array($job->school);
 
     // Zusätzliche Bedingungen für license und home_office
     if ($job->license) {
@@ -82,15 +83,15 @@ function get_talents_for_job($job, $requirements = null){
         $params[] = $job->license;
     }
 
-    if (!$job->home_office) {
-        $query .= " AND home_office = %d";
-        $params[] = $job->home_office;
-    }
+    // if (!$job->home_office) {
+    //     $query .= " AND home_office = %d";
+    //     $params[] = $job->home_office;
+    // }
 
-    if (!$job->part_time) {
-        $query .= " AND part_time = %d";
-        $params[] = $job->part_time;
-    }
+    // if (!$job->part_time) {
+    //     $query .= " AND part_time = %d";
+    //     $params[] = $job->part_time;
+    // }
 
     // Gruppierung der Anforderungen nach Typ
 
@@ -181,10 +182,11 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
     $jobs_table = $wpdb->prefix . 'te_jobs';
 
     // Grundabfrage
-    $query = "SELECT * FROM $jobs_table WHERE school <= %d AND availability >= %d";
+    $query = "SELECT * FROM $jobs_table WHERE school <= %d";
+    //AND availability >= %d
 
     // Parameter für die Abfrage
-    $params = array($talent->school, $talent->availability);
+    $params = array($talent->school);
 
     // Zusätzliche Bedingungen für license und home_office
     if (!$talent->license) {
@@ -192,15 +194,15 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
         $params[] = $talent->license;
     }
 
-    if ($talent->home_office) {
-        $query .= " AND home_office = %d";
-        $params[] = $talent->home_office;
-    }
+    // if ($talent->home_office) {
+    //     $query .= " AND home_office = %d";
+    //     $params[] = $talent->home_office;
+    // }
 
-    if ($talent->part_time) {
-        $query .= " AND part_time = %d";
-        $params[] = $talent->part_time;
-    }
+    // if ($talent->part_time) {
+    //     $query .= " AND part_time = %d";
+    //     $params[] = $talent->part_time;
+    // }
 
     // Abfrage vorbereiten
     $query .= " ORDER BY added DESC";
