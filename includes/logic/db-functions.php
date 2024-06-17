@@ -1,4 +1,7 @@
 <?php
+function convert_encoding($string){
+    return utf8_decode(stripslashes_deep($string));
+}
 function get_talent_events($talent_id) {
     global $wpdb;
     return $wpdb->get_results($wpdb->prepare(

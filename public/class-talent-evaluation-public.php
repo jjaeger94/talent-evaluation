@@ -229,7 +229,7 @@ class Talent_Evaluation_Public {
 			$pdf->SetFont('Quicksand', 'R', 12);
 			$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
 			$pdf->Ln(10);
-			$pdf->Cell(40, 10, stripslashes_deep('Verfügbarkeit: ' . get_availability_string($talent->availability)));
+			$pdf->Cell(40, 10, convert_encoding('Verfügbarkeit: ' . get_availability_string($talent->availability)));
 			$pdf->Ln(10);
 			$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
 			$pdf->Ln(10);		
@@ -246,7 +246,7 @@ class Talent_Evaluation_Public {
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($apprenticeships as $apprenticeship) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, stripslashes_deep('Bezeichnung: ' . $apprenticeship->designation));
+				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $apprenticeship->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($apprenticeship));
 			}
@@ -262,7 +262,7 @@ class Talent_Evaluation_Public {
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($studies as $study) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, stripslashes_deep('Bezeichnung: ' . $study->designation));
+				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $study->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($study));
 			}
@@ -280,9 +280,9 @@ class Talent_Evaluation_Public {
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($experiences as $experience) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, stripslashes_deep('Position: ' . $experience->position));
+				$pdf->Cell(40, 10, convert_encoding('Position: ' . $experience->position));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, stripslashes_deep('Unternehmen: ' . $experience->company));
+				$pdf->Cell(40, 10, convert_encoding('Unternehmen: ' . $experience->company));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($experience));
 			}
