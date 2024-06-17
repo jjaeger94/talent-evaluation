@@ -214,6 +214,8 @@ class Talent_Evaluation_Public {
 		$pdf = new FPDF();
 		$pdf->AddPage();
 		$pdf->SetFont('Arial', 'B', 16);
+		// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
+		$pdf->Image(TE_DIR .'images/logo.png', 150, 10, 40);
 	
 		// Titel
 		$pdf->Cell(40, 10, 'Lebenslauf');
@@ -1079,7 +1081,7 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
-		$position = sanitize_text_field($_POST['position']);
+		$position = stripslashes_deep($_POST['position']);
 		$company = sanitize_text_field($_POST['company']);
 		$field = intval($_POST['field']);
 		$start_date = sanitize_text_field($_POST['start_date']);
@@ -1147,7 +1149,7 @@ class Talent_Evaluation_Public {
 		// Holen Sie sich die Werte aus dem POST
 		$field = intval($_POST['field']);
 		$degree = intval($_POST['degree']);
-		$designation = sanitize_text_field($_POST['designation']);
+		$designation = stripslashes_deep($_POST['designation']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
@@ -1204,7 +1206,7 @@ class Talent_Evaluation_Public {
 	
 		// Holen Sie sich die Werte aus dem POST
 		$field = intval($_POST['field']);
-		$designation = sanitize_text_field($_POST['designation']);
+		$designation = stripslashes_deep($_POST['designation']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
