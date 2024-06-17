@@ -244,8 +244,8 @@ class Talent_Evaluation_Public {
 			$pdf->Cell(40, 10, 'Ausbildung:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($apprenticeships as $apprenticeship) {
-				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Cell(40, 10, convert_encoding($apprenticeship->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, get_date_string($apprenticeship));
@@ -261,8 +261,8 @@ class Talent_Evaluation_Public {
 			$pdf->Cell(40, 10, 'Studium:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($studies as $study) {
-				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Cell(40, 10, convert_encoding($study->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, get_date_string($study));
@@ -280,8 +280,8 @@ class Talent_Evaluation_Public {
 			$pdf->Cell(40, 10, 'Berufserfahrung:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($experiences as $experience) {
-				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Cell(40, 10, convert_encoding($experience->position));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, convert_encoding($experience->company));
