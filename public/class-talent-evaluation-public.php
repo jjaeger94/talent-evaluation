@@ -215,7 +215,8 @@ class Talent_Evaluation_Public {
 		$pdf->AddPage();
 		$pdf->SetFont('Arial', 'B', 16);
 		// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
-		$pdf->Image(TE_DIR .'images/logo.png', 150, 10, 40);
+		$logo_url = get_option('te_login_logo');
+		$pdf->Image($logo_url, 150, 10, 40);
 	
 		// Titel
 		$pdf->Cell(40, 10, 'Lebenslauf');
