@@ -85,7 +85,7 @@ class Talent_Evaluation_Activator
             array(
                 'title' => 'Matching Overview',
                 'content' => '[show_matchings]',
-                'slug' => 'matching_overview',
+                'slug' => 'matching-overview',
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
