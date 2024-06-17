@@ -10,7 +10,8 @@
         add_shortcode('show_jobs', 'render_jobs_table');
         add_shortcode('job_details', 'render_job_details');
         add_shortcode('compare_details', 'render_compare_details');
-        add_shortcode('show_matchings', 'render_matching_overview');
+        add_shortcode('show_matchings', 'render_matching_table');
+        add_shortcode('show_evaluations', 'render_evaluation_table');
     }
 
     function render_compare_details(){
@@ -233,7 +234,7 @@
         }
     }
 
-    function render_matching_overview() {
+    function render_matching_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
         if (current_user_can('dienstleister')) {
             // Abfrage, um Talente abzurufen
@@ -281,6 +282,27 @@
 
             // Kombinierten Inhalt zurückgeben
             return $filter_form . $table_content;
+        } else {
+            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+        }
+    }
+
+    function render_evaluation_table() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (current_user_can('dienstleister')) {
+            // Abfrage, um Talente abzurufen
+            global $wpdb;
+
+
+            $query = "SELECT e.*, t.prename,t.surname FROM {$wpdb->prefix}te_evaluations e
+            LEFT JOIN {$wpdb->prefix}te_talents t ON e.talent_id = t.id
+            ORDER BY e.edited DESC";
+
+            $evaluations = $wpdb->get_results($query);
+            // Tabelleninhalt einfügen
+            ob_start();
+            include TE_DIR . 'tables/evaluation-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
+            return ob_get_clean();
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
         }
