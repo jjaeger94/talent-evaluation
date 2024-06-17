@@ -10,6 +10,7 @@
         add_shortcode('show_jobs', 'render_jobs_table');
         add_shortcode('job_details', 'render_job_details');
         add_shortcode('compare_details', 'render_compare_details');
+        add_shortcode('show_matchings', 'render_matching_overview');
     }
 
     function render_compare_details(){
@@ -230,4 +231,57 @@
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
         }
-}
+    }
+
+    function render_matching_overview() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (current_user_can('dienstleister')) {
+            // Abfrage, um Talente abzurufen
+
+            $selected_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : -1;
+
+            global $wpdb;
+            
+            $matchings = array();
+
+            if ($selected_state >= 0) {
+                $query = $wpdb->prepare("
+                    SELECT m.*, t.prename,t.surname, j.job_title
+                    FROM {$wpdb->prefix}te_matching m
+                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
+                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
+                    WHERE m.value = %d
+                    ORDER BY m.added DESC
+                ", $selected_state);
+
+                $matchings = $wpdb->get_results($query);
+            } else {
+                $query = "
+                    SELECT m.*, t.prename,t.surname, j.job_title
+                    FROM {$wpdb->prefix}te_matching m
+                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
+                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
+                    ORDER BY m.added DESC
+                ";
+
+                $matchings = $wpdb->get_results($query);
+            }
+
+
+
+            // Filterformular einfügen
+            ob_start(); // Puffer starten
+            include TE_DIR . 'filters/matching-filter.php'; // Pfad zur Datei mit dem Filterformular
+            $filter_form = ob_get_clean();
+
+            // Tabelleninhalt einfügen
+            ob_start();
+            include TE_DIR . 'tables/matching-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
+            $table_content = ob_get_clean();
+
+            // Kombinierten Inhalt zurückgeben
+            return $filter_form . $table_content;
+        } else {
+            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+        }
+    }

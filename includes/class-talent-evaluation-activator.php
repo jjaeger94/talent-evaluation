@@ -83,6 +83,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Matching Overview',
+                'content' => '[show_matchings]',
+                'slug' => 'matching_overview',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Profile',
                 'content' => '[profile_talent]',
                 'slug' => 'profile',
