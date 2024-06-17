@@ -211,28 +211,29 @@ class Talent_Evaluation_Public {
 		
 		try {
 
-			// PDF-Objekt erstellen
-			require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
-			$pdf = new FPDF();
-			$pdf->AddPage();
-			$pdf->AddFont('Quicksand','M','Quicksand-Medium.php');
-			$pdf->AddFont('Quicksand','R','Quicksand-Regular.php');
-			$pdf->SetFont('Quicksand', 'M', 16);
-			// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
-			$pdf->Image(TE_DIR.'images/logo.png', 150, 10, 40);
-		
-			// Titel
-			$pdf->Cell(40, 10, 'Lebenslauf');
-			$pdf->Ln(20);
-		
-			// Kandidateninformationen
-			$pdf->SetFont('Quicksand', 'R', 12);
-			$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
-			$pdf->Ln(10);
-			$pdf->Cell(40, 10, convert_encoding('Verfügbarkeit: ' . get_availability_string($talent->availability)));
-			$pdf->Ln(10);
-			$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
-			$pdf->Ln(10);		
+		// PDF-Objekt erstellen
+		require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
+		$pdf = new FPDF();
+		$pdf->AddPage();
+		$pdf->AddFont('Quicksand','M','Quicksand-Medium.php');
+		$pdf->AddFont('Quicksand','R','Quicksand-Regular.php');
+		$pdf->SetFont('Quicksand', 'M', 16);
+		// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
+		$pdf->Image(TE_DIR.'images/logo.png', 150, 10, 40);
+	
+		// Titel
+		$pdf->Cell(40, 10, 'Lebenslauf');
+		$pdf->Ln(20);
+	
+		// Kandidateninformationen
+		$pdf->SetFont('Quicksand', 'R', 12);
+		$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
+		$pdf->Ln(10);
+		$pdf->Cell(40, 10, convert_encoding('Verfügbarkeit: ' . get_availability_string($talent->availability)));
+		$pdf->Ln(10);
+		$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
+		$pdf->Ln(10);
+		$pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());		
 	
 		// Weitere Informationen wie Erfahrung, Ausbildung etc. hinzufügen
 
@@ -249,6 +250,7 @@ class Talent_Evaluation_Public {
 				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $apprenticeship->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($apprenticeship));
+				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
 			}
 		}
 
@@ -265,6 +267,7 @@ class Talent_Evaluation_Public {
 				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $study->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($study));
+				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
 			}
 		}
 
@@ -285,6 +288,7 @@ class Talent_Evaluation_Public {
 				$pdf->Cell(40, 10, convert_encoding('Unternehmen: ' . $experience->company));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($experience));
+				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
 			}
 		}
 	
