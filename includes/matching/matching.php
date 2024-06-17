@@ -209,7 +209,9 @@ jQuery(document).ready(function($) {
             swiperContainer.removeClass('swiper_love swiper_nope');
 
             var moveOutWidth = document.body.clientWidth;
-            var keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
+            var keep = Math.abs(event.deltaX) < 80 || ((window.screen.height > window.screen.width) && Math.abs(event.velocityX) < 0.5);
+            console.log(Math.abs(event.deltaX));
+            console.log(Math.abs(event.velocityX));
 
             $(el).toggleClass('removed', !keep);
 
