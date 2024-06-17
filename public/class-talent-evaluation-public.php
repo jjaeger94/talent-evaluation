@@ -208,29 +208,30 @@ class Talent_Evaluation_Public {
 		if (!$talent) {
 			wp_send_json_error('Talent nicht gefunden');
 		}
-	
-		// PDF-Objekt erstellen
-		require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
-		$pdf = new FPDF();
-		$pdf->AddPage();
-		$pdf->SetFont('Arial', 'B', 16);
-		// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
-		// $logo_url = get_option('te_login_logo');
-		// $pdf->Image($logo_url, 150, 10, 40);
-	
-		// Titel
-		$pdf->Cell(40, 10, 'Lebenslauf');
-		$pdf->Ln(20);
-	
-		// Kandidateninformationen
-		$pdf->SetFont('Arial', '', 12);
-		$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
-		$pdf->Ln(10);
-		$pdf->Cell(40, 10, utf8_decode('Verfügbarkeit: ' . get_availability_string($talent->availability)));
-		$pdf->Ln(10);
-		$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
-		$pdf->Ln(10);
 		
+		try {
+
+			// PDF-Objekt erstellen
+			require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
+			$pdf = new FPDF();
+			$pdf->AddPage();
+			$pdf->SetFont('Arial', 'B', 16);
+			// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
+			$logo_url = get_option('te_login_logo');
+			$pdf->Image($logo_url, 150, 10, 40);
+		
+			// Titel
+			$pdf->Cell(40, 10, 'Lebenslauf');
+			$pdf->Ln(20);
+		
+			// Kandidateninformationen
+			$pdf->SetFont('Arial', '', 12);
+			$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
+			$pdf->Ln(10);
+			$pdf->Cell(40, 10, utf8_decode('Verfügbarkeit: ' . get_availability_string($talent->availability)));
+			$pdf->Ln(10);
+			$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
+			$pdf->Ln(10);		
 	
 		// Weitere Informationen wie Erfahrung, Ausbildung etc. hinzufügen
 
@@ -299,7 +300,14 @@ class Talent_Evaluation_Public {
 		$filename = 'Lebenslauf_Talent_' . $talent->member_id . '.pdf';
 		$file_path = $upload_path . $filename;
 		$pdf->Output('F', $file_path);
-	
+
+		} catch (Exception $e) {
+			// Fehler protokollieren und anzeigen
+			error_log('Error: ' . $e->getMessage());
+			wp_send_json_error('Error: ' . $e->getMessage());
+			wp_die();
+		}
+
 		// URL der Datei zurückgeben
 		$file_url = $upload_dir['baseurl'] . '/talent_resumes/' . $filename;
 		wp_send_json_success(['file_url' => $file_url]);
