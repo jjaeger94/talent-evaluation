@@ -231,9 +231,7 @@ class Talent_Evaluation_Public {
 		$pdf->Ln(10);
 		$pdf->Cell(40, 10, convert_encoding('Verfügbarkeit: ' . get_availability_string($talent->availability)));
 		$pdf->Ln(10);
-		$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
-		$pdf->Ln(10);
-		$pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());		
+		$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));	
 	
 		// Weitere Informationen wie Erfahrung, Ausbildung etc. hinzufügen
 
@@ -241,16 +239,16 @@ class Talent_Evaluation_Public {
 		$apprenticeship_table = $wpdb->prefix . 'te_apprenticeship';
 		$apprenticeships = $wpdb->get_results($wpdb->prepare("SELECT * FROM $apprenticeship_table WHERE talent_id = %d", $talent_id));
 		if ($apprenticeships) {
-			$pdf->Ln(10);
+			$pdf->Ln(20);
 			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Ausbildung:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($apprenticeships as $apprenticeship) {
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $apprenticeship->designation));
+				$pdf->Cell(40, 10, convert_encoding($apprenticeship->designation));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($apprenticeship));
-				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
+				$pdf->Cell(40, 10, get_date_string($apprenticeship));
 			}
 		}
 
@@ -258,16 +256,16 @@ class Talent_Evaluation_Public {
 		$study_table = $wpdb->prefix . 'te_studies';
 		$studies = $wpdb->get_results($wpdb->prepare("SELECT * FROM $study_table WHERE talent_id = %d", $talent_id));
 		if ($studies) {
-			$pdf->Ln(10);
+			$pdf->Ln(20);
 			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Studium:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($studies as $study) {
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, convert_encoding('Bezeichnung: ' . $study->designation));
+				$pdf->Cell(40, 10, convert_encoding($study->designation));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($study));
-				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
+				$pdf->Cell(40, 10, get_date_string($study));
 			}
 		}
 
@@ -277,18 +275,18 @@ class Talent_Evaluation_Public {
 		$experience_table = $wpdb->prefix . 'te_experiences';
 		$experiences = $wpdb->get_results($wpdb->prepare("SELECT * FROM $experience_table WHERE talent_id = %d", $talent_id));
 		if ($experiences) {
-			$pdf->Ln(10);
+			$pdf->Ln(20);
 			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Berufserfahrung:');
 			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($experiences as $experience) {
+				$pdf->Line(10, $pdf->GetY(), 100, $pdf->GetY());
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, convert_encoding('Position: ' . $experience->position));
+				$pdf->Cell(40, 10, convert_encoding($experience->position));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, convert_encoding('Unternehmen: ' . $experience->company));
+				$pdf->Cell(40, 10, convert_encoding($experience->company));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($experience));
-				$pdf->Line(10, $pdf->GetY() + 10, 100, $pdf->GetY() + 10);
+				$pdf->Cell(40, 10, get_date_string($experience));
 			}
 		}
 	
