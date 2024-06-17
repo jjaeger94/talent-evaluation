@@ -215,7 +215,9 @@ class Talent_Evaluation_Public {
 			require(TE_DIR.'fpdf/fpdf.php'); // Stelle sicher, dass der Pfad zur fpdf.php-Datei korrekt ist
 			$pdf = new FPDF();
 			$pdf->AddPage();
-			$pdf->SetFont('Arial', 'B', 16);
+			$pdf->AddFont('Quicksand','M','Quicksand-Medium.php');
+			$pdf->AddFont('Quicksand','R','Quicksand-Regular.php');
+			$pdf->SetFont('Quicksand', 'M', 16);
 			// Logo hinzufügen (z.B. 10 mm vom rechten Rand und 10 mm vom oberen Rand)
 			$pdf->Image(TE_DIR.'images/logo.png', 150, 10, 40);
 		
@@ -224,10 +226,10 @@ class Talent_Evaluation_Public {
 			$pdf->Ln(20);
 		
 			// Kandidateninformationen
-			$pdf->SetFont('Arial', '', 12);
+			$pdf->SetFont('Quicksand', 'R', 12);
 			$pdf->Cell(40, 10, 'Talent ' .$talent->member_id);
 			$pdf->Ln(10);
-			$pdf->Cell(40, 10, utf8_decode('Verfügbarkeit: ' . get_availability_string($talent->availability)));
+			$pdf->Cell(40, 10, stripslashes_deep('Verfügbarkeit: ' . get_availability_string($talent->availability)));
 			$pdf->Ln(10);
 			$pdf->Cell(40, 10, 'Schulabschluss: ' . get_school_degree($talent->school));
 			$pdf->Ln(10);		
@@ -239,12 +241,12 @@ class Talent_Evaluation_Public {
 		$apprenticeships = $wpdb->get_results($wpdb->prepare("SELECT * FROM $apprenticeship_table WHERE talent_id = %d", $talent_id));
 		if ($apprenticeships) {
 			$pdf->Ln(10);
-			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Ausbildung:');
-			$pdf->SetFont('Arial', '', 12);
+			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($apprenticeships as $apprenticeship) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, utf8_decode('Bezeichnung: ' . $apprenticeship->designation));
+				$pdf->Cell(40, 10, stripslashes_deep('Bezeichnung: ' . $apprenticeship->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($apprenticeship));
 			}
@@ -255,12 +257,12 @@ class Talent_Evaluation_Public {
 		$studies = $wpdb->get_results($wpdb->prepare("SELECT * FROM $study_table WHERE talent_id = %d", $talent_id));
 		if ($studies) {
 			$pdf->Ln(10);
-			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Studium:');
-			$pdf->SetFont('Arial', '', 12);
+			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($studies as $study) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, utf8_decode('Bezeichnung: ' . $study->designation));
+				$pdf->Cell(40, 10, stripslashes_deep('Bezeichnung: ' . $study->designation));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($study));
 			}
@@ -273,14 +275,14 @@ class Talent_Evaluation_Public {
 		$experiences = $wpdb->get_results($wpdb->prepare("SELECT * FROM $experience_table WHERE talent_id = %d", $talent_id));
 		if ($experiences) {
 			$pdf->Ln(10);
-			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->SetFont('Quicksand', 'M', 12);
 			$pdf->Cell(40, 10, 'Berufserfahrung:');
-			$pdf->SetFont('Arial', '', 12);
+			$pdf->SetFont('Quicksand', 'R', 12);
 			foreach ($experiences as $experience) {
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, utf8_decode('Position: ' . $experience->position));
+				$pdf->Cell(40, 10, stripslashes_deep('Position: ' . $experience->position));
 				$pdf->Ln(10);
-				$pdf->Cell(40, 10, utf8_decode('Unternehmen: ' . $experience->company));
+				$pdf->Cell(40, 10, stripslashes_deep('Unternehmen: ' . $experience->company));
 				$pdf->Ln(10);
 				$pdf->Cell(40, 10, 'Zeitraum: ' . get_date_string($experience));
 			}
@@ -1089,7 +1091,7 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
-		$position = stripslashes_deep($_POST['position']);
+		$position = sanitize_text_field($_POST['position']);
 		$company = sanitize_text_field($_POST['company']);
 		$field = intval($_POST['field']);
 		$start_date = sanitize_text_field($_POST['start_date']);
@@ -1157,7 +1159,7 @@ class Talent_Evaluation_Public {
 		// Holen Sie sich die Werte aus dem POST
 		$field = intval($_POST['field']);
 		$degree = intval($_POST['degree']);
-		$designation = stripslashes_deep($_POST['designation']);
+		$designation = sanitize_text_field($_POST['designation']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
@@ -1214,7 +1216,7 @@ class Talent_Evaluation_Public {
 	
 		// Holen Sie sich die Werte aus dem POST
 		$field = intval($_POST['field']);
-		$designation = stripslashes_deep($_POST['designation']);
+		$designation = sanitize_text_field($_POST['designation']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
 	
