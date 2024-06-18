@@ -248,7 +248,7 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
                     array_push($jobs, $job);
                 }
             }else if($job->mobility == 50){
-                if(in_array($result->post_code, $postal_codes_50)){
+                if(in_array($job->post_code, $postal_codes_50)){
                     array_push($jobs, $job);
                 }
             }else if($job->mobility == 100){
