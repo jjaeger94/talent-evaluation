@@ -241,17 +241,17 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
         $postal_codes_100 = getPostalCodesInRadius($talent->post_code, 100, $countryCode);
         
         foreach ($unfiltered as $job) :
-            if($job->mobility == 0){
+            if($talent->mobility == 0){
                 array_push($jobs, $job);
-            }else if($job->mobility == 20){
+            }else if($talent->mobility == 20){
                 if(in_array($job->post_code, $postal_codes_20)){
                     array_push($jobs, $job);
                 }
-            }else if($job->mobility == 50){
+            }else if($talent->mobility == 50){
                 if(in_array($job->post_code, $postal_codes_50)){
                     array_push($jobs, $job);
                 }
-            }else if($job->mobility == 100){
+            }else if($talent->mobility == 100){
                 if(in_array($job->post_code, $postal_codes_100)){
                     array_push($jobs, $job);
                 }
