@@ -82,11 +82,44 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('generate_resume_pdf');
 		$this->add_public_request('activate_all_matchings');
 		$this->add_public_request('submit_evaluation');
+		$this->add_public_request('request_consultation');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function request_consultation(){
+		if(!isset($_POST['talent_id'])){
+			wp_send_json_error('Keine Talent ID');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		
+		// Hole die Talent-Daten basierend auf der Talent-ID
+		$talent = get_talent_by_id($talent_id);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
+		$admin_email = get_option('admin_email');
+		// Setze den Betreff und die Absender-Adresse der E-Mail
+		$subject = 'Neue Gesprächsanfrage';
+		$settings = SwpmSettings::get_instance();
+		$from_address = $settings->get_value('email-from');
+		$headers = 'From: ' . $from_address . "\r\n";
+		
+		// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
+		ob_start();
+		include TE_DIR . 'mails/request_consultation_mail.php';
+		$message = ob_get_clean();
+		
+		// Sende die E-Mail
+		wp_mail($admin_email, $subject, $message, $headers);
+		wp_send_json_success('Benachrictgigun gesendet');
+		wp_die();
 	}
 	
 	function submit_evaluation() {
