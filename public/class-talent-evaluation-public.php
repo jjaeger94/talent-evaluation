@@ -867,11 +867,13 @@ class Talent_Evaluation_Public {
 		if (!$member_id){
 			wp_send_json_error('member_id nicht gefunden');
 		}
+		$settings = SwpmSettings::get_instance();
 		$send_email = false;
 		$link = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
 		
 		// Setze den Betreff und die Absender-Adresse der E-Mail
 		$subject = 'Willkommen bei Convii';
+		
 		$from_address = $settings->get_value('email-from');
 		$headers = 'From: ' . $from_address . "\r\n";
 		
