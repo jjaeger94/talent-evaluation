@@ -9,6 +9,11 @@
     margin-top: 20px; /* Abstand oben */
 }
 
+.no-more-cards{
+  padding: 20px;
+  text-align: center;
+}
+
 .message {
     margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
     max-width: 70%; /* Maximale Breite der Sprechblasen */

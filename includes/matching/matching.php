@@ -1,17 +1,17 @@
 <div class="swiper">
+    <div class="no-more-cards" style="display: none;">
+        <p>Momentan gibt es keine weiteren Angebote für dich.</p>
+        <p>Wir benachrichtigen dich, sobald neue Stellen verfügbar sind.</p>
+        <p>Bitte beachte, dass es nach dem Erstgespräch etwas dauern kann, bis die ersten Stellen erscheinen.</p>
+        <p>Du hattest kein Erstgespräch?</p>
+        <button class="btn btn-primary" id="consultation">Erstgespräch anfordern</button>
+        <div class="wrap">
+            <span id="consultationResult"></span>
+        </div>
+    </div>
     <div class="swiper--status">
         <i class="fa fa-xmark"></i>
         <i class="fa fa-heart"></i>
-        <div class="no-more-cards" style="display: none;">
-            <p>Momentan gibt es keine weiteren Angebote für dich.</p>
-            <p>Wir benachrichtigen dich, sobald neue Stellen verfügbar sind.</p>
-            <p>Bitte beachte, dass es nach dem Erstgespräch etwas dauern kann, bis die ersten Stellen erscheinen.</p>
-            <p>Du hattest kein Erstgespräch?</p>
-            <button class="btn btn-primary" id="consultation">Erstgespräch anfordern</button>
-            <div class="wrap">
-                <span id="consultationResult"></span>
-            </div>
-        </div>
     </div>
     <div class="swiper--cards">
         <?php foreach ($matching as $index => $match) : ?>
