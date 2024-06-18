@@ -4,7 +4,7 @@
  *
  * Variables:
  * - $talent: Objekt, das die Talent-Daten enthält
- * - $link: Registrierungslink der vom swmp plugin erzeugt wurde
+ * - $registration_link: Registrierungslink der vom swmp plugin erzeugt wurde
  */
 ?>
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
         Du kannst Deine Registrierung über den folgenden Link abschließen:
     </p>
     <p>
-        <a href="<?php echo $link; ?>">Hier Registrierung abschließen</a>
+        <a href="<?php echo $registration_link; ?>">Hier Registrierung abschließen</a>
     </p>
     
     <p>Dein Team Convii</p>

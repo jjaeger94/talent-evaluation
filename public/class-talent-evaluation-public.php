@@ -869,7 +869,8 @@ class Talent_Evaluation_Public {
 		}
 		$settings = SwpmSettings::get_instance();
 		$send_email = false;
-		$link = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
+		$links = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
+		$registration_link = $links[0];
 		
 		// Setze den Betreff und die Absender-Adresse der E-Mail
 		$subject = 'Willkommen bei Convii';
@@ -885,7 +886,7 @@ class Talent_Evaluation_Public {
 		// Sende die E-Mail
 		wp_mail($talent->email, $subject, $message, $headers);
 		log_event('Erinnerung verschickt', 'Email für Registrierung wurde erneut verschickt', $talent_id);
-		wp_send_json_success($link);
+		wp_send_json_success($registration_link);
 		wp_die();
 	}
 
