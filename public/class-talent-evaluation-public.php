@@ -867,10 +867,23 @@ class Talent_Evaluation_Public {
 		if (!$member_id){
 			wp_send_json_error('member_id nicht gefunden');
 		}
-		$send_email = true;
-		$links = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
-		log_event('Registrierungsmail verschickt', 'Email für Registrierung wurde manuell erneut verschickt', $talent_id);
-		wp_send_json_success($links);
+		$send_email = false;
+		$link = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
+		
+		// Setze den Betreff und die Absender-Adresse der E-Mail
+		$subject = 'Willkommen bei Convii';
+		$from_address = $settings->get_value('email-from');
+		$headers = 'From: ' . $from_address . "\r\n";
+		
+		// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
+		ob_start();
+		include TE_DIR . 'mails/register_again.php';
+		$message = ob_get_clean();
+		
+		// Sende die E-Mail
+		wp_mail($talent->email, $subject, $message, $headers);
+		log_event('Erinnerung verschickt', 'Email für Registrierung wurde erneut verschickt', $talent_id);
+		wp_send_json_success($link);
 		wp_die();
 	}
 
