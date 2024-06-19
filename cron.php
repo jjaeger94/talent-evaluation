@@ -7,9 +7,6 @@ function talent_evaluation_cronjob() {
     // Speichere die aktuelle Zeit
     $current_time = current_time('mysql');
     update_option('te_last_run', $current_time);
-
-    // Log-Meldung (optional)
-    error_log('Cronjob wurde ausgeführt.');
 }
 
 // Führe die Funktion aus
