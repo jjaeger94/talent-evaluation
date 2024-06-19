@@ -136,6 +136,8 @@ class Talent_Evaluation {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/logic/ui-functions.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/cron.php';
+
 
 		$this->loader = new Talent_Evaluation_Loader();
 

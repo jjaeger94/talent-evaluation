@@ -111,40 +111,44 @@ class Talent_Evaluation_Admin {
         add_options_page('Talent Evaluation Settings', 'Talent Evaluation', 'manage_options', 'talent-evaluation-settings', array($this, 'admin_page'));
     }
 
-    public function admin_page() {
-        ?>
-        <div class="wrap">
-            <h2>Talent Evaluation Settings</h2>
-            <form method="post" action="options.php">
-                <?php settings_fields('talent_evaluation_settings'); ?>
-                <?php do_settings_sections('talent_evaluation_settings'); ?>
-                <table class="form-table">
-				<tr valign="top">
-                        <th scope="row">Logo Url Titel</th>
-                        <td><input type="text" name="te_login_title" value="<?php echo esc_attr(get_option('te_login_title')); ?>" /></td>
-				</tr>
-				<tr valign="top">
-					<th scope="row">Logo URL</th>
-					<td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
-				</tr>
-				<tr valign="top">
-                        <th scope="row">Open AI api key</th>
-                        <td><input type="password" name="te_api_key" value="<?php echo esc_attr(get_option('te_api_key')); ?>" /></td>
-				</tr>
-                </table>
-                <?php submit_button(); ?>
-            </form>
-        </div>
-		<!-- <div class="wrap">
-			<button id="check-db-connection" class="button">Check Database Connection</button>
-            <span id="db-connection-result"></span>
-		</div> -->
-        <?php
-    }
+	public function admin_page() {
+		?>
+		<div class="wrap">
+			<h2>Talent Evaluation Settings</h2>
+			<form method="post" action="options.php">
+				<?php settings_fields('talent_evaluation_settings'); ?>
+				<?php do_settings_sections('talent_evaluation_settings'); ?>
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row">Logo Url Titel</th>
+						<td><input type="text" name="te_login_title" value="<?php echo esc_attr(get_option('te_login_title')); ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">Logo URL</th>
+						<td><input type="text" name="te_login_logo" value="<?php echo esc_attr(get_option('te_login_logo')); ?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">Open AI api key</th>
+						<td><input type="password" name="te_api_key" value="<?php echo esc_attr(get_option('te_api_key')); ?>" /></td>
+					</tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+			<h3>Letzte Ausführungszeit Cronjob</h3>
+			<p>
+				<?php 
+				$last_run = get_option('te_last_run'); 
+				echo $last_run ? esc_attr($last_run) : 'Noch nie ausgeführt';
+				?>
+			</p>
+		</div>
+		<?php
+	}
 
     public function register_settings() {
 		register_setting('talent_evaluation_settings', 'te_login_logo');
 		register_setting('talent_evaluation_settings', 'te_login_title');
 		register_setting('talent_evaluation_settings', 'te_api_key');
+		register_setting('talent_evaluation_settings', 'te_last_run');
     }
 }
