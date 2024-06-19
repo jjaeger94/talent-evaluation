@@ -1,4 +1,32 @@
 <?php
+function remove_unregistered_talent($talent){
+    if($talent->member_id){
+        $wpdb->delete(
+            $wpdb->prefix . 'swpm_members_tbl',
+            array('member_id' => $talent->member_id),
+            array('%d')
+        );
+    }
+    $wpdb->delete(
+        $wpdb->prefix . 'te_talents',
+        array('ID' => $talent_id),
+        array('%d')
+    );
+}
+function get_members_with_empty_user_name() {
+    global $wpdb;
+
+    // Name der Tabelle
+    $table_name = $wpdb->prefix . 'swpm_members_tbl';
+
+    // SQL-Abfrage, um alle Mitglieder zu finden, bei denen user_name leer ist
+    $query = "SELECT * FROM $table_name WHERE user_name = ''";
+
+    // Ergebnisse abrufen
+    $members = $wpdb->get_results($query);
+
+    return $members;
+}
 function convert_encoding($string){
     return utf8_decode(stripslashes_deep($string));
 }

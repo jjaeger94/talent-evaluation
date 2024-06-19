@@ -16,7 +16,7 @@
 
     function render_compare_details(){
         // Überprüfen, ob die oai_test_id in der URL vorhanden ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             if ( isset( $_GET['job_id'], $_GET['talent_id']) ) {
                 $customers = get_all_customers();
                 $talent_id = intval( $_GET['talent_id'] );
@@ -53,7 +53,7 @@
     }
 
     function render_job_details() {
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             global $wpdb;
             $customers = get_all_customers();
             if ( isset( $_GET['id'] ) ) {
@@ -88,7 +88,7 @@
     // Benutzerdefinierte Funktion, um die Kunden-Tabelle zu erstellen
     function render_jobs_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
             global $wpdb;
             $jobs_table = $wpdb->prefix . 'te_jobs';
@@ -104,7 +104,7 @@
     }
 
     function render_customer_details() {
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             if ( isset( $_GET['id'] ) ) {
                 $id = intval( $_GET['id'] );
                 // Abfrage, um Talentdetails abzurufen
@@ -135,7 +135,7 @@
     // Benutzerdefinierte Funktion, um die Kunden-Tabelle zu erstellen
     function render_customers_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
             global $wpdb;
             $customers_table = $wpdb->prefix . 'te_customers';
@@ -152,7 +152,7 @@
 
     function render_talent_details() {
         // Überprüfen, ob die oai_test_id in der URL vorhanden ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             if ( isset( $_GET['id'] ) ) {
                 $id = intval( $_GET['id'] );
                 // Abfrage, um Talentdetails abzurufen
@@ -188,7 +188,7 @@
     // Benutzerdefinierte Funktion, um die Talent-Tabelle zu erstellen
     function render_talents_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
             $ref = isset($_GET['ref']) ? sanitize_text_field($_GET['ref']) : null;
             $selected_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : '';
@@ -236,7 +236,7 @@
 
     function render_matching_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
 
             $selected_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : -1;
@@ -289,7 +289,7 @@
 
     function render_evaluation_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
-        if (current_user_can('dienstleister')) {
+        if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
             global $wpdb;
 

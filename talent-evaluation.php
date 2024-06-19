@@ -82,8 +82,12 @@ function run_talent_evaluation() {
 
 }
 
+function has_service_permission(){
+    return current_user_can( 'dienstleister' ) || current_user_can('administrator');
+}
+
 function has_edit_talent_permission($talent_id){
-     if(current_user_can( 'dienstleister' )){
+     if(has_service_permission()){
         return true;
      }
      $auth = SwpmAuth::get_instance();

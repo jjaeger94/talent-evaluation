@@ -149,7 +149,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function activate_all_matchings() {
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 	
@@ -209,7 +209,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function generate_resume_pdf() {
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
@@ -387,7 +387,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function activate_matching(){
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
@@ -437,7 +437,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function save_talent_notes(){
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
@@ -478,7 +478,7 @@ class Talent_Evaluation_Public {
 	function delete_requirement() {
 		// Code für delete_requirement
 		// Beispielcode:
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
@@ -512,7 +512,7 @@ class Talent_Evaluation_Public {
 		global $wpdb;
 	
 		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
@@ -583,7 +583,7 @@ class Talent_Evaluation_Public {
 		global $wpdb;
 	
 		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 	
@@ -673,7 +673,7 @@ class Talent_Evaluation_Public {
 		global $wpdb;
 	
 		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 	
@@ -746,13 +746,14 @@ class Talent_Evaluation_Public {
 	}
 	
 	function remove_talent(){
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
 			wp_send_json_error('Keine ID');
 		}
 		$talent_id = absint($_POST['talent_id']);
+		$talent = get_talent_by_id($talent_id);
 		global $wpdb;
 
 		$wpdb->delete(
@@ -780,11 +781,7 @@ class Talent_Evaluation_Public {
 			array('talent_id' => $talent_id),
 			array('%d')
 		);
-		$wpdb->delete(
-			$wpdb->prefix . 'te_talents',
-			array('ID' => $talent_id),
-			array('%d')
-		);
+		remove_unregistered_talent($talent);
 		
 		wp_send_json_success('Eintrag gelöscht');
 		wp_die();
@@ -792,7 +789,7 @@ class Talent_Evaluation_Public {
 	
 	function send_job_mail(){
 		// Prüfe, ob der aktuelle Benutzer die erforderlichen Berechtigungen hat
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		
@@ -825,7 +822,7 @@ class Talent_Evaluation_Public {
 	
 
 	function send_activate_account_mail(){
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
@@ -846,7 +843,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function create_user(){
-		if (!current_user_can('dienstleister')) {
+		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 		if (!isset($_POST['talent_id'])) {
