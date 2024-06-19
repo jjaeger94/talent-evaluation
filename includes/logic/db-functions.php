@@ -1,5 +1,11 @@
 <?php
 function remove_unregistered_talent($talent){
+    global $wpdb;
+    $wpdb->delete(
+        $wpdb->prefix . 'te_events',
+        array('talent_id' => $talent->ID),
+        array('%d')
+    );
     if($talent->member_id){
         $wpdb->delete(
             $wpdb->prefix . 'swpm_members_tbl',
@@ -9,7 +15,7 @@ function remove_unregistered_talent($talent){
     }
     $wpdb->delete(
         $wpdb->prefix . 'te_talents',
-        array('ID' => $talent_id),
+        array('ID' => $talent->ID),
         array('%d')
     );
 }

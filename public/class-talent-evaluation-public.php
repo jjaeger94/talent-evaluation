@@ -754,6 +754,9 @@ class Talent_Evaluation_Public {
 		}
 		$talent_id = absint($_POST['talent_id']);
 		$talent = get_talent_by_id($talent_id);
+		if(!$talent){
+			wp_send_json_error('Talent nicht gefunden');
+		}
 		global $wpdb;
 
 		$wpdb->delete(
@@ -778,6 +781,16 @@ class Talent_Evaluation_Public {
 		);
 		$wpdb->delete(
 			$wpdb->prefix . 'te_eq',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_matching',
+			array('talent_id' => $talent_id),
+			array('%d')
+		);
+		$wpdb->delete(
+			$wpdb->prefix . 'te_evaluations',
 			array('talent_id' => $talent_id),
 			array('%d')
 		);

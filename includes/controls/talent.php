@@ -46,6 +46,9 @@
             <div class="col">
                 <button id="activateAccount" class="btn btn-primary">Registrierung erneut senden</button>
             </div>
+            <div class="col">
+                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
+            </div>
         <?php else: ?>
             <div class="col">
                 <button id="activateAllMatchings" class="btn btn-primary">Alle Matchings starten</button>
