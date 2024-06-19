@@ -919,6 +919,8 @@ class Talent_Evaluation_Public {
 					);
 					if($custom_email){
 						send_missed_call($talent, $new_member);
+					}else{
+						log_event(2, 'Email mit Registrierungslink wurde verschickt', $talent->ID);
 					}
 				}else{
 					wp_send_json_error('No member_id');
