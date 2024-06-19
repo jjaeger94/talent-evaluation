@@ -1,4 +1,16 @@
 <?php
+function get_event_state($type) {
+    $types = [
+        1 => 'Registrierungserinnerung',
+        2 => 'Registrierungsmail',
+        3 => 'Offene Stellen',
+        4 => 'Erstgespräch'
+
+    ];
+
+    return isset($types[$type]) ? $types[$type] : 'Unbekannt';
+}
+
 function get_date_string($object){
     
     if ($object->end_date != '9999-12-31'){
