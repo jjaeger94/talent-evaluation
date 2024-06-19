@@ -104,20 +104,7 @@ class Talent_Evaluation_Public {
 		if(!$talent){
 			wp_send_json_error('Talent nicht gefunden');
 		}
-		$admin_email = get_option('admin_email');
-		// Setze den Betreff und die Absender-Adresse der E-Mail
-		$subject = 'Neue Gesprächsanfrage';
-		$settings = SwpmSettings::get_instance();
-		$from_address = $settings->get_value('email-from');
-		$headers = 'From: ' . $from_address . "\r\n";
-		
-		// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
-		ob_start();
-		include TE_DIR . 'mails/request_consultation_mail.php';
-		$message = ob_get_clean();
-		
-		// Sende die E-Mail
-		wp_mail($admin_email, $subject, $message, $headers);
+		send_consultation_mail($talent);
 		wp_send_json_success('Benachrictgigun gesendet');
 		wp_die();
 	}
@@ -826,21 +813,8 @@ class Talent_Evaluation_Public {
 		} else {
 			// Hole die Talent-Daten basierend auf der Talent-ID
 			$talent = get_talent_by_id($talent_id);
+			send_new_job_mail($talent, $count);
 			
-			// Setze den Betreff und die Absender-Adresse der E-Mail
-			$subject = 'Neue Stellen';
-			$settings = SwpmSettings::get_instance();
-			$from_address = $settings->get_value('email-from');
-			$headers = 'From: ' . $from_address . "\r\n";
-			
-			// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
-			ob_start();
-			include TE_DIR . 'mails/new_job_mail.php';
-			$message = ob_get_clean();
-			
-			// Sende die E-Mail
-			wp_mail($talent->email, $subject, $message, $headers);
-			log_event('Job Mail gesendet', 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent_id);
 			// Sende eine Erfolgsnachricht mit der Anzahl der neuen Stellen
 			wp_send_json_success('Email für ' . $count . ' neue Stellen wurde gesendet');
 		}
@@ -857,35 +831,16 @@ class Talent_Evaluation_Public {
 		if (!isset($_POST['talent_id'])) {
 			wp_send_json_error('Keine ID');
 		}
-		$link_for = 'one';
+		
 		$talent_id = absint($_POST['talent_id']);
 		$talent = get_talent_by_id($talent_id);
 		if(!$talent){
 			wp_send_json_error('Talent nicht gefunden');
 		}
-		$member_id = $talent->member_id;
-		if (!$member_id){
+		if (!$talent->member_id){
 			wp_send_json_error('member_id nicht gefunden');
 		}
-		$settings = SwpmSettings::get_instance();
-		$send_email = false;
-		$links = SwpmUtils::get_registration_complete_prompt_link($link_for, $send_email, $member_id);
-		$registration_link = $links[0];
-		
-		// Setze den Betreff und die Absender-Adresse der E-Mail
-		$subject = 'Willkommen bei Convii';
-		
-		$from_address = $settings->get_value('email-from');
-		$headers = 'From: ' . $from_address . "\r\n";
-		
-		// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
-		ob_start();
-		include TE_DIR . 'mails/register_again.php';
-		$message = ob_get_clean();
-		
-		// Sende die E-Mail
-		wp_mail($talent->email, $subject, $message, $headers);
-		log_event('Erinnerung verschickt', 'Email für Registrierung wurde erneut verschickt', $talent_id);
+		$registration_link = send_register_again($talent);
 		wp_send_json_success($registration_link);
 		wp_die();
 	}
@@ -963,19 +918,7 @@ class Talent_Evaluation_Public {
 						array('%d')
 					);
 					if($custom_email){
-						//Nutze andere email vorlage
-						// Setze den Betreff und die Absender-Adresse der E-Mail
-						$subject = 'Willkommen bei Convii';
-						$from_address = $settings->get_value('email-from');
-						$headers = 'From: ' . $from_address . "\r\n";
-						
-						// Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
-						ob_start();
-						include TE_DIR . 'mails/register_missed_call.php';
-						$message = ob_get_clean();
-						
-						// Sende die E-Mail
-						wp_mail($talent->email, $subject, $message, $headers);
+						send_missed_call($talent, $new_member);
 					}
 				}else{
 					wp_send_json_error('No member_id');

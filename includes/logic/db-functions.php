@@ -38,7 +38,7 @@ function log_event($event_type, $event_description, $talent_id = null, $job_id =
             'user_id' => $user_id
         ],
         [
-            '%s',
+            '%d',
             '%s',
             '%d',
             '%d',

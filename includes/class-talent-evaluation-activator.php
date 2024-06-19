@@ -295,7 +295,7 @@ class Talent_Evaluation_Activator
                     job_id INT NULL,
                     matching_id INT NULL,
                     user_id INT NOT NULL,
-                    event_type VARCHAR(255) NOT NULL,
+                    event_type INT NOT NULL,
                     event_description TEXT NOT NULL,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
