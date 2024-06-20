@@ -12,6 +12,7 @@
         add_shortcode('compare_details', 'render_compare_details');
         add_shortcode('show_matchings', 'render_matching_table');
         add_shortcode('show_evaluations', 'render_evaluation_table');
+        add_shortcode('show_events', 'render_events_table');
     }
 
     function render_compare_details(){
@@ -282,6 +283,28 @@
 
             // Kombinierten Inhalt zurückgeben
             return $filter_form . $table_content;
+        } else {
+            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+        }
+    }
+    
+    function render_events_table() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (has_service_permission()) {
+            // Abfrage, um Talente abzurufen
+            global $wpdb;
+
+
+            $query = "SELECT e.*, t.prename,t.surname FROM {$wpdb->prefix}te_events e
+            LEFT JOIN {$wpdb->prefix}te_talents t ON e.talent_id = t.id
+            ORDER BY e.edited DESC
+            LIMIT 20";
+
+            $events = $wpdb->get_results($query);
+            // Tabelleninhalt einfügen
+            ob_start();
+            include TE_DIR . 'tables/events-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
+            return ob_get_clean();
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
         }
