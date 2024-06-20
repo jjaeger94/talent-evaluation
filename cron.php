@@ -17,7 +17,7 @@ require_once(dirname(__FILE__).'/../../../wp-load.php');
 
 function delete_unavailable_jobs() {
     // Schritt 1: Alle Jobs aus der Datenbank holen
-    $jobs = get_all_jobs();
+    $jobs = get_all_jobs(1);
     
     foreach ($jobs as $job) {
         // Schritt 2: Link überprüfen

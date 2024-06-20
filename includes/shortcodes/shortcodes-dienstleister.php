@@ -90,13 +90,21 @@
     function render_jobs_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
         if (has_service_permission()) {
+            $selected_state = array_key_exists('state', $_GET) ? intval($_GET['state']) : -1;
+            error_log('selected_state'. $selected_state);
             // Abfrage, um Talente abzurufen
-            $jobs = get_all_jobs();
+            $jobs = get_all_jobs($selected_state >= 0 ? $selected_state : NULL);
+
+            // Filterformular einfügen
+            ob_start(); // Puffer starten
+            include TE_DIR . 'filters/job-state-filter.php'; // Pfad zur Datei mit dem Filterformular
+            $filter_form = ob_get_clean();
 
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
             include TE_DIR.'tables/jobs-table-template.php'; // Pfad zur Datei mit dem Test-Formular
-            return ob_get_clean(); 
+            $table = ob_get_clean(); 
+            return $filter_form.$table;
         } else {
             return 'Bitte loggen Sie sich ein, um Ihre Stellen zu sehen.';
         }

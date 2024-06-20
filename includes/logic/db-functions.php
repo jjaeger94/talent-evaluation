@@ -1,10 +1,18 @@
 <?php
 // Get all jobs from the database
-function get_all_jobs() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
-    $query = "SELECT * FROM $table_name";
-    return $wpdb->get_results($query);
+function get_all_jobs($state = '') {
+    if($state == ''){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+        $query = "SELECT * FROM $table_name";
+        return $wpdb->get_results($query);
+    }else{
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+        $query = "SELECT * FROM $table_name WHERE state = $state";
+        return $wpdb->get_results($query);
+    }
+
 }
 
 function change_job_state($job, $value){
