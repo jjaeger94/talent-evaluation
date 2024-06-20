@@ -24,6 +24,11 @@
 			}
 		});
 
+		$('.collapse').on('show.bs.collapse', function(){
+			// Collapse all sections except the one being shown
+			$('.collapse').not(this).collapse('hide');
+		});
+
 		setTimeout(function() {
 			// Elementor "Umschalter" Accordion immer ZU:
 			$('.elementor-tab-title').removeClass('elementor-active');

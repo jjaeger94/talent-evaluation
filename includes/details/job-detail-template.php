@@ -8,7 +8,7 @@
 <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
 Liste anzeigen
 </button>
-<div class="collapse" id="jobInfoCollapse">
+<div class="collapse show" id="jobInfoCollapse">
     <div class="card card-body">
     <?php include TE_DIR.'forms/job-form.php';?>
     </div>

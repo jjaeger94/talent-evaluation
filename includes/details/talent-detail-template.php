@@ -13,7 +13,7 @@
         <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#eventsCollapse" aria-expanded="false" aria-controls="eventsCollapse">
             Eventlogs anzeigen
         </button>
-        <div class="collapse" id="personalDataCollapse">
+        <div class="collapse show" id="personalDataCollapse">
         <?php include TE_DIR.'profile/personal-data-start.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>

@@ -19,7 +19,7 @@ $jobs = $wpdb->get_results($wpdb->prepare(
         <?php include TE_DIR.'tables/jobs-table-template.php';?>
     </div>
 </div>
-<div class="collapse" id="editCustomerCollapse">
+<div class="collapse show" id="editCustomerCollapse">
     <div class="card card-body">
         <?php include TE_DIR.'forms/customer-form.php';?>
     </div>

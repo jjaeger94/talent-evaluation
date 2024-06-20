@@ -4,7 +4,7 @@ Aktionen
 <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">
 Tabelle
 </button>
-<div class="collapse" id="controlCollapse">
+<div class="collapse show" id="controlCollapse">
     <?php include TE_DIR.'controls/compare.php'; ?>
 </div>
 <div class="collapse" id="tableCollapse">
