@@ -144,7 +144,7 @@ function get_user_home_url( $user ) {
         } elseif ( in_array( 'dienstleister', $user->roles ) ) {
             return home_url( '/talents' );
         } elseif ( in_array( 'administrator', $user->roles ) ) {
-            return home_url( '/wp-admin' );
+            return home_url( '/talents' );
         }
     }
     return home_url( '/membership-login' );
