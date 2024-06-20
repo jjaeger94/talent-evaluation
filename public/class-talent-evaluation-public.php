@@ -84,6 +84,8 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('submit_evaluation');
 		$this->add_public_request('request_consultation');
 		$this->add_public_request('remove_job');
+		$this->add_public_request('deactivate_job');
+		$this->add_public_request('reactivate_job');
 	}
 
 	private function add_public_request($request_name){
@@ -744,6 +746,38 @@ class Talent_Evaluation_Public {
 			}
 		}
 		wp_die();
+	}
+
+	function deactivate_job(){
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['job_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$job_id = absint($_POST['job_id']);
+		$job = get_job_by_id($job_id);
+		if(!$job){
+			wp_send_json_error('Job nicht gefunden');
+		}
+		change_job_state($job, 0);
+		wp_send_json_success('Job Status geändert');
+	}
+
+	function reactivate_job(){
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['job_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$job_id = absint($_POST['job_id']);
+		$job = get_job_by_id($job_id);
+		if(!$job){
+			wp_send_json_error('Job nicht gefunden');
+		}
+		change_job_state($job, 1);
+		wp_send_json_success('Job Status geändert');
 	}
 
 	function remove_job(){

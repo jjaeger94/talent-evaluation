@@ -65,17 +65,20 @@
         <?php endfor; ?>
         </select>
     </div>
-    <div class="row d-flex justify-content-between">
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary"><?php echo isset($job->ID) ? 'Änderungen speichern' : 'Neuen Job anlegen'; ?></button>
-        </div>
-        <?php if(isset($job->ID)): ?>
+    <button type="submit" class="btn btn-primary"><?php echo isset($job->ID) ? 'Änderungen speichern' : 'Neuen Job anlegen'; ?></button>    
+</form>
+<div class="row d-flex justify-content-end">
+<?php if(isset($job->ID) && $job->state == 1): ?>
             <div class="col-auto">
+                <button id="deactivateJob" class="btn btn-danger">deaktivieren</button>
+            </div>
+        <?php elseif(isset($job->ID) && $job->state == 0): ?>
+            <div class="col-auto">
+                <button id="reactivateJob" class="btn btn-primary">reaktivieren</button>
                 <button id="removeJob" class="btn btn-danger">Stelle entfernen</button>
             </div>
         <?php endif; ?>
     </div>
-</form>
 <div id="form-message"></div>
 <script>
 jQuery(document).ready(function($) {
@@ -107,6 +110,47 @@ jQuery(document).ready(function($) {
             alert('Bitte geben Sie einen Link ein.');
         }
     });
+    <?php if(isset($job->ID)): ?>
+    $('#reactivateJob').click(()=>{
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: 'job_id=<?php echo $job->ID; ?>&action=reactivate_job',
+            success: function(response) {
+                // Erfolgreiche Verarbeitung
+                console.log(response);
+                // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                if(response.success){
+                    location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Fehlerbehandlung
+                console.error(error);
+            }
+        });
+    });
+    $('#deactivateJob').click(()=>{
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: 'job_id=<?php echo $job->ID; ?>&action=deactivate_job',
+            success: function(response) {
+                // Erfolgreiche Verarbeitung
+                console.log(response);
+                // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                if(response.success){
+                   location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Fehlerbehandlung
+                console.error(error);
+            }
+        });
+    });
     $('#removeJob').click(()=>{
         // AJAX-Anfrage senden
         $.ajax({
@@ -127,5 +171,6 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    <?php endif; ?>
 });
 </script>

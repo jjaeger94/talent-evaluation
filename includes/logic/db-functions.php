@@ -7,6 +7,22 @@ function get_all_jobs() {
     return $wpdb->get_results($query);
 }
 
+function change_job_state($job, $value){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_jobs';
+
+    // Daten zum Aktualisieren
+    $data = array(
+        'state' => $value,
+    );
+
+    // Bedingung für die Aktualisierung
+    $where = array('ID' => $job->ID);
+
+    // Aktualisieren der Daten in der Datenbank
+    $wpdb->update($table_name, $data, $where);
+}
+
 function remove_expired_job($job){
     global $wpdb;
     $wpdb->delete(
@@ -116,13 +132,34 @@ function log_event($event_type, $event_description, $talent_id = null, $job_id =
 
 function get_active_matching_for_talent_id($talent_id){
     global $wpdb;
-    $table_name = $wpdb->prefix . 'te_matching';
-    return $wpdb->get_results($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND value = 0", $talent_id));
+    $matching_table = $wpdb->prefix . 'te_matching';
+    $jobs_table = $wpdb->prefix . 'te_jobs';
+
+    $query = $wpdb->prepare("
+        SELECT m.*
+        FROM {$matching_table} m
+        INNER JOIN {$jobs_table} j ON m.job_id = j.ID
+        WHERE m.talent_id = %d
+        AND m.value = 0
+        AND j.state = 1
+    ", $talent_id);
+
+    return $wpdb->get_results($query);
 }
+
 function get_active_matching_count_for_talent_id($talent_id){
     global $wpdb;
-    $table_name = $wpdb->prefix . 'te_matching';
-    $query = $wpdb->prepare("SELECT COUNT(*) FROM {$table_name} WHERE talent_id = %d AND value = 0", $talent_id);
+    $matching_table = $wpdb->prefix . 'te_matching';
+    $jobs_table = $wpdb->prefix . 'te_jobs';
+
+    $query = $wpdb->prepare("
+        SELECT COUNT(*)
+        FROM {$matching_table} m
+        INNER JOIN {$jobs_table} j ON m.job_id = j.ID
+        WHERE m.talent_id = %d
+        AND m.value = 0
+        AND j.state = 1
+    ", $talent_id);
     return $wpdb->get_var($query);
 }
 

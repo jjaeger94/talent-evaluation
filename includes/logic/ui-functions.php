@@ -1,5 +1,14 @@
 <?php
-function get_event_state($type) {
+function get_job_state($state){
+    $states = [
+        0 => 'Inaktiv',
+        1 => 'Aktiv'
+
+    ];
+
+    return isset($states[$state]) ? $states[$state] : 'Unbekannt';
+}
+function get_event_type($type) {
     $types = [
         1 => 'Registrierungserinnerung',
         2 => 'Registrierungsmail',

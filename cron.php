@@ -1,9 +1,43 @@
 <?php
 // Include the WordPress core
 
+// Check if a StepStone job page is available
+function is_stepstone_job_available($url) {
+    $response = wp_remote_get($url);
+    if (is_wp_error($response)) {
+        return false;
+    }
+    $body = wp_remote_retrieve_body($response);
+    // Überprüfen des Inhalts.
+    return strpos($body, 'Stellenanzeige ist nicht mehr verfügbar') === false;
+}
+
+
 require_once(dirname(__FILE__).'/../../../wp-load.php');
 
-function talent_evaluation_cronjob() {
+function delete_unavailable_jobs() {
+    // Schritt 1: Alle Jobs aus der Datenbank holen
+    $jobs = get_all_jobs();
+    
+    foreach ($jobs as $job) {
+        // Schritt 2: Link überprüfen
+        $url = $job->link;
+        
+        // Schritt 3: Überprüfen ob es ein StepStone-Link ist
+        if (strpos($url, 'stepstone.de') !== false) {
+            // StepStone-Seite aufrufen und Inhalt prüfen
+            if (!is_stepstone_job_available($url)) {
+                // Job Deaktivieren wenn die Seite nicht verfügbar ist
+                change_job_state($job, 0);
+            }
+        } else if (strpos($url, 'indeed') !== false) {
+            // Indeed-Links überspringen
+            continue;
+        }
+    }
+}
+
+function register_users(){
     $unregistered_users = get_members_with_empty_user_name();
 
     foreach ($unregistered_users as $user) {
@@ -35,6 +69,11 @@ function talent_evaluation_cronjob() {
             }
         }
     }
+}
+
+function talent_evaluation_cronjob() {
+    register_users();
+    delete_unavailable_jobs();
 
     // Speichere die aktuelle Zeit
     $current_time = current_time('mysql');

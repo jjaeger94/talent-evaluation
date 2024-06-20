@@ -164,6 +164,7 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$jobs}'") != $jobs) {
                 $sql = "CREATE TABLE $jobs(
 					ID INT AUTO_INCREMENT PRIMARY KEY,
+                    state INT NOT NULL DEFAULT 1,
                     customer_id INT NOT NULL,
                     job_title VARCHAR(255) NOT NULL ,
                     link VARCHAR(255),
