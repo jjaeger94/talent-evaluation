@@ -22,6 +22,8 @@ function get_date_string($object){
     return $dateString;
 }
 function get_display_name($user_id) {
+    if ($user_id == 0)
+        return 'System';
     if (!$user = get_userdata($user_id))
         return false;
     return $user->data->display_name;
