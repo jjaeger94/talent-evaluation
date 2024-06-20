@@ -83,6 +83,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('activate_all_matchings');
 		$this->add_public_request('submit_evaluation');
 		$this->add_public_request('request_consultation');
+		$this->add_public_request('remove_job');
 	}
 
 	private function add_public_request($request_name){
@@ -742,6 +743,23 @@ class Talent_Evaluation_Public {
 				wp_send_json_success('Kunde erfolgreich hinzugefügt.');
 			}
 		}
+		wp_die();
+	}
+
+	function remove_job(){
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['job_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$job_id = absint($_POST['job_id']);
+		$job = get_job_by_id($job_id);
+		if(!$job){
+			wp_send_json_error('Job nicht gefunden');
+		}
+		remove_expired_job($job);
+		wp_send_json_success('Eintrag gelöscht');
 		wp_die();
 	}
 	

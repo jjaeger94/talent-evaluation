@@ -65,7 +65,16 @@
         <?php endfor; ?>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary"><?php echo isset($job->ID) ? 'Änderungen speichern' : 'Neuen Job anlegen'; ?></button>
+    <div class="row d-flex justify-content-between">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary"><?php echo isset($job->ID) ? 'Änderungen speichern' : 'Neuen Job anlegen'; ?></button>
+        </div>
+        <?php if(isset($job->ID)): ?>
+            <div class="col-auto">
+                <button id="removeJob" class="btn btn-danger">Stelle entfernen</button>
+            </div>
+        <?php endif; ?>
+    </div>
 </form>
 <div id="form-message"></div>
 <script>
@@ -97,6 +106,26 @@ jQuery(document).ready(function($) {
         } else {
             alert('Bitte geben Sie einen Link ein.');
         }
+    });
+    $('#removeJob').click(()=>{
+        // AJAX-Anfrage senden
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            data: 'job_id=<?php echo $job->ID; ?>&action=remove_job',
+            success: function(response) {
+                // Erfolgreiche Verarbeitung
+                console.log(response);
+                // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                if(response.success){
+                    window.location.href = '<?php echo home_url('/jobs/');?>';
+                }
+            },
+            error: function(xhr, status, error) {
+                // Fehlerbehandlung
+                console.error(error);
+            }
+        });
     });
 });
 </script>

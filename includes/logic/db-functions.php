@@ -1,4 +1,36 @@
 <?php
+// Get all jobs from the database
+function get_all_jobs() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+    $query = "SELECT * FROM $table_name";
+    return $wpdb->get_results($query);
+}
+
+function remove_expired_job($job){
+    global $wpdb;
+    $wpdb->delete(
+        $wpdb->prefix . 'te_requirements',
+        array('job_id' => $job->ID),
+        array('%d')
+    );
+    $wpdb->delete(
+        $wpdb->prefix . 'te_matching',
+        array('job_id' => $job->ID),
+        array('%d')
+    );
+    $wpdb->delete(
+        $wpdb->prefix . 'te_events',
+        array('job_id' => $job->ID),
+        array('%d')
+    );
+    $wpdb->delete(
+        $wpdb->prefix . 'te_jobs',
+        array('ID' => $job->ID),
+        array('%d')
+    );
+}
+
 function remove_unregistered_talent($talent){
     global $wpdb;
     $wpdb->delete(

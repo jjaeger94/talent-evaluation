@@ -91,9 +91,7 @@
         // Überprüfen, ob der Benutzer eingeloggt ist
         if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
-            global $wpdb;
-            $jobs_table = $wpdb->prefix . 'te_jobs';
-            $jobs = $wpdb->get_results("SELECT * FROM $jobs_table ORDER BY added DESC");
+            $jobs = get_all_jobs();
 
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
