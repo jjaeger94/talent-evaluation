@@ -3,9 +3,10 @@
         <thead>
             <tr>
                 <th>Stelle</th>
-                <th>Status</th>
+                <th>Jobstatus</th>
+                <th>Bearbeitungsstatus</th>
                 <th>bearbeitet</th>
-                <th>Talentdetails</th>
+                <th>Stellendetails</th>
             </tr>
         </thead>
         <tbody>
@@ -13,6 +14,7 @@
                 <tr>
                     <td><?php echo $job->job_title; ?></td>
                     <td><?php echo get_job_state($job->state); ?></td>
+                    <td><?php echo $job->notes; ?></td>
                     <td><?php echo date('d.m.Y', strtotime($job->edited)); ?></td>
                     <td><a href="<?php echo esc_url(home_url('/job-details/?id=' . $job->ID)); ?>">Details</a></td>
                 </tr>

@@ -18,6 +18,10 @@
         <input type="text" class="form-control" id="job_title" name="job_title" value="<?php echo isset($job->job_title) ? esc_attr($job->job_title) : ''; ?>" required>
     </div>
     <div class="form-group mb-3">
+        <label for="notes"><strong>Bearbeitungsstatus</strong></label>
+        <input type="text" class="form-control" id="notes" name="notes" value="<?php echo isset($job->notes) ? esc_attr($job->notes) : ''; ?>">
+    </div>
+    <div class="form-group mb-3">
         <label for="job_url"><strong>Link</strong></label>
         <div class="input-group">
             <input type="text" class="form-control" id="job_url" name="job_url" value="<?php echo isset($job->link) ? esc_attr($job->link) : ''; ?>">
