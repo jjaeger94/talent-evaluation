@@ -656,7 +656,7 @@ class Talent_Evaluation_Public {
 			);
 	
 			if (false === $updated) {
-				wp_send_json_error('Fehler beim Aktualisieren des Jobs.');
+				wp_send_json_error($wpdb->last_error);
 			} else {
 				wp_send_json_success('Job erfolgreich aktualisiert.');
 			}
