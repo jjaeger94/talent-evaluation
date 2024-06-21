@@ -30,7 +30,10 @@ require_once(dirname(__FILE__).'/../../../wp-load.php');
 
 function delete_unavailable_jobs() {
     // Schritt 1: Alle Jobs aus der Datenbank holen
-    $jobs = get_all_jobs(1);
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+    $query = "SELECT * FROM $table_name WHERE state = 1 ORDER BY edited DESC";
+    $jobs = $wpdb->get_results($query);
     
     foreach ($jobs as $job) {
         // Schritt 2: Link überprüfen

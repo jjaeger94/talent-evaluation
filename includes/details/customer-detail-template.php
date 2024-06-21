@@ -3,10 +3,18 @@
 if(!isset($_GET['add']) || $_GET['add'] == false):
 global $wpdb;
 $jobs_table = $wpdb->prefix . 'te_jobs';
-$jobs = $wpdb->get_results($wpdb->prepare(
-    "SELECT * FROM $jobs_table WHERE customer_id = %d ORDER BY added DESC",
-    $id
-));
+$matching_table = $wpdb->prefix . 'te_matching';
+$jobs = $wpdb->get_results($wpdb->prepare("
+SELECT j.*, 
+(
+    SELECT COUNT(*)
+    FROM {$matching_table} m
+    WHERE m.job_id = j.ID
+    AND m.value = 2
+) AS positive_matching_count
+FROM {$jobs_table} j
+WHERE customer_id = %d
+",$id));
 ?>
 <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#editCustomerCollapse" aria-expanded="true" aria-controls="editCustomerCollapse">
     Kunden bearbeiten

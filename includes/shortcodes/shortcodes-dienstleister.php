@@ -91,13 +91,43 @@
         // Überprüfen, ob der Benutzer eingeloggt ist
         if (has_service_permission()) {
             $selected_state = array_key_exists('state', $_GET) ? intval($_GET['state']) : -1;
-            error_log('selected_state'. $selected_state);
-            // Abfrage, um Talente abzurufen
-            $jobs = get_all_jobs($selected_state >= 0 ? $selected_state : NULL);
+            $notes = isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : '';
+
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+            $matching_table = $wpdb->prefix . 'te_matching';
+
+            // Basis-Query mit Platzhalter
+            $query = "
+                SELECT j.*, 
+                (
+                    SELECT COUNT(*)
+                    FROM {$matching_table} m
+                    WHERE m.job_id = j.ID
+                    AND m.value = 2
+                ) AS positive_matching_count
+                FROM {$table_name} j
+                WHERE j.notes LIKE %s
+            ";
+
+            // Überprüfen, ob der ausgewählte Status >= 0 ist, und die Bedingung hinzufügen
+            if($selected_state >= 0){
+                $query .= " AND j.state = %d";
+            }
+
+            // Fügen Sie die ORDER BY Klausel hinzu, um nach positive_matching_count zu sortieren
+            $query .= " ORDER BY positive_matching_count DESC, j.edited ASC";
+
+            // Übergeben Sie die Parameter an die prepare-Funktion
+            if($selected_state >= 0){
+                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%', $selected_state));
+            } else {
+                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%'));
+            }
 
             // Filterformular einfügen
             ob_start(); // Puffer starten
-            include TE_DIR . 'filters/job-state-filter.php'; // Pfad zur Datei mit dem Filterformular
+            include TE_DIR . 'filters/job-filter.php'; // Pfad zur Datei mit dem Filterformular
             $filter_form = ob_get_clean();
 
             // Überprüfen, ob Talente vorhanden sind
@@ -226,7 +256,7 @@
             }
             // Filterformular einfügen
             ob_start(); // Puffer starten
-            include TE_DIR . 'filters/ref-state-filter.php'; // Pfad zur Datei mit dem Filterformular
+            include TE_DIR . 'filters/talents-filter.php'; // Pfad zur Datei mit dem Filterformular
             $filter_form = ob_get_clean();
 
             // Tabelleninhalt einfügen
