@@ -12,6 +12,19 @@ function is_stepstone_job_available($url) {
     return strpos($body, 'Stellenanzeige ist nicht mehr verfügbar') === false;
 }
 
+// Check if a Indeed job page is available
+function is_indeed_job_available($url) {
+    $response = wp_remote_get($url);
+    if (is_wp_error($response)) {
+        return false;
+    }
+    $body = wp_remote_retrieve_body($response);
+    // Überprüfen des Inhalts.
+    return strpos($body, 'Diese Stellenanzeige ist auf Indeed abgelaufen') === false;
+}
+
+
+
 
 require_once(dirname(__FILE__).'/../../../wp-load.php');
 
@@ -32,7 +45,10 @@ function delete_unavailable_jobs() {
             }
         } else if (strpos($url, 'indeed') !== false) {
             // Indeed-Links überspringen
-            continue;
+            if (!is_indeed_job_available($url)) {
+                // Job Deaktivieren wenn die Seite nicht verfügbar ist
+                change_job_state($job, 0);
+            }
         }
     }
 }
