@@ -246,31 +246,33 @@
         if (has_service_permission()) {
             // Abfrage, um Talente abzurufen
 
-            $selected_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : -1;
+            $selected_value = isset($_GET['value']) ? sanitize_text_field($_GET['value']) : -1;
+            $state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : '';
 
             global $wpdb;
             
             $matchings = array();
 
-            if ($selected_state >= 0) {
+            if ($selected_value >= 0) {
+                $query = $wpdb->prepare("
+                    SELECT m.*, t.prename, t.surname, j.job_title
+                    FROM {$wpdb->prefix}te_matching m
+                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
+                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
+                    WHERE m.value = %d AND m.state LIKE %s
+                    ORDER BY m.added DESC
+                ", $selected_value, '%' . $wpdb->esc_like($state) . '%');
+
+                $matchings = $wpdb->get_results($query);
+            } else {
                 $query = $wpdb->prepare("
                     SELECT m.*, t.prename,t.surname, j.job_title
                     FROM {$wpdb->prefix}te_matching m
                     LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
                     LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
-                    WHERE m.value = %d
+                    WHERE m.state LIKE %s
                     ORDER BY m.added DESC
-                ", $selected_state);
-
-                $matchings = $wpdb->get_results($query);
-            } else {
-                $query = "
-                    SELECT m.*, t.prename,t.surname, j.job_title
-                    FROM {$wpdb->prefix}te_matching m
-                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
-                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
-                    ORDER BY m.added DESC
-                ";
+                ", '%' . $wpdb->esc_like($state) . '%');
 
                 $matchings = $wpdb->get_results($query);
             }
