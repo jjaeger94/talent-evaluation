@@ -5,7 +5,8 @@
                 <th>Stelle</th>
                 <th>Talent</th>
                 <th>bearbeitet</th>
-                <th>Status</th>
+                <th>Bewerberstatus</th>
+                <th>Bearbeitungsstatus</th>
                 <th>Matchingdetails</th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
                     </td>
                     <td><?php echo date('d.m.Y', strtotime($match->edited)); ?></td>
                     <td><?php echo esc_html(get_matching_state($match->value)); ?></td>
+                    <td><?php echo esc_html($match->state); ?></td>
                     <td><a href="<?php echo esc_url(home_url('/compare-details/?talent_id=' . $match->talent_id. '&job_id='. $match->job_id)); ?>">Details</a></td>
                 </tr>
             <?php endforeach; ?>
