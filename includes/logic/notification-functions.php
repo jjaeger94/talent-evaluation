@@ -41,20 +41,22 @@ function send_missed_call($talent, $new_member){
 }
 
 function send_new_job_mail($talent, $count){
-    // Setze den Betreff und die Absender-Adresse der E-Mail
-    $subject = 'Neue Stellen';
-    $settings = SwpmSettings::get_instance();
-    $from_address = $settings->get_value('email-from');
-    $headers = 'From: ' . $from_address . "\r\n";
-    
-    // Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
-    ob_start();
-    include TE_DIR . 'mails/new_job_mail.php';
-    $message = ob_get_clean();
-    
-    // Sende die E-Mail
-    wp_mail($talent->email, $subject, $message, $headers);
-    log_event(3, 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent->ID);
+    if($count > 0){
+        // Setze den Betreff und die Absender-Adresse der E-Mail
+        $subject = 'Neue Stellen';
+        $settings = SwpmSettings::get_instance();
+        $from_address = $settings->get_value('email-from');
+        $headers = 'From: ' . $from_address . "\r\n";
+        
+        // Starte die Ausgabe-Pufferung und inkludieren das E-Mail-Template
+        ob_start();
+        include TE_DIR . 'mails/new_job_mail.php';
+        $message = ob_get_clean();
+        
+        // Sende die E-Mail
+        wp_mail($talent->email, $subject, $message, $headers);
+        log_event(3, 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent->ID);
+    }
 }
 
 function send_consultation_mail($talent){

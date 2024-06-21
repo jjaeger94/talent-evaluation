@@ -1,5 +1,38 @@
 <?php
 // Include the WordPress core
+function remind_talents_for_open_jobs(){
+    global $wpdb;
+    $events_table = $wpdb->prefix . 'te_events';
+
+    // Basis-Query mit Platzhalter
+    $query = "
+        SELECT e1.*
+        FROM {$events_table} e1
+        INNER JOIN (
+            SELECT talent_id, MAX(added) as latest_added
+            FROM {$events_table}
+            WHERE event_type = %d
+            GROUP BY talent_id
+        ) e2
+        ON e1.talent_id = e2.talent_id AND e1.added = e2.latest_added
+        WHERE e1.event_type = %d
+    ";
+
+    $event_type = 3; // Beispiel für event_type 3
+    $events = $wpdb->get_results($wpdb->prepare($query, $event_type, $event_type));
+    
+    foreach ($events as $event) {
+        $event_time = strtotime($event->added);
+        if (time() - $event_time > 4 * 24 * 60 * 60) { // länger als eine 5 Tage
+            $count = get_active_matching_count_for_talent_id($event->talent_id);
+            if($count > 0){
+                $talent = get_talent_by_id($event->talent_id);
+                send_new_job_mail($talent, $count);
+            }
+        }
+        
+    }
+}
 
 // Check if a StepStone job page is available
 function is_stepstone_job_available($url) {
@@ -93,6 +126,7 @@ function register_users(){
 function talent_evaluation_cronjob() {
     register_users();
     delete_unavailable_jobs();
+    remind_talents_for_open_jobs();
 
     // Speichere die aktuelle Zeit
     $current_time = current_time('mysql');
