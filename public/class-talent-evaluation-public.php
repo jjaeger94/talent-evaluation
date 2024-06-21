@@ -362,15 +362,13 @@ class Talent_Evaluation_Public {
 			}
 			$value = absint($_POST['matching']);
 			$job_info = isset($_POST['job_info']) ? wp_kses_post($_POST['job_info']) : '';
-			$state = isset($_POST['state']) ? sanitize_text_field($_POST['state']) : '';
 
 			$table_name = $wpdb->prefix . 'te_matching';
 
 			// Daten zum Aktualisieren
 			$data = array(
 				'value' => $value,
-				'job_info' => $job_info,
-				'state' => $state
+				'job_info' => $job_info
 			);
 
 			// Bedingung für die Aktualisierung

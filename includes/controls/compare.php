@@ -19,10 +19,6 @@
                     </select>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="state"><strong>Bearbeitungsstatus</strong></label>
-                    <input type="text" class="form-control" id="state" name="state" value="<?php echo esc_attr( $matching->state ); ?>">
-                </div>
-                <div class="form-group mb-3">
                     <label for="job_info"><strong>Personalisierte Job Beschreibung</strong></label>
                     <textarea rows="3" class="form-control" id="job_info" name="job_info"><?php echo isset($matching->job_info) ? esc_attr($matching->job_info) : ''; ?></textarea>
                 </div>
