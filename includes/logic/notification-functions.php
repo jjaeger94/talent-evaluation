@@ -27,6 +27,7 @@ function send_missed_call($talent, $new_member){
     //Nutze andere email vorlage
     // Setze den Betreff und die Absender-Adresse der E-Mail
     $subject = 'Willkommen bei Convii';
+    $settings = SwpmSettings::get_instance();
     $from_address = $settings->get_value('email-from');
     $headers = 'From: ' . $from_address . "\r\n";
     
