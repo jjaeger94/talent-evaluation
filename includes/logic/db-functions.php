@@ -1,4 +1,41 @@
 <?php
+function get_file_by_id($id){
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_resumes
+        WHERE ID = {$id}
+    ");
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
+}
+function get_uploaded_resumes_for_talent($talent_id) {
+    global $wpdb;
+    $resumes_table = $wpdb->prefix . 'te_resumes';
+    $results = $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM $resumes_table WHERE talent_id = %d",
+        $talent_id
+    ), ARRAY_A);
+    return $results;
+}
+
+function save_resume_path($talent_id, $filename) {
+    global $wpdb;
+    $resumes_table = $wpdb->prefix . 'te_resumes';
+
+    $wpdb->insert(
+        $resumes_table,
+        [
+            'talent_id' => $talent_id,
+            'file' => $filename
+        ],
+        [
+            '%d',
+            '%s'
+        ]
+    );
+}
+
 function change_job_state($job, $value){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_jobs';

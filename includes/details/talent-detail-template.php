@@ -14,12 +14,13 @@
             Eventlogs anzeigen
         </button>
         <div class="collapse show" id="personalDataCollapse">
-        <?php include TE_DIR.'profile/personal-data-start.php'; ?>
+        <?php include TE_DIR.'profile/personal-data.php'; ?>
+        <?php include TE_DIR.'tables/resume-table-template.php'; ?>
+        <?php include TE_DIR.'profile/resume.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>
         <?php include TE_DIR.'profile/experience.php'; ?>
         <?php include TE_DIR.'profile/eq.php'; ?>
-        <?php include TE_DIR.'profile/personal-data-end.php'; ?>
         </div>
         <div class="collapse" id="jobsTableCollapse">
             <?php include TE_DIR.'tables/talent-jobs-table-template.php'; ?>

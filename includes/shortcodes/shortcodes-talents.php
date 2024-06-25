@@ -51,6 +51,7 @@ function render_talent_page(){
               $studies = get_studies_by_talent_id($talent->ID);
               $experiences = get_experiences_by_talent_id($talent->ID);
               $eq = get_eq_by_talent_id($talent->ID);
+              $resumes = get_uploaded_resumes_for_talent($talent->ID);
               ob_start(); // Puffer starten
               include TE_DIR.'details/talent-profile-template.php'; // Pfad zur Datei mit dem Test-Formular
               return ob_get_clean(); 

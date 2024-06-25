@@ -86,11 +86,55 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('remove_job');
 		$this->add_public_request('deactivate_job');
 		$this->add_public_request('reactivate_job');
+		$this->add_public_request('upload_resume');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function upload_resume() {
+		if(!isset($_POST['talent_id'], $_FILES['resume'])){
+			wp_send_json_error('Ungültige Anfrage');
+		}
+		$talent_id = intval($_POST['talent_id']);
+		if (!has_edit_talent_permission($talent_id)) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		$file = $_FILES['resume'];
+		$allowed_file_types = ['pdf', 'doc', 'docx'];
+		$file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+	
+		if (in_array($file_ext, $allowed_file_types)) {
+			$upload_dir = wp_upload_dir();
+			$protected_dir = $upload_dir['basedir'] . '/protected';
+	
+			// Überprüfen, ob das Verzeichnis existiert, wenn nicht, erstelle es
+			if (!file_exists($protected_dir)) {
+				wp_mkdir_p($protected_dir);
+			}
+	
+			// Eindeutigen Dateinamen erstellen
+			$unique_filename = wp_unique_filename($protected_dir, $file['name']);
+			$target_file = $protected_dir . '/' . $unique_filename;
+	
+			// Datei verschieben
+			if (move_uploaded_file($file['tmp_name'], $target_file)) {
+				// Talent-ID aus der POST-Anfrage holen
+				$talent_id = intval($_POST['talent_id']);
+	
+				// Pfad in der Datenbank speichern
+				save_resume_path($talent_id, $unique_filename);
+	
+				wp_send_json_success('Lebenslauf erfolgreich hochgeladen!');
+			} else {
+				wp_send_json_error('Fehler beim Verschieben der Datei.');
+			}
+		} else {
+			wp_send_json_error('Ungültiger Dateityp. Bitte laden Sie eine PDF, DOC oder DOCX Datei hoch.');
+		}
 	}
 
 	function request_consultation(){

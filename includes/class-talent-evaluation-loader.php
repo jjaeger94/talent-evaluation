@@ -147,8 +147,11 @@ class Talent_Evaluation_Loader {
 		$this->add_filter( 'admin_title', $this, 'custom_title', 99);
 		$this->add_filter( 'login_title', $this, 'custom_title', 99);
 		$this->add_filter( 'swpm_registration_form_override', $this, 'custom_swpm_registration_form', 10, 2);
+		$this->add_filter( 'query_vars', $this, 'add_custom_query_vars');
 		
 		$this->add_action( 'login_enqueue_scripts', $this, 'my_login_logo' );
+		$this->add_action('template_redirect', $this, 'serve_protected_file');
+
 
 
 		foreach ( $this->filters as $hook ) {
@@ -219,7 +222,47 @@ class Talent_Evaluation_Loader {
 			<?php 
 		}
 	}
+
+	public function serve_protected_file() {
+		if (get_query_var('download_file')) {
+			if (!is_user_logged_in()) {
+				wp_die('Sie müssen eingeloggt sein, um diese Datei herunterzuladen.');
+			}
 		
+			$resume_id = intval($_GET['download_file']);
+			
+			$resume = get_file_by_id($resume_id);
+			if (!$resume) {
+				wp_die('Lebenslauf nicht gefunden.');
+			}
+			if (!has_edit_talent_permission($resume->talent_id)) {
+				wp_send_json_error('Keine Berechtigung');
+			}
+
+			$upload_dir = wp_upload_dir();
+        	$file_path = $upload_dir['basedir'] . '/protected/' . $resume->file;
+		
+			if (!$file_path || !file_exists($file_path)) {
+				wp_die('Datei nicht gefunden.'. $file_path);
+			}
+		
+			// Datei zum Download bereitstellen
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename=' . basename($file_path));
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($file_path));
+			readfile($file_path);
+			exit;
+		}
+	}	
+
+	public function add_custom_query_vars($vars) {
+		$vars[] = 'download_file';
+		return $vars;
+	}
 
 	public function my_login_logo_url() {
 		return home_url();
