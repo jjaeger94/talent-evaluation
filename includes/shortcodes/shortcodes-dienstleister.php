@@ -94,19 +94,22 @@
             $notes = isset($_GET['notes']) ? sanitize_text_field($_GET['notes']) : '';
 
             global $wpdb;
-            $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+            $jobs_table = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
             $matching_table = $wpdb->prefix . 'te_matching';
+            $customers_table = $wpdb->prefix . 'te_customers';
 
             // Basis-Query mit Platzhalter
             $query = "
                 SELECT j.*, 
-                (
-                    SELECT COUNT(*)
-                    FROM {$matching_table} m
-                    WHERE m.job_id = j.ID
-                    AND m.value = 2
-                ) AS positive_matching_count
-                FROM {$table_name} j
+                    c.company_name,
+                    (
+                        SELECT COUNT(*)
+                        FROM {$matching_table} m
+                        WHERE m.job_id = j.ID
+                        AND m.value = 2
+                    ) AS positive_matching_count
+                FROM {$jobs_table} j
+                JOIN {$customers_table} c ON j.customer_id = c.ID
                 WHERE j.notes LIKE %s
             ";
 

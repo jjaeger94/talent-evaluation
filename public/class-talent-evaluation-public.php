@@ -678,6 +678,7 @@ class Talent_Evaluation_Public {
 		$job_id = isset($_POST['job_id']) ? intval($_POST['job_id']) : 0;
 		$customer_id = isset($_POST['customer_id']) ? intval($_POST['customer_id']) : null;
 		$job_title = sanitize_text_field($_POST['job_title']);
+		$company = isset($_POST['company']) ? sanitize_text_field($_POST['company']) : '';
 		$job_info = wp_kses_post($_POST['job_info']);
 		$notes = isset($_POST['notes']) ? sanitize_text_field($_POST['notes']) : '';
 		$job_url = isset($_POST['job_url']) ? sanitize_text_field($_POST['job_url']) : '';
@@ -694,6 +695,7 @@ class Talent_Evaluation_Public {
 			'customer_id' => $customer_id,
 			'job_title' => $job_title,
 			'notes' => $notes,
+			'company' => $company,
 			'job_info' => $job_info,
 			'link' => $job_url,
 			'post_code' => $post_code,
