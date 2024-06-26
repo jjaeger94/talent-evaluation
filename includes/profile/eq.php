@@ -20,7 +20,9 @@
         <div class="col-md-12 mb-3">
             <p class="card-title"><strong>Was ist dir im Beruf besonders wichtig?</strong></p>
         </div>
+        <div class="col">
         <button class="btn btn-primary" id="addEqBtnOpen">Antwort hinzufügen</button>
+        </div>
     <?php endif; ?>
 </div>
 

@@ -21,12 +21,14 @@
 </div>
 <?php if ($talent) : ?>
     <div class="container top-bar-margin">
-        <?php include TE_DIR.'profile/personal-data-start.php'; ?>
+        <?php include TE_DIR.'profile/personal-data.php'; ?>
+        <div class="alert alert-info mt-3">Lade deinen Lebenslauf hier hoch oder füge deine Infos manuell hinzu.</div>
+        <?php include TE_DIR.'profile/resume.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>
         <?php include TE_DIR.'profile/experience.php'; ?>
         <?php include TE_DIR.'profile/eq.php'; ?>
-        <?php include TE_DIR.'profile/personal-data-end.php'; ?>
+        
     </div>
 <?php else : ?>
     <p>Talent nicht gefunden.</p>
