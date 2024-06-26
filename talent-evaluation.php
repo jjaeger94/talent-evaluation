@@ -89,15 +89,18 @@ function has_service_permission(){
 function get_logged_in_user_id(){
     $auth = SwpmAuth::get_instance();
     if (!$auth->is_logged_in()) {
-    return get_current_user_id();
-    }
-    $member_id = SwpmMemberUtils::get_logged_in_members_id();
-    // Überprüfen, ob Bewerbungsdetails vorhanden sind
-    $talent = get_talent_by_member_id($member_id);
-    if(!$talent){
         return get_current_user_id();
     }
-    return $talent->ID;
+    $member_id = SwpmMemberUtils::get_logged_in_members_id();
+    $email = SwpmMemberUtils::get_member_field_by_id($member_id, 'email');
+    if(!$email){
+        return get_current_user_id();
+    }
+    $user = get_user_by('email', $email);
+    if(!$user){
+        return get_current_user_id();
+    }
+    return $user->ID;
 }
 
 function has_edit_talent_permission($talent_id){
