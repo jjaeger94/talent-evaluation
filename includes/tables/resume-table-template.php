@@ -30,7 +30,6 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 if (response.success) {
                     var file_url = response.data.file_url;
-                    console.log(file_url);
                     var link = document.createElement('a');
                     link.href = file_url;
                     link.download = file_url.substring(file_url.lastIndexOf('/') + 1);
