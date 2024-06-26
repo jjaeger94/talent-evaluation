@@ -6,6 +6,7 @@
                 <th>Nachname</th>
                 <th>Matching</th>
                 <th>Talentdetails</th>
+                <th>Teilzeit erwünscht</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                         </span>
                     </td>
                     <td><a href="<?php echo esc_url(home_url('/compare-details/?talent_id=' . $talent->ID . '&job_id=' . $job->ID)); ?>">Details</a></td>
+                    <td><?php echo $talent->part_time ? 'Ja' : 'Nein'; ?></td>
                     <td>
                         <?php if (!$matching) : ?>
                             <form class="activateMatchingForm" method="post">
