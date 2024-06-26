@@ -87,12 +87,41 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('deactivate_job');
 		$this->add_public_request('reactivate_job');
 		$this->add_public_request('upload_resume');
+		$this->add_public_request('download_resume');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
 	}
+
+	// Ajax-Handler für den Dateidownload
+	function download_resume() {
+		if (!is_user_logged_in()) {
+			wp_send_json_error('Sie müssen eingeloggt sein, um diese Datei herunterzuladen.');
+		}
+
+		$resume_id = intval($_POST['resume_id']);
+		$resume = get_file_by_id($resume_id);
+
+		if (!$resume) {
+			wp_send_json_error('Lebenslauf nicht gefunden.');
+		}
+
+		if (!has_edit_talent_permission($resume->talent_id)) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+
+		$upload_dir = wp_upload_dir();
+		$file_path = $upload_dir['basedir'] . '/protected/' . $resume->file;
+		$file_url = $upload_dir['baseurl'] . '/protected/' . $resume->file;
+
+		if (!file_exists($file_path)) {
+			wp_send_json_error('Datei nicht gefunden.');
+		}
+
+		wp_send_json_success(['file_url' => $file_url]);
+}
 
 	function upload_resume() {
 		if(!isset($_POST['talent_id'], $_FILES['resume'])){
