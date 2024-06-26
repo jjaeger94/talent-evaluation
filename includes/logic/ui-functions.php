@@ -13,7 +13,8 @@ function get_event_type($type) {
         1 => 'Registrierungserinnerung',
         2 => 'Registrierungsmail',
         3 => 'Offene Stellen',
-        4 => 'Erstgespräch'
+        4 => 'Erstgespräch',
+        5 => 'Lebenslauf hochgeladen'
 
     ];
 
@@ -34,7 +35,7 @@ function get_display_name($user_id) {
     if ($user_id == 0)
         return 'System';
     if (!$user = get_userdata($user_id))
-        return false;
+        return $user_id;
     return $user->data->display_name;
 }
 function requirements_match($requirements, $talent_requirements){

@@ -162,7 +162,7 @@ class Talent_Evaluation_Public {
 	
 				// Pfad in der Datenbank speichern
 				save_resume_path($talent_id, $unique_filename);
-	
+				log_event(5, $unique_filename.' hochgeladen', $talent_id);
 				wp_send_json_success('Lebenslauf erfolgreich hochgeladen!');
 			} else {
 				wp_send_json_error('Fehler beim Verschieben der Datei.');

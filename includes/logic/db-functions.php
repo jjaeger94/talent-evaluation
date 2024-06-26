@@ -136,7 +136,7 @@ function get_matching_events($matching_id) {
 }
 
 function log_event($event_type, $event_description, $talent_id = null, $job_id = null, $matching_id = null) {
-    $user_id = get_current_user_id();
+    $user_id = get_logged_in_user_id();
     global $wpdb;
     $wpdb->insert(
         $wpdb->prefix . 'te_events',

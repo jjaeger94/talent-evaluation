@@ -86,6 +86,20 @@ function has_service_permission(){
     return current_user_can( 'dienstleister' ) || current_user_can('administrator');
 }
 
+function get_logged_in_user_id(){
+    $auth = SwpmAuth::get_instance();
+    if (!$auth->is_logged_in()) {
+    return get_current_user_id();
+    }
+    $member_id = SwpmMemberUtils::get_logged_in_members_id();
+    // Überprüfen, ob Bewerbungsdetails vorhanden sind
+    $talent = get_talent_by_member_id($member_id);
+    if(!$talent){
+        return get_current_user_id();
+    }
+    return $talent->ID;
+}
+
 function has_edit_talent_permission($talent_id){
      if(has_service_permission()){
         return true;
