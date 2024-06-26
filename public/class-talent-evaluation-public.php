@@ -114,11 +114,17 @@ class Talent_Evaluation_Public {
 
 		$upload_dir = wp_upload_dir();
 		$file_path = $upload_dir['basedir'] . '/protected/' . $resume->file;
-		$file_url = $upload_dir['baseurl'] . '/protected/' . $resume->file;
 
 		if (!file_exists($file_path)) {
 			wp_send_json_error('Datei nicht gefunden.');
 		}
+
+		$file_url = add_query_arg(
+			[
+				'download_file' => $resume_id,
+			],
+			home_url()
+		);
 
 		wp_send_json_success(['file_url' => $file_url]);
 }
