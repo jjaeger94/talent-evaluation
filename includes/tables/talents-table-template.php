@@ -6,6 +6,7 @@
                 <th>Telefonnummer</th>
                 <th>PLZ</th>
                 <th>Ref</th>
+                <th>Teilzeit erwünscht</th>
                 <th>Status</th>
                 <th>Talentdetails</th>
             </tr>
@@ -17,6 +18,7 @@
                     <td><?php echo esc_html($talent->mobile); ?></td>
                     <td><?php echo esc_html($talent->post_code); ?></td>
                     <td><?php echo esc_html($talent->ref); ?></td>
+                    <td><?php echo $talent->part_time ? 'Ja' : 'Nein'; ?></td>
                     <td><?php echo esc_html(get_talent_state($talent)); ?></td>
                     <td><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>">Details</a></td>
                 </tr>
