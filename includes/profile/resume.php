@@ -7,6 +7,9 @@
                 <label for="resume">Lebenslauf ersetzen:</label>
             <?php endif ?>
             <input type="file" id="resume" name="resume" class="form-control-file">
+            <?php if(!empty($resumes) && is_array($resumes) && isset($resumes[0])): ?>
+                <p>Letzter Upload: <?php echo date('d.m.Y H:i', strtotime($resumes[0]['added'])); ?></p>
+            <?php endif ?>
         </div>
         <div class="wrap mt-3">
             <span id="resume-result"></span>

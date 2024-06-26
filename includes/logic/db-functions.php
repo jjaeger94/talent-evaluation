@@ -13,7 +13,7 @@ function get_uploaded_resumes_for_talent($talent_id) {
     global $wpdb;
     $resumes_table = $wpdb->prefix . 'te_resumes';
     $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $resumes_table WHERE talent_id = %d",
+        "SELECT * FROM $resumes_table WHERE talent_id = %d ORDER BY added DESC",
         $talent_id
     ), ARRAY_A);
     return $results;
