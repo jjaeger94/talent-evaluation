@@ -715,6 +715,8 @@ class Talent_Evaluation_Public {
 			'%s',
 			'%s',
 			'%s',
+			'%s',
+			'%s',
 			'%d',
 			'%d',
 			'%d',
