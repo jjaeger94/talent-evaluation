@@ -6,7 +6,7 @@
                 <th>Nachname</th>
                 <th>Matching</th>
                 <th>Talentdetails</th>
-                <th>Teilzeit erwünscht</th>
+                <th>Teilzeit</th>
                 <th>Aktionen</th>
             </tr>
         </thead>

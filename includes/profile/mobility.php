@@ -18,5 +18,5 @@
 </div>
 <div class="form-check mb-3">
     <input class="form-check-input" type="checkbox" id="part_time" name="part_time" <?php echo $talent->part_time ? 'checked' : ''; ?>>
-    <label class="form-check-label" for="part_time">Teilzeit gewünscht</label>
+    <label class="form-check-label" for="part_time">nur Teilzeit</label>
 </div>

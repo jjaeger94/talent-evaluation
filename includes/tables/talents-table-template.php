@@ -6,7 +6,7 @@
                 <th>Telefonnummer</th>
                 <th>PLZ</th>
                 <th>Ref</th>
-                <th>Teilzeit erwünscht</th>
+                <th>Teilzeit</th>
                 <th>Status</th>
                 <th>Talentdetails</th>
             </tr>
