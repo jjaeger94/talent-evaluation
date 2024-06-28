@@ -1,6 +1,6 @@
 <form id="talentDetailForm" method="post">
 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
-<p class="card-title"><strong>Persöhnliche Daten:</strong></p>
+<p class="card-title"><strong>Persönliche Daten:</strong></p>
     <div class="form-group mb-3">
         <label for="prename">Vorname:</label>
         <input type="text" class="form-control" id="prename" name="prename" value="<?php echo $talent->prename; ?>">
