@@ -53,7 +53,7 @@ function send_register_again($talent){
     $message = ob_get_clean();
     
     // Sende die E-Mail
-    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent->email, $subject, $message, $headers)){
+    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent, $subject, $message, $headers)){
         log_event(1, 'Email für Registrierung wurde erneut verschickt', $talent->ID);
         return $registration_link;
     }else{
@@ -77,7 +77,7 @@ function send_missed_call($talent, $new_member){
     $message = ob_get_clean();
     
     // Sende die E-Mail
-    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent->email, $subject, $message, $headers)){
+    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent, $subject, $message, $headers)){
         log_event(2, 'Email mit Nachricht zum Erstgespräch und Registrierungslink wurde verschickt', $talent->ID);
     }else{
         log_event(2, 'Erstgespräch und Registrierungslink versenden fehlgeschlagen', $talent->ID);
@@ -99,7 +99,7 @@ function send_new_job_mail($talent, $count){
         $message = ob_get_clean();
         
         // Sende die E-Mail
-        if(send_mail_to_talent(NOTIFICATION_NEW_JOBS, $talent->email, $subject, $message, $headers)){
+        if(send_mail_to_talent(NOTIFICATION_NEW_JOBS, $talent, $subject, $message, $headers)){
             log_event(3, 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent->ID);
         }else{
             log_event(3, 'Offene Stellen versenden fehlgeschlagen', $talent->ID);
