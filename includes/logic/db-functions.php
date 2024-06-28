@@ -1,4 +1,14 @@
 <?php
+function get_talent_by_email($email){
+    global $wpdb;
+    $query = $wpdb->prepare("
+        SELECT *
+        FROM {$wpdb->prefix}te_talents
+        WHERE email = %s
+    ", $email);
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
+}
 function get_file_by_id($id){
     global $wpdb;
     $query = $wpdb->prepare( "

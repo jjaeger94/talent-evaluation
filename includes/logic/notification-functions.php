@@ -1,4 +1,39 @@
 <?php
+
+// Benachrichtigungen als Bitmasken definieren
+define('NOTIFICATION_REGISTRATION', 1 << 0); // 1
+define('NOTIFICATION_NEW_JOBS', 1 << 1); // 2
+
+function update_talent_notifications_by_email($email, $notifications) {
+    global $wpdb;
+    $query = $wpdb->prepare("
+        UPDATE {$wpdb->prefix}te_talents
+        SET notifications = %d
+        WHERE email = %s
+    ", $notifications, $email);
+    
+    return $wpdb->query($query);
+}
+
+function has_notification($notifications, $notification_type) {
+    return ($notifications & $notification_type) != 0;
+}
+
+function remove_notification($notifications, $notification_type) {
+    return $notifications & ~$notification_type;
+}
+
+function add_notification($notifications, $notification_type) {
+    return $notifications | $notification_type;
+}
+
+function send_mail_to_talent($notification_type, $talent, $subject, $message, $headers, $force = false){
+    if($force || has_notification($talent->notifications, $notification_type)){
+        return wp_mail($talent->email, $subject, $message, $headers);
+    }
+    return false;
+}
+
 function send_register_again($talent){
     $settings = SwpmSettings::get_instance();
     $link_for = 'one';
@@ -18,9 +53,14 @@ function send_register_again($talent){
     $message = ob_get_clean();
     
     // Sende die E-Mail
-    wp_mail($talent->email, $subject, $message, $headers);
-    log_event(1, 'Email für Registrierung wurde erneut verschickt', $talent->ID);
-    return $registration_link;
+    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent->email, $subject, $message, $headers)){
+        log_event(1, 'Email für Registrierung wurde erneut verschickt', $talent->ID);
+        return $registration_link;
+    }else{
+        log_event(1, 'Registrierungsmail konnte nicht verschickt werden', $talent->ID);
+        return 'versenden Fehlgeschlagen';
+    }
+    
 }
 
 function send_missed_call($talent, $new_member){
@@ -37,8 +77,12 @@ function send_missed_call($talent, $new_member){
     $message = ob_get_clean();
     
     // Sende die E-Mail
-    wp_mail($talent->email, $subject, $message, $headers);
-    log_event(2, 'Email mit Nachricht zum Erstgespräch und Registrierungslink wurde verschickt', $talent->ID);
+    if(send_mail_to_talent(NOTIFICATION_REGISTRATION, $talent->email, $subject, $message, $headers)){
+        log_event(2, 'Email mit Nachricht zum Erstgespräch und Registrierungslink wurde verschickt', $talent->ID);
+    }else{
+        log_event(2, 'Erstgespräch und Registrierungslink versenden fehlgeschlagen', $talent->ID);
+    }
+    
 }
 
 function send_new_job_mail($talent, $count){
@@ -55,8 +99,12 @@ function send_new_job_mail($talent, $count){
         $message = ob_get_clean();
         
         // Sende die E-Mail
-        wp_mail($talent->email, $subject, $message, $headers);
-        log_event(3, 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent->ID);
+        if(send_mail_to_talent(NOTIFICATION_NEW_JOBS, $talent->email, $subject, $message, $headers)){
+            log_event(3, 'Mail mit '.$count.' offenen Stellen wurde gesendet', $talent->ID);
+        }else{
+            log_event(3, 'Offene Stellen versenden fehlgeschlagen', $talent->ID);
+        }
+        
     }
 }
 

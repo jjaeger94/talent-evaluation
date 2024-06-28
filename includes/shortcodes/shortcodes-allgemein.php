@@ -6,6 +6,20 @@
         add_shortcode('logout_button', 'render_logout_button');
         add_shortcode( 'application_button', 'render_application_button' );
         add_shortcode( 'footer_button', 'render_footer_button' );
+        add_shortcode( 'unsubscribe', 'render_unsubscribe' );
+    }
+
+    function render_unsubscribe(){
+        $email = isset($_GET['email']) ? sanitize_text_field($_GET['email']) : null;
+        if($email){
+            $talent = get_talent_by_email($email);
+            if($talent){
+                ob_start();
+                include TE_DIR.'mails/unsubscribe.php';
+                return ob_get_clean();
+            } 
+        }
+        return "<p> Ungültige Anfrage </p>";
     }
 
     function render_application_button() {

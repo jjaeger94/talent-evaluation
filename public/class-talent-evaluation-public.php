@@ -88,11 +88,47 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('reactivate_job');
 		$this->add_public_request('upload_resume');
 		$this->add_public_request('download_resume');
+		$this->add_public_request('save_notifications');
 	}
 
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function save_notifications(){
+		$email = isset($_POST['email']) ? sanitize_text_field($_POST['email']) : null;
+		if(!$email){
+			wp_send_json_error('ungültige Anfrage');
+		}
+		$talent = get_talent_by_email($email);
+		if(!$talent){
+			wp_send_json_error('ungültige Anfrage');
+		}
+		$notifications = 255;
+
+		// Benachrichtigungseinstellungen aus dem Formular aktualisieren
+		if (isset($_POST['registration'])) {
+			$notifications = add_notification($notifications, NOTIFICATION_REGISTRATION);
+		} else {
+			$notifications = remove_notification($notifications, NOTIFICATION_REGISTRATION);
+		}
+
+		if (isset($_POST['new_jobs'])) {
+			$notifications = add_notification($notifications, NOTIFICATION_NEW_JOBS);
+		} else {
+			$notifications = remove_notification($notifications, NOTIFICATION_NEW_JOBS);
+		}
+
+		$result = update_talent_notifications_by_email($email, $notifications);
+
+		if ($result !== false) {
+			log_event(6, 'Benachrichtigung anpassen erfolgreich', $talent->ID);
+			wp_send_json_success('Einstellungen gespeichert!');
+		} else {
+			log_event(6, 'Benachrichtigung anpassen fehlgeschlagen', $talent->ID);
+			wp_send_json_error('Fehler beim Speichern der Einstellungen.');
+		}
 	}
 
 	// Ajax-Handler für den Dateidownload

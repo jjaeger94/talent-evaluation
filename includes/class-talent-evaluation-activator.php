@@ -185,6 +185,7 @@ class Talent_Evaluation_Activator
             if ($wpdb->get_var("SHOW TABLES LIKE '{$talents}'") != $talents) {
                 $sql = "CREATE TABLE  $talents(
 					ID INT NOT  NULL AUTO_INCREMENT ,
+                    notifications INT UNSIGNED NOT NULL DEFAULT 255
                     member_id INT,
                     school INT,
                     mobility INT,
