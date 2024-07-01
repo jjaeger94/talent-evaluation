@@ -41,6 +41,8 @@
 <script>
     jQuery(document).ready(function($) {
 
+        let state = '<?php echo $state; ?>'
+
         $("#user-message-input").focus(function(){
             window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() +50);
         });
@@ -74,7 +76,7 @@
                             if(data.state === 'success') {
                                 $('#chat-form').hide();
                                 $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>')
-                                $('#talentFormModal').show();
+                                $('#talentFormModal').modal('show');
                             } else if(data.state === 'failed') {
                                 $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
                                 $('#testResultModal').modal('show');
@@ -104,5 +106,9 @@
                 }, 1000);
             }
         });
+
+        if(state == 'success'){
+            $('#talentFormModal').modal('show');
+        }
     });
 </script>

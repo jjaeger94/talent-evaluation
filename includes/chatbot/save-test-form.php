@@ -66,7 +66,7 @@ jQuery(document).ready(function($) {
                 // Erfolgreiche Verarbeitung
                 console.log(response);
                 if(response.success){
-                    $('#talentFormModal').hide();
+                    $('#talentFormModal').modal('hide');
                 }
                 // Hier können Sie je nach Bedarf weitere Aktionen ausführen
             },
