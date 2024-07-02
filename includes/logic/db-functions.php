@@ -13,7 +13,7 @@ function get_file_by_id($id){
     global $wpdb;
     $query = $wpdb->prepare( "
         SELECT *
-        FROM {$wpdb->prefix}te_resumes
+        FROM {$wpdb->prefix}te_documents
         WHERE ID = {$id}
     ");
     // Bewerbungsdetails abrufen
@@ -21,9 +21,9 @@ function get_file_by_id($id){
 }
 function get_uploaded_resumes_for_talent($talent_id) {
     global $wpdb;
-    $resumes_table = $wpdb->prefix . 'te_resumes';
+    $documents_table = $wpdb->prefix . 'te_documents';
     $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $resumes_table WHERE talent_id = %d ORDER BY added DESC",
+        "SELECT * FROM $documents_table WHERE talent_id = %d AND type = 1 ORDER BY added DESC",
         $talent_id
     ), ARRAY_A);
     return $results;
@@ -31,13 +31,14 @@ function get_uploaded_resumes_for_talent($talent_id) {
 
 function save_resume_path($talent_id, $filename) {
     global $wpdb;
-    $resumes_table = $wpdb->prefix . 'te_resumes';
+    $documents_table = $wpdb->prefix . 'te_documents';
 
     $wpdb->insert(
-        $resumes_table,
+        $documents_table,
         [
             'talent_id' => $talent_id,
-            'file' => $filename
+            'file' => $filename,
+            'type' => 1
         ],
         [
             '%d',

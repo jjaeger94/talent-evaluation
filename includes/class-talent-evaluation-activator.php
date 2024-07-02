@@ -326,11 +326,12 @@ class Talent_Evaluation_Activator
                 ) $charset_collate;";
                 dbDelta($sql);
             }
-            $resumes = $wpdb->prefix . 'te_resumes';
-            if ($wpdb->get_var("SHOW TABLES LIKE '{$resumes}'") != $resumes) {
-                $sql = "CREATE TABLE $resumes (
+            $documents = $wpdb->prefix . 'te_documents';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$documents}'") != $documents) {
+                $sql = "CREATE TABLE $documents (
                     ID INT AUTO_INCREMENT PRIMARY KEY,
                     talent_id INT NULL,
+                    type INT NOT NULL,
                     path VARCHAR(255) NOT NULL,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
