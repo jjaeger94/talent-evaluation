@@ -92,7 +92,21 @@
         </div>
     </div>
 </div>
-
+<!-- Modal für Consultation -->
+<div class="modal fade" id="consultationModal" tabindex="-1" role="dialog" aria-labelledby="consultationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultationModalLabel">Erstgespräch buchen</h5>
+                <button class="btn-close" id="consultation-btn-close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="calendly-inline-widget" data-url="https://calendly.com/jesse-grundke/kennenlernen-convii?text_color=454555&primary_color=a7a8cd" style="min-width:320px;height:700px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <script>
 jQuery(document).ready(function($) {
     $('#rating').on('input', function() {
@@ -102,7 +116,9 @@ jQuery(document).ready(function($) {
     $('#evaluation-btn-close').click(function() {
         $('#evaluationModal').modal('hide');
     });
-
+    $('#consultation-btn-close').click(function() {
+        $('#consultationModal').modal('hide');
+    });
     $('#info-btn-close').click(function() {
         $('#infoModal').modal('hide');
     });
@@ -119,7 +135,7 @@ jQuery(document).ready(function($) {
                 if (response.success) {
                     console.log('Success: ' + response.data);
                     $('#consultation').hide();
-                    $('#consultationResult').text('Danke für deine Anfrage, wir werden Dich in kürze kontaktieren.');
+                    $('#consultationModal').modal('show');
                 } else {
                     console.log('Error: ' + response.data);
                     $('#consultationResult').text('Ein fehler ist aufgetreten');
