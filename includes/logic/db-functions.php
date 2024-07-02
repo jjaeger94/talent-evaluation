@@ -29,7 +29,17 @@ function get_uploaded_resumes_for_talent($talent_id) {
     return $results;
 }
 
-function save_resume_path($talent_id, $filename) {
+function get_uploaded_documents_for_talent($talent_id) {
+    global $wpdb;
+    $documents_table = $wpdb->prefix . 'te_documents';
+    $results = $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM $documents_table WHERE talent_id = %d AND type = 1 ORDER BY added DESC",
+        $talent_id
+    ), ARRAY_A);
+    return $results;
+}
+
+function save_file_path($talent_id, $filename, $type) {
     global $wpdb;
     $documents_table = $wpdb->prefix . 'te_documents';
 
@@ -38,7 +48,7 @@ function save_resume_path($talent_id, $filename) {
         [
             'talent_id' => $talent_id,
             'file' => $filename,
-            'type' => 1
+            'type' => $type
         ],
         [
             '%d',

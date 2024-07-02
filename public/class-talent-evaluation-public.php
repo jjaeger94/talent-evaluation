@@ -144,12 +144,14 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Lebenslauf nicht gefunden.');
 		}
 
-		if (!has_edit_talent_permission($resume->talent_id)) {
+		$talent_id = $resume->talent_id;
+
+		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
 
 		$upload_dir = wp_upload_dir();
-		$file_path = $upload_dir['basedir'] . '/protected/' . $resume->file;
+		$file_path = $upload_dir['basedir'] . '/protected/' . $talent_id . '/' . $resume->file;
 
 		if (!file_exists($file_path)) {
 			wp_send_json_error('Datei nicht gefunden.');
@@ -181,23 +183,24 @@ class Talent_Evaluation_Public {
 		if (in_array($file_ext, $allowed_file_types)) {
 			$upload_dir = wp_upload_dir();
 			$protected_dir = $upload_dir['basedir'] . '/protected';
+			$talent_dir = $protected_dir. '/'. $talent_id;
 	
 			// Überprüfen, ob das Verzeichnis existiert, wenn nicht, erstelle es
 			if (!file_exists($protected_dir)) {
 				wp_mkdir_p($protected_dir);
 			}
+			if (!file_exists($talent_dir)) {
+				wp_mkdir_p($talent_dir);
+			}
 	
 			// Eindeutigen Dateinamen erstellen
-			$unique_filename = wp_unique_filename($protected_dir, $file['name']);
-			$target_file = $protected_dir . '/' . $unique_filename;
+			$unique_filename = wp_unique_filename($talent_dir, $file['name']);
+			$target_file = $talent_dir . '/' . $unique_filename;
 	
 			// Datei verschieben
-			if (move_uploaded_file($file['tmp_name'], $target_file)) {
-				// Talent-ID aus der POST-Anfrage holen
-				$talent_id = intval($_POST['talent_id']);
-	
+			if (move_uploaded_file($file['tmp_name'], $target_file)) {	
 				// Pfad in der Datenbank speichern
-				save_resume_path($talent_id, $unique_filename);
+				save_file_path($talent_id, $unique_filename, 1);
 				log_event(5, $unique_filename.' hochgeladen', $talent_id);
 				wp_send_json_success('Lebenslauf erfolgreich hochgeladen!');
 			} else {
