@@ -3,7 +3,7 @@
     <div class="col">
         <p class="card-text"><?php echo date("d.m.Y", strtotime($object->start_date)); ?></p>
     </div>
-    <?php if ($object->end_date != '9999-12-31') : ?>
+    <?php if ($object->end_date != '9999-12-31' && $object->end_date != '0000-00-00') : ?>
         <div class="col text-center"> - </div>
         <div class="col">
         <p class="card-text"><?php echo date("d.m.Y", strtotime($object->end_date)); ?></p>
