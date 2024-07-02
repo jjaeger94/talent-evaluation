@@ -226,20 +226,20 @@ class Talent_Evaluation_Loader {
 	public function serve_protected_file() {
 		if (isset($_GET['download_file'])) {
 	
-			$resume_id = intval($_GET['download_file']);
-			$resume = get_file_by_id($resume_id);
+			$document_id = intval($_GET['download_file']);
+			$document = get_file_by_id($document_id);
 			
-			if (!$resume) {
+			if (!$document) {
 				wp_die('Lebenslauf nicht gefunden.');
 			}
 
-			$talent_id = $resume->talent_id;
+			$talent_id = $document->talent_id;
 			if (!has_edit_talent_permission($talent_id)) {
 				wp_die('Keine Berechtigung');
 			}
 	
 			$upload_dir = wp_upload_dir();
-			$file = $upload_dir['basedir'] . '/protected/' . $talent_id .'/'. $resume->file;
+			$file = $upload_dir['basedir'] . '/protected/' . $talent_id .'/'. $document->file;
 	
 			if (!file_exists($file)) {
 				wp_die('Datei nicht gefunden: ' . $file);

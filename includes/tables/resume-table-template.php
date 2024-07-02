@@ -10,22 +10,22 @@
             <tr>
                 <td><?php echo esc_html($resume['file']); ?></td>
                 <td><?php echo esc_html($resume['added']); ?></td>
-                <td><button class="btn btn-secondary download-resume" data-resume-id="<?php echo esc_attr($resume['ID']); ?>">Herunterladen</button></td>
+                <td><button class="btn btn-secondary download-document" data-document-id="<?php echo esc_attr($resume['ID']); ?>">Herunterladen</button></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 <script>
 jQuery(document).ready(function($) {
-    $('.download-resume').on('click', function() {
-        var resume_id = $(this).data('resume-id');
+    $('.download-document').on('click', function() {
+        var document_id = $(this).data('document-id');
 
         $.ajax({
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
             type: 'POST',
             data: {
-                action: 'download_resume',
-                resume_id: resume_id
+                action: 'download_document',
+                document_id: document_id
             },
             success: function(response) {
                 if (response.success) {
