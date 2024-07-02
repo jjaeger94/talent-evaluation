@@ -101,7 +101,7 @@
                 <button class="btn-close" id="consultation-btn-close" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="calendly-inline-widget" data-url="https://calendly.com/jesse-grundke/kennenlernen-convii?text_color=454555&primary_color=a7a8cd" style="min-width:320px;height:700px;"></div>
+                <div class="calendly-inline-widget" data-url="https://calendly.com/jesse-grundke/kennenlernen-convii?name=<?php echo $talent->prename; ?>%20<?php echo $talent->surname; ?>&email=<?php echo $talent->email; ?>&text_color=454555&primary_color=a7a8cd" style="min-width:320px;height:700px;"></div>
             </div>
         </div>
     </div>
