@@ -14,7 +14,7 @@ function get_event_type($type) {
         2 => 'Registrierungsmail',
         3 => 'Offene Stellen',
         4 => 'Erstgespräch',
-        5 => 'Lebenslauf hochgeladen',
+        5 => 'Dokument hochgeladen',
         6 => 'Benachrichtigungen angepasst'
 
     ];
