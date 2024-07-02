@@ -22,7 +22,7 @@
 <?php if ($talent) : ?>
     <div class="container top-bar-margin">
         <?php include TE_DIR.'profile/personal-data.php'; ?>
-        <div class="alert alert-info mt-3">Lade deinen Lebenslauf hier hoch oder füge deine Infos manuell hinzu.</div>
+        <div class="alert alert-info mt-3">Lade deinen Lebenslauf hier hoch oder füge deine Infos weiter unten manuell hinzu.</div>
         <?php $docs = !empty($resumes) ? array($resumes[0]) : []; ?>
         <?php include TE_DIR.'tables/documents-table-template.php'; ?>
         <?php include TE_DIR.'profile/resume.php'; ?>
