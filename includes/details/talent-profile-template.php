@@ -23,7 +23,13 @@
     <div class="container top-bar-margin">
         <?php include TE_DIR.'profile/personal-data.php'; ?>
         <div class="alert alert-info mt-3">Lade deinen Lebenslauf hier hoch oder füge deine Infos manuell hinzu.</div>
+        <?php $docs = !empty($resumes) ? array($resumes[0]) : []; ?>
+        <?php include TE_DIR.'tables/documents-table-template.php'; ?>
         <?php include TE_DIR.'profile/resume.php'; ?>
+        <div class="alert alert-info mt-3">Außerdem kannst du hier weitere Dokumente wie Arbeitszeugnisse hinzufügen.</div>
+        <?php $docs = $documents; ?>
+        <?php include TE_DIR.'tables/documents-table-template.php'; ?>
+        <?php include TE_DIR.'profile/documents.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>
         <?php include TE_DIR.'profile/experience.php'; ?>

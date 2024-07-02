@@ -6,11 +6,13 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($resumes as $resume) : ?>
+        <?php foreach ($docs as $doc) : ?>
             <tr>
-                <td><?php echo esc_html($resume['file']); ?></td>
-                <td><?php echo esc_html($resume['added']); ?></td>
-                <td><button class="btn btn-secondary download-document" data-document-id="<?php echo esc_attr($resume['ID']); ?>">Herunterladen</button></td>
+                <td><?php echo esc_html($doc['file']); ?></td>
+                <td><?php echo esc_html($doc['added']); ?></td>
+                <?php if (has_service_permission()) : ?>
+                    <td><button class="btn btn-secondary download-document" data-document-id="<?php echo esc_attr($doc['ID']); ?>">Herunterladen</button></td>
+                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
     </tbody>

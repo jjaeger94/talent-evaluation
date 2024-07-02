@@ -33,7 +33,7 @@ function get_uploaded_documents_for_talent($talent_id) {
     global $wpdb;
     $documents_table = $wpdb->prefix . 'te_documents';
     $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $documents_table WHERE talent_id = %d AND type = 1 ORDER BY added DESC",
+        "SELECT * FROM $documents_table WHERE talent_id = %d AND type = 2 ORDER BY added DESC",
         $talent_id
     ), ARRAY_A);
     return $results;

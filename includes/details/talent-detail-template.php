@@ -15,8 +15,12 @@
         </button>
         <div class="collapse show" id="personalDataCollapse">
         <?php include TE_DIR.'profile/personal-data.php'; ?>
-        <?php include TE_DIR.'tables/resume-table-template.php'; ?>
+        <?php $docs = $resumes; ?>
+        <?php include TE_DIR.'tables/documents-table-template.php'; ?>
         <?php include TE_DIR.'profile/resume.php'; ?>
+        <?php $docs = $documents; ?>
+        <?php include TE_DIR.'tables/documents-table-template.php'; ?>
+        <?php include TE_DIR.'profile/documents.php'; ?>
         <?php include TE_DIR.'profile/apprenticeship.php'; ?>
         <?php include TE_DIR.'profile/studies.php'; ?>
         <?php include TE_DIR.'profile/experience.php'; ?>

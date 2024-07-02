@@ -1,21 +1,21 @@
-<form id="resumeForm" method="post" enctype="multipart/form-data" class="mb-4">
+<form id="documentForm" method="post" enctype="multipart/form-data" class="mb-4">
 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
-<input type="hidden" name="type" value="1">
+<input type="hidden" name="type" value="2">
         <div class="form-group">
-            <?php if(empty($resumes)): ?>
-                <label for="resume">Lebenslauf hochladen:</label>
+            <?php if(empty($documents)): ?>
+                <label for="document">Dokument hochladen:</label>
             <?php else: ?>
-                <label for="resume">Lebenslauf ersetzen:</label>
+                <label for="document">Dokument hinzufügen:</label>
             <?php endif ?>
-            <input type="file" id="resume" name="resume" class="form-control-file">
+            <input type="file" id="document" name="document" class="form-control-file">
         </div>
         <div class="wrap mt-3">
-            <span id="resume-result"></span>
+            <span id="document-result"></span>
         </div>
     </form>
 <script>
 jQuery(document).ready(function($) {
-    $('#resumeForm').change(function(e) {
+    $('#documentForm').change(function(e) {
         e.preventDefault(); // Verhindert das Standardformulareinreichungsverhalten
         if($('#talentDetailForm')[0]){
             $('#talentDetailForm').trigger('submit');
@@ -38,13 +38,13 @@ jQuery(document).ready(function($) {
                 if(response.success){
                     location.reload();
                 } else {
-                    $('#resume-result').text('Fehler: ' + response.data);
+                    $('#document-result').text('Fehler: ' + response.data);
                 }
             },
             error: function(xhr, status, error) {
                 // Fehlerbehandlung
                 console.error(error);
-                $('#resume-result').text('Ein Fehler ist aufgetreten.');
+                $('#document-result').text('Ein Fehler ist aufgetreten.');
             }
         });
     });

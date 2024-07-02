@@ -86,7 +86,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('remove_job');
 		$this->add_public_request('deactivate_job');
 		$this->add_public_request('reactivate_job');
-		$this->add_public_request('upload_resume');
+		$this->add_public_request('upload_document');
 		$this->add_public_request('download_document');
 		$this->add_public_request('save_notifications');
 	}
@@ -167,16 +167,24 @@ class Talent_Evaluation_Public {
 		wp_send_json_success(['file_url' => $file_url]);
 }
 
-	function upload_resume() {
-		if(!isset($_POST['talent_id'], $_FILES['resume'])){
-			wp_send_json_error('Ungültige Anfrage');
+	function upload_document() {
+		if(!isset($_POST['talent_id'], $_POST['type'])){
+			wp_send_json_error('Ungültige Anfrage 1');
 		}
 		$talent_id = intval($_POST['talent_id']);
 		if (!has_edit_talent_permission($talent_id)) {
 			wp_send_json_error('Keine Berechtigung');
 		}
-	
-		$file = $_FILES['resume'];
+
+		$type = intval($_POST['type']);
+		if($type == 1 && isset($_FILES['resume'])){
+			$file = $_FILES['resume'];
+		}else if($type == 2 && isset($_FILES['document'])){
+			$file  = $_FILES['document'];
+		}else{
+			wp_send_json_error('Ungültige Anfrage 2');
+		}
+
 		$allowed_file_types = ['pdf', 'doc', 'docx'];
 		$file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 	
@@ -200,7 +208,7 @@ class Talent_Evaluation_Public {
 			// Datei verschieben
 			if (move_uploaded_file($file['tmp_name'], $target_file)) {	
 				// Pfad in der Datenbank speichern
-				save_file_path($talent_id, $unique_filename, 1);
+				save_file_path($talent_id, $unique_filename, $type);
 				log_event(5, $unique_filename.' hochgeladen', $talent_id);
 				wp_send_json_success('Lebenslauf erfolgreich hochgeladen!');
 			} else {
