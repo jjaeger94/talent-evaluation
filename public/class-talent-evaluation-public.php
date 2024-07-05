@@ -277,6 +277,7 @@ class Talent_Evaluation_Public {
 	}
 
 	function activate_all_matchings() {
+		wp_send_json_error('Funktion deaktiviert');
 		if (!has_service_permission()) {
 			wp_send_json_error('Keine Berechtigung');
 		}
@@ -298,7 +299,6 @@ class Talent_Evaluation_Public {
 	
 		foreach ($jobs as $job) {
 			$job_id = intval($job->ID); // Annahme: Hier wird die Job-ID aus den zurückgegebenen Jobs extrahiert
-			$job_info = ''; // Hier könntest du ggf. zusätzliche Informationen übergeben, die du für jeden Job spezifizieren möchtest
 	
 			// Überprüfe, ob das Matching bereits existiert
 			$entry = get_matching_for_ids($talent_id, $job_id);
@@ -309,14 +309,12 @@ class Talent_Evaluation_Public {
 				// Prepare data arrays for insert and update
 				$data = array(
 					'job_id' => $job_id,
-					'talent_id' => $talent_id,
-					'job_info' => $job_info,
+					'talent_id' => $talent_id
 				);
 	
 				$format = array(
 					'%d',
-					'%d',
-					'%s'
+					'%d'
 				);
 	
 				// Füge das Matching hinzu
@@ -486,14 +484,12 @@ class Talent_Evaluation_Public {
 				wp_send_json_error('Keine Berechtigung');
 			}
 			$value = absint($_POST['matching']);
-			$job_info = isset($_POST['job_info']) ? wp_kses_post($_POST['job_info']) : '';
 
 			$table_name = $wpdb->prefix . 'te_matching';
 
 			// Daten zum Aktualisieren
 			$data = array(
-				'value' => $value,
-				'job_info' => $job_info
+				'value' => $value
 			);
 
 			// Bedingung für die Aktualisierung
@@ -526,7 +522,6 @@ class Talent_Evaluation_Public {
 		}
 		$talent_id = intval($_POST['talent_id']);
 		$job_id = intval($_POST['job_id']);
-		$job_info = isset($_POST['job_info']) ? wp_kses_post($_POST['job_info']) : '';
 		
 		// Überprüfe, ob die Frage existiert
 		$entry = get_matching_for_ids($talent_id, $job_id);
@@ -537,14 +532,12 @@ class Talent_Evaluation_Public {
 			// Prepare data arrays for insert and update
 			$data = array(
 				'job_id' => $job_id,
-				'talent_id' => $talent_id,
-				'job_info' => $job_info,
+				'talent_id' => $talent_id
 			);
 
 			$format = array(
 				'%d',
-				'%d',
-				'%s'
+				'%d'
 			);
 			// Fügen Sie einen neuen Job hinzu
 			$inserted = $wpdb->insert(

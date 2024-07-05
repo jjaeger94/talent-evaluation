@@ -83,6 +83,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Preferences',
+                'content' => '[preferences_talent]',
+                'slug' => 'preferences',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Matching Overview',
                 'content' => '[show_matchings]',
                 'slug' => 'matching-overview',
@@ -288,7 +294,20 @@ class Talent_Evaluation_Activator
                     job_id INT,
                     talent_id INT,
                     value INT NOT NULL DEFAULT 0 ,
-                    job_info TEXT,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (job_id) REFERENCES $jobs(ID),
+                    FOREIGN KEY (talent_id) REFERENCES $talents(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
+            $preferences = $wpdb->prefix . 'te_preferences';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$preferences}'") != $preferences) {
+                $sql = "CREATE TABLE $preferences (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    job_id INT,
+                    talent_id INT,
+                    value INT NOT NULL DEFAULT 0 ,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (job_id) REFERENCES $jobs(ID),

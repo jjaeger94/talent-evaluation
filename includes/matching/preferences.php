@@ -14,9 +14,9 @@
         <i class="fa fa-heart"></i>
     </div>
     <div class="swiper--cards">
-        <?php foreach ($matching as $index => $match) : ?>
-        <?php $job=get_job_by_id($match->job_id); ?>
-        <div class="swiper--card" data-matching-id="<?php echo $match->ID; ?>">
+        <?php foreach ($preferences as $index => $preference) : ?>
+        <?php $job=get_job_by_id($preference->job_id); ?>
+        <div class="swiper--card" data-preference-id="<?php echo $match->ID; ?>">
             <p><?php echo nl2br($job->job_info); ?></p>
             <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
         </div>
@@ -33,15 +33,11 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="infoModalLabel">So funktioniert das Matching:</h5>
+                <h5 class="modal-title" id="infoModalLabel">So funktionierts:</h5>
                 <button class="btn-close" id="info-btn-close" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Anonyme Stellenanzeigen:</strong> Alle Stellenangebote, die du bei uns findest, sind anonymisiert. Das bedeutet, dass wir die Stellen wertneutral wiedergeben und auf die wichtigen Aspekte der Position fokussieren. Auf diese Weise möchten wir sicherstellen, dass du dich vollständig auf die Inhalte und Anforderungen der Stellen konzentrieren kannst, ohne von Namen oder Marken beeinflusst zu werden.</p>
-
-                <p><strong>Swipe & Match:</strong> Du wirst verschiedene Stellenangebote sehen, die auf deine Profilangaben und Präferenzen abgestimmt sind. Mit einem einfachen Swipe nach rechts kannst du dein Interesse an einer Stelle bekunden, während ein Swipe nach links bedeutet, dass diese Position nicht deinen Vorstellungen entspricht.</p>
-
-                <p><strong>Bewertungen und Kommentare:</strong> Nach Durchsicht mehrerer Angebote kannst du deine Erfahrungen und Eindrücke bewerten. Dies hilft uns, den Matching-Prozess kontinuierlich zu verbessern und dir noch passendere Angebote zu präsentieren.</p>
+                <p><strong>Swipe & Match:</strong> Du wirst verschiedene Beispielstellen sehen. Mit einem einfachen Swipe nach rechts kannst du dein Interesse an einer Stelle bekunden, während ein Swipe nach links bedeutet, dass diese Position nicht deinen Vorstellungen entspricht. Durch deine Auswahl können wir echte Stellenangebote besser auf deine Wünsche abstimmen.</p>
             </div>
         </div>
     </div>
@@ -211,14 +207,14 @@ jQuery(document).ready(function($) {
 
     initCards();
 
-    function sendSwipeAction(matchingId, state) {
+    function sendSwipeAction(preferenceId, state) {
         $.ajax({
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
             type: 'POST',
             data: {
-                action: 'save_matching',
-                matching_id: matchingId,
-                matching: state
+                action: 'save_preference',
+                preference_id: preferenceId,
+                preference: state
             },
             success: function(response) {
                 if (response.success) {
@@ -275,9 +271,9 @@ jQuery(document).ready(function($) {
                 var rotate = xMulti * yMulti;
 
                 $(el).css('transform', 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)');
-                var matchingId = $(el).data('matching-id');
+                var preferenceId = $(el).data('preference-id');
                 var state = event.deltaX > 0 ? 2 : 1;
-                sendSwipeAction(matchingId, state);
+                sendSwipeAction(preferenceId, state);
                 initCards();
             }
         });
@@ -303,7 +299,7 @@ jQuery(document).ready(function($) {
             var card = cards.first();
 
             card.addClass('removed');
-            var matchingId = card.data('matching-id');
+            var preferenceId = card.data('preference-id');
             var state = love ? 2 : 1;
             if (love) {
 
@@ -312,7 +308,7 @@ jQuery(document).ready(function($) {
                 card.css('transform', 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)');
             }
 
-            sendSwipeAction(matchingId, state);
+            sendSwipeAction(preferenceId, state);
             initCards();
 
             event.preventDefault();

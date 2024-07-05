@@ -18,20 +18,12 @@
                         </option>
                     </select>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="job_info"><strong>Personalisierte Job Beschreibung</strong></label>
-                    <textarea rows="3" class="form-control" id="job_info" name="job_info"><?php echo isset($matching->job_info) ? esc_attr($matching->job_info) : ''; ?></textarea>
-                </div>
             </form>
             <button form="matchingForm" type="submit" class="btn btn-primary">Speichern</button>
         <?php else: ?>
             <form id="activateMatchingForm" method="post">
                 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                 <input type="hidden" name="job_id" value="<?php echo $job->ID; ?>">
-                <div class="form-group mb-3">
-                    <label for="notes"><strong>Personalisierte Job Beschreibung</strong></label>
-                    <textarea rows="3" class="form-control" id="job_info" name="job_info"></textarea>
-                </div>
                 <button type="submit" class="btn btn-primary">Matching beginnen</button>
             </form>
         <?php endif; ?>

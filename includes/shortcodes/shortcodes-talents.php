@@ -10,7 +10,32 @@ function register_shortcodes_talents() {
         add_shortcode('get_game_image', 'render_game_image');
         add_shortcode('landing_page_talent', 'render_talent_page');
         add_shortcode('matching_talent', 'render_matching_page');
+        add_shortcode('preferences_talent', 'render_preferences_page');
         add_shortcode('profile_talent', 'render_talent_page');
+}
+
+function render_preferences_page(){
+     ob_start();
+     $auth = SwpmAuth::get_instance();
+     if ($auth->is_logged_in()) {
+          $member_id = SwpmMemberUtils::get_logged_in_members_id();
+          // Überprüfen, ob Bewerbungsdetails vorhanden sind
+          $talent = get_talent_by_member_id($member_id);
+          // Überprüfen, ob das Talent gefunden wurde
+          if ($talent) {
+               $preferences = get_preferences_for_talent_id($talent->ID);
+              // Abfrage, um den Chatverlauf abzurufen
+              ob_start(); // Puffer starten
+              include TE_DIR.'details/talent-preferences-template.php'; // Pfad zur Datei mit dem Test-Formular
+              return ob_get_clean(); 
+          } else {
+              // Talent nicht gefunden
+              return '<p>ID nicht gefunden.</p>';
+          }
+     } else {
+          include TE_DIR.'swpm/login.php';
+     }
+     return ob_get_clean();
 }
 
 function render_matching_page(){

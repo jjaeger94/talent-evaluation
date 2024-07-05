@@ -197,6 +197,23 @@ function get_active_matching_for_talent_id($talent_id){
     return $wpdb->get_results($query);
 }
 
+function get_preferences_for_talent_id($talent_id){
+    global $wpdb;
+    $preferences_table = $wpdb->prefix . 'te_preferences';
+    $jobs_table = $wpdb->prefix . 'te_jobs';
+
+    $query = $wpdb->prepare("
+        SELECT m.*
+        FROM {$preferences_table} m
+        INNER JOIN {$jobs_table} j ON m.job_id = j.ID
+        WHERE m.talent_id = %d
+        AND m.value = 0
+        AND j.state = 1
+    ", $talent_id);
+
+    return $wpdb->get_results($query);
+}
+
 function get_positive_matching_count_for_job_id($job_id){
     global $wpdb;
     $matching_table = $wpdb->prefix . 'te_matching';
