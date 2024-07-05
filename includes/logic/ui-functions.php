@@ -84,9 +84,14 @@ function get_talent_state($talent){
 
 function get_matching_state($type) {
     $types = [
-        0 => 'Noch nicht bearbeitet',
-        1 => 'Negativ',
-        2 => 'Positiv'
+        0 => 'Vorgemerkt',
+        1 => 'Unternehmen kontaktiert',
+        2 => 'Profil verschickt',
+        3 => 'Kennenlerngespräch angefordert',
+        4 => 'Kennenlerngespräch geplant',
+        5 => 'Vetrag unterschrieben',
+        6 => 'Provision erhalten',
+        99 => 'Abgelehnt'
     ];
 
     return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
