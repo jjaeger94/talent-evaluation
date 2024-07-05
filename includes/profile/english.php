@@ -5,6 +5,5 @@
     <option value="1" <?php echo ($talent->english == 1) ? 'selected' : ''; ?> ><?php echo get_english_level(1); ?></option>
     <option value="2" <?php echo ($talent->english == 2) ? 'selected' : ''; ?> ><?php echo get_english_level(2); ?></option>
     <option value="3" <?php echo ($talent->english == 3) ? 'selected' : ''; ?> ><?php echo get_english_level(3); ?></option>
-    <option value="4" <?php echo ($talent->english == 4) ? 'selected' : ''; ?> ><?php echo get_english_level(4); ?></option>
     </select>
 </div>
