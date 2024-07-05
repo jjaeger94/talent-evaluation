@@ -61,7 +61,6 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_talent');
 		$this->add_public_request('remove_talent');
 		$this->add_public_request('save_talent_details');
-		$this->add_public_request('add_school');
 		$this->add_public_request('edit_apprenticeship');
 		$this->add_public_request('edit_study');
 		$this->add_public_request('edit_experience');
@@ -731,6 +730,7 @@ class Talent_Evaluation_Public {
 		$job_url = isset($_POST['job_url']) ? sanitize_text_field($_POST['job_url']) : '';
 		$post_code = isset($_POST['post_code']) ? sanitize_text_field($_POST['post_code']) : null;
 		$school = isset($_POST['school']) ? intval($_POST['school']) : null;
+		$english = isset($_POST['english']) ? intval($_POST['english']) : null;
 		$mobility = isset($_POST['mobility']) ? intval($_POST['mobility']) : null;
 		$license = filter_var($_POST['license'], FILTER_VALIDATE_BOOLEAN);
 		$home_office = filter_var($_POST['home_office'], FILTER_VALIDATE_BOOLEAN);
@@ -747,6 +747,7 @@ class Talent_Evaluation_Public {
 			'link' => $job_url,
 			'post_code' => $post_code,
 			'school' => $school,
+			'english' => $english,
 			'mobility' => $mobility,
 			'license' => $license,
 			'home_office' => $home_office,
@@ -769,7 +770,9 @@ class Talent_Evaluation_Public {
 			'%d',
 			'%d',
 			'%d',
+			'%d',
 			'%d'
+
 		);
 		$format = array_slice($format, 0, count($data)); // Adjust format array length
 	
@@ -943,12 +946,6 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Talent nicht gefunden');
 		}
 		global $wpdb;
-
-		$wpdb->delete(
-			$wpdb->prefix . 'te_school',
-			array('talent_id' => $talent_id),
-			array('%d')
-		);
 		$wpdb->delete(
 			$wpdb->prefix . 'te_experiences',
 			array('talent_id' => $talent_id),
@@ -1445,56 +1442,10 @@ class Talent_Evaluation_Public {
 		// Erfolgsantwort senden
 		wp_send_json_success('Ausbildung erfolgreich aktualisiert/hinzugefügt');
 	}
-	
-
-	function add_school(){
-		// Überprüfen, ob die erforderlichen Daten übergeben wurden
-		if(isset($_POST['degree']) && isset($_POST['talent_id'])) {
-			$talent_id = intval($_POST['talent_id']);
-			if (!has_edit_talent_permission($talent_id)) {
-				wp_send_json_error('Keine Berechtigung');
-			}
-			global $wpdb;
-			
-			// Daten vorbereiten
-			$degree = intval($_POST['degree']);
-	
-			// Überprüfen, ob eine school_id übergeben wurde
-			if(isset($_POST['school_id'])) {
-				// Wenn eine school_id übergeben wurde, aktualisieren Sie den vorhandenen Eintrag
-				$school_id = intval($_POST['school_id']);
-				$wpdb->update(
-					$wpdb->prefix . 'te_school',
-					array('degree' => $degree),
-					array('ID' => $school_id),
-					array('%d'),
-					array('%d')
-				);
-				wp_send_json_success('Schulabschluss erfolgreich aktualisiert');
-			} else {
-				// Wenn keine school_id übergeben wurde, fügen Sie einen neuen Eintrag hinzu
-				$wpdb->insert(
-					$wpdb->prefix . 'te_school',
-					array(
-						'talent_id' => $talent_id,
-						'degree' => $degree
-					),
-					array('%d', '%d')
-				);
-				wp_send_json_success('Neuer Schulabschluss erfolgreich hinzugefügt');
-			}
-		} else {
-			// Wenn nicht alle erforderlichen Daten übergeben wurden, senden Sie eine Fehlermeldung zurück
-			wp_send_json_error('Nicht alle erforderlichen Daten übergeben');
-		}
-	
-		wp_die();
-	}
-	
 
 	function save_talent_details(){
 
-		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['availability'], $_POST['post_code'], $_POST['school'])) {
+		if (isset($_POST['talent_id'], $_POST['prename'], $_POST['surname'], $_POST['email'], $_POST['mobile'], $_POST['availability'], $_POST['post_code'], $_POST['school'], $_POST['english'])) {
 			$talent_id = intval($_POST['talent_id']);
 			if (!has_edit_talent_permission($talent_id)) {
 				wp_send_json_error('Keine Berechtigung');
@@ -1510,6 +1461,7 @@ class Talent_Evaluation_Public {
 			$part_time = filter_var($_POST['part_time'], FILTER_VALIDATE_BOOLEAN);
 			$mobility = absint($_POST['mobility']);
 			$school = absint($_POST['school']);
+			$english = absint($_POST['english']);
 			global $wpdb;
 			// Tabellenname für Bewerbungen
 			$table_name = $wpdb->prefix . 'te_talents';
@@ -1526,7 +1478,8 @@ class Talent_Evaluation_Public {
 				'license' => $license,
 				'home_office' => $home_office,
 				'part_time' => $part_time,
-				'school' => $school
+				'school' => $school,
+				'english' => $english
 			);
 
 			// Bedingung für die Aktualisierung

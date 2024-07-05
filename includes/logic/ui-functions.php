@@ -92,6 +92,16 @@ function get_matching_state($type) {
     return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
 }
 
+function get_english_level($type){
+    $types = [
+        0 => 'Nicht vorhanden',
+        1 => 'Grundkenntnisse',
+        2 => 'konversationsfähig',
+        3 => 'fließend'
+    ];
+
+    return isset($types[$type]) ? $types[$type] : 'Nicht vorhanden';
+}
 function get_school_degree($type) {
     $types = [
         0 => 'Kein Abschluss',

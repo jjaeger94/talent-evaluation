@@ -32,6 +32,7 @@
     </div>
     <?php include 'mobility.php'; ?>
     <?php include 'school.php'; ?>
+    <?php include 'english.php'; ?>
 </form>
 <button form="talentDetailForm" type="submit" class="btn btn-primary mt-2">Basisdaten speichern</button>
 <div class="wrap">

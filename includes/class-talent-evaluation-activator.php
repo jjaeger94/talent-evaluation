@@ -189,6 +189,7 @@ class Talent_Evaluation_Activator
                     member_id INT,
                     school INT,
                     mobility INT,
+                    english INT,
                     license TINYINT(1),
                     home_office TINYINT(1),
                     part_time TINYINT(1),
