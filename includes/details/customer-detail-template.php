@@ -4,8 +4,10 @@ if(!isset($_GET['add']) || $_GET['add'] == false):
 global $wpdb;
 $jobs_table = $wpdb->prefix . 'te_jobs';
 $matching_table = $wpdb->prefix . 'te_matching';
+$customers_table = $wpdb->prefix . 'te_customers';
 $jobs = $wpdb->get_results($wpdb->prepare("
-SELECT j.*, 
+SELECT j.*,
+c.company_name,
 (
     SELECT COUNT(*)
     FROM {$matching_table} m
@@ -13,6 +15,7 @@ SELECT j.*,
     AND m.value = 2
 ) AS positive_matching_count
 FROM {$jobs_table} j
+JOIN {$customers_table} c ON j.customer_id = c.ID
 WHERE customer_id = %d
 ",$id));
 ?>
