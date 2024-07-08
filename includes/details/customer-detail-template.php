@@ -4,20 +4,38 @@ if(!isset($_GET['add']) || $_GET['add'] == false):
 global $wpdb;
 $jobs_table = $wpdb->prefix . 'te_jobs';
 $matching_table = $wpdb->prefix . 'te_matching';
+$preference_table = $wpdb->prefix . 'te_preferences';
 $customers_table = $wpdb->prefix . 'te_customers';
-$jobs = $wpdb->get_results($wpdb->prepare("
-SELECT j.*,
-c.company_name,
-(
-    SELECT COUNT(*)
-    FROM {$matching_table} m
-    WHERE m.job_id = j.ID
-    AND m.value BETWEEN 0 AND 10
-) AS positive_matching_count
-FROM {$jobs_table} j
-JOIN {$customers_table} c ON j.customer_id = c.ID
-WHERE customer_id = %d
-",$id));
+if($id == 1){
+    $jobs = $wpdb->get_results($wpdb->prepare("
+    SELECT j.*,
+    c.company_name,
+    (
+        SELECT COUNT(*)
+        FROM {$preference_table} p
+        WHERE p.job_id = j.ID
+        AND p.value = 1
+    ) AS positive_matching_count
+    FROM {$jobs_table} j
+    JOIN {$customers_table} c ON j.customer_id = c.ID
+    WHERE customer_id = %d
+    ",$id));
+}else{
+    $jobs = $wpdb->get_results($wpdb->prepare("
+    SELECT j.*,
+    c.company_name,
+    (
+        SELECT COUNT(*)
+        FROM {$matching_table} m
+        WHERE m.job_id = j.ID
+        AND m.value BETWEEN 0 AND 10
+    ) AS positive_matching_count
+    FROM {$jobs_table} j
+    JOIN {$customers_table} c ON j.customer_id = c.ID
+    WHERE customer_id = %d
+    ",$id));
+}
+
 ?>
 <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#editCustomerCollapse" aria-expanded="true" aria-controls="editCustomerCollapse">
     Kunden bearbeiten
