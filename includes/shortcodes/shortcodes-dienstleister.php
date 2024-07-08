@@ -253,8 +253,13 @@
                         array_push($talents, $result);
                     }else if($selected_state == 'waiting' && $result->member_id && !SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')){
                         array_push($talents, $result);
-                    }else if($selected_state == 'registered' && $result->member_id && SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')){
-                        array_push($talents, $result);
+                    }else{
+                        $matching_count = get_active_matching_count_for_talent_id($result->ID);
+                        if($selected_state == 'registered' && $result->member_id && SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name') && $matching_count == 0){
+                            array_push($talents, $result);
+                        }else if($selected_state == 'in_progress' && $result->member_id && SwpmMemberUtils::get_member_field_by_id($result->member_id, 'user_name')  && $matching_count > 0){
+                            array_push($talents, $result);
+                        }
                     }
                 }
             }else{

@@ -126,7 +126,7 @@ function register_users(){
 function talent_evaluation_cronjob() {
     register_users();
     delete_unavailable_jobs();
-    remind_talents_for_open_jobs();
+    //remind_talents_for_open_jobs();
 
     // Speichere die aktuelle Zeit
     $current_time = current_time('mysql');

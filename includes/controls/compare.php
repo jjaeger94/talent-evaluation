@@ -7,14 +7,13 @@
                 <div class="form-group mb-3">
                     <label for="matching"><strong>Matching Status</strong></label>
                     <select class="form-select" id="matching" name="matching">
-                        <option value="0" <?php echo (isset($matching->value) && $matching->value == 0) ? 'selected' : ''; ?>>
-                            <?php echo get_matching_state(0); ?>
-                        </option>
-                        <option value="1" <?php echo (isset($matching->value) && $matching->value == 1) ? 'selected' : ''; ?>>
-                            <?php echo get_matching_state(1); ?>
-                        </option>
-                        <option value="2" <?php echo (isset($matching->value) && $matching->value == 2) ? 'selected' : ''; ?>>
-                            <?php echo get_matching_state(2); ?>
+                        <?php for ($i = 0; $i <= 6; $i++) : ?>
+                            <option value="<?php echo $i; ?>" <?php echo (isset($matching->value) && $matching->value == $i) ? 'selected' : ''; ?>>
+                                <?php echo get_matching_state($i); ?>
+                            </option>
+                        <?php endfor; ?>
+                        <option value="99" <?php echo (isset($matching->value) && $matching->value == 99) ? 'selected' : ''; ?>>
+                            <?php echo get_matching_state(99); ?>
                         </option>
                     </select>
                 </div>

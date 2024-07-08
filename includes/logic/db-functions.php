@@ -240,7 +240,7 @@ function get_active_matching_count_for_talent_id($talent_id){
         FROM {$matching_table} m
         INNER JOIN {$jobs_table} j ON m.job_id = j.ID
         WHERE m.talent_id = %d
-        AND m.value = 0
+        AND m.value BETWEEN 0 AND 10
         AND j.state = 1
     ", $talent_id);
     return $wpdb->get_var($query);

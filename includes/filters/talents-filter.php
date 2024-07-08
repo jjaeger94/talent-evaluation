@@ -9,6 +9,7 @@
                 <option value="new" <?php echo ($selected_state == 'new') ? 'selected' : ''; ?>>Neu</option>
                 <option value="registered" <?php echo ($selected_state == 'registered') ? 'selected' : ''; ?>>Registriert</option>
                 <option value="waiting" <?php echo ($selected_state == 'waiting') ? 'selected' : ''; ?>>Warten</option>
+                <option value="in_progress" <?php echo ($selected_state == 'in_progress') ? 'selected' : ''; ?>>In bearbeitung</option>
             </select>
         </div>
         <div class="col-md-2 align-self-end">

@@ -5,7 +5,7 @@
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Matching</th>
-                <th>Talentdetails</th>
+                <th>Details</th>
                 <th>Teilzeit</th>
                 <th>Aktionen</th>
             </tr>

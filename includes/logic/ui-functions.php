@@ -74,7 +74,12 @@ function get_talent_state($talent){
     }else if($talent->member_id){
         $username = SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name');
         if($username){
-            return 'Registriert';
+            if(get_active_matching_count_for_talent_id($talent->ID) > 0){
+                return 'In bearbeitung';
+            }else{
+                return 'Registriert';
+            }
+            
         }else{
             return 'Warten';
         }
