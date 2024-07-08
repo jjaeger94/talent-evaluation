@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th>Stelle</th>
+                <th>Unternehmen</th>
                 <th>Status</th>
                 <th>Talentdetails</th>
                 <th>Aktionen</th>
@@ -12,6 +13,7 @@
             <?php foreach ($jobs as $job) : ?>
                 <tr>
                     <td><?php echo $job->job_title; ?></td>
+                    <td><?php echo isset($job->company) && $job->company != '' ? $job->company : $job->company_name; ?></td>
                     <td>
                         <span class="matching-status">
                             <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_matching_state($matching->value) : 'Nicht gestartet'; ?>

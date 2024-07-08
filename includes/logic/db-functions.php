@@ -366,9 +366,17 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
     $studies = $studies ? $studies : get_studies_by_talent_id($talent->ID);
     $experiences = $experiences ? $experiences :get_experiences_by_talent_id($talent->ID);
     $jobs_table = $wpdb->prefix . 'te_jobs';
+    $customers_table = $wpdb->prefix . 'te_customers';
 
     // Grundabfrage
-    $query = "SELECT * FROM $jobs_table WHERE school <= %d AND customer_id != 1";
+    $query = "
+        SELECT j.*, c.company_name
+        FROM {$jobs_table} j
+        JOIN {$customers_table} c ON j.customer_id = c.ID
+        WHERE j.school <= %d
+        AND j.customer_id != 1
+        AND j.state = 1
+    "; 
     //AND availability >= %d
 
     // Parameter für die Abfrage
@@ -376,17 +384,17 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
 
     // Zusätzliche Bedingungen für license und home_office
     if (!$talent->license) {
-        $query .= " AND license = %d";
+        $query .= " AND j.license = %d";
         $params[] = $talent->license;
     }
 
     // if ($talent->home_office) {
-    //     $query .= " AND home_office = %d";
+    //     $query .= " AND j.home_office = %d";
     //     $params[] = $talent->home_office;
     // }
 
     // if ($talent->part_time) {
-    //     $query .= " AND part_time = %d";
+    //     $query .= " AND j.part_time = %d";
     //     $params[] = $talent->part_time;
     // }
 
