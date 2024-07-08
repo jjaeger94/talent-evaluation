@@ -88,6 +88,11 @@ function delete_unavailable_jobs() {
                 // Job Deaktivieren wenn die Seite nicht verfügbar ist
                 change_job_state($job, 0);
             }
+        }else{
+            $response = wp_remote_get($url);
+            if (is_wp_error($response)) {
+                change_job_state($job, 0);
+            }
         }
     }
 }
