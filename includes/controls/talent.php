@@ -118,23 +118,25 @@ jQuery(document).ready(function($) {
     });
     $('#removeTalent').click(()=>{
         // AJAX-Anfrage senden
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: 'talent_id=<?php echo $talent->ID; ?>&action=remove_talent',
-            success: function(response) {
-                // Erfolgreiche Verarbeitung
-                console.log(response);
-                // Seite neu laden, um die aktualisierten Daten anzuzeigen
-                if(response.success){
-                    window.location.href = '<?php echo home_url('/talents/');?>';
+        if (confirm('Eintrag wirklich entfernen?')) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                data: 'talent_id=<?php echo $talent->ID; ?>&action=remove_talent',
+                success: function(response) {
+                    // Erfolgreiche Verarbeitung
+                    console.log(response);
+                    // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                    if(response.success){
+                        window.location.href = '<?php echo home_url('/talents/');?>';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Fehlerbehandlung
+                    console.error(error);
                 }
-            },
-            error: function(xhr, status, error) {
-                // Fehlerbehandlung
-                console.error(error);
-            }
-        });
+            });
+        }
     });
     $('#createUser').click(()=>{
         // AJAX-Anfrage senden
