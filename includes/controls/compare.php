@@ -5,7 +5,7 @@
             <form id="matchingForm" method="post">
                 <input type="hidden" name="matching_id" value="<?php echo $matching->ID; ?>">
                 <div class="form-group mb-3">
-                    <label for="matching"><strong>Matching Status</strong></label>
+                    <label for="matching"><strong>Status</strong></label>
                     <select class="form-select" id="matching" name="matching">
                         <?php for ($i = 0; $i <= 6; $i++) : ?>
                             <option value="<?php echo $i; ?>" <?php echo (isset($matching->value) && $matching->value == $i) ? 'selected' : ''; ?>>
@@ -16,6 +16,14 @@
                             <?php echo get_matching_state(99); ?>
                         </option>
                     </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="added"><strong>Hinzugefügt</strong></label>
+                    <input type="text" id="added" class="form-control" value="<?php echo date('d.m.Y H:i:s', strtotime($matching->added)); ?>" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="edited"><strong>Bearbeitet</strong></label>
+                    <input type="text" id="edited" class="form-control" value="<?php echo date('d.m.Y H:i:s', strtotime($matching->edited)); ?>" readonly>
                 </div>
             </form>
             <button form="matchingForm" type="submit" class="btn btn-primary">Speichern</button>
