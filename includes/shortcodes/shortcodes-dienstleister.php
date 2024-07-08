@@ -102,6 +102,7 @@
             $query = "
                 SELECT j.*, 
                     c.company_name,
+                    c.state AS company_state,
                     (
                         SELECT COUNT(*)
                         FROM {$matching_table} m
@@ -124,9 +125,9 @@
 
             // Übergeben Sie die Parameter an die prepare-Funktion
             if($selected_state >= 0){
-                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%', $selected_state));
+                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%', '%' . $wpdb->esc_like($notes) . '%', $selected_state));
             } else {
-                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%'));
+                $jobs = $wpdb->get_results($wpdb->prepare($query, '%' . $wpdb->esc_like($notes) . '%', '%' . $wpdb->esc_like($notes) . '%'));
             }
 
             // Filterformular einfügen
