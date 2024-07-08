@@ -3,21 +3,29 @@
 <input type="hidden" name="customer_id" value="<?php echo $customer->ID; ?>">
 <?php endif; ?>
 <div class="form-group mb-3">
-        <label for="company"><strong>Firmenname</strong></label>
-        <input type="text" class="form-control" id="company_name" name="company_name" value="<?php echo isset($customer->company_name) ? esc_attr($customer->company_name) : ''; ?>" required>
-    </div>
-    <div class="form-group mb-3">
-        <label for="email"><strong>Email</strong></label>
-        <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($customer->email) ? esc_attr($customer->email) : ''; ?>">
-    </div>
-    <div class="form-group mb-3">
-        <label for="prename"><strong>Vorname</strong></label>
-        <input type="text" class="form-control" id="prename" name="prename" value="<?php echo isset($customer->prename) ? esc_attr($customer->prename) : ''; ?>">
-    </div>
-    <div class="form-group mb-3">
-        <label for="surname"><strong>Nachname</strong></label>
-        <input type="text" class="form-control" id="surname" name="surname" value="<?php echo isset($customer->surname) ? esc_attr($customer->surname) : ''; ?>">
-    </div>
+    <label for="company"><strong>Firmenname</strong></label>
+    <input type="text" class="form-control" id="company_name" name="company_name" value="<?php echo isset($customer->company_name) ? esc_attr($customer->company_name) : ''; ?>" required>
+</div>
+<div class="form-group mb-3">
+    <label for="prename"><strong>Vorname</strong></label>
+    <input type="text" class="form-control" id="prename" name="prename" value="<?php echo isset($customer->prename) ? esc_attr($customer->prename) : ''; ?>">
+</div>
+<div class="form-group mb-3">
+    <label for="surname"><strong>Nachname</strong></label>
+    <input type="text" class="form-control" id="surname" name="surname" value="<?php echo isset($customer->surname) ? esc_attr($customer->surname) : ''; ?>">
+</div>
+<div class="form-group mb-3">
+    <label for="email"><strong>Email</strong></label>
+    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($customer->email) ? esc_attr($customer->email) : ''; ?>">
+</div>
+<div class="form-group mb-3">
+    <label for="mobile" class="form-label">Telefonnummer:</label>
+    <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="+4917123456789" pattern="^[0-9\+\-]+$" value="<?php echo isset($customer->mobile) ? esc_attr($customer->mobile) : ''; ?>">
+</div>
+<div class="form-group mb-3">
+    <label for="position"><strong>Position</strong></label>
+    <input type="text" class="form-control" id="position" name="position" value="<?php echo isset($customer->position) ? esc_attr($customer->position) : ''; ?>">
+</div>
     <button type="submit" class="btn btn-primary"><?php echo isset($customer->ID) ? 'Änderungen speichern' : 'Neuen Kunden anlegen'; ?></button>
 </form>
 <div id="form-message"></div>

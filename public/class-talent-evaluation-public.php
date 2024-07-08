@@ -821,6 +821,8 @@ class Talent_Evaluation_Public {
 		$prename = isset($_POST['prename']) ? sanitize_text_field($_POST['prename']) : null;
 		$surname = isset($_POST['surname']) ? sanitize_text_field($_POST['surname']) : null;
 		$email = isset($_POST['email']) ? sanitize_email($_POST['email']) : null;
+		$mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : null;
+		$position = isset($_POST['position']) ? sanitize_text_field($_POST['position']) : null;
 	
 		// Prepare data arrays for insert and update
 		$data = array(
@@ -842,6 +844,14 @@ class Talent_Evaluation_Public {
 		}
 		if (!is_null($email)) {
 			$data['email'] = $email;
+			$format[] = '%s';
+		}
+		if (!is_null($mobile)) {
+			$data['mobile'] = $mobile;
+			$format[] = '%s';
+		}
+		if (!is_null($position)) {
+			$data['position'] = $position;
 			$format[] = '%s';
 		}
 	

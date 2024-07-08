@@ -162,7 +162,9 @@ class Talent_Evaluation_Activator
                     company_name VARCHAR(255) NOT NULL,
 					prename VARCHAR(255),
 					surname VARCHAR(255),
-					email VARCHAR(255))
+					email VARCHAR(255),
+                    mobile VARCHAR(20),
+                    position VARCHAR(255))
 					$charset_collate;";
                 dbDelta($sql);
             }
