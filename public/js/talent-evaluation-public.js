@@ -27,6 +27,25 @@
 		$('.collapse').on('show.bs.collapse', function(){
 			// Collapse all sections except the one being shown
 			$('.collapse').not(this).collapse('hide');
+			// Add the ID of the collapse element to the URL
+			var collapseId = $(this).attr('id');
+			history.replaceState(null, null, '#' + collapseId);
+		});
+
+		// Check if there is a collapse ID in the URL
+		var hash = window.location.hash;
+		if (hash) {
+			var collapseElement = $(hash);
+			if (collapseElement.hasClass('collapse')) {
+				collapseElement.collapse('show');
+			}
+		}
+
+		// Update URL hash when a collapse element is hidden
+		$('.collapse').on('hide.bs.collapse', function() {
+			if (window.location.hash === '#' + $(this).attr('id')) {
+				history.replaceState(null, null, ' ');
+			}
 		});
 
 		setTimeout(function() {
