@@ -19,7 +19,7 @@
     <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($customer->email) ? esc_attr($customer->email) : ''; ?>">
 </div>
 <div class="form-group mb-3">
-    <label for="mobile" class="form-label">Telefonnummer:</label>
+    <label for="mobile" class="form-label"><strong>Telefonnummer:</strong></label>
     <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="+4917123456789" pattern="^[0-9\+\-]+$" value="<?php echo isset($customer->mobile) ? esc_attr($customer->mobile) : ''; ?>">
 </div>
 <div class="form-group mb-3">
