@@ -1,4 +1,16 @@
 <?php
+function get_customer_state($state){
+    $states = [
+        0 => 'Neu',
+        1 => 'Angefragt',
+        2 => 'Interessent',
+        3 => 'Partner',
+        4 => 'Abgelehnt',
+    ];
+
+    return isset($states[$state]) ? $states[$state] : 'Neu';
+}
+
 function get_job_state($state){
     $states = [
         0 => 'Inaktiv',

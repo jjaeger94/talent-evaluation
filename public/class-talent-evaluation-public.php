@@ -823,6 +823,7 @@ class Talent_Evaluation_Public {
 		$email = isset($_POST['email']) ? sanitize_email($_POST['email']) : null;
 		$mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : null;
 		$position = isset($_POST['position']) ? sanitize_text_field($_POST['position']) : null;
+		$state = isset($_POST['state']) ? intval($_POST['state']) : 0;
 	
 		// Prepare data arrays for insert and update
 		$data = array(
@@ -832,6 +833,10 @@ class Talent_Evaluation_Public {
 	
 		if (!is_null($member_id)) {
 			$data['member_id'] = $member_id;
+			$format[] = '%d';
+		}
+		if (!is_null($state)) {
+			$data['state'] = $state;
 			$format[] = '%d';
 		}
 		if (!is_null($prename)) {

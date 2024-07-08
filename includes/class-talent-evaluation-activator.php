@@ -157,6 +157,7 @@ class Talent_Evaluation_Activator
                 $sql = "CREATE TABLE $customers(
 					ID INT AUTO_INCREMENT PRIMARY KEY,
                     member_id INT,
+                    state INT NOT NULL DEFAULT 0,
 					added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 					edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     company_name VARCHAR(255) NOT NULL,

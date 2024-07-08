@@ -26,6 +26,16 @@
     <label for="position"><strong>Position</strong></label>
     <input type="text" class="form-control" id="position" name="position" value="<?php echo isset($customer->position) ? esc_attr($customer->position) : ''; ?>">
 </div>
+<div class="form-group mb-3">
+<label for="state"><strong>Status</strong></label>
+<select class="form-select" id="state" name="state">
+    <?php for ($i = 0; $i <= 4; $i++) : ?>
+        <option value="<?php echo $i; ?>" <?php echo (isset($customer->state) && $customer->state == $i) ? 'selected' : ''; ?>>
+            <?php echo get_customer_state($i); ?>
+        </option>
+    <?php endfor; ?>
+</select>
+</div>
     <button type="submit" class="btn btn-primary"><?php echo isset($customer->ID) ? 'Änderungen speichern' : 'Neuen Kunden anlegen'; ?></button>
 </form>
 <div id="form-message"></div>
