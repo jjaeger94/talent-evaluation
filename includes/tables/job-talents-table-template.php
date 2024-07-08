@@ -6,7 +6,6 @@
                 <th>Nachname</th>
                 <th>Matching</th>
                 <th>Details</th>
-                <th>Teilzeit</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
@@ -21,13 +20,12 @@
                         </span>
                     </td>
                     <td><a href="<?php echo esc_url(home_url('/compare-details/?talent_id=' . $talent->ID . '&job_id=' . $job->ID)); ?>">Details</a></td>
-                    <td><?php echo $talent->part_time ? 'Ja' : 'Nein'; ?></td>
                     <td>
                         <?php if (!$matching) : ?>
                             <form class="activateMatchingForm" method="post">
                                 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                                 <input type="hidden" name="job_id" value="<?php echo $job->ID; ?>">
-                                <button type="submit" class="btn btn-primary">Matching beginnen</button>
+                                <button type="submit" class="btn btn-primary">Vormerken</button>
                             </form>
                         <?php endif; ?>
                     </td>
@@ -56,7 +54,7 @@ jQuery(document).ready(function($) {
                     // Button ausblenden
                     $form.find('button[type="submit"]').hide();
                     // Matching-Status aktualisieren
-                    $form.closest('tr').find('.matching-status').text('Noch nicht bearbeitet');
+                    $form.closest('tr').find('.matching-status').text('Vorgemerkt');
                 }
             },
             error: function(xhr, status, error) {

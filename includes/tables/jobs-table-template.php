@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>Stelle</th>
-                <th>Matchings</th>
+                <th>Kandidaten</th>
                 <th>Jobstatus</th>
                 <th>Unternehmen</th>
                 <th>Bearbeitungsstatus</th>

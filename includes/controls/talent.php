@@ -50,12 +50,12 @@
                 <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
             </div>
         <?php else: ?>
-            <div class="col">
+            <!-- <div class="col">
                 <button id="activateAllMatchings" class="btn btn-primary">Alle Matchings starten</button>
-            </div>
-            <div class="col">
+            </div> -->
+            <!-- <div class="col">
                 <button id="sendJobMails" class="btn btn-primary">Über neue Jobs informieren</button>
-            </div>
+            </div> -->
             <div class="col">
                 <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
             </div>

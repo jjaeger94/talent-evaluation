@@ -106,7 +106,7 @@
                         SELECT COUNT(*)
                         FROM {$matching_table} m
                         WHERE m.job_id = j.ID
-                        AND m.value = 2
+                        AND m.value BETWEEN 0 AND 10
                     ) AS positive_matching_count
                 FROM {$jobs_table} j
                 JOIN {$customers_table} c ON j.customer_id = c.ID
