@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>Stelle</th>
-                <th>Matching</th>
+                <th>Status</th>
                 <th>Talentdetails</th>
                 <th>Aktionen</th>
             </tr>
@@ -23,7 +23,7 @@
                             <form class="activateMatchingForm" method="post">
                                 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                                 <input type="hidden" name="job_id" value="<?php echo $job->ID; ?>">
-                                <button type="submit" class="btn btn-primary">Matching beginnen</button>
+                                <button type="submit" class="btn btn-primary">Vormerken</button>
                             </form>
                         <?php endif; ?>
                     </td>
@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
                     // Button ausblenden
                     $form.find('button[type="submit"]').hide();
                     // Matching-Status aktualisieren
-                    $form.closest('tr').find('.matching-status').text('Noch nicht bearbeitet');
+                    $form.closest('tr').find('.matching-status').text('Vorgemerkt');
                 }
             },
             error: function(xhr, status, error) {

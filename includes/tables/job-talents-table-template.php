@@ -4,7 +4,7 @@
             <tr>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Matching</th>
+                <th>Status</th>
                 <th>Details</th>
                 <th>Aktionen</th>
             </tr>

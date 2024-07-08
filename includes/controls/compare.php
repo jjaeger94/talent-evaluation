@@ -31,7 +31,7 @@
             <form id="activateMatchingForm" method="post">
                 <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
                 <input type="hidden" name="job_id" value="<?php echo $job->ID; ?>">
-                <button type="submit" class="btn btn-primary">Matching beginnen</button>
+                <button type="submit" class="btn btn-primary">Vormerken</button>
             </form>
         <?php endif; ?>
     </div>
@@ -55,8 +55,7 @@ jQuery(document).ready(function($) {
                 console.log(response);
                 // Seite neu laden, um die aktualisierten Daten anzuzeigen
                 if(response.success){
-                    $('#compareResult').text(response.data);
-                    //location.reload();
+                    location.reload();
                 }
             },
             error: function(xhr, status, error) {
