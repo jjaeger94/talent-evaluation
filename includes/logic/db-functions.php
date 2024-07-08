@@ -256,8 +256,7 @@ function get_talents_for_job($job, $requirements = null){
     $talents_table = $wpdb->prefix . 'te_talents';
 
     // Grundabfrage
-    $query = "SELECT * FROM $talents_table WHERE member_id > 0 AND school >= %d";
-    //AND availability <= %d
+    $query = "SELECT * FROM $talents_table WHERE member_id > 0 AND school >= %d AND availability < 7";
 
     // Parameter für die Abfrage
     $params = array($job->school);
