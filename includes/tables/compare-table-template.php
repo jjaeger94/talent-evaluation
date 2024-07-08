@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <td>Entfernung</td>
-        <td><?php echo getDistanceBetween($talent->post_code, $job->post_code);?></td>
+        <td><?php echo $job->post_code ? getDistanceBetween($talent->post_code, $job->post_code) : 'Unbekannt';?></td>
         <td><?php echo get_mobility_label($talent->mobility); ?></td>
     </tr>
     <?php for ($i = 0; $i < max(count($apprenticeships), count(isset($grouped_requirements[1]) ? $grouped_requirements[1] : [])); $i++): ?>

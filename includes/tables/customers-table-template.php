@@ -4,7 +4,7 @@
             <tr>
                 <th>ID</th>
                 <th>Firmenname</th>
-                <th>Talentdetails</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>

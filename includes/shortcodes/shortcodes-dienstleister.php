@@ -111,6 +111,7 @@
                 FROM {$jobs_table} j
                 JOIN {$customers_table} c ON j.customer_id = c.ID
                 WHERE j.notes LIKE %s
+                AND j.customer_id != 1
             ";
 
             // Überprüfen, ob der ausgewählte Status >= 0 ist, und die Bedingung hinzufügen

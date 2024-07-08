@@ -65,7 +65,7 @@ function delete_unavailable_jobs() {
     // Schritt 1: Alle Jobs aus der Datenbank holen
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
-    $query = "SELECT * FROM $table_name WHERE state = 1 ORDER BY edited DESC";
+    $query = "SELECT * FROM $table_name WHERE state = 1 AND customer_id != 1 ORDER BY edited DESC";
     $jobs = $wpdb->get_results($query);
     
     foreach ($jobs as $job) {

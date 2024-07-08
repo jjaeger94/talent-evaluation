@@ -316,8 +316,9 @@ function get_talents_for_job($job, $requirements = null){
     $results = $wpdb->get_results($prepared_query);
         
     $talents = [];
-
-    if(!empty($results)){
+    if(!$job->post_code){
+        $talents = $results;
+    }else if(!empty($results)){
         $countryCode = 'DE'; // Deutschland
         $postal_codes_20 = getPostalCodesInRadius($job->post_code, 20, $countryCode);
         $postal_codes_50 = getPostalCodesInRadius($job->post_code, 50, $countryCode);
@@ -355,7 +356,7 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
     $jobs_table = $wpdb->prefix . 'te_jobs';
 
     // Grundabfrage
-    $query = "SELECT * FROM $jobs_table WHERE school <= %d";
+    $query = "SELECT * FROM $jobs_table WHERE school <= %d AND customer_id != 1";
     //AND availability >= %d
 
     // Parameter für die Abfrage
