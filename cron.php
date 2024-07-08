@@ -71,6 +71,9 @@ function delete_unavailable_jobs() {
     foreach ($jobs as $job) {
         // Schritt 2: Link überprüfen
         $url = $job->link;
+        if(!$url){
+            return;
+        }
         
         // Schritt 3: Überprüfen ob es ein StepStone-Link ist
         if (strpos($url, 'stepstone.de') !== false) {
