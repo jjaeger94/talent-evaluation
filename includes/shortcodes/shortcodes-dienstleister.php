@@ -210,6 +210,7 @@
                     $eq = get_eq_by_talent_id($talent->ID);
                     // get_mat = get_jobs_for_talent($talent, $apprenticeships, $studies, $experiences);
                     $jobs = get_jobs_for_talent($talent, $apprenticeships, $studies, $experiences);
+                    $demojobs = get_demojobs();
                     $events = get_talent_events($talent->ID);
                     $resumes = get_uploaded_resumes_for_talent($talent->ID);
                     $documents = get_uploaded_documents_for_talent($talent->ID);

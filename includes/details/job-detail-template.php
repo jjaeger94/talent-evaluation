@@ -20,7 +20,13 @@ Liste anzeigen
 </div>
 <div class="collapse" id="tableCollapse">
     <div class="card card-body">
-        <?php include TE_DIR.'tables/job-talents-table-template.php';?>
+        <?php 
+            if($job->customer_id != 1){
+                include TE_DIR.'tables/job-talents-table-template.php';
+            }else{
+                include TE_DIR.'tables/demojob-talents-table-template.php';
+            }
+        ?>
     </div>
 </div>
  <?php    

@@ -87,6 +87,15 @@ function get_talent_state($talent){
     return 'Error';
 }
 
+function get_preference_state($type){
+    $types = [
+        0 => 'Nicht gesetzt',
+        1 => 'Positiv',
+        2 => 'Negativ'
+    ];
+    return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
+}
+
 function get_matching_state($type) {
     $types = [
         0 => 'Vorgemerkt',

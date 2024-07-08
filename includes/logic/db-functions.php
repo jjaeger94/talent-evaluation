@@ -1,4 +1,10 @@
 <?php
+function get_demojobs(){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen
+    $query = "SELECT * FROM $table_name WHERE state = 1 AND customer_id = 1 ORDER BY edited DESC";
+    return $wpdb->get_results($query);
+}
 function get_talent_by_email($email){
     global $wpdb;
     $query = $wpdb->prepare("
@@ -228,6 +234,12 @@ function get_active_matching_count_for_talent_id($talent_id){
         AND j.state = 1
     ", $talent_id);
     return $wpdb->get_var($query);
+}
+
+function get_preferences_for_ids($talent_id, $job_id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_preferences';
+    return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND job_id = %d", $talent_id, $job_id));
 }
 
 function get_matching_for_ids($talent_id, $job_id){
