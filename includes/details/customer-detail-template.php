@@ -27,8 +27,9 @@ WHERE customer_id = %d
 </button>
 <div class="collapse" id="jobsTableCollapse">
     <div class="card card-body">
-        <?php include TE_DIR.'tables/jobs-table-template.php';?>
+        <?php include TE_DIR.'tables/jobs-table-template.php';?>   
     </div>
+    <a href="<?php echo home_url("/job-details/?add=true&customer_id=".$id); ?>" class="btn btn-primary">Stelle hinzufügen</a>
 </div>
 <div class="collapse show" id="editCustomerCollapse">
     <div class="card card-body">

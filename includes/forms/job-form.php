@@ -4,10 +4,14 @@
     <?php endif; ?>
     <div class="form-group mb-3">
         <label for="customer_id"><strong>Kunde</strong></label>
+        <?php 
+        $selected_customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : (isset($job->customer_id) ? $job->customer_id : '');
+        ?>
+
         <select class="form-select" id="customer_id" name="customer_id" required>
             <option value="">Wählen Sie einen Kunden</option>
             <?php foreach($customers as $customer): ?>
-                <option value="<?php echo $customer->ID; ?>" <?php echo (isset($job->customer_id) && $job->customer_id == $customer->ID) ? 'selected' : ''; ?>>
+                <option value="<?php echo $customer->ID; ?>" <?php echo ($selected_customer_id == $customer->ID) ? 'selected' : ''; ?>>
                     <?php echo esc_html($customer->company_name); ?>
                 </option>
             <?php endforeach; ?>
