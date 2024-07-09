@@ -14,11 +14,10 @@
         <i class="fa fa-heart"></i>
     </div>
     <div class="swiper--cards">
-        <?php foreach ($preferences as $index => $preference) : ?>
-        <?php $job=get_job_by_id($preference->job_id); ?>
-        <div class="swiper--card" data-preference-id="<?php echo $match->ID; ?>">
-            <p><?php echo nl2br($job->job_info); ?></p>
-            <p><strong><?php echo esc_html($job->job_title); ?></strong></p>
+        <?php foreach ($difference_ids as $job_id) : ?>
+        <div class="swiper--card" data-job-id="<?php echo $job_id; ?>">
+            <p><?php echo nl2br($jobs_by_id[$job_id]->job_info); ?></p>
+            <p><strong><?php echo esc_html($jobs_by_id[$job_id]->job_title); ?></strong></p>
         </div>
         <?php endforeach; ?>
     </div>
@@ -69,7 +68,7 @@
             </div>
             <div class="modal-body">
                 <form id="evaluationForm">
-                    <p>Bitte bewerte, ob dir die bisherigen Stellen gut gefallen haben</p>
+                    <p>Bitte teile uns mit, wie dir die Stellen gefallen haben. Was für weitere Stellenangebote würdest du dir wünschen?</p>
                     <div class="mb-3">
                         <label for="rating" class="form-label">Bewertung: <span id="ratingValue">5</span></label>
                         <input type="range" class="form-range" id="rating" name="rating" min="1" max="10" required>
@@ -111,6 +110,7 @@ jQuery(document).ready(function($) {
 
     $('#evaluation-btn-close').click(function() {
         $('#evaluationModal').modal('hide');
+        location.reload();
     });
     $('#consultation-btn-close').click(function() {
         $('#consultationModal').modal('hide');
@@ -166,6 +166,7 @@ jQuery(document).ready(function($) {
                     console.log('Error: ' + response.data);
                 }
                 $('#evaluationModal').modal('hide');
+                location.reload();
             },
             error: function() {
                 console.log('AJAX request failed.');
@@ -207,13 +208,14 @@ jQuery(document).ready(function($) {
 
     initCards();
 
-    function sendSwipeAction(preferenceId, state) {
+    function sendSwipeAction(jobId, state) {
         $.ajax({
             url: '<?php echo admin_url('admin-ajax.php'); ?>',
             type: 'POST',
             data: {
                 action: 'save_preference',
-                preference_id: preferenceId,
+                job_id: jobId,
+                talent_id: <?php echo $talent->ID; ?>,
                 preference: state
             },
             success: function(response) {
@@ -271,9 +273,9 @@ jQuery(document).ready(function($) {
                 var rotate = xMulti * yMulti;
 
                 $(el).css('transform', 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)');
-                var preferenceId = $(el).data('preference-id');
+                var jobId = $(el).data('job-id');
                 var state = event.deltaX > 0 ? 2 : 1;
-                sendSwipeAction(preferenceId, state);
+                sendSwipeAction(jobId, state);
                 initCards();
             }
         });
@@ -299,7 +301,7 @@ jQuery(document).ready(function($) {
             var card = cards.first();
 
             card.addClass('removed');
-            var preferenceId = card.data('preference-id');
+            var jobId = card.data('job-id');
             var state = love ? 2 : 1;
             if (love) {
 
@@ -308,7 +310,7 @@ jQuery(document).ready(function($) {
                 card.css('transform', 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)');
             }
 
-            sendSwipeAction(preferenceId, state);
+            sendSwipeAction(jobId, state);
             initCards();
 
             event.preventDefault();
@@ -320,7 +322,6 @@ jQuery(document).ready(function($) {
 
     nope.on('click', nopeListener);
     love.on('click', loveListener);
-
     $('#infoModal').modal('show');
 });
 </script>

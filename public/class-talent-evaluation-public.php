@@ -465,47 +465,76 @@ class Talent_Evaluation_Public {
 	}
 
 	function save_preference(){
-		if (!isset($_POST['preference_id'])) {
-			wp_send_json_error('Keine ID');
-		}
+		
 		if (!isset($_POST['preference'])) {
 			wp_send_json_error('Kein matching value');
 		}
 		global $wpdb;
-
-		// Entferne potenziell gefährliche Zeichen aus der Eingabe
-		$preference_id = absint($_POST['preference_id']);
 		$table_name = $wpdb->prefix . 'te_preferences';
+		$value = absint($_POST['preference']);
+		if (isset($_POST['preference_id'])) {
+			// Entferne potenziell gefährliche Zeichen aus der Eingabe
+			$preference_id = absint($_POST['preference_id']);
+			
 
-		// Überprüfe, ob die Frage existiert
-		$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE ID = %d", $preference_id));
+			// Überprüfe, ob die Frage existiert
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE ID = %d", $preference_id));
 
-		if ($data) {
-			if (!has_edit_talent_permission($data->talent_id)) {
-				wp_send_json_error('Keine Berechtigung');
+			if ($data) {
+				if (!has_edit_talent_permission($data->talent_id)) {
+					wp_send_json_error('Keine Berechtigung');
+				}			
+
+				// Daten zum Aktualisieren
+				$data = array(
+					'value' => $value
+				);
+
+				// Bedingung für die Aktualisierung
+				$where = array('ID' => $preference_id);
+
+				// Aktualisieren der Daten in der Datenbank
+				$wpdb->update($table_name, $data, $where);
+
+				// Überprüfen, ob ein Fehler aufgetreten ist
+				if ($wpdb->last_error !== '') {
+					wp_send_json_error($wpdb->last_error);
+				}else{
+					wp_send_json_success('Test erfolgreich geändert.');
+				}
+				
+			}else{
+				wp_send_json_error('Eintrag nicht gefunden');
 			}
-			$value = absint($_POST['preference']);			
-
-			// Daten zum Aktualisieren
+		}else if(isset($_POST['talent_id'], $_POST['job_id'])){
+			$job_id = absint($_POST['job_id']);
+			$talent_id = absint($_POST['talent_id']);
+			// Prepare data arrays for insert and update
 			$data = array(
+				'job_id' => $job_id,
+				'talent_id' => $talent_id,
 				'value' => $value
 			);
 
-			// Bedingung für die Aktualisierung
-			$where = array('ID' => $preference_id);
-
-			// Aktualisieren der Daten in der Datenbank
-			$wpdb->update($table_name, $data, $where);
-
-			// Überprüfen, ob ein Fehler aufgetreten ist
-			if ($wpdb->last_error !== '') {
-				wp_send_json_error($wpdb->last_error);
-			}else{
-				wp_send_json_success('Test erfolgreich geändert.');
+			$format = array(
+				'%d',
+				'%d',
+				'%d'
+			);
+			// Fügen Sie einen neuen Job hinzu
+			$inserted = $wpdb->insert(
+				$table_name,
+				$data,
+				$format
+			);
+	
+			if (false === $inserted) {
+				wp_send_json_error('Fehler beim Hinzufügen des Eintrag.');
+			} else {
+				wp_send_json_success('Eintrag erfolgreich hinzugefügt.');
 			}
-			
-		} else {
-			wp_send_json_error('Eintrag nicht gefunden');
+		}else{
+			wp_send_json_error('Keine ID');
 		}
 	}
 

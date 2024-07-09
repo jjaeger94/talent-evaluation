@@ -19,7 +19,13 @@
         <?php include TE_DIR.'menu/entries.php'; ?>
     </div>
 </div>
-<?php include TE_DIR.'matching/preferences.php'; ?>
+<?php 
+if(empty($difference_ids)){
+    include TE_DIR.'matching/preferences-list.php';
+}else{
+    include TE_DIR.'matching/preferences.php';
+}
+?>
 
 <!-- Modal für Tipps -->
 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">

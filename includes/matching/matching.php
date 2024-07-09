@@ -73,7 +73,7 @@
             </div>
             <div class="modal-body">
                 <form id="evaluationForm">
-                    <p>Bitte bewerte, ob dir die bisherigen Stellen gut gefallen haben</p>
+                    <p>Bitte teile uns mit, wie dir die Stellen gefallen haben. Was für weitere Stellenangebote würdest du dir wünschen?</p>
                     <div class="mb-3">
                         <label for="rating" class="form-label">Bewertung: <span id="ratingValue">5</span></label>
                         <input type="range" class="form-range" id="rating" name="rating" min="1" max="10" required>

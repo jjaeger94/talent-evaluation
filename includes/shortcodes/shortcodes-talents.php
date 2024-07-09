@@ -23,11 +23,29 @@ function render_preferences_page(){
           $talent = get_talent_by_member_id($member_id);
           // Überprüfen, ob das Talent gefunden wurde
           if ($talent) {
+               $job_ids = [];
+               $preference_job_ids = [];
+
+               $jobs = get_demojobs();
+               $jobs_by_id = [];
+               foreach ($jobs as $job) {
+                    $jobs_by_id[$job->ID] = $job;
+               }
+
+               // Extrahiere die IDs aus den Job-Objekten
+               foreach ($jobs as $job) {
+                    $job_ids[] = $job->ID;
+               }
                $preferences = get_preferences_for_talent_id($talent->ID);
-              // Abfrage, um den Chatverlauf abzurufen
-              ob_start(); // Puffer starten
-              include TE_DIR.'details/talent-preferences-template.php'; // Pfad zur Datei mit dem Test-Formular
-              return ob_get_clean(); 
+               // Extrahiere die job_ids aus den Preference-Objekten
+               foreach ($preferences as $preference) {
+                    $preference_job_ids[] = $preference->job_id;
+               }
+               $difference_ids = array_diff($job_ids, $preference_job_ids);
+               
+               ob_start(); // Puffer starten
+               include TE_DIR.'details/talent-preferences-template.php'; // Pfad zur Datei mit dem Test-Formular
+               return ob_get_clean();
           } else {
               // Talent nicht gefunden
               return '<p>ID nicht gefunden.</p>';
