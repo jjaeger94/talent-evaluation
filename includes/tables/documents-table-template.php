@@ -19,6 +19,9 @@
 </table>
 <script>
 jQuery(document).ready(function($) {
+    // Entfernen des bestehenden Klick-Listeners, falls vorhanden
+    $('.download-document').off('click');
+    // Hinzufügen des neuen Klick-Listeners
     $('.download-document').on('click', function() {
         var document_id = $(this).data('document-id');
 
