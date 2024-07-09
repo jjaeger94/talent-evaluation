@@ -46,6 +46,10 @@
                             <input type="text" class="form-control" id="exp_company" name="company" required>
                         </div>
                         <div class="form-group">
+                            <label for="activity">Tätigkeit:</label>
+                            <textarea rows="3" class="form-control" id="exp_activity" name="activity"></textarea>
+                        </div>
+                        <div class="form-group">
                             <label for="start_date">Startdatum:</label>
                             <input type="date" class="form-control" id="exp_start_date" name="start_date" required>
                         </div>
@@ -124,6 +128,7 @@
             $('#exp_position').val($(this).data('position'));
             $('#exp_company').val($(this).data('company'));
             $('#exp_field').val($(this).data('field'));
+            $('#exp_activity').val($(this).data('activity'));
             $('#exp_start_date').val($(this).data('start-date'));
             $('#exp_end_date').val($(this).data('end-date'));
             if ($('#exp_end_date').val() == '9999-12-31') {

@@ -284,6 +284,7 @@ class Talent_Evaluation_Activator
                     type INT,
                     field INT,
                     degree INT,
+                    activity TEXT,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (job_id) REFERENCES $jobs(ID)

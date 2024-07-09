@@ -77,6 +77,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_talent_notes');		
 		$this->add_public_request('activate_matching');
 		$this->add_public_request('save_matching');
+		$this->add_public_request('save_preference');
 		$this->add_public_request('send_job_mail');
 		$this->add_public_request('generate_resume_pdf');
 		$this->add_public_request('activate_all_matchings');
@@ -463,6 +464,51 @@ class Talent_Evaluation_Public {
 		wp_die();
 	}
 
+	function save_preference(){
+		if (!isset($_POST['preference_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		if (!isset($_POST['preference'])) {
+			wp_send_json_error('Kein matching value');
+		}
+		global $wpdb;
+
+		// Entferne potenziell gefährliche Zeichen aus der Eingabe
+		$preference_id = absint($_POST['preference_id']);
+		$table_name = $wpdb->prefix . 'te_preferences';
+
+		// Überprüfe, ob die Frage existiert
+		$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE ID = %d", $preference_id));
+
+		if ($data) {
+			if (!has_edit_talent_permission($data->talent_id)) {
+				wp_send_json_error('Keine Berechtigung');
+			}
+			$value = absint($_POST['preference']);			
+
+			// Daten zum Aktualisieren
+			$data = array(
+				'value' => $value
+			);
+
+			// Bedingung für die Aktualisierung
+			$where = array('ID' => $preference_id);
+
+			// Aktualisieren der Daten in der Datenbank
+			$wpdb->update($table_name, $data, $where);
+
+			// Überprüfen, ob ein Fehler aufgetreten ist
+			if ($wpdb->last_error !== '') {
+				wp_send_json_error($wpdb->last_error);
+			}else{
+				wp_send_json_success('Test erfolgreich geändert.');
+			}
+			
+		} else {
+			wp_send_json_error('Eintrag nicht gefunden');
+		}
+	}
+
 
 	function save_matching(){
 		if (!isset($_POST['matching_id'])) {
@@ -475,17 +521,16 @@ class Talent_Evaluation_Public {
 
 		// Entferne potenziell gefährliche Zeichen aus der Eingabe
 		$matching_id = absint($_POST['matching_id']);
+		$table_name = $wpdb->prefix . 'te_matching';
 
 		// Überprüfe, ob die Frage existiert
-		$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}te_matching WHERE ID = %d", $matching_id));
+		$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE ID = %d", $matching_id));
 
 		if ($data) {
 			if (!has_edit_talent_permission($data->talent_id)) {
 				wp_send_json_error('Keine Berechtigung');
 			}
 			$value = absint($_POST['matching']);
-
-			$table_name = $wpdb->prefix . 'te_matching';
 
 			// Daten zum Aktualisieren
 			$data = array(
@@ -1292,6 +1337,8 @@ class Talent_Evaluation_Public {
 		$field = intval($_POST['field']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : '9999-12-31';
+		$activity = isset($_POST['activity']) ? wp_kses_post($_POST['activity']) : '';
+		
 
 		global $wpdb;
 	
@@ -1305,11 +1352,12 @@ class Talent_Evaluation_Public {
 					'position' => $position,
 					'company' => $company,
 					'field' => $field,
+					'activity' => $activity,
 					'start_date' => $start_date,
 					'end_date' => $end_date
 				),
 				array('ID' => $experience_id),
-				array('%s', '%s', '%s', '%s'),
+				array('%s', '%s', '%s', '%s', '%s', '%s'),
 				array('%d')
 			);
 			if ($updated === false) {
@@ -1324,10 +1372,11 @@ class Talent_Evaluation_Public {
 					'field' => $field,
 					'position' => $position,
 					'company' => $company,
+					'activity' => $activity,
 					'start_date' => $start_date,
 					'end_date' => $end_date
 				),
-				array('%d', '%s', '%s', '%s', '%s')
+				array('%d', '%s', '%s', '%s', '%s', '%s', '%s')
 			);
 			if ($inserted === false) {
 				wp_send_json_error('Fehler beim Hinzufügen der Berufserfahrung');
