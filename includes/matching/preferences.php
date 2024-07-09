@@ -1,14 +1,4 @@
 <div class="swiper">
-    <div class="no-more-cards" style="display: none;">
-        <p>Momentan gibt es keine weiteren Angebote für dich.</p>
-        <p>Wir benachrichtigen dich, sobald neue Stellen verfügbar sind.</p>
-        <p>Bitte beachte, dass es nach dem Erstgespräch etwas dauern kann, bis die ersten Stellen erscheinen.</p>
-        <p>Du hattest kein Erstgespräch?</p>
-        <button class="btn btn-primary" id="consultation">Erstgespräch anfordern</button>
-        <div class="wrap">
-            <span id="consultationResult"></span>
-        </div>
-    </div>
     <div class="swiper--status">
         <i class="fa fa-xmark"></i>
         <i class="fa fa-heart"></i>
@@ -87,21 +77,6 @@
         </div>
     </div>
 </div>
-<!-- Modal für Consultation -->
-<div class="modal fade" id="consultationModal" tabindex="-1" role="dialog" aria-labelledby="consultationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="consultationModalLabel">Erstgespräch buchen</h5>
-                <button class="btn-close" id="consultation-btn-close" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="calendly-inline-widget" data-url="https://calendly.com/jesse-grundke/kennenlernen-convii?name=<?php echo $talent->prename; ?>%20<?php echo $talent->surname; ?>&email=<?php echo $talent->email; ?>&text_color=454555&primary_color=a7a8cd" style="min-width:320px;height:700px;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <script>
 jQuery(document).ready(function($) {
     $('#rating').on('input', function() {
@@ -112,38 +87,9 @@ jQuery(document).ready(function($) {
         $('#evaluationModal').modal('hide');
         location.reload();
     });
-    $('#consultation-btn-close').click(function() {
-        $('#consultationModal').modal('hide');
-    });
     $('#info-btn-close').click(function() {
         $('#infoModal').modal('hide');
     });
-
-    $('#consultation').click(function() {
-        $.ajax({
-            url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            type: 'POST',
-            data: {
-                action: 'request_consultation',
-                talent_id: <?php echo $talent->ID; ?>
-            },
-            success: function(response) {
-                if (response.success) {
-                    console.log('Success: ' + response.data);
-                    $('#consultation').hide();
-                    $('#consultationModal').modal('show');
-                } else {
-                    console.log('Error: ' + response.data);
-                    $('#consultationResult').text('Ein fehler ist aufgetreten');
-                }
-            },
-            error: function() {
-                console.log('AJAX request failed.');
-                $('#consultationResult').text('Ein fehler ist aufgetreten');
-            }
-        });
-    });
-    
 
     $('#evaluationForm').submit(function(event) {
         event.preventDefault();
@@ -181,7 +127,6 @@ jQuery(document).ready(function($) {
     var allCards = $('.swiper--card');
     var nope = $('#nope');
     var love = $('#love');
-    var noMoreCardsText = $('.no-more-cards')
 
     function initCards() {
         var newCards = $('.swiper--card:not(.removed)');
@@ -197,12 +142,9 @@ jQuery(document).ready(function($) {
 
         // Überprüfe, ob keine Karten mehr vorhanden sind und zeige den Hinweistext
         if (newCards.length === 0) {
-            noMoreCardsText.show();
             if(removedCards.length > 0){
                 $('#evaluationModal').modal('show');
             }
-        } else {
-            noMoreCardsText.hide();
         }
     }
 

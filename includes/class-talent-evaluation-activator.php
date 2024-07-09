@@ -89,6 +89,12 @@ class Talent_Evaluation_Activator
                 'template' => '', // optional: Vorlage für die Seite
             ),
             array(
+                'title' => 'Contact',
+                'content' => '[contact_talent]',
+                'slug' => 'contact',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
                 'title' => 'Matching Overview',
                 'content' => '[show_matchings]',
                 'slug' => 'matching-overview',
