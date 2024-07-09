@@ -1,4 +1,5 @@
 <div class="container mt-5">
+    <br>
     <p>Gerne kannst du deine Präferenzen hier noch einmal bearbeiten.</p>
     <div class="row">
         <?php foreach ($preferences as $preference): ?>
