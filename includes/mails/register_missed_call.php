@@ -17,10 +17,10 @@
     <h1>Hallo <?php echo esc_html($talent->prename); ?>,</h1>
     
     <p>
-        Convii ist eine Firma, die Talente wie Dich mit Unternehmen verbindet. Diese Unternehmen suchen Leute für Jobs, bei denen soziale Fähigkeiten wichtig sind.
+    Convii ist ein Unternehmen, das talentierte Menschen wie dich mit Firmen verbindet, die auf der Suche nach Persönlichkeiten mit herausragenden sozialen Fähigkeiten sind.
     </p>
     <p>
-        Leider konnten wir Dich bisher telefonisch nicht erreichen. Wir würden gerne mit Dir sprechen, um mehr über Dich zu erfahren. Antworte dafür einfach auf diese E-Mail oder buche direkt einen Termin.
+        Wir freuen uns sehr, dass du dich bei uns angemeldet hast. Leider haben wir dich bisher telefonisch nicht erreichen können. Wir würden dich gerne besser kennenlernen. Antworte einfach auf diese E-Mail oder buche direkt einen Termin mit uns.
     </p>
     <p>
         <a href="https://outlook.office365.com/book/Convii@gj-glassart.com/">Jetzt Termin vereinbaren</a>
