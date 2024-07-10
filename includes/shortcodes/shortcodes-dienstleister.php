@@ -294,15 +294,21 @@
             $state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : '';
 
             global $wpdb;
-            
+
             $matchings = array();
+
+            $matchings_table = $wpdb->prefix . 'te_matching';
+            $talents_table = $wpdb->prefix . 'te_talents';
+            $jobs_table = $wpdb->prefix . 'te_jobs';
+            $customers_table = $wpdb->prefix . 'te_customers';
 
             if ($selected_value >= 0) {
                 $query = $wpdb->prepare("
-                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes
-                    FROM {$wpdb->prefix}te_matching m
-                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
-                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
+                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, c.company_name
+                    FROM {$matchings_table} m
+                    LEFT JOIN {$jobs_table} j ON m.job_id = j.id
+                    LEFT JOIN {$talents_table} t ON m.talent_id = t.id
+                    LEFT JOIN {$customers_table} c ON j.customer_id = c.ID
                     WHERE m.value = %d AND j.notes LIKE %s
                     ORDER BY m.added DESC
                 ", $selected_value, '%' . $wpdb->esc_like($state) . '%');
@@ -310,17 +316,17 @@
                 $matchings = $wpdb->get_results($query);
             } else {
                 $query = $wpdb->prepare("
-                    SELECT m.*, t.prename,t.surname, j.job_title, j.notes
-                    FROM {$wpdb->prefix}te_matching m
-                    LEFT JOIN {$wpdb->prefix}te_talents t ON m.talent_id = t.id
-                    LEFT JOIN {$wpdb->prefix}te_jobs j ON m.job_id = j.id
+                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, c.company_name
+                    FROM {$matchings_table} m
+                    LEFT JOIN {$jobs_table} j ON m.job_id = j.id
+                    LEFT JOIN {$talents_table} t ON m.talent_id = t.id
+                    LEFT JOIN {$customers_table} c ON j.customer_id = c.ID
                     WHERE j.notes LIKE %s
                     ORDER BY m.added DESC
                 ", '%' . $wpdb->esc_like($state) . '%');
 
                 $matchings = $wpdb->get_results($query);
             }
-
 
 
             // Filterformular einfügen

@@ -4,6 +4,7 @@
             <tr>
                 <th>Stelle</th>
                 <th>Talent</th>
+                <th>Unternehmen</th>
                 <th>bearbeitet</th>
                 <th>Bewerberstatus</th>
                 <th>Bearbeitungsstatus</th>
@@ -23,6 +24,7 @@
                             <?php echo esc_html($match->prename) .' '.esc_html($match->surname); ?>
                         </a>
                     </td>
+                    <td><?php echo isset($match->company) && $match->company != '' ? $match->company : $match->company_name; ?></td>
                     <td><?php echo date('d.m.Y', strtotime($match->edited)); ?></td>
                     <td><?php echo esc_html(get_matching_state($match->value)); ?></td>
                     <td><?php echo esc_html($match->notes); ?></td>
