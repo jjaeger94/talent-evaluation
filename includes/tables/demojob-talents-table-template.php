@@ -2,16 +2,14 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
+                <th>Name</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($talents as $talent) : ?>
                 <tr>
-                    <td><?php echo $talent->prename; ?></td>
-                    <td><?php echo $talent->surname; ?></td>
+                    <td><?php echo $talent->prename .' '. $talent->surname; ?></td>
                     <td>
                         <span class="matching-status">
                             <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_preference_state($matching->value) : get_preference_state(null); ?>

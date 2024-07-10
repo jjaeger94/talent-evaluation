@@ -2,8 +2,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
+                <th>Name</th>
                 <th>Status</th>
                 <th>Details</th>
                 <th>Aktionen</th>
@@ -12,8 +11,7 @@
         <tbody>
             <?php foreach ($talents as $talent) : ?>
                 <tr>
-                    <td><?php echo $talent->prename; ?></td>
-                    <td><?php echo $talent->surname; ?></td>
+                    <th><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>"><?php echo $talent->prename . ' ' . $talent->surname; ?></a></th>
                     <td>
                         <span class="matching-status">
                             <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_matching_state($matching->value) : 'Nicht gestartet'; ?>

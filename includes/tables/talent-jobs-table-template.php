@@ -5,14 +5,14 @@
                 <th>Stelle</th>
                 <th>Unternehmen</th>
                 <th>Status</th>
-                <th>Talentdetails</th>
+                <th>Details</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($jobs as $job) : ?>
                 <tr>
-                    <td><?php echo $job->job_title; ?></td>
+                    <th><a href="<?php echo esc_url(home_url('/job-details/?id=' . $job->ID)); ?>"><?php echo $job->job_title; ?></a></th>
                     <td><?php echo isset($job->company) && $job->company != '' ? $job->company : $job->company_name; ?></td>
                     <td>
                         <span class="matching-status">
