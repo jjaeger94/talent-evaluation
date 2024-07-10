@@ -304,7 +304,7 @@
 
             if ($selected_value >= 0) {
                 $query = $wpdb->prepare("
-                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, c.company_name
+                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, j.customer_id, c.company_name
                     FROM {$matchings_table} m
                     LEFT JOIN {$jobs_table} j ON m.job_id = j.id
                     LEFT JOIN {$talents_table} t ON m.talent_id = t.id
@@ -316,7 +316,7 @@
                 $matchings = $wpdb->get_results($query);
             } else {
                 $query = $wpdb->prepare("
-                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, c.company_name
+                    SELECT m.*, t.prename, t.surname, j.job_title, j.notes, j.company, j.customer_id, c.company_name
                     FROM {$matchings_table} m
                     LEFT JOIN {$jobs_table} j ON m.job_id = j.id
                     LEFT JOIN {$talents_table} t ON m.talent_id = t.id

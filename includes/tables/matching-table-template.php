@@ -24,7 +24,11 @@
                             <?php echo esc_html($match->prename) .' '.esc_html($match->surname); ?>
                         </a>
                     </td>
-                    <td><?php echo isset($match->company) && $match->company != '' ? $match->company : $match->company_name; ?></td>
+                    <td>
+                        <a href="<?php echo esc_url(home_url('/customer-details/?id=' . $match->customer_id)); ?>">
+                            <?php echo isset($match->company) && $match->company != '' ? $match->company : $match->company_name; ?>
+                        </a>    
+                    </td>
                     <td><?php echo date('d.m.Y', strtotime($match->edited)); ?></td>
                     <td><?php echo esc_html(get_matching_state($match->value)); ?></td>
                     <td><?php echo esc_html($match->notes); ?></td>
