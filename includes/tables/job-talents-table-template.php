@@ -11,7 +11,7 @@
         <tbody>
             <?php foreach ($talents as $talent) : ?>
                 <tr>
-                    <th><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>"><?php echo $talent->prename . ' ' . $talent->surname; ?></a></th>
+                    <td><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>"><?php echo $talent->prename . ' ' . $talent->surname; ?></a></td>
                     <td>
                         <span class="matching-status">
                             <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_matching_state($matching->value) : 'Nicht gestartet'; ?>
