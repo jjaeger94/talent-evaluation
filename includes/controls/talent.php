@@ -20,6 +20,20 @@
             </div>
         </div>
         <div class="row">
+            <div class="col">
+                <input disabled class="form-check-input" type="checkbox" value="1" id="registrationNotification" name="registration" <?php echo has_notification($talent->notifications, NOTIFICATION_REGISTRATION) ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="registrationNotification">
+                    Registrierungserinnerung
+                </label>
+            </div>
+            <div class="col">
+                <input disabled class="form-check-input" type="checkbox" value="1" id="newJobsNotification" name="new_jobs" <?php echo has_notification($talent->notifications, NOTIFICATION_NEW_JOBS) ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="newJobsNotification">
+                    Benachrichtigungen über neue Jobs
+                </label>
+            </div>
+        </div>
+        <div class="row">
         <form id="editNotesForm" method="post">
             <input type="hidden" name="talent_id" value="<?php echo $talent->ID; ?>">
             <div class="form-group mb-3">
