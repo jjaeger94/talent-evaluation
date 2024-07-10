@@ -5,7 +5,7 @@
                 <th>Stelle</th>
                 <th>Unternehmen</th>
                 <th>Status</th>
-                <th>Details</th>
+                <th>Matchingdetails</th>
                 <th>Aktionen</th>
             </tr>
         </thead>

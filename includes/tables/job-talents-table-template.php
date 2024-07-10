@@ -4,7 +4,7 @@
             <tr>
                 <th>Name</th>
                 <th>Status</th>
-                <th>Details</th>
+                <th>Matchingdetails</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
