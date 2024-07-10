@@ -53,15 +53,9 @@
             <div class="col">
                 <button id="createUserCalled" class="btn btn-primary">Nicht erreicht</button>
             </div>       
-            <div class="col">
-                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
-            </div>
         <?php elseif (!SwpmMemberUtils::get_member_field_by_id($talent->member_id, 'user_name')): ?>
             <div class="col">
                 <button id="activateAccount" class="btn btn-primary">Registrierung erneut senden</button>
-            </div>
-            <div class="col">
-                <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
             </div>
         <?php else: ?>
             <!-- <div class="col">
@@ -74,6 +68,9 @@
                 <button id="generateResume" class="btn btn-primary">Lebenslauf erstellen</button>
             </div>
         <?php endif; ?>
+        <div class="col">
+            <button id="removeTalent" class="btn btn-danger">Eintrag entfernen</button>
+        </div>
     </div>
     <div class="wrap">
         <span id="metaResult"></span>
