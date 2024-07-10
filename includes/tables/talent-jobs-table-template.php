@@ -13,7 +13,11 @@
             <?php foreach ($jobs as $job) : ?>
                 <tr>
                     <th><a href="<?php echo esc_url(home_url('/job-details/?id=' . $job->ID)); ?>"><?php echo $job->job_title; ?></a></th>
-                    <td><?php echo isset($job->company) && $job->company != '' ? $job->company : $job->company_name; ?></td>
+                    <td>
+                        <a href="<?php echo esc_url(home_url('/customer-details/?id=' . $job->customer_id)); ?>">
+                            <?php echo isset($job->company) && $job->company != '' ? $job->company : $job->company_name; ?>
+                        </a>    
+                    </td>
                     <td>
                         <span class="matching-status">
                             <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_matching_state($matching->value) : 'Nicht gestartet'; ?>
