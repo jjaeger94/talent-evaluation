@@ -57,6 +57,7 @@ class Talent_Evaluation_Public {
 
 	private function register_public_requests(){
 		$this->add_public_request('send_message');
+		$this->add_public_request('send_audio');
 		$this->add_public_request('delete_chat');
 		$this->add_public_request('save_talent');
 		$this->add_public_request('remove_talent');
@@ -94,6 +95,32 @@ class Talent_Evaluation_Public {
 	private function add_public_request($request_name){
 		add_action('wp_ajax_'.$request_name, array($this, $request_name));
 		add_action('wp_ajax_nopriv_'.$request_name,  array($this, $request_name));
+	}
+
+	function send_audio() {
+		session_start();
+		if (isset($_POST['audioCodec']) && !empty($_FILES['audio']) && !empty($_SESSION['active_chat'])) {
+			$audio_file_path = $_FILES['audio']['tmp_name'];
+			$audioCodec = sanitize_text_field($_POST['audioCodec']);
+	
+			// Überprüfen, ob die Datei hochgeladen wurde
+			if (is_uploaded_file($_FILES['audio']['tmp_name'])) {
+				error_log($_FILES['audio']['tmp_name']);
+				try {
+					// Transkription der Audiodatei
+					$message = transcribe_audio($audio_file_path, $audioCodec);
+				} catch (Exception $e) {
+					wp_send_json_error($e->getMessage());
+				}
+	
+				wp_send_json_success($message);
+			} else {
+				wp_send_json_error('Datei wurde nicht korrekt hochgeladen.');
+			}
+		} else {
+			wp_send_json_error('Ungültige Anfrage.');
+		}
+		wp_die();
 	}
 
 	function save_notifications(){

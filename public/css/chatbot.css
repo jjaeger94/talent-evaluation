@@ -9,6 +9,12 @@
     margin-top: 20px; /* Abstand oben */
 }
 
+.indication-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+}
+
 .no-more-cards{
   padding: 20px;
   text-align: center;
@@ -47,6 +53,18 @@
     max-width: 70%; /* Maximale Breite der Sprechblasen */
     word-wrap: break-word; /* Textumbruch erzwingen */
     margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
+}
+
+.speaking {
+  width: fit-content;
+  align-self: flex-end; /* Assistant-Sprechblasen linksbündig ausrichten */
+  background-color: #007bff; /* Hintergrundfarbe */
+  color: #fff; /* Textfarbe */
+  border-radius: 10px; /* Abrundung der Ecken */
+  padding: 20px 25px 10px 25px; /* Innenabstand */
+  max-width: 70%; /* Maximale Breite der Sprechblasen */
+  word-wrap: break-word; /* Textumbruch erzwingen */
+  margin-bottom: 10px; /* Abstand zwischen den Sprechblasen */
 }
 
 .input-error {
@@ -107,5 +125,65 @@
     }
     100% {
       box-shadow: 9984px 0 0 0 var(--dot-color), 9999px 0 0 0 var(--dot-color), 10014px 0 0 0 var(--dot-color);
+    }
+  }
+/**
+ * ==============================================
+ * Music playing
+ * ==============================================
+ */
+  .playing {
+    background: rgba(255,255,255,.1);
+    width: 2rem;
+    height: 2rem;
+    border-radius: .3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: .5rem;
+    box-sizing: border-box;
+  }
+  
+  .playing__bar {
+    display: inline-block;
+    background: white;
+    width: 30%;
+    height: 100%;
+    animation: up-and-down 1.3s ease infinite alternate;
+  }
+  
+  .playing__bar1 {
+    height: 60%;
+  }
+  
+  .playing__bar2 {
+    height: 30%;
+    animation-delay: -2.2s;
+  }
+  
+  .playing__bar3 {
+    height: 75%;
+    animation-delay: -3.7s;
+  }
+  
+  @keyframes up-and-down {
+    10% {
+      height: 30%;
+    }
+    
+    30% {
+      height: 100%;
+    }
+    
+    60% {
+      height: 50%;
+    }
+    
+    80% {
+      height: 75%;
+    }
+    
+    100% {
+      height: 60%;
     }
   }

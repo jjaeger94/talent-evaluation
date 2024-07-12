@@ -485,3 +485,38 @@
         return false;
     }
     
+    function transcribe_audio($file_path, $type) {
+        // API-Schlüssel und Assistant ID aus den Plugin-Optionen abrufen
+        $api_key = get_option('te_api_key');
+    
+        $ch = curl_init();
+    
+        curl_setopt($ch, CURLOPT_URL, "https://api.openai.com/v1/audio/transcriptions");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer $api_key",
+            "Content-Type: multipart/form-data"
+        ));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            'file' => new CURLFile($file_path, 'audio/'.$type, 'audio.'.$type),
+            'model' => 'whisper-1'
+        ));
+        $response = curl_exec($ch);
+    
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            throw new Exception('cURL error: ' . $error_msg);
+        }
+    
+        curl_close($ch);
+    
+        $result = json_decode($response, true);
+    
+        if (isset($result['text'])) {
+            return $result['text'];
+        } else {
+            throw new Exception('Error in transcription response: ' . $response);
+        }
+    }
