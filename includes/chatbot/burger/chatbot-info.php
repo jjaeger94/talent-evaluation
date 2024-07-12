@@ -31,7 +31,10 @@
                 <ul>
                     <li>Stelle viele Fragen, um Dieters Perspektive und Bedürfnisse zu verstehen.</li>
                     <li>Nutze deine Empathie, um eine unterstützende Atmosphäre zu schaffen.</li>
+                    <li>Keine Lust zu tippen? Nutze einfach die Spracheingabe, indem du das Mikrofon-Symbol gedrückt hältst.</li>
+                    <li>Wenn du über Instagram das Mikrofon benutzen möchtest, tippe oben rechts auf die drei Punkte und wähle 'In externem Browser öffnen'.</li>
                 </ul>
+                <br>
                 <p>Das Spiel beginnt mit deiner ersten Nachricht. Viel Erfolg!</p>
             </div>
             <div class="modal-footer">
