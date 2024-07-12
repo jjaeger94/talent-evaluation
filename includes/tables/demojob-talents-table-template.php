@@ -12,7 +12,7 @@
                     <td><?php echo $talent->prename .' '. $talent->surname; ?></td>
                     <td>
                         <span class="matching-status">
-                            <?php $matching = get_matching_for_ids($talent->ID, $job->ID); echo $matching ? get_preference_state($matching->value) : get_preference_state(null); ?>
+                            <?php $preference = get_preference_for_ids($talent->ID, $job->ID); echo $preference ? get_preference_state($preference->value) : get_preference_state(null); ?>
                         </span>
                     </td>
                 </tr>

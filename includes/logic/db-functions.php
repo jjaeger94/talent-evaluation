@@ -232,7 +232,7 @@ function get_active_matching_count_for_talent_id($talent_id){
     return $wpdb->get_var($query);
 }
 
-function get_preferences_for_ids($talent_id, $job_id){
+function get_preference_for_ids($talent_id, $job_id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_preferences';
     return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE talent_id = %d AND job_id = %d", $talent_id, $job_id));
