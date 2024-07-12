@@ -16,7 +16,7 @@
                     </td>
                     <td>
                         <span class="matching-status">
-                            <?php $preference = get_preferences_for_ids($talent->ID, $demojob->ID); echo $preference ? get_preference_state($preference->value) : get_preference_state(null); ?>
+                            <?php $preference = get_preference_for_ids($talent->ID, $demojob->ID); echo $preference ? get_preference_state($preference->value) : get_preference_state(null); ?>
                         </span>
                     </td>
                 </tr>
