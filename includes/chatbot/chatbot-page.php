@@ -9,7 +9,7 @@
                     <?php include 'message.php'; ?>
                 <?php endforeach; ?>     
             <?php else : ?>          
-                <div class="alert alert-warning w-100">Beginne das Spiel indem du unten die erste Nachricht an Dieter sendest.</div>
+                <div class="alert alert-warning w-100">Beginne das Spiel indem du unten die erste Nachricht an Dieter sendest. Du kannst entweder tippen oder gedrückt halten um eine Sprachnachrricht aufzunehmen.</div>
             <?php endif; ?>
             </div>
             <?php if ($state != 'in_progress') : ?>
@@ -36,7 +36,7 @@
 <div id="chat-input-container" class="fixed-bottom">
     <form id="chat-form" class="mt-4">
         <div class="input-group">
-            <input type="text" id="user-message-input" class="form-control" placeholder="Nachricht eintippen oder aufnehmen...">
+            <input type="text" id="user-message-input" class="form-control" placeholder="Tippen oder gedrückt halten zum aufnehmen...">
             <button id="button-send-message" type="submit" class="btn btn-primary">
                 <i id="send-icon" class="fa fa-paper-plane"></i>
                 <i id="mic-icon" class="fa fa-microphone" style="display: none;"></i>
@@ -64,8 +64,8 @@
 
         function render_send_btn(){
             if ($('#user-message-input').val().trim() === '') {
-            $('#send-icon').hide();
-            $('#mic-icon').show();
+                $('#send-icon').hide();
+                $('#mic-icon').show();
             } else {
                 $('#send-icon').show();
                 $('#mic-icon').hide();
