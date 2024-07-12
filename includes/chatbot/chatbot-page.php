@@ -242,7 +242,10 @@
             }
         }
 
-        render_send_btn();
+        setTimeout(function() {
+            render_send_btn();
+        }, 1000);
+        
 
         if (state == 'success') {
             $('#talentFormModal').modal('show');
