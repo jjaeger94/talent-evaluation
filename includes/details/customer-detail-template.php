@@ -14,7 +14,7 @@ if($id == 1){
         SELECT COUNT(*)
         FROM {$preference_table} p
         WHERE p.job_id = j.ID
-        AND p.value = 1
+        AND p.value = 2
     ) AS positive_matching_count
     FROM {$jobs_table} j
     JOIN {$customers_table} c ON j.customer_id = c.ID
