@@ -9,7 +9,7 @@
         <tbody>
             <?php foreach ($talents as $talent) : ?>
                 <tr>
-                    <td><?php echo $talent->prename .' '. $talent->surname; ?></td>
+                    <td><a href="<?php echo esc_url(home_url('/talent-details/?id=' . $talent->ID)); ?>"><?php echo $talent->prename . ' ' . $talent->surname; ?></a></td>
                     <td>
                         <span class="matching-status">
                             <?php $preference = get_preference_for_ids($talent->ID, $job->ID); echo $preference ? get_preference_state($preference->value) : get_preference_state(null); ?>
