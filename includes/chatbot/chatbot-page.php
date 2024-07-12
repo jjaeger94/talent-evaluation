@@ -162,11 +162,11 @@
                         await navigator.mediaDevices.getUserMedia({ audio: true });
                     } catch (err) {
                         console.error('Microphone access denied.'); 
-                        alert('Um die Spracheingabe nutzen zu können, erlaube der Seite bitte den Zugriff auf Ihr Mikrofon.');  
+                        alert('Um die Spracheingabe nutzen zu können, erlaube der Seite bitte den Zugriff auf dein Mikrofon. Möchtest du eine Textnachricht senden, tippe diese bitte links unten ein.');  
                     };
                 } else {
                     console.error('Microphone access denied.');   
-                    alert('Um die Spracheingabe nutzen zu können, erlaube der Seite bitte den Zugriff auf Ihr Mikrofon.');  
+                    alert('Um die Spracheingabe nutzen zu können, erlaube der Seite bitte den Zugriff auf dein Mikrofon. Möchtest du eine Textnachricht senden, tippe diese bitte links unten ein.');  
                 }   
             }
         }
