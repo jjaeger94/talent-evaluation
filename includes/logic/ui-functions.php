@@ -102,8 +102,8 @@ function get_talent_state($talent){
 function get_preference_state($type){
     $types = [
         0 => 'Nicht gesetzt',
-        1 => 'Positiv',
-        2 => 'Negativ'
+        1 => 'Negativ',
+        2 => 'Positiv'
     ];
     return isset($types[$type]) ? $types[$type] : 'Nicht gesetzt';
 }
