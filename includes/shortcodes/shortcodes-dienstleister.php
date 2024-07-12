@@ -188,7 +188,7 @@
             include TE_DIR.'tables/customers-table-template.php'; // Pfad zur Datei mit dem Test-Formular
             return ob_get_clean(); 
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+            return 'Keine Berechtigung';
         }
     }
 
@@ -281,7 +281,7 @@
             // Kombinierten Inhalt zurückgeben
             return $filter_form . $table_content;
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+            return 'Keine Berechtigung';
         }
     }
 
@@ -342,7 +342,7 @@
             // Kombinierten Inhalt zurückgeben
             return $filter_form . $table_content;
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+            return 'Keine Berechtigung';
         }
     }
     
@@ -364,7 +364,7 @@
             include TE_DIR . 'tables/events-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
             return ob_get_clean();
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+            return 'Keine Berechtigung';
         }
     }
 
@@ -385,6 +385,6 @@
             include TE_DIR . 'tables/evaluation-table-template.php'; // Pfad zur Datei mit dem Tabellen-Template
             return ob_get_clean();
         } else {
-            return 'Bitte loggen Sie sich ein, um Ihre Talente zu sehen.';
+            return 'Keine Berechtigung';
         }
     }
