@@ -9,7 +9,7 @@
                     <?php include 'message.php'; ?>
                 <?php endforeach; ?>     
             <?php else : ?>          
-                <div class="alert alert-warning w-100">Beginne das Spiel, indem du unten die erste Nachricht an Dieter sendest. Du kannst entweder tippen oder gedrückt halten, um eine Sprachnachricht aufzunehmen. Wenn du über Instagram das Mikrofon benutzen möchtest, tippe oben rechts auf die drei Punkte und wähle 'In externem Browser öffnen'.</div>
+                <div class="alert alert-warning w-100">Beginne das Spiel, indem du unten die erste Nachricht an Dieter sendest. Du kannst entweder tippen oder gedrückt halten, um eine Sprachnachricht aufzunehmen.</div>
             <?php endif; ?>
             </div>
             <?php if ($state != 'in_progress') : ?>
