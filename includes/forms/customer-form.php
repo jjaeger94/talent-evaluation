@@ -38,6 +38,13 @@
 </div>
     <button type="submit" class="btn btn-primary"><?php echo isset($customer->ID) ? 'Änderungen speichern' : 'Neuen Kunden anlegen'; ?></button>
 </form>
+<?php if(isset($customer->ID)): ?>
+<div class="row d-flex justify-content-end">
+    <div class="col-auto">
+        <button id="removeCustomer" class="btn btn-danger">Kunden entfernen</button>
+    </div>
+</div>
+<?php endif; ?>
 <div id="form-message"></div>
 <script>
 jQuery(document).ready(function($) {
@@ -57,9 +64,33 @@ jQuery(document).ready(function($) {
                 },
                 error: function(xhr, status, error) {
                     // Fehlerfall: Anzeige einer Fehlermeldung
-                    console.error('Fehler beim Speichern der Benutzerdaten:', error);
+                    console.error('Fehler beim Speichern der Kundendaten:', error);
                 }
             });
         });
+        <?php if(isset($customer->ID)): ?>
+        $('#removeCustomer').click(()=>{
+            // AJAX-Anfrage senden
+            if (confirm('Eintrag wirklich entfernen?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    data: 'customer_id=<?php echo $customer->ID; ?>&action=remove_customer',
+                    success: function(response) {
+                        // Erfolgreiche Verarbeitung
+                        console.log(response);
+                        // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                        if(response.success){
+                            window.location.href = '<?php echo home_url('/customers/');?>';
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Fehlerbehandlung
+                        console.error(error);
+                    }
+                });
+            }
+        });
+        <?php endif; ?>
 });
 </script>

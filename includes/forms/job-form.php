@@ -165,23 +165,25 @@ jQuery(document).ready(function($) {
     });
     $('#removeJob').click(()=>{
         // AJAX-Anfrage senden
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            data: 'job_id=<?php echo $job->ID; ?>&action=remove_job',
-            success: function(response) {
-                // Erfolgreiche Verarbeitung
-                console.log(response);
-                // Seite neu laden, um die aktualisierten Daten anzuzeigen
-                if(response.success){
-                    window.location.href = '<?php echo home_url('/jobs/');?>';
+        if (confirm('Eintrag wirklich entfernen?')) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                data: 'job_id=<?php echo $job->ID; ?>&action=remove_job',
+                success: function(response) {
+                    // Erfolgreiche Verarbeitung
+                    console.log(response);
+                    // Seite neu laden, um die aktualisierten Daten anzuzeigen
+                    if(response.success){
+                        window.location.href = '<?php echo home_url('/jobs/');?>';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Fehlerbehandlung
+                    console.error(error);
                 }
-            },
-            error: function(xhr, status, error) {
-                // Fehlerbehandlung
-                console.error(error);
-            }
-        });
+            });
+}
     });
     <?php endif; ?>
 });

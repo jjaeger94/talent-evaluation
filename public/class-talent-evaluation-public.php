@@ -85,6 +85,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('submit_evaluation');
 		$this->add_public_request('request_consultation');
 		$this->add_public_request('remove_job');
+		$this->add_public_request('remove_customer');
 		$this->add_public_request('deactivate_job');
 		$this->add_public_request('reactivate_job');
 		$this->add_public_request('upload_document');
@@ -1039,6 +1040,32 @@ class Talent_Evaluation_Public {
 		}
 		remove_expired_job($job);
 		wp_send_json_success('Eintrag gelöscht');
+		wp_die();
+	}
+
+	function remove_customer(){
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['customer_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$customer_id = absint($_POST['customer_id']);
+		$customer = get_customer_by_id($customer_id);
+		if(!$customer){
+			wp_send_json_error('Kunde nicht gefunden');
+		}
+		global $wpdb;
+		$wpdb->delete(
+			$wpdb->prefix . 'te_customers',
+			array('ID' => $customer_id),
+			array('%d')
+		);
+		if ($wpdb->last_error !== '') {
+			wp_send_json_error($wpdb->last_error);
+		}else{
+			wp_send_json_success('Eintrag gelöscht');
+		}
 		wp_die();
 	}
 	
