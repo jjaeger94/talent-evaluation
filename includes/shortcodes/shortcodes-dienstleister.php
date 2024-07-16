@@ -8,6 +8,8 @@
         add_shortcode('show_customers', 'render_customers_table');
         add_shortcode('customer_details', 'render_customer_details');
         add_shortcode('show_jobs', 'render_jobs_table');
+        add_shortcode('show_games', 'render_games_table');
+        add_shortcode('game_details', 'render_game_details');
         add_shortcode('job_details', 'render_job_details');
         add_shortcode('compare_details', 'render_compare_details');
         add_shortcode('show_matchings', 'render_matching_table');
@@ -174,6 +176,35 @@
         }
     }
 
+    function render_game_details() {
+        if (has_service_permission()) {
+            if ( isset( $_GET['id'] ) ) {
+                $id = intval( $_GET['id'] );
+                // Abfrage, um Talentdetails abzurufen
+                $game = get_game_by_id($id);
+
+                // Überprüfen, ob das Talent gefunden wurde
+                if ($game) {
+                    ob_start(); // Puffer starten
+                    include TE_DIR.'details/game-detail-template.php'; // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean(); 
+                } else {
+                    // Talent nicht gefunden
+                    return '<p>ID nicht gefunden.</p>';
+                }
+            } else if(isset( $_GET['add']) && $_GET['add'] == true){
+                $game = [];
+                ob_start(); // Puffer starten
+                include TE_DIR.'details/game-detail-template.php'; // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean(); 
+            } else {
+                return '<p>ID nicht übergeben.</p>';
+            }
+        } else {
+            return '<p>Keine Berechtigung.</p>';
+        }
+    }
+
     // Benutzerdefinierte Funktion, um die Kunden-Tabelle zu erstellen
     function render_customers_table() {
         // Überprüfen, ob der Benutzer eingeloggt ist
@@ -186,6 +217,24 @@
             // Überprüfen, ob Talente vorhanden sind
             ob_start(); // Puffer starten
             include TE_DIR.'tables/customers-table-template.php'; // Pfad zur Datei mit dem Test-Formular
+            return ob_get_clean(); 
+        } else {
+            return 'Keine Berechtigung';
+        }
+    }
+
+    // Benutzerdefinierte Funktion, um die Kunden-Tabelle zu erstellen
+    function render_games_table() {
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (has_service_permission()) {
+            // Abfrage, um Talente abzurufen
+            global $wpdb;
+            $games_table = $wpdb->prefix . 'te_games';
+            $games = $wpdb->get_results("SELECT * FROM $games_table ORDER BY added DESC");
+
+            // Überprüfen, ob Talente vorhanden sind
+            ob_start(); // Puffer starten
+            include TE_DIR.'tables/games-table-template.php'; // Pfad zur Datei mit dem Test-Formular
             return ob_get_clean(); 
         } else {
             return 'Keine Berechtigung';

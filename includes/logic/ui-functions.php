@@ -20,6 +20,16 @@ function get_job_state($state){
 
     return isset($states[$state]) ? $states[$state] : 'Unbekannt';
 }
+
+function get_game_type($state){
+    $states = [
+        0 => 'Default'
+
+    ];
+
+    return isset($states[$state]) ? $states[$state] : 'Unbekannt';
+}
+
 function get_event_type($type) {
     $types = [
         1 => 'Registrierungserinnerung',

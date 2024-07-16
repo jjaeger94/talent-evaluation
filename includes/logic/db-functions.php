@@ -5,6 +5,16 @@ function get_demojobs(){
     $query = "SELECT * FROM $table_name WHERE state = 1 AND customer_id = 1 ORDER BY edited DESC";
     return $wpdb->get_results($query);
 }
+function get_game_by_key($key){
+    global $wpdb;
+    $query = $wpdb->prepare("
+        SELECT *
+        FROM {$wpdb->prefix}te_games
+        WHERE gamekey = %s
+    ", $key);
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
+}
 function get_talent_by_email($email){
     global $wpdb;
     $query = $wpdb->prepare("
@@ -496,6 +506,17 @@ function get_customer_by_id($customer_id){
         SELECT *
         FROM {$wpdb->prefix}te_customers
         WHERE ID = {$customer_id}
+    ");
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
+}
+
+function get_game_by_id($game_id){
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_games
+        WHERE ID = {$game_id}
     ");
     // Bewerbungsdetails abrufen
     return $wpdb->get_row( $query );

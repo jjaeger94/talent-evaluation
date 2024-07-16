@@ -130,6 +130,18 @@ class Talent_Evaluation_Activator
                 'slug' => 'customer-details',
                 'template' => '', // optional: Vorlage für die Seite
             ),
+            array(
+                'title' => 'Game Details',
+                'content' => '[game_details]',
+                'slug' => 'game-details',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
+            array(
+                'title' => 'Games',
+                'content' => '[show_games]',
+                'slug' => 'games',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
         );
 
         foreach ($pages as $page) {
@@ -366,6 +378,35 @@ class Talent_Evaluation_Activator
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (talent_id) REFERENCES $talents(ID)
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
+            $games = $wpdb->prefix . 'te_games';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$games}'") != $games) {
+                $sql = "CREATE TABLE $games (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    gamekey VARCHAR(20) NOT NULL,
+                    title VARCHAR(20) NOT NULL,
+                    assistant_id VARCHAR(255),
+                    type INT NOT NULL,
+                    image_url VARCHAR(255),
+                    start_msg TEXT,
+                    info_title VARCHAR(255),
+                    info_msg TEXT,
+                    info_text TEXT,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                ) $charset_collate;";
+                dbDelta($sql);
+            }
+            $products = $wpdb->prefix . 'te_products';
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$products}'") != $products) {
+                $sql = "CREATE TABLE $products (
+                    ID INT AUTO_INCREMENT PRIMARY KEY,
+                    game_id INT NULL,
+                    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (game_id) REFERENCES $games(ID)
                 ) $charset_collate;";
                 dbDelta($sql);
             }
