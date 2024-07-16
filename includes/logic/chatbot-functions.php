@@ -476,11 +476,10 @@
         if(!$_SESSION['game']){
             return false;
         }
-        $game = $_SESSION['game'];
-        if($game == 'burger'){
-            return 'asst_3MWRUUDVcZR8zRe5DjmYAqJD';
-        }else if($game == 'glasses'){
-            return 'asst_n5KxIqgqswb4ZV7HSvaIgZsg';
+        $key = $_SESSION['game'];
+        $game = get_game_by_key($key);
+        if($game){
+            return $game->assistant_id;
         }
         return false;
     }

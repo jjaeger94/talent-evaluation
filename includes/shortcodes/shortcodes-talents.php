@@ -4,7 +4,6 @@
      */
 function register_shortcodes_talents() {
         add_shortcode('chatbot_page', 'render_chatbot_page_content');
-        add_shortcode('chatbot_page_info', 'render_chatbot_info');
         add_shortcode('game_info', 'render_game_info');
         add_shortcode('start_game_button', 'render_start_btn');
         add_shortcode('get_game_image', 'render_game_image');
@@ -133,11 +132,12 @@ function render_talent_page(){
 }
 
 function render_game_image(){
-     $game = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
-     if($game == 'glasses'){
-          return '<img src="' . home_url('/wp-content/uploads/2024/05/sahra.jpeg') . '" alt="Kundin">';
+     $key = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
+     $game = get_game_by_key($key);
+     if($game){
+          return '<img src="' . $game->image_url . '" alt="Kundin">';
      }else{
-          return '<img src="' . home_url('/wp-content/uploads/2024/05/Dieter_ohne_rand.') . '" alt="Kundin">';
+          return '';
      }
 }
 
@@ -160,43 +160,32 @@ function render_start_btn(){
  
 
  function render_game_info(){
-     $game = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
-
-     ob_start();
-     if($game == 'burger'){
-          include TE_DIR.'chatbot/burger/game-info.php';
-     }else if($game == 'glasses'){
-          include TE_DIR.'chatbot/glasses/game-info.php';
+     $key = isset($_GET['game']) ? sanitize_text_field($_GET['game']) : 'burger';
+     $game = get_game_by_key($key);
+     if(!isset($game)){
+          return 'Spiel nicht gefunden';
      }
+     ob_start();
+     echo $game->info_text;
      return ob_get_clean();
  }
-
-function render_chatbot_info(){
-     if(!isset($_GET['game'])){
-          return do_shortcode('[insert page="1632" display="content"]');
-     }
-     $game = sanitize_text_field($_GET['game']);
-     ob_start();
-     if($game == 'burger'){
-          include TE_DIR.'chatbot/burger/chatbot-info.php';
-     }else if($game == 'glasses'){
-          include TE_DIR.'chatbot/glasses/chatbot-info.php';
-     };
-     return ob_get_clean();
-}
 
 function render_chatbot_page_content() {
      if(!isset($_GET['game'])){
           return do_shortcode('[insert page="1632" display="content"]');
      }
-     $game = sanitize_text_field($_GET['game']);
+     $key = sanitize_text_field($_GET['game']);
+     $game = get_game_by_key($key);
+     if(!$game){
+          return 'Game not found';
+     }
      if(!isset($_SESSION['game'])){
-          $_SESSION['game'] = $game;
+          $_SESSION['game'] = $key;
      }
      $state = 'in_progress';
      $messages = [];
      if (isset($_SESSION['active_chat'])) {
-          if($game != $_SESSION['game']){
+          if($key != $_SESSION['game']){
                ob_start();
                echo '<p>Bitte beende erst dein letztes Spiel oder löschen den Chat</p>';
                include TE_DIR.'chatbot/delete-chat.php';
@@ -235,11 +224,7 @@ function render_chatbot_page_content() {
      }
 
      ob_start();
-     if($game == 'burger'){
-          include TE_DIR.'chatbot/burger/chatbot-info.php';
-     }else if($game == 'glasses'){
-          include TE_DIR.'chatbot/glasses/chatbot-info.php';
-     };
+     include TE_DIR.'chatbot/chatbot-info.php';
      include TE_DIR.'chatbot/chatbot-page.php';
      return ob_get_clean();
  }
