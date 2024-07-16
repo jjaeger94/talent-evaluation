@@ -404,6 +404,9 @@ class Talent_Evaluation_Activator
                 $sql = "CREATE TABLE $products (
                     ID INT AUTO_INCREMENT PRIMARY KEY,
                     game_id INT NULL,
+                    product_name VARCHAR(255),
+                    product_description TEXT,
+                    image_url VARCHAR(255),
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (game_id) REFERENCES $games(ID)
