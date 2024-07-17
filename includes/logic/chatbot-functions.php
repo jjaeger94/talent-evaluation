@@ -55,7 +55,7 @@
         }
     }
 
-    function add_message_to_thread($thread_id, $message_content) {
+    function add_message_to_thread($thread_id, $message_content, $role = 'user') {
         // API-Endpunkt für die Nachrichtenhinzufügung
         $endpoint = 'https://api.openai.com/v1/threads/' . urlencode($thread_id) . '/messages';
     
@@ -76,7 +76,7 @@
     
         // Daten für die cURL-Anfrage
         $data = json_encode(array(
-            'role' => 'user',
+            'role' => $role,
             'content' => $message_content
         ));
     

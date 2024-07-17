@@ -206,6 +206,16 @@ function render_chatbot_page_content() {
                     } else {
                          $state = 'in_progress';
                     }
+               }else if($game->type == 1 && isset($game->first_msg) && $game->first_msg !== ''){
+                    //Bot first
+                    if(add_message_to_thread($thread_id, $game->first_msg, 'assistant')){
+                         $messages = list_messages_by_thread($thread_id);
+                    }
+               }else if($game->type == 2 && isset($game->first_msg) && $game->first_msg !== ''){
+                    //User first
+                    if(add_message_to_thread($thread_id, $game->first_msg)){
+                         $messages = list_messages_by_thread($thread_id);
+                    }
                }
          } else {
                // Wenn ein Fehler beim Abrufen der Nachrichten aufgetreten ist, handle den Fehler entsprechend
@@ -217,6 +227,17 @@ function render_chatbot_page_content() {
           $thread_id = create_thread(); // Annahme: Funktion create_thread() erstellt einen neuen Thread und gibt die Thread-ID zurück
           if ($thread_id !== false) {
                $_SESSION['active_chat'] = $thread_id;
+               if($game->type == 1 && isset($game->first_msg) && $game->first_msg !== ''){
+                    //Bot first
+                    if(add_message_to_thread($thread_id, $game->first_msg, 'assistant')){
+                         $messages = list_messages_by_thread($thread_id);
+                    }
+               }else if($game->type == 2 && isset($game->first_msg) && $game->first_msg !== ''){
+                    //User first
+                    if(add_message_to_thread($thread_id, $game->first_msg)){
+                         $messages = list_messages_by_thread($thread_id);
+                    }
+               }
           } else {
                // Wenn ein Fehler beim Erstellen des Threads aufgetreten ist, handle den Fehler entsprechend
                return "Fehler beim Erstellen des Threads";

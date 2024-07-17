@@ -37,12 +37,16 @@
 <div class="form-group mb-3">
 <label for="type"><strong>Typ</strong></label>
 <select class="form-select" id="type" name="type">
-    <?php for ($i = 0; $i <= 0; $i++) : ?>
+    <?php for ($i = 0; $i <= 2; $i++) : ?>
         <option value="<?php echo $i; ?>" <?php echo (isset($game->type) && $game->type == $i) ? 'selected' : ''; ?>>
             <?php echo get_game_type($i); ?>
         </option>
     <?php endfor; ?>
 </select>
+<div class="form-group mb-3">
+    <label for="first_msg"><strong>Erste Nachricht</strong></label>
+    <textarea rows="3" class="form-control" id="first_msg" name="first_msg"><?php echo isset($game->first_msg) ? esc_attr($game->first_msg) : ''; ?></textarea>
+</div>
 </div>
     <button type="submit" class="btn btn-primary"><?php echo isset($game->ID) ? 'Änderungen speichern' : 'Neues Spiel anlegen'; ?></button>
 </form>

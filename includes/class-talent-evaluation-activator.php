@@ -400,6 +400,7 @@ class Talent_Evaluation_Activator
                     info_title VARCHAR(255),
                     info_msg TEXT,
                     info_text TEXT,
+                    first_msg TEXT,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 ) $charset_collate;";

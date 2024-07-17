@@ -906,6 +906,7 @@ class Talent_Evaluation_Public {
 		$start_msg = wp_kses_post($_POST['start_msg']);
 		$info_title = isset($_POST['info_title']) ? sanitize_text_field($_POST['info_title']) : '';
 		$info_msg = wp_kses_post($_POST['info_msg']);
+		$first_msg = wp_kses_post($_POST['first_msg']);
 		$type = isset($_POST['type']) ? intval($_POST['type']) : 0;
 	
 		// Prepare data arrays for insert and update
@@ -918,12 +919,14 @@ class Talent_Evaluation_Public {
 			'start_msg' => $start_msg,
 			'info_title' => $info_title,
 			'info_msg' => $info_msg,
+			'first_msg' => $first_msg,
 			'type' => $type,
 		);
 	
 		// Remove null values to avoid overwriting with NULL in database
 		$data = array_filter($data, function($value) { return !is_null($value); });
 		$format = array(
+			'%s',
 			'%s',
 			'%s',
 			'%s',

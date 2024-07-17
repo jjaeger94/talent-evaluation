@@ -32,8 +32,9 @@ function get_product_type($state){
 
 function get_game_type($state){
     $states = [
-        0 => 'Default'
-
+        0 => 'Default',
+        1 => 'Bot First',
+        2 => 'User First'
     ];
 
     return isset($states[$state]) ? $states[$state] : 'Unbekannt';
