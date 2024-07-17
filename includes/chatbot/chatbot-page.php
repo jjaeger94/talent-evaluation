@@ -77,6 +77,15 @@
             render_send_btn();
         });
 
+        $('#user-message-input').keypress(function (e) {
+            var key = e.which;
+            if(key == 13 && !$('#button-send-message').prop('disabled'))  // the enter key code
+            {
+                sendMessage();
+                return false;  
+            }
+        });   
+
         $('#button-send-message').click((e)=>{
             e.preventDefault();
         });
