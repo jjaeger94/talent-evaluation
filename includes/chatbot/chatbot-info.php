@@ -25,13 +25,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tipModalLabel"><?php echo isset($game->info_title) ? $game->info_title : 'Tipps';?></h5>
+                <button class="btn-close" id="help-btn-close" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <?php echo isset($game->info_msg) ? $game->info_msg : 'Tipps' ?>
                 <?php include_once 'product-view.php'; ?>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="help-btn-close">Schließen</button>
             </div>
         </div>
     </div>
