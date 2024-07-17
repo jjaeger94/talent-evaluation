@@ -858,7 +858,7 @@ class Talent_Evaluation_Public {
 			if (false === $updated) {
 				wp_send_json_error($wpdb->last_error);
 			} else {
-				wp_send_json_success('Spiel erfolgreich aktualisiert.');
+				wp_send_json_success('Produkt erfolgreich aktualisiert.');
 			}
 		} else {
 			// Fügen Sie ein neues Spiel hinzu
@@ -871,7 +871,7 @@ class Talent_Evaluation_Public {
 			if (false === $inserted) {
 				wp_send_json_error($wpdb->last_error);
 			} else {
-				wp_send_json_success('Spiel erfolgreich hinzugefügt.');
+				wp_send_json_success('Produkt erfolgreich hinzugefügt.');
 			}
 		}
 		wp_die();
