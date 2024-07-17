@@ -28,6 +28,7 @@
             </div>
             <div class="modal-body">
                 <?php echo isset($game->info_msg) ? $game->info_msg : 'Tipps' ?>
+                <?php include_once 'product-view.php'; ?>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="help-btn-close">Schließen</button>
