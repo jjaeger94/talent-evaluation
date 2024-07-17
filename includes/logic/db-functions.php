@@ -213,6 +213,19 @@ function get_active_matching_for_talent_id($talent_id){
     return $wpdb->get_results($query);
 }
 
+function get_products_for_game_id($game_id){
+    global $wpdb;
+    $products_table = $wpdb->prefix . 'te_products';
+
+    $query = $wpdb->prepare("
+        SELECT *
+        FROM {$products_table} 
+        WHERE game_id = %d
+    ", $game_id);
+
+    return $wpdb->get_results($query);
+}
+
 function get_preferences_for_talent_id($talent_id){
     global $wpdb;
     $preferences_table = $wpdb->prefix . 'te_preferences';
@@ -517,6 +530,17 @@ function get_game_by_id($game_id){
         SELECT *
         FROM {$wpdb->prefix}te_games
         WHERE ID = {$game_id}
+    ");
+    // Bewerbungsdetails abrufen
+    return $wpdb->get_row( $query );
+}
+
+function get_product_by_id($product_id){
+    global $wpdb;
+    $query = $wpdb->prepare( "
+        SELECT *
+        FROM {$wpdb->prefix}te_products
+        WHERE ID = {$product_id}
     ");
     // Bewerbungsdetails abrufen
     return $wpdb->get_row( $query );

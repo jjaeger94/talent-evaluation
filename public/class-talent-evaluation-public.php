@@ -92,6 +92,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('download_document');
 		$this->add_public_request('save_notifications');
 		$this->add_public_request('edit_game');
+		$this->add_public_request('edit_product');
 	}
 
 	private function add_public_request($request_name){
@@ -800,6 +801,79 @@ class Talent_Evaluation_Public {
 			}
 		}
 
+		wp_die();
+	}
+
+	function edit_product() {
+		global $wpdb;
+	
+		// Überprüfen, ob der Benutzer die erforderlichen Berechtigungen hat
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+	
+		// Überprüfen, ob das erforderliche Feld 'assistant_id' gesetzt ist
+		if (!isset($_POST['game_id'])) {
+			wp_send_json_error('game_id error');
+		}
+	
+		// Sanitize and retrieve POST data
+		$product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+		$game_id = intval($_POST['game_id']);
+		$product_name = sanitize_text_field($_POST['product_name']);
+		$image_url = isset($_POST['image_url']) ? sanitize_text_field($_POST['image_url']) : '';
+		$product_description = wp_kses_post($_POST['product_description']);
+		$type = isset($_POST['type']) ? intval($_POST['type']) : 0;
+	
+		// Prepare data arrays for insert and update
+		$data = array(
+			'game_id' => $game_id,
+			'product_name' => $product_name,
+			'image_url' => $image_url,
+			'product_description' => $product_description,
+			'type' => $type,
+		);
+	
+		// Remove null values to avoid overwriting with NULL in database
+		$data = array_filter($data, function($value) { return !is_null($value); });
+		$format = array(
+			'%d',
+			'%s',
+			'%s',
+			'%s',
+			'%d',
+		);
+		$format = array_slice($format, 0, count($data)); // Adjust format array length
+	
+		if ($product_id > 0) {
+			// Aktualisieren Sie das vorhandene Spiel
+			$updated = $wpdb->update(
+				$wpdb->prefix . 'te_products',
+				$data,
+				array('ID' => $product_id),
+				$format,
+				array('%d')
+			);
+	
+			if (false === $updated) {
+				wp_send_json_error($wpdb->last_error);
+			} else {
+				wp_send_json_success('Spiel erfolgreich aktualisiert.');
+			}
+		} else {
+			// Fügen Sie ein neues Spiel hinzu
+			$inserted = $wpdb->insert(
+				$wpdb->prefix . 'te_products',
+				$data,
+				$format
+			);
+	
+			if (false === $inserted) {
+				wp_send_json_error($wpdb->last_error);
+			} else {
+				wp_send_json_success('Spiel erfolgreich hinzugefügt.');
+			}
+		}
 		wp_die();
 	}
 

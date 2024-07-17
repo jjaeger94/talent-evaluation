@@ -10,6 +10,7 @@
         add_shortcode('show_jobs', 'render_jobs_table');
         add_shortcode('show_games', 'render_games_table');
         add_shortcode('game_details', 'render_game_details');
+        add_shortcode('product_details', 'render_product_details');
         add_shortcode('job_details', 'render_job_details');
         add_shortcode('compare_details', 'render_compare_details');
         add_shortcode('show_matchings', 'render_matching_table');
@@ -182,6 +183,7 @@
                 $id = intval( $_GET['id'] );
                 // Abfrage, um Talentdetails abzurufen
                 $game = get_game_by_id($id);
+                $products = get_products_for_game_id($game->ID);
 
                 // Überprüfen, ob das Talent gefunden wurde
                 if ($game) {
@@ -197,6 +199,37 @@
                 ob_start(); // Puffer starten
                 include TE_DIR.'details/game-detail-template.php'; // Pfad zur Datei mit dem Test-Formular
                 return ob_get_clean(); 
+            } else {
+                return '<p>ID nicht übergeben.</p>';
+            }
+        } else {
+            return '<p>Keine Berechtigung.</p>';
+        }
+    }
+
+    function render_product_details() {
+        if (has_service_permission()) {
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                // Abfrage, um Talentdetails abzurufen
+                $product = get_product_by_id($id);
+    
+                // Überprüfen, ob das Talent gefunden wurde
+                if ($product) {
+                    ob_start(); // Puffer starten
+                    include TE_DIR . 'forms/product-form.php'; // Pfad zur Datei mit dem Test-Formular
+                    return ob_get_clean();
+                } else {
+                    // Talent nicht gefunden
+                    return '<p>ID nicht gefunden.</p>';
+                }
+            } elseif (isset($_GET['add']) && $_GET['add'] == true) {
+                // Neues Produkt hinzufügen
+                $product = new stdClass();
+                $product->game_id = isset($_GET['game_id']) ? intval($_GET['game_id']) : 0;
+                ob_start(); // Puffer starten
+                include TE_DIR . 'forms/product-form.php'; // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean();
             } else {
                 return '<p>ID nicht übergeben.</p>';
             }

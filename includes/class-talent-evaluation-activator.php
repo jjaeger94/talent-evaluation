@@ -142,6 +142,12 @@ class Talent_Evaluation_Activator
                 'slug' => 'games',
                 'template' => '', // optional: Vorlage für die Seite
             ),
+            array(
+                'title' => 'Product Details',
+                'content' => '[product_details]',
+                'slug' => 'product-details',
+                'template' => '', // optional: Vorlage für die Seite
+            ),
         );
 
         foreach ($pages as $page) {
@@ -407,6 +413,7 @@ class Talent_Evaluation_Activator
                     product_name VARCHAR(255),
                     product_description TEXT,
                     image_url VARCHAR(255),
+                    type INT NOT NULL,
                     added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (game_id) REFERENCES $games(ID)
