@@ -23,8 +23,8 @@ function get_job_state($state){
 
 function get_product_type($state){
     $states = [
-        0 => 'Default'
-
+        0 => 'Eigenes Produkt',
+        1 => 'Konkurrenzprodukt'
     ];
 
     return isset($states[$state]) ? $states[$state] : 'Unbekannt';

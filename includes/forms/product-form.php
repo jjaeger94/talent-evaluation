@@ -18,7 +18,7 @@
 <div class="form-group mb-3">
 <label for="type"><strong>Typ</strong></label>
 <select class="form-select" id="type" name="type">
-    <?php for ($i = 0; $i <= 0; $i++) : ?>
+    <?php for ($i = 0; $i <= 1; $i++) : ?>
         <option value="<?php echo $i; ?>" <?php echo (isset($product->type) && $product->type == $i) ? 'selected' : ''; ?>>
             <?php echo get_product_type($i); ?>
         </option>
