@@ -93,6 +93,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('save_notifications');
 		$this->add_public_request('edit_game');
 		$this->add_public_request('edit_product');
+		$this->add_public_request('remove_product');
 	}
 
 	private function add_public_request($request_name){
@@ -1228,6 +1229,32 @@ class Talent_Evaluation_Public {
 		$wpdb->delete(
 			$wpdb->prefix . 'te_customers',
 			array('ID' => $customer_id),
+			array('%d')
+		);
+		if ($wpdb->last_error !== '') {
+			wp_send_json_error($wpdb->last_error);
+		}else{
+			wp_send_json_success('Eintrag gelöscht');
+		}
+		wp_die();
+	}
+
+	function remove_product(){
+		if (!has_service_permission()) {
+			wp_send_json_error('Keine Berechtigung');
+		}
+		if (!isset($_POST['product_id'])) {
+			wp_send_json_error('Keine ID');
+		}
+		$product_id = absint($_POST['product_id']);
+		$product = get_product_by_id($product_id);
+		if(!$product){
+			wp_send_json_error('Produkt nicht gefunden');
+		}
+		global $wpdb;
+		$wpdb->delete(
+			$wpdb->prefix . 'te_products',
+			array('ID' => $product_id),
 			array('%d')
 		);
 		if ($wpdb->last_error !== '') {
