@@ -221,6 +221,7 @@ function get_products_for_game_id($game_id){
         SELECT *
         FROM {$products_table} 
         WHERE game_id = %d
+        ORDER BY type
     ", $game_id);
 
     return $wpdb->get_results($query);
