@@ -235,18 +235,38 @@
             if (response.success) {
                 let data = JSON.parse(response.data);
                 console.log(data);
+                $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
+                window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() + 50);
                 if (data.state === 'success') {
                     $('#chat-form').hide();
-                    $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>');
-                    $('#talentFormModal').modal('show');
+                    $('.message-container').last().append('<div class="alert alert-info w-100 countdown">Super du hast bestanden! Es geht weiter in 5 Sekunden</div>');
+
+                    // Initialize the countdown value
+                    var countdownValue = 5;
+
+                    // Function to update the countdown text
+                    function updateCountdown() {
+                        $('.countdown').text('Super du hast bestanden! Es geht weiter in ' + countdownValue + ' Sekunden');
+                    }
+
+                    // Call the updateCountdown function immediately to set the initial text
+                    updateCountdown();
+
+                    // Set an interval to update the countdown every second
+                    var countdownInterval = setInterval(function() {
+                        countdownValue--; // Decrease the countdown value
+                        if (countdownValue > 0) {
+                            updateCountdown(); // Update the countdown text
+                        } else {
+                            clearInterval(countdownInterval); // Clear the interval when countdown reaches 0
+                            $('.countdown').text('Danke fürs mitmachen! Du kannst das Fenster jetzt schließen'); // Set the final message
+                            $('#talentFormModal').modal('show'); // Show the modal
+                        }
+                    }, 1000);
+                    
                 } else if (data.state === 'failed') {
-                    $('#testResultMessage').text('Schade! Der Test wurde nicht bestanden.');
-                    $('#testResultModal').modal('show');
                     $('#chat-form').hide();
-                    $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Du kannst das Fenster jetzt schließen</div>');
-                } else {
-                    $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
-                    window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() + 50);
+                    $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Der Test wurde leider nicht bestanden. Du kannst das Fenster jetzt schließen</div>');
                 }
             }
         }
