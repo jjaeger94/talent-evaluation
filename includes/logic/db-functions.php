@@ -441,6 +441,9 @@ function get_jobs_for_talent($talent, $apprenticeships = null, $studies = null, 
             }
         endforeach;
     }
+    if(!$talent->post_code){
+        return $unfiltered;
+    }
 
     $jobs = [];
 

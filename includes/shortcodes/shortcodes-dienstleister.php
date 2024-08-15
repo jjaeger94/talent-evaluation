@@ -305,6 +305,11 @@
                     // Talent nicht gefunden
                     return '<p>ID nicht gefunden.</p>';
                 }
+            } else if(isset( $_GET['add']) && $_GET['add'] == true){
+                $talent = [];
+                ob_start(); // Puffer starten
+                include TE_DIR.'details/talent-detail-template.php'; // Pfad zur Datei mit dem Test-Formular
+                return ob_get_clean(); 
             } else {
                 return '<p>ID nicht übergeben.</p>';
             }

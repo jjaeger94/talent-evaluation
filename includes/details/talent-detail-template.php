@@ -1,3 +1,4 @@
+<?php if(!isset($_GET['add']) || $_GET['add'] == false): ?>
 <?php if ($talent) : ?>
     <div class="container">
         <?php include TE_DIR.'controls/talent.php'; ?>
@@ -45,3 +46,8 @@
 <?php else : ?>
     <p>Talent nicht gefunden.</p>
 <?php endif; ?>
+<?php    
+else:
+include TE_DIR.'forms/talent-form.php';
+endif;
+?>

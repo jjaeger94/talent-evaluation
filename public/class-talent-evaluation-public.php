@@ -1830,6 +1830,40 @@ class Talent_Evaluation_Public {
 			}else{
 				wp_send_json_success('Test erfolgreich geändert.');
 			}
+		} else if(!isset($_POST['talent_id']) && (isset($_POST['email']) || isset($_POST['mobile']))){
+	
+			// Formulardaten sammeln
+			$prename = isset($_POST['prename']) ? sanitize_text_field($_POST['prename']) : '';
+			$surname = isset($_POST['surname']) ? sanitize_text_field($_POST['surname']) : '';
+			$email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
+			$mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : '';
+			$post_code = isset($_POST['post_code']) ? sanitize_text_field($_POST['post_code']) : '';
+		
+			// Tabelle und Datenbankverbindung
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'te_talents';
+		
+			// Datensatz einfügen
+			$insert_result = $wpdb->insert(
+				$table_name,
+				array(
+					'prename' => $prename,
+					'surname' => $surname,
+					'email' => $email,
+					'mobile' => $mobile,
+					'post_code' => $post_code,
+					'ref' => 'manual',
+					'availability' => 0
+				),
+				array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d')
+			);
+		
+			// Überprüfen, ob das Einfügen erfolgreich war
+			if ($insert_result === false) {
+				wp_send_json_error('Fehler beim Speichern des Datensatzes.');
+			} else {
+				wp_send_json_success('Datensatz erfolgreich gespeichert.');
+			}
 		} else {
 			// Fehlermeldung zurückgeben, wenn erforderliche Daten fehlen
 			wp_send_json_error('Ungültige Anfrage.');
