@@ -60,6 +60,7 @@ class Talent_Evaluation_Public {
 		$this->add_public_request('send_audio');
 		$this->add_public_request('delete_chat');
 		$this->add_public_request('save_talent');
+		$this->add_public_request('add_chat_to_talent');
 		$this->add_public_request('remove_talent');
 		$this->add_public_request('save_talent_details');
 		$this->add_public_request('edit_apprenticeship');
@@ -1869,6 +1870,59 @@ class Talent_Evaluation_Public {
 			wp_send_json_error('Ungültige Anfrage.');
 		}
 
+		wp_die();
+	}
+
+
+	function add_chat_to_talent(){
+		// Session starten
+		session_start();
+		// Überprüfen, ob eine aktive Sitzung besteht
+		if (!isset($_SESSION['active_chat'])) {
+			wp_send_json_error('Aktive Sitzung nicht gefunden.');
+		}
+	
+		if (!isset($_POST['talent_id'])) {
+			wp_send_json_error('ID nicht gefunden');
+		}
+		$talent_id = $_POST['talent_id'];
+
+		// Tabelle und Datenbankverbindung
+		global $wpdb;
+
+		// Tabellenname für Bewerbungen
+		$table_name = $wpdb->prefix . 'te_talents';
+
+		// Daten zum Aktualisieren
+
+		$existing_talent = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE ID = %d", $talent_id));
+
+		if(!$existing_talent){
+			wp_send_json_error('Talent exisitiert nicht.');
+		}else if($existing_talent->oai_test_id){
+			wp_send_json_error('chat schon gesetzt');
+		}
+	
+		$oai_test_id = $_SESSION['active_chat'];
+
+		$data = array(
+			'oai_test_id' => $oai_test_id
+		);
+
+		// Bedingung für die Aktualisierung
+		$where = array('ID' => $talent_id);
+
+		// Aktualisieren der Daten in der Datenbank
+		$wpdb->update($table_name, $data, $where);
+	
+		// Überprüfen, ob das Einfügen erfolgreich war
+		if ($wpdb->last_error !== '') {
+			wp_send_json_error($wpdb->last_error);
+		}else{
+			unset($_SESSION['active_chat']);
+			unset($_SESSION['game']);
+			wp_send_json_success('Datensatz erfolgreich gespeichert.');
+		}
 		wp_die();
 	}
 

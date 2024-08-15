@@ -1,4 +1,10 @@
 <?php
+function get_games(){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'te_games'; // Tabellenname anpassen
+    $query = "SELECT * FROM $table_name";
+    return $wpdb->get_results($query);
+}
 function get_demojobs(){
     global $wpdb;
     $table_name = $wpdb->prefix . 'te_jobs'; // Tabellenname anpassen

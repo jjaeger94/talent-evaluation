@@ -12,7 +12,7 @@
             Präferenzen anzeigen
         </button>
         <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#chatCollapse" aria-expanded="false" aria-controls="chatCollapse">
-            Chatverlauf anzeigen
+            Chat anzeigen
         </button>
         <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#eventsCollapse" aria-expanded="false" aria-controls="eventsCollapse">
             Eventlogs anzeigen

@@ -57,13 +57,18 @@
         let recorder;
         let audioStream;
         let isRecording = false;
+        var urlParams = new URLSearchParams(window.location.search);
+        var hasId;
+        if(urlParams && urlParams.has('id')){
+            hasId = urlParams.get('id');
+        }
 
         $("#user-message-input").focus(function() {
             window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() + 50);
         });
 
         function render_send_btn(){
-            if ($('#user-message-input').val().trim() === '') {
+            if ($('#user-message-input').val() && $('#user-message-input').val().trim() === '') {
                 $('#send-icon').hide();
                 $('#mic-icon').show();
             } else {
@@ -110,7 +115,6 @@
         });
 
         function sendMessage() {
-            console.log('sendMessage');
             var userMessage = $('#user-message-input').val();
             var trimmed = userMessage.trim();
             if (trimmed != '') {
@@ -149,7 +153,6 @@
         async function startRecording() {
             if (!isRecording) {
                 const result = await navigator.permissions.query({ name: "microphone" });
-                console.log(result);
                 if(result && result.state == 'granted'){
                     $('#speaking-indicator').show();
                         try {
@@ -204,7 +207,6 @@
                             processData: false,
                             contentType: false,
                             success: function(response) {
-                                console.log('response', response);
                                 if (response.success) {
                                     $('#user-message-input').val(response.data);
                                     sendMessage();
@@ -232,38 +234,62 @@
     }
 
         function handleResponse(response) {
+            let data = JSON.parse(response.data);
+            $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
+            window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() + 50);
             if (response.success) {
-                let data = JSON.parse(response.data);
-                console.log(data);
-                $('.message-container').last().append('<div class="message assistant">' + data.message + '</div>');
-                window.scrollTo(0, $('.message-container').offset().top + $('.message-container').height() - $(window).height() + 50);
                 if (data.state === 'success') {
                     $('#chat-form').hide();
-                    $('.message-container').last().append('<div class="alert alert-info w-100 countdown">Super du hast bestanden! Es geht weiter in 5 Sekunden</div>');
+                    if(hasId){
+                        let formData = new FormData();
+                        formData.append('action', 'add_chat_to_talent');
+                        formData.append('talent_id', hasId);
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                            data: formData,
+                            processData: false, // Wichtig: Verhindert, dass jQuery die Daten verarbeitet
+                            contentType: false,
+                            success: function(response) {
+                                // Erfolgreiche Verarbeitung
+                                if(response.success){
+                                    $('.countdown').text('Danke fürs mitmachen! Du kannst das Fenster jetzt schließen');
+                                }
+                                // Hier können Sie je nach Bedarf weitere Aktionen ausführen
+                            },
+                            error: function(xhr, status, error) {
+                                // Fehlerbehandlung
+                                console.error(error);
+                                $('.countdown').text('Ein Fehler ist aufgetreten, bitte wende dich an Kontakt@convii.de');
+                            }
+                        });
+                        
+                    }else{
+                        $('.message-container').last().append('<div class="alert alert-info w-100 countdown">Super du hast bestanden! Es geht weiter in 5 Sekunden</div>');
 
-                    // Initialize the countdown value
-                    var countdownValue = 5;
+                        // Initialize the countdown value
+                        var countdownValue = 5;
 
-                    // Function to update the countdown text
-                    function updateCountdown() {
-                        $('.countdown').text('Super du hast bestanden! Es geht weiter in ' + countdownValue + ' Sekunden');
-                    }
-
-                    // Call the updateCountdown function immediately to set the initial text
-                    updateCountdown();
-
-                    // Set an interval to update the countdown every second
-                    var countdownInterval = setInterval(function() {
-                        countdownValue--; // Decrease the countdown value
-                        if (countdownValue > 0) {
-                            updateCountdown(); // Update the countdown text
-                        } else {
-                            clearInterval(countdownInterval); // Clear the interval when countdown reaches 0
-                            $('.countdown').text('Danke fürs mitmachen! Du kannst das Fenster jetzt schließen'); // Set the final message
-                            $('#talentFormModal').modal('show'); // Show the modal
+                        // Function to update the countdown text
+                        function updateCountdown() {
+                            $('.countdown').text('Super du hast bestanden! Es geht weiter in ' + countdownValue + ' Sekunden');
                         }
-                    }, 1000);
-                    
+
+                        // Call the updateCountdown function immediately to set the initial text
+                        updateCountdown();
+
+                        // Set an interval to update the countdown every second
+                        var countdownInterval = setInterval(function() {
+                            countdownValue--; // Decrease the countdown value
+                            if (countdownValue > 0) {
+                                updateCountdown(); // Update the countdown text
+                            } else {
+                                clearInterval(countdownInterval); // Clear the interval when countdown reaches 0
+                                $('.countdown').text('Danke fürs mitmachen! Du kannst das Fenster jetzt schließen'); // Set the final message
+                                $('#talentFormModal').modal('show'); // Show the modal
+                            }
+                        }, 1000);
+                    }
                 } else if (data.state === 'failed') {
                     $('#chat-form').hide();
                     $('.message-container').last().append('<div class="alert alert-info w-100">Danke fürs mitmachen! Der Test wurde leider nicht bestanden. Du kannst das Fenster jetzt schließen</div>');
@@ -277,7 +303,32 @@
         
 
         if (state == 'success') {
-            $('#talentFormModal').modal('show');
+            if(hasId){
+                let formData = new FormData();
+                formData.append('action', 'add_chat_to_talent');
+                formData.append('talent_id', hasId);
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    data: formData,
+                    processData: false, // Wichtig: Verhindert, dass jQuery die Daten verarbeitet
+                    contentType: false,
+                    success: function(response) {
+                        // Erfolgreiche Verarbeitung
+                        if(response.success){
+                            $('.countdown').text('Danke fürs mitmachen! Du kannst das Fenster jetzt schließen');
+                        }
+                        // Hier können Sie je nach Bedarf weitere Aktionen ausführen
+                    },
+                    error: function(xhr, status, error) {
+                        // Fehlerbehandlung
+                        console.error(error);
+                        $('.countdown').text('Ein Fehler ist aufgetreten, bitte wende dich an Kontakt@convii.de');
+                    }
+                });
+            }else{
+                $('#talentFormModal').modal('show');
+            }
         }
     });
 </script>
