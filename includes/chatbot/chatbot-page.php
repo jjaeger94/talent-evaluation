@@ -3,13 +3,12 @@
     <div class="col-md-8">
         <div class="my-chatbot-page">
             <div class="message-container">
+            <div class="alert alert-warning w-100"><?php echo isset($game->start_msg) ? $game->start_msg : 'Beginne das Spiel, indem du unten die erste Nachricht sendest. Du kannst entweder tippen oder gedrückt halten, um eine Sprachnachricht aufzunehmen.';?></div>
             <?php if (!empty($messages)) : ?>
                 <!-- Wenn Nachrichten vorhanden sind, zeige sie an -->
                 <?php foreach (array_reverse($messages) as $message) : ?>
                     <?php include 'message.php'; ?>
                 <?php endforeach; ?>     
-            <?php else : ?>          
-                <div class="alert alert-warning w-100"><?php echo isset($game->start_msg) ? $game->start_msg : 'Beginne das Spiel, indem du unten die erste Nachricht sendest. Du kannst entweder tippen oder gedrückt halten, um eine Sprachnachricht aufzunehmen.';?></div>
             <?php endif; ?>
             </div>
             <?php if ($state != 'in_progress') : ?>
