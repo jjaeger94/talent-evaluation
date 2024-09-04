@@ -25,13 +25,22 @@
     <p>
         <a href="https://outlook.office365.com/book/Convii@gj-glassart.com/">Jetzt Termin vereinbaren</a>
     </p>
-    <p>
-        Unabhängig davon kannst Du Dich auch bereits über den folgenden Link registrieren:
-    </p>
-    <p>
-        <a href="<?php echo home_url('/membership-join/membership-registration') . '?member_id=' . $new_member['member_id'] . '&code=' . $new_member['reg_code']; ?>">Hier registrieren</a>
-    </p>
     
-    <p>Dein Team Convii</p>
+    <p>Jesse Grundke</p>
+    <table>
+    <tr>
+        <td>+4915168141994</td> 
+    </tr> 
+    <tr>
+        <td>jesse@convii.de</td>    
+    </tr>	 
+    <tr>
+        <td>www.convii.de</td>
+    </tr>   
+    <tr>	
+        <td>Technologiepark 6, 33100 Paderborn</td>  
+    </tr>  
+</table>
+
 </body>
 </html>

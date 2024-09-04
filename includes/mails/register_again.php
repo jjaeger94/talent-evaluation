@@ -29,6 +29,20 @@
         <a href="<?php echo $registration_link; ?>">Hier Registrierung abschließen</a>
     </p>
     
-    <p>Dein Team Convii</p>
+    <p>Jesse Grundke</p>
+    <table>
+    <tr>
+        <td>+4915168141994</td> 
+    </tr> 
+    <tr>
+        <td>jesse@convii.de</td>    
+    </tr>	 
+    <tr>
+        <td>www.convii.de</td>
+    </tr>   
+    <tr>	
+        <td>Technologiepark 6, 33100 Paderborn</td>  
+    </tr>  
+</table>
 </body>
 </html>
