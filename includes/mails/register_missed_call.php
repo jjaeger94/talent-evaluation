@@ -32,6 +32,6 @@
         <a href="<?php echo home_url('/membership-join/membership-registration') . '?member_id=' . $new_member['member_id'] . '&code=' . $new_member['reg_code']; ?>">Hier registrieren</a>
     </p>
     
-    <p>Dein Team Convii</p>
+    <?php include TE_DIR.'mails/signatur.htm'; ?>
 </body>
 </html>
